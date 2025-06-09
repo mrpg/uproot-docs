@@ -2,6 +2,17 @@
 
 Please go to [uproot.science](https://uproot.science/) unless you wish to contribute to the uproot website and documentation.
 
+## Building the docs
+
+```sh
+mkdocs build # to compile HTML etc.
+mkdocs serve # for a local preview
+```
+
+## Uploading this to the website
+
+`rsync` something-or-other. Max knows how it works.
+
 ## License
 
 This documentation and the examples therein are licensed under the **0BSD License** (Zero-Clause BSD).
