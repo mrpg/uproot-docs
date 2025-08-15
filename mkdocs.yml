@@ -4,6 +4,8 @@ theme:
   logo: assets/logo.png
   favicon: assets/favicon.ico
   palette:
+    - primary: deep purple
+    - accent: deep purple
     - scheme: default
       toggle:
         icon: material/brightness-7
@@ -12,6 +14,7 @@ theme:
         icon: material/brightness-4
 
 markdown_extensions:
+  - attr_list
   - pymdownx.highlight
   - pymdownx.superfences
   - admonition
@@ -22,4 +25,3 @@ copyright: |
 
 nav:
   - Home: index.md
-  - Examples: examples.md
