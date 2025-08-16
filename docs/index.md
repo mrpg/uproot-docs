@@ -21,6 +21,6 @@ Here is a quick overview of the central features of uproot:
 
 uproot is being developed by [Max R. P. Grossmann](https://max.pm/){:target="_blank"} and [Holger Gerhardt](https://www.econ.uni-bonn.de/iame/gerhardt){:target="_blank"}.
 
-We cherish community-driven development and highly welcome contributions to the [uproot codebase](https://github.com/mrpg/uproot) and this documentation.
+We cherish community-driven development and highly welcome contributions to the [uproot codebase](https://github.com/mrpg/uproot) and [this documentation](https://github.com/mrpg/uproot-docs).
 
-Please contact Max via [e-mail](max@uproot.science) if you would like to be added to the uproot mailing list via which all uproot-related news are announced.
+Please contact Max via [e-mail](mailto:max@uproot.science) if you would like to be added to the uproot mailing list via which all uproot-related news are announced.
