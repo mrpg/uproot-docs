@@ -1,0 +1,112 @@
+site_name: uproot
+site_url: https://uproot.science/
+site_description: Documentation for uproot, a modern framework for browser-based behavioral experiments
+
+repo_url: https://github.com/mrpg/uproot
+repo_name: mrpg/uproot
+
+theme:
+  name: material
+  logo: assets/logo.png
+  favicon: assets/favicon.ico
+  font: false
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - search
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/mrpg/uproot
+    - icon: material/book-edit-outline
+      link: https://github.com/mrpg/uproot-docs
+      name: Docs source on GitHub
+
+copyright: |
+  The documentation and all code examples are licensed under the <a href="https://opensource.org/licenses/0BSD">0BSD license</a> unless stated otherwise.
+
+nav:
+  - Home: index.md
+  - Legal information: legal.md
+  - Getting started:
+    - Installation: getting-started/installation.md
+    - Your first experiment: getting-started/tutorial.md
+    - Project structure: getting-started/project-structure.md
+  - Building experiments:
+    - Pages and templates: building/pages.md
+    - Collecting data with forms: building/forms.md
+    - Storing and accessing data: building/data.md
+    - Live methods: building/live-methods.md
+    - SmoothOperators: building/operators.md
+    - Displaying results: building/results.md
+  - Multiplayer experiments:
+    - Grouping participants: multiplayer/groups.md
+    - Synchronizing progress: multiplayer/synchronization.md
+    - Real-time interactions: multiplayer/real-time.md
+    - Built-in chat: multiplayer/chat.md
+  - Advanced features:
+    - Rounds and repetition: advanced/rounds.md
+    - Randomizing pages: advanced/randomization.md
+    - Page timeouts: advanced/timeouts.md
+    - Handling dropouts: advanced/dropouts.md
+    - File uploads: advanced/uploads.md
+    - Custom data models: advanced/models.md
+    - Using Alpine.js: advanced/alpinejs.md
+  - Running experiments:
+    - The admin interface: running/admin.md
+    - Sessions and rooms: running/sessions-rooms.md
+    - Exporting data: running/export.md
+    - Deployment: running/deployment.md
+  - Reference:
+    - Form fields: reference/fields.md
+    - Page methods: reference/page-methods.md
+    - API reference: reference/api.md
+    - Admin REST API: reference/admin-api.md
+    - CLI commands: reference/cli.md
