@@ -1,6 +1,6 @@
 # Legal information
 
-© Max R. P. Grossmann, Holger Gerhardt, et al., 2026.
+uproot is © Max R. P. Grossmann, Holger Gerhardt, et al., 2026.
 
 ## What is uproot?
 
