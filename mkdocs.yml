@@ -91,6 +91,12 @@ nav:
     - Synchronizing progress: multiplayer/synchronization.md
     - Real-time interactions: multiplayer/real-time.md
     - Built-in chat: multiplayer/chat.md
+  - Running experiments:
+    - The admin interface: running/admin.md
+    - Sessions: running/sessions.md
+    - Rooms: running/rooms.md
+    - Exporting data: running/export.md
+    - Deployment: running/deployment.md
   - Advanced features:
     - Rounds and repetition: advanced/rounds.md
     - Randomizing pages: advanced/randomization.md
@@ -99,11 +105,6 @@ nav:
     - File uploads: advanced/uploads.md
     - Custom data models: advanced/models.md
     - Using Alpine.js: advanced/alpinejs.md
-  - Running experiments:
-    - The admin interface: running/admin.md
-    - Sessions and rooms: running/sessions-rooms.md
-    - Exporting data: running/export.md
-    - Deployment: running/deployment.md
   - Reference:
     - Form fields: reference/fields.md
     - Page methods: reference/page-methods.md
