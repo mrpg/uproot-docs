@@ -101,8 +101,91 @@ class Context(PlayerContext):
 ```
 
 ### Form fields
-Defined in `fields` dict or async `fields()` method:
-- `TextField`, `IntegerField`, `FloatField`
-- `RadioField`, `CheckboxField`, `SelectField`
-- `SliderField`, `RangeSliderField`
-- `HiddenField`
+Defined in `fields` dict or async `fields()` method (all from `uproot.fields`):
+- `StringField`, `TextAreaField`, `EmailField`, `IBANField` — Text inputs
+- `IntegerField`, `DecimalField` — Numeric inputs (support `min`, `max`, `addon_start`, `addon_end`)
+- `RadioField`, `SelectField` — Single selection (`choices` param; RadioField supports `layout="horizontal"`)
+- `BooleanField` — Checkbox
+- `LikertField` — Rating scale (`min`, `max`, `label_min`, `label_max`)
+- `DecimalRangeField` — Slider (`min`, `max`, `step`, `label_min`, `label_max`, `hide_popover`, `anchoring`)
+- `BoundedChoiceField` — Multi-select checkboxes (`choices`, `min`, `max` selections)
+- `DateField` — Date picker
+- `FileField` — File upload (always a stealth field, handled via `handle_stealth_fields`)
+
+Common parameters: `label`, `optional`, `description`, `default`, `render_kw`, `class_wrapper`
+
+### Page lifecycle (execution order)
+1. `show(page, player)` → skip page if False
+2. `early(page, player, request=)` → earliest hook, has access to HTTP request
+3. `before_always_once(page, player)` → runs once per page display
+4. `before_once(page, player)` → runs once per player (first visit only)
+5. `fields(page, player)` → dynamic form fields
+6. `templatevars(page, player)` / `jsvars(page, player)` → template/JS data
+7. *(page renders)*
+8. `validate(page, player, data)` → return str, list[str], or dict[str, str] for errors
+9. `may_proceed(page, player)` → gate before advancing
+10. `stealth_fields` / `handle_stealth_fields(page, player, data)` → manual field handling
+11. `after_always_once(page, player)` → after each submission
+12. `after_once(page, player)` → after first submission only
+13. `timeout(page, player)` / `timeout_reached(page, player)` → page timeouts
+
+### Real-time features
+- `@live` decorator makes page methods callable from JS via `uproot.invoke("method", args)`
+- `notify(sender, recipients, data, event=)` — broadcast to players
+- `send_to(recipients, data, event=)` — server-initiated push
+- `reload(player)`, `move_to_page(player, PageClass)`, `move_to_end(player)`
+
+### Dropout handling
+- `watch_for_dropout(player, handler, tolerance=30.0)` — monitor for disconnection
+- `mark_dropout(pid)` — manual dropout
+- Handler is an async function receiving `player`
+
+### Custom data models (`uproot.models`)
+- `Entry` metaclass for defining entry types (immutable dataclasses)
+- `create_model(session)` → `ModelIdentifier`
+- `add_entry(mid, player, EntryType, **fields)` — auto-fills identifier fields
+- `get_entries(mid, EntryType)` → list of `(UUID, time, entry)` tuples
+- `filter_entries(mid, EntryType, **filters)`, `get_latest_entry(mid, EntryType)`
+
+### App module conventions
+- `DESCRIPTION` — shown in admin
+- `SUGGESTED_MULTIPLE` — hint for session player count
+- `LANDING_PAGE` — if True, shows landing page before app
+- `C` — constants class, available in templates
+- `new_session(session)` — once per session init
+- `new_player(player)` — once per player init
+- `restart()` — on server restart (can be async)
+- `digest(session)` — data for admin digest view
+- `page_order` — can be a list or a callable taking `player=`
+
+### Templates
+- Extend `"Base.html"` (participant-facing) or `"_uproot/Page.html"`
+- Blocks: `{% block title %}`, `{% block main %}`, `{% block content %}`
+- `{{ fields() }}` renders all form fields; `{{ field(form.name) }}` renders one
+- `{{ chat(session.chat) }}` renders chat widget
+- Built-in filters: `| to(n)` (decimal places), `| fmtnum(pre=, post=, places=)`
+- All Python builtins available in templates
+- `{% set buttons = False %}` to hide navigation buttons
+
+### CLI commands
+**Global**: `uproot setup <path>`, `uproot api <endpoint>`, `uproot --version`
+**Project** (run from project dir): `uproot run`, `uproot reset`, `uproot dump --file`, `uproot restore --file`, `uproot new <app>`, `uproot newpage <app> <page>`, `uproot examples`, `uproot deployment`
+
+### Admin interface
+- Web UI at `/admin/` with session/room management
+- Player actions: advance, revert, move to end, reload, send message, mark dropout, redirect, set fields, group/ungroup
+- Data browser, page times CSV, digest view
+- REST API at `/admin/api/v1/` with Bearer token auth (`upd.API_KEYS.add(key)`)
+
+### Database and deployment
+- SQLite by default (`uproot.sqlite3`), works well in production — PostgreSQL is available but never required
+- Environment vars: `UPROOT_DATABASE`, `UPROOT_SQLITE3`, `UPROOT_POSTGRESQL`, `UPROOT_ORIGIN`, `UPROOT_SUBDIRECTORY`, `UPROOT_API_KEY`
+- `upd.ADMINS["admin"] = ...` (Ellipsis = auto-login on localhost)
+- `upd.LANGUAGE` — `"de"`, `"en"`, `"es"`
+- Rooms: `upd.DEFAULT_ROOMS.append(room(name, config=, labels=, capacity=, open=))`
+
+### Data export
+- Formats: `ultralong` (one row per field change), `sparse` (wide), `latest` (current values only)
+- `filters=True` cleans up internal `_uproot_*` fields
+- Page times CSV tracks when players entered/left each page
+- `uproot dump`/`uproot restore` for full database backup

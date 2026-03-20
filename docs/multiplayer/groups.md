@@ -4,7 +4,7 @@ Many experiments require participants to interact in pairs or small groups. upro
 
 ## Groups are lazy
 
-TODO
+Groups are only created when participants reach a `GroupCreatingWait` page. uproot does not pre-assign groups when a session starts—grouping happens at runtime as participants arrive. This means the number of groups depends on how many participants actually show up, not on how many were expected.
 
 ## Basic group formation
 
