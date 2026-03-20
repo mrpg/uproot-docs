@@ -2,7 +2,7 @@
 
 Many experiments require participants to interact in pairs or small groups. uproot makes grouping easy with the `GroupCreatingWait` page type, which automatically forms groups as participants arrive.
 
-## uproot's groups are lazy
+## Groups are lazy
 
 TODO
 
