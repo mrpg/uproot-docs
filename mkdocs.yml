@@ -74,6 +74,7 @@ copyright: |
 
 nav:
   - Home: index.md
+  - Getting help: help.md
   - Legal information: legal.md
   - Getting started:
     - Installation: getting-started/installation.md
