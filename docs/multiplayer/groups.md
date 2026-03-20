@@ -2,6 +2,10 @@
 
 Many experiments require participants to interact in pairs or small groups. uproot makes grouping easy with the `GroupCreatingWait` page type, which automatically forms groups as participants arrive.
 
+## uproot's groups are lazy
+
+TODO
+
 ## Basic group formation
 
 Create a wait page that groups participants by subclassing `GroupCreatingWait` and setting `group_size`:
