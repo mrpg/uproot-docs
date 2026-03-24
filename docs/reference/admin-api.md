@@ -533,6 +533,46 @@ Delete a room. Only works when no session is associated.
 
 ---
 
+### `PATCH /admin/api/v1/room/{roomname}/open/`
+
+Set a room's open status. Unlike `PATCH /room/{roomname}/` (which requires no session to be associated), this endpoint works regardless of whether the room has an active session. Use it to stop accepting new participants mid-experiment or to reopen a room for additional participants.
+
+**Path parameters**:
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `roomname` | string | Room name |
+
+**Request body** (`RoomOpen`):
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `open` | boolean | Yes | Whether the room should be open |
+
+**Response**: `{"name": "...", "open": true/false}`
+
+---
+
+### `POST /admin/api/v1/room/{roomname}/close/`
+
+Close a room, optionally disassociating its session first. If a session is associated and `disassociate` is `false`, the request will fail.
+
+**Path parameters**:
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `roomname` | string | Room name |
+
+**Request body** (`RoomClose`):
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `disassociate` | boolean | No | If `true`, disassociate the session before closing (default: `false`) |
+
+**Response**: `{"name": "...", "closed": true, "disassociated": true/false}`
+
+---
+
 ### `POST /admin/api/v1/room/{roomname}/disassociate/`
 
 Disassociate a room from its current session.

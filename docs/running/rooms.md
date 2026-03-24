@@ -71,6 +71,29 @@ From a room's admin page, you can start a session in two ways:
 
 When a session is started in a room (either way), the `r.start(roomname)` signal fires, which wakes all WebSocket connections on the waiting page. Participants' browsers automatically submit the join form.
 
+## Closing and reopening a room
+
+You can close a room at any time to stop accepting new participants — even while a session is active. Closing a room does **not** affect the running session or its current players; it only prevents new participants from joining.
+
+From the room's admin page, use the **Close room** button. To resume accepting participants into the same session, use **Reopen room**.
+
+This is useful when:
+
+- You have enough participants and want to prevent latecomers from joining.
+- You need to temporarily pause enrollment while checking on the experiment.
+- You want to control exactly when new participants can enter.
+
+Via the API, use [`PATCH /admin/api/v1/room/{roomname}/open/`](../reference/admin-api.md#patch-adminapiv1roomroomnameopen) with `{"open": false}` to close or `{"open": true}` to reopen.
+
+### Closing vs. capacity
+
+Closing a room and setting a capacity are two different mechanisms:
+
+- **Capacity** limits how many players can join. Once the limit is reached, new participants see a "Room full" page — but the room remains open and will accept participants again if capacity is freed up or increased.
+- **Closing** shuts the door entirely. No new participants can join regardless of available capacity. Participants who visit a closed room see a "Please wait" page.
+
+Use capacity when you want a fixed maximum group size. Use closing when you want manual control over *when* participants can enter, independent of how many have already joined.
+
 ## Disassociating and reusing rooms
 
 A room can only have one session at a time. To reuse a room for a new session, first **disassociate** the current session. This unlinks the session from the room and resets the room's state so new participants can wait again.

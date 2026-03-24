@@ -110,14 +110,19 @@ If your app defines a `digest(session)` function, the digest view shows its outp
 
 ## Managing rooms
 
-Navigate to **Rooms** to see all rooms. See [Rooms](rooms.md) for details on room configuration.
+Navigate to **Rooms** to see all rooms, separated into open and closed sections. See [Rooms](rooms.md) for details on room configuration.
 
 From a room's admin page you can:
 
-- Open or close the room
+- See which participants are waiting in the room (with live label tracking)
 - Create a session with pre-assigned player slots
-- See which participants are waiting in the room
-- Disassociate the room from its current session
+- Edit room settings (config, labels, capacity) when no session is associated
+
+When a session is associated, the room's admin page shows:
+
+- **Room status** — open/closed, capacity, and join mode (free join or restricted)
+- **Close room** / **Reopen room** — stop or resume accepting new participants without affecting the running session (see [Closing and reopening a room](rooms.md#closing-and-reopening-a-room))
+- **Disassociate** — unlink the session so the room can be reused
 
 ## Server status
 
