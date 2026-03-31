@@ -274,6 +274,38 @@ class C:
 | `tojson` | Convert to JSON | `{{ data \| tojson }}` |
 | `repr` | Python repr | `{{ x \| repr }}` |
 
+### `tojson` and `| safe`
+
+`tojson` converts a Python value to a JSON string. Jinja2's autoescaping then HTML-encodes the result. This is the right default: it keeps values safe in HTML attributes and element content.
+
+**Most of the time, `tojson` alone is all you need.** Numbers, booleans, and `None` produce JSON like `42`, `true`, or `null` — no characters that autoescaping would change. Even inside `<script>` blocks, autoescaping is a no-op for these types, so `| safe` is unnecessary:
+
+```html+jinja
+{# These all work without | safe, everywhere — including <script> blocks #}
+{{ player.score | tojson }}       {# 42 #}
+{{ player.is_buyer | tojson }}    {# true #}
+{{ player.profit | tojson }}      {# null #}
+```
+
+`| safe` is **only** needed when you put a value that may contain strings into a `<script>` block, because autoescaping would turn `"` into `&#34;` and break JavaScript parsing:
+
+```html+jinja
+<script>
+    {# results contains strings → must use | safe inside <script> #}
+    let data = {{ results | tojson | safe }};
+</script>
+```
+
+In HTML (attributes, element content), never add `| safe` — autoescaping is what protects you:
+
+```html+jinja
+{# Safe: autoescaping prevents XSS even if player.response contains malicious strings #}
+<div x-data="{ response: {{ player.response | tojson }} }">
+```
+
+!!! warning
+    Only use `| safe` inside `<script>` blocks, and only when the value may contain strings. Adding `| safe` in HTML attributes or element content disables escaping and can introduce XSS vulnerabilities.
+
 ## Summary
 
 | Feature | Purpose |
