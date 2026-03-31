@@ -73,21 +73,78 @@ for player in group.players:
     player.payoff = 10
 ```
 
-The `StorageBunch` supports iteration, filtering, and bulk operations:
+The `StorageBunch` supports iteration, filtering, and bulk operations.
+
+#### Basic iteration
 
 ```python
 # Sum contributions from all group members
 total = sum(p.contribution for p in group.players)
 
-# Filter players by attribute
-cooperators = group.players.filter(_.cooperate == True)
-
-# Find a specific player
-dictator = group.players.find_one(dictator=True)
-
 # Unpack directly (e.g. in SynchronizingWait.all_here)
 p1, p2 = group.players
 ```
+
+#### Filtering with `_`
+
+The `_` symbol is a field referent — a placeholder that stands for "each player" in a filter expression. When you write `_.cooperate == True`, uproot builds a comparison object that gets evaluated against each player in the collection.
+
+```python
+# Players who cooperated
+cooperators = group.players.filter(_.cooperate == True)
+
+# Players with a score above 50
+high_scorers = session.players.filter(_.score > 50)
+
+# Combine multiple conditions (all must be true)
+eligible = session.players.filter(_.present == True, _.age >= 18)
+```
+
+`_` supports all comparison operators: `==`, `!=`, `>`, `>=`, `<`, `<=`. You can also chain attribute access — `_.group.round` refers to each player's group's round field.
+
+!!! note
+    `_` builds a lazy comparison, so `_.active` alone (without a comparison operator) tests for truthiness. To check for `False`, write `_.active == False` explicitly.
+
+#### Finding a single player
+
+`find_one()` returns exactly one player matching the criteria. It raises an error if zero or multiple players match.
+
+```python
+dictator = group.players.find_one(dictator=True)
+leader = group.players.find_one(first_mover=True)
+```
+
+#### Extracting values with `each`
+
+`each()` collects a field from every player into a list:
+
+```python
+# Get all contributions as a list
+contributions = group.players.each("contribution")
+# → [10, 20, 15]
+
+# Multiple fields return named tuples
+data = group.players.each("name", "score", simplify=False)
+# → [data(name='Alice', score=10), data(name='Bob', score=20)]
+```
+
+#### Bulk assignment with `assign`
+
+`assign()` sets a field on every player from an iterable:
+
+```python
+group.players.assign("role", ["buyer", "seller"])
+```
+
+#### Running a function on all players with `apply`
+
+`apply()` calls a function once per player:
+
+```python
+group.players.apply(set_payoff)
+```
+
+See [Synchronizing progress](synchronization.md#using-apply-for-bulk-operations) for a full example.
 
 ### player.other_in_group
 
@@ -111,6 +168,7 @@ For groups of any size, get all other members (excluding the current player):
 ```python
 for other in player.others_in_group:
     notify(player, other, "Hello!")
+```
 
 ## Group-level data storage
 

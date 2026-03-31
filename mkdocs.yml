@@ -84,28 +84,25 @@ nav:
     - Pages and templates: building/pages.md
     - Collecting data with forms: building/forms.md
     - Storing and accessing data: building/data.md
-    - Live methods: building/live-methods.md
-    - SmoothOperators: building/operators.md
     - Displaying results: building/results.md
+    - SmoothOperators: building/operators.md
+    - Live methods: building/live-methods.md
+    - Using Alpine.js: building/alpinejs.md
   - Multiplayer experiments:
     - Grouping participants: multiplayer/groups.md
     - Synchronizing progress: multiplayer/synchronization.md
     - Real-time interactions: multiplayer/real-time.md
     - Built-in chat: multiplayer/chat.md
-  - Running experiments:
-    - The admin interface: running/admin.md
-    - Sessions: running/sessions.md
-    - Rooms: running/rooms.md
-    - Exporting data: running/export.md
-    - Deployment: running/deployment.md
   - Advanced features:
-    - Rounds and repetition: advanced/rounds.md
-    - Randomizing pages: advanced/randomization.md
     - Page timeouts: advanced/timeouts.md
     - Handling dropouts: advanced/dropouts.md
     - File uploads: advanced/uploads.md
     - Custom data models: advanced/models.md
-    - Using Alpine.js: advanced/alpinejs.md
+  - Running experiments:
+    - The admin interface: running/admin.md
+    - Sessions and rooms: running/rooms.md
+    - Exporting data: running/export.md
+    - Deployment: running/deployment.md
   - Reference:
     - Form fields: reference/fields.md
     - Page methods: reference/page-methods.md

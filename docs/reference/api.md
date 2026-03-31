@@ -273,11 +273,22 @@ A collection of storage objects (players, groups) with query methods.
 | `bunch.each(*keys)` | Extract fields from all items |
 | `bunch.apply(fn)` | Apply a function to all items |
 
-### Filtering with _
+### The `_` field referent
+
+`_` is a `FieldReferent` — a placeholder that stands for each item in the collection. It builds lazy comparison objects that are evaluated per item during `filter()`.
 
 ```python
-from uproot.smithereens import _
-
+# _ is auto-imported via `from uproot.smithereens import *`
 cooperators = group.players.filter(_.cooperate == True)
 high_earners = session.players.filter(_.payoff > 10)
+
+# Multiple conditions (all must match)
+eligible = session.players.filter(_.present == True, _.age >= 18)
+
+# Chained attribute access
+same_round = session.players.filter(_.group.round == 3)
 ```
+
+Supported operators: `==`, `!=`, `>`, `>=`, `<`, `<=`. Bare `_.field` (without an operator) tests for truthiness.
+
+See [Filtering with `_`](../multiplayer/groups.md#filtering-with-_) for more examples.

@@ -1,8 +1,30 @@
-# Rooms
+# Sessions and rooms
 
-A **room** is a gateway that controls how participants enter a session.
+Sessions and rooms are the two concepts for managing how participants access your experiment.
 
-A room is a URL that participants visit to enter an experiment. Instead of distributing individual player URLs, you can give all participants the same room URL:
+## Sessions
+
+A **session** is a running instance of an experiment config, containing players and their data. Each session has a unique session name (a short random string by default) and is associated with exactly one config.
+
+### Creating a session directly
+
+From the admin interface, navigate to **Sessions** and create a new session by selecting a config and specifying the number of players. This gives you a session with pre-created player slots that you can distribute manually.
+
+Each pre-created player gets a unique URL of the form:
+
+```
+https://your-server.com/p/{session_name}/{player_name}/
+```
+
+You can share these URLs with participants individually. This approach works well for small experiments or when you want to assign specific participants to specific slots.
+
+### Session initialization
+
+A session is initialized the first time a player loads their first page. Initialization runs the `new_session` callback in each app (if defined), followed by `new_player` for that player. If you created the session manually with pre-created players, you can also trigger initialization explicitly via the admin API using the `run_new_session` and `run_new_player` endpoints.
+
+## Rooms
+
+A **room** is a gateway that controls how participants enter a session. Instead of distributing individual player URLs, you can give all participants the same room URL:
 
 ```
 https://your-server.com/room/{room_name}/
@@ -10,7 +32,7 @@ https://your-server.com/room/{room_name}/
 
 The room handles everything: waiting for the experiment to start, validating credentials, creating player slots, and redirecting participants to their session.
 
-## Creating a room
+### Creating a room
 
 Navigate to **Rooms** in the admin interface and create a new room. A room has several optional settings:
 
@@ -38,7 +60,7 @@ upd.DEFAULT_ROOMS.append(
 
 Rooms defined this way are created automatically when the server starts.
 
-## Room lifecycle
+### Room lifecycle
 
 A room acts as a finite-state machine with two main states:
 
@@ -61,7 +83,7 @@ When `open` is `True` and a config is set, the room begins accepting participant
 
 After joining, participants are redirected to their player URL and begin the experiment.
 
-## Starting a session in a room
+### Starting a session in a room
 
 From a room's admin page, you can start a session in two ways:
 
@@ -71,7 +93,7 @@ From a room's admin page, you can start a session in two ways:
 
 When a session is started in a room (either way), the `r.start(roomname)` signal fires, which wakes all WebSocket connections on the waiting page. Participants' browsers automatically submit the join form.
 
-## Closing and reopening a room
+### Closing and reopening a room
 
 You can close a room at any time to stop accepting new participants — even while a session is active. Closing a room does **not** affect the running session or its current players; it only prevents new participants from joining.
 
@@ -85,7 +107,7 @@ This is useful when:
 
 Via the API, use [`PATCH /admin/api/v1/room/{roomname}/open/`](../reference/admin-api.md#patch-adminapiv1roomroomnameopen) with `{"open": false}` to close or `{"open": true}` to reopen.
 
-### Closing vs. capacity
+#### Closing vs. capacity
 
 Closing a room and setting a capacity are two different mechanisms:
 
@@ -94,13 +116,13 @@ Closing a room and setting a capacity are two different mechanisms:
 
 Use capacity when you want a fixed maximum group size. Use closing when you want manual control over *when* participants can enter, independent of how many have already joined.
 
-## Disassociating and reusing rooms
+### Disassociating and reusing rooms
 
 A room can only have one session at a time. To reuse a room for a new session, first **disassociate** the current session. This unlinks the session from the room and resets the room's state so new participants can wait again.
 
 Room settings (config, labels, capacity) can only be edited when no session is associated.
 
-## Labels (access codes)
+### Labels (access codes)
 
 Labels restrict room access to a predefined set of participants. Each participant must enter a valid label (access code) to join.
 
@@ -125,7 +147,7 @@ After entering a valid label, participants wait for the room to open (if it isn'
 
 If a participant enters a label that has already been used by another player in the session, they are redirected to that existing player's URL. This means a participant can rejoin using the same label if they lose their connection.
 
-## Eagerly accepted labels
+### Eagerly accepted labels
 
 *If* your room does not require labels, uproot will still eagerly accept labels that are provided using the `?label=` URL parameter. You could use that feature as follows:
 
@@ -135,13 +157,13 @@ https://your-server.com/room/{room_name}/?label=MY_LABEL
 
 This is useful for physical labs (where `MY_LABEL` may be `01` to `32`, the number of cubicles), and online Platforms, such as [Prolific](https://prolific.com/) IDs.
 
-## Labels and capacity
+### Labels and capacity
 
 When labels are set but no explicit capacity is configured, the room's effective capacity equals the number of labels. This means each label can be used by exactly one participant.
 
 If you set both labels and an explicit capacity, the capacity value takes precedence. For example, you could have 100 labels but a capacity of 50, meaning only the first 50 valid labels will be accepted.
 
-## Capacity
+### Capacity
 
 Capacity sets the maximum number of players that can join a room's session. When the session is full, new participants see a "Room full" page.
 
@@ -155,7 +177,7 @@ upd.DEFAULT_ROOMS.append(
 )
 ```
 
-## How capacity is enforced
+### How capacity is enforced
 
 A participant can join a room's session if any of the following conditions are true:
 
@@ -165,7 +187,7 @@ A participant can join a room's session if any of the following conditions are t
 
 This means capacity primarily controls *growth* — it prevents new player slots from being created beyond the limit. It does not prevent participants from claiming pre-created slots, even if the number of pre-created slots exceeds the capacity.
 
-## Capacity and manual session creation
+### Capacity and manual session creation
 
 When you create a session in a room with pre-created players, you can check the **"Set room capacity to number of players"** option. This sets the room's capacity equal to the number of pre-created players, preventing any additional participants from joining beyond the pre-created slots.
 
@@ -173,11 +195,11 @@ Without that option, the room's original capacity setting (if any) remains. Pre-
 
 This implies: if you create a session with *n* players, but uncheck "Set room capacity to number of players", your session can keep growing until the room's capacity is reached. If the capacity is infinite, the session will be able to grow indefinitely. **Rooms are the only method to create new player slots in a session.**
 
-## Freejoin rooms
+### Freejoin rooms
 
 A room with no labels and no capacity is a **freejoin** room. There is no limit on how many participants can join. Every visitor gets a new player slot in the session. This is useful for large-scale experiments where you want to accept as many participants as possible.
 
-## The room WebSocket
+### The room WebSocket
 
 When participants are on the waiting page, the browser opens a WebSocket connection to the server. This connection serves two purposes:
 

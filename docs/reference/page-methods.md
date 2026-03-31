@@ -16,9 +16,11 @@ When a participant navigates to a page, methods run in this order:
 8. *(Participant submits)*
 9. **`validate`** — Check submitted data
 10. **`may_proceed`** — Gate before advancing
-11. **`after_always_once`** — Runs once after each submission
-12. **`after_once`** — Runs once per player, on first submission only
-13. **`timeout`** / **`timeout_reached`** — Handle page timeouts
+11. **`stealth_fields`** / **`handle_stealth_fields`** — Manual field handling
+12. **`after_always_once`** — Runs once after each submission
+13. **`after_once`** — Runs once per player, on first submission only
+14. **`before_next`** — Last hook before advancing to the next page
+15. **`timeout`** / **`timeout_reached`** — Handle page timeouts
 
 ## show
 
@@ -241,6 +243,21 @@ def after_always_once(page, player):
 
 !!! note
     `after_once` and `after_always_once` are not available on `GroupCreatingWait` or `SynchronizingWait` pages.
+
+## before_next
+
+Runs just before the player advances to the next page. This is the last hook before navigation.
+
+```python
+@classmethod
+def before_next(page, player):
+    player.offer_made = True
+```
+
+| Parameter | Description |
+|-----------|-------------|
+| `page` | The page class |
+| `player` | The current player |
 
 ## timeout
 

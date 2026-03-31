@@ -23,14 +23,20 @@ This is MkDocs documentation for [uproot](https://github.com/mrpg/uproot), a fra
 - `docs/assets/` — Logo, favicon, images
 - `requirements.txt` — mkdocs-material dependency
 
-The navigation is organized by user goals:
+The navigation follows a learning arc: orient → build → connect → harden → operate → look up.
 
 1. **Getting started** — Installation, tutorial, project structure
-2. **Building experiments** — Pages, forms, data, results
+2. **Building experiments** — Pages, forms, data, results, SmoothOperators, live methods, Alpine.js
 3. **Multiplayer experiments** — Groups, synchronization, real-time, chat
-4. **Advanced features** — Rounds, randomization, timeouts, dropouts, uploads, models
+4. **Advanced features** — Timeouts, dropouts, uploads, custom data models
 5. **Running experiments** — Admin, sessions/rooms, export, deployment
-6. **Reference** — Fields, page methods, API, CLI
+6. **Reference** — Fields, page methods, API, admin API, CLI
+
+Key structural decisions:
+- Sessions and rooms are a single page (`running/rooms.md`), not two — sessions was too thin to stand alone
+- Alpine.js lives in Building (not Advanced) — it's a building tool like live methods
+- Rounds/randomization do not have their own pages — they are covered by SmoothOperators (`building/operators.md`)
+- Results follows Data in the Building section (natural collect → display arc)
 
 ## Style guidelines
 
@@ -41,7 +47,8 @@ The navigation is organized by user goals:
 - Use tabbed content (`=== "Tab"`) for platform-specific instructions
 - uproot-examples uses the `master` branch (not `main`), so links should be e.g. `https://github.com/mrpg/uproot-examples/tree/master/...`
 - Use `:material-github:` prefix for GitHub links in docs
-- No manual imports needed in code examples—uproot projects have everything available automatically
+- No manual imports needed in code examples—uproot projects have everything available automatically via `from uproot.smithereens import *`
+- Avoid guide pages that are just thin wrappers pointing to another page — either cover the topic properly or don't give it its own page
 
 ## Related repositories
 
@@ -67,14 +74,33 @@ The navigation is organized by user goals:
 - `player` — Individual participant data storage
 - `group` — Shared group data (multiplayer experiments)
 - `session` — Session-level data
-- `group.players` — All players in a group (preferred; `players(group)` still works)
-- `session.players` — All players in a session
+- `group.players` — All players in a group (returns `StorageBunch`)
+- `session.players` — All players in a session (returns `StorageBunch`)
 - `session.groups` — All groups in a session
 - `player.other_in_group` — The other player (2-person groups; `other_in_group(player)` still works)
 - `player.others_in_group` — All other players in the group
 - `player.other_in_session` — The other player in a 2-person session
 - `player.others_in_session` — All other players in the session
 - `session.settings` — Session settings as a read-only dotted dict (set via admin JSON)
+
+### StorageBunch and the `_` field referent
+`StorageBunch` is the collection type returned by `group.players`, `session.players`, etc. It supports:
+- Iteration: `for p in group.players`
+- Unpacking: `p1, p2 = group.players`
+- `filter(*comparisons)` — Filter using `_` comparisons
+- `find_one(**kwargs)` — Find exactly one match (raises on 0 or 2+)
+- `each(*keys, simplify=True)` — Extract field values into a list
+- `assign(key, values)` — Set a field on all items from an iterable
+- `apply(fn)` — Call a function once per item (supports async)
+
+`_` (from `uproot.smithereens`) is a `FieldReferent` — a placeholder that builds lazy comparisons evaluated per item. Source: `src/uproot/queries.py`.
+```python
+# _ supports ==, !=, >, >=, <, <= and chained attribute access
+cooperators = group.players.filter(_.cooperate == True)
+eligible = session.players.filter(_.present == True, _.age >= 18)
+same_round = session.players.filter(_.group.round == 3)
+```
+Bare `_.field` (no operator) tests for truthiness. To check for `False`, write `_.field == False`.
 
 ### Page methods (classmethod pattern)
 ```python
@@ -127,7 +153,16 @@ Common parameters: `label`, `optional`, `description`, `default`, `render_kw`, `
 10. `stealth_fields` / `handle_stealth_fields(page, player, data)` → manual field handling
 11. `after_always_once(page, player)` → after each submission
 12. `after_once(page, player)` → after first submission only
-13. `timeout(page, player)` / `timeout_reached(page, player)` → page timeouts
+13. `before_next(page, player)` → last hook before advancing to next page
+14. `timeout(page, player)` / `timeout_reached(page, player)` → page timeouts
+
+### Mutable data in page methods
+Inside standard page methods, uproot auto-tracks mutations to lists/dicts. Outside page methods (helpers, `@live` methods), use a context manager:
+```python
+with player as p:
+    p.scores.append(100)
+```
+Using a context manager is always safe, even when not strictly required.
 
 ### Real-time features
 - `@live` decorator makes page methods callable from JS via `uproot.invoke("method", args)`
@@ -149,10 +184,10 @@ Common parameters: `label`, `optional`, `description`, `default`, `render_kw`, `
 
 ### App module conventions
 - `DESCRIPTION` — shown in admin
-- `SUGGESTED_MULTIPLE` — hint for session player count
+- `SUGGESTED_MULTIPLE` — hint for session player count (admin shows this when creating sessions)
 - `LANDING_PAGE` — if True, shows landing page before app
 - `C` — constants class, available in templates
-- `new_session(session)` — once per session init
+- `new_session(session)` — once per session init (lazy: runs when first player arrives)
 - `new_player(player)` — once per player init
 - `restart()` — on server restart (can be async)
 - `digest(session)` — data for admin digest view
@@ -164,8 +199,10 @@ Common parameters: `label`, `optional`, `description`, `default`, `render_kw`, `
 - `{{ fields() }}` renders all form fields; `{{ field(form.name) }}` renders one
 - `{{ chat(session.chat) }}` renders chat widget
 - Built-in filters: `| to(n)` (decimal places), `| fmtnum(pre=, post=, places=)`
-- All Python builtins available in templates
+- All Python builtins available in templates (`sum()`, `max()`, `min()`, `len()`, `range()`, `enumerate()`, `zip()`)
 - `{% set buttons = False %}` to hide navigation buttons
+- `player.along("round")` — iterate all rounds as `(round_number, data)` tuples
+- `player.within(round=n)` — access data from a specific round
 
 ### CLI commands
 **Global**: `uproot setup <path>`, `uproot api <endpoint>`, `uproot --version`

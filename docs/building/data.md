@@ -165,24 +165,16 @@ def templatevars(page, player):
 
 ## Working with mutable types
 
-Lists and dictionaries may in some circumstances require a context manager to track changes:
+When mutating lists or dictionaries in-place, uproot needs to know the value changed. Inside standard page methods (`templatevars`, `before_next`, `after_once`, etc.), this is handled automatically. Outside of page methods — for example, in standalone helper functions or `@live` methods — use a context manager:
 
 ```python
-# This can raise an error:
-player.scores.append(100)
-
-# Use a context manager instead:
 with player as p:
     p.scores.append(100)
     p.responses["q1"] = "yes"
 # Changes are saved when exiting the with block
 ```
 
-However, in all simple standard experiments, uproot will **not** require you to do this.
-
-Specifically, if you are working with `player` or `session` **and** you are writing code within one of the standard page methods provided by uproot, you do not need to use a context manager. (However, it is always allowed to use a context manager.)
-
-The use of context managers is only require in advanced expert cases.
+Using a context manager is always safe, even when not strictly required.
 
 ## Supported data types
 
@@ -279,7 +271,7 @@ Each historical value includes:
 | Pattern | When to use |
 |---------|-------------|
 | `player.x = value` | Storing immutable data (numbers, strings, bools) |
-| `with player as p:` | Modifying lists or dicts |
+| `with player as p:` | Mutating lists or dicts outside page methods |
 | `hasattr(player, "x")` | Checking if a field exists |
 | `player.__history__()` | Accessing the complete audit trail |
 
