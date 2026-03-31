@@ -179,9 +179,9 @@ choice=RadioField(label="Pick one", choices=[...], layout="horizontal")
 Fields render automatically when you extend the base template:
 
 ```html+jinja
-{% extends "_uproot/Page.html" %}
+{% extends "Base.html" %}
 
-{% block content %}
+{% block main %}
 <h1>Survey</h1>
 {{ fields() }}
 {% endblock %}
@@ -190,7 +190,7 @@ Fields render automatically when you extend the base template:
 To render fields individually with custom layout:
 
 ```html+jinja
-{% block content %}
+{% block main %}
 <div class="row">
     <div class="col-6">{{ field(form.age) }}</div>
     <div class="col-6">{{ field(form.income) }}</div>

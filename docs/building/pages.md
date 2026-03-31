@@ -57,7 +57,7 @@ To use a custom template path:
 
 ```python
 class Welcome(Page):
-    template = "shared/welcome.html"
+    template = "Page0.html"
 ```
 
 ### Basic template structure
@@ -65,24 +65,25 @@ class Welcome(Page):
 A typical template extends the base layout and defines content:
 
 ```html+jinja
-{% extends "_uproot/Page.html" %}
+{% extends "Base.html" %}
 
-{% block content %}
+
+{% block main %}
 <h1>Welcome to the experiment</h1>
 <p>Thank you for participating.</p>
 {% endblock %}
 ```
 
-The `_uproot/Page.html` base template provides the form wrapper, navigation buttons, and styling. Your content goes in the `content` block.
+The `Base.html` base template provides the form wrapper, navigation buttons, and styling. Your content goes in the `main` block.
 
 ### Adding a form
 
 To collect data, include form fields in your template:
 
 ```html+jinja
-{% extends "_uproot/Page.html" %}
+{% extends "Base.html" %}
 
-{% block content %}
+{% block main %}
 <h1>Your decision</h1>
 
 {{ form.amount.label }}
@@ -112,9 +113,9 @@ class Results(Page):
 Then use these variables in your template:
 
 ```html+jinja
-{% extends "_uproot/Page.html" %}
+{% extends "Base.html" %}
 
-{% block content %}
+{% block main %}
 <h1>Results</h1>
 <p>You earned {{ earnings }} points.</p>
 <p>Your partner chose: {{ partner_choice }}</p>
@@ -366,9 +367,9 @@ class Offer(Page):
 ```
 
 ```html+jinja
-{% extends "_uproot/Page.html" %}
+{% extends "Base.html" %}
 
-{% block content %}
+{% block main %}
 <h1>Make an offer</h1>
 
 <p>You have {{ endowment }} points to split with {{ partner }}.</p>

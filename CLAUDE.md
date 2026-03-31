@@ -195,7 +195,7 @@ Using a context manager is always safe, even when not strictly required.
 
 ### Templates
 - Extend `"Base.html"` (participant-facing) or `"_uproot/Page.html"`
-- Blocks: `{% block title %}`, `{% block main %}`, `{% block content %}`
+- Blocks: `{% block title %}`, `{% block main %}`, `{% block head %}`, `{% block late %}`
 - `{{ fields() }}` renders all form fields; `{{ field(form.name) }}` renders one
 - `{{ chat(session.chat) }}` renders chat widget
 - Built-in filters: `| to(n)` (decimal places), `| fmtnum(pre=, post=, places=)`
