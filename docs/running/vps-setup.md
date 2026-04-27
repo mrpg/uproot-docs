@@ -60,11 +60,23 @@ root@server:~# chmod 600 /home/uproot/.ssh/authorized_keys
 Root login is still allowed, but only with SSH keys. This is convenient for emergency administration while still preventing password-based logins.
 
 ```console
-root@server:~# cat > /etc/ssh/sshd_config.d/99-keys-only.conf << 'EOF'
+root@server:~# nano /etc/ssh/sshd_config.d/99-keys-only.conf
+```
+
+!!! tip
+    In `nano`, save with Ctrl+S and exit with Ctrl+X.
+
+Paste the following:
+
+```ini
 PasswordAuthentication no
 KbdInteractiveAuthentication no
 PermitRootLogin prohibit-password
-EOF
+```
+
+Then test and apply:
+
+```console
 root@server:~# sshd -t
 root@server:~# systemctl restart ssh
 ```
@@ -136,7 +148,12 @@ Stop it with Ctrl+C once you see the startup output. The remaining steps don't r
 ### Create a run script
 
 ```console
-uproot@server:~$ cat > ~/run.sh << 'SCRIPT'
+uproot@server:~$ nano ~/run.sh
+```
+
+Paste the following:
+
+```bash
 #!/bin/bash
 set -e
 cd ~/my_project
@@ -144,7 +161,11 @@ source ~/env/bin/activate
 pip install -Ue .
 export UPROOT_ORIGIN=https://example.com
 exec uproot run -h 127.0.0.1 -p 8000
-SCRIPT
+```
+
+Save, exit, then make it executable:
+
+```console
 uproot@server:~$ chmod +x ~/run.sh
 ```
 
@@ -168,7 +189,12 @@ Then create the service:
 
 ```console
 uproot@server:~$ mkdir -p ~/.config/systemd/user
-uproot@server:~$ cat > ~/.config/systemd/user/uproot.service << 'EOF'
+uproot@server:~$ nano ~/.config/systemd/user/uproot.service
+```
+
+Paste the following:
+
+```ini
 [Unit]
 Description=uproot experiment server
 After=network.target
@@ -181,7 +207,6 @@ RestartSec=5
 
 [Install]
 WantedBy=default.target
-EOF
 ```
 
 Enable and start it:
@@ -236,10 +261,32 @@ Certbot installs a systemd timer that attempts renewal twice daily. Since we use
 
 ```console
 uproot@server:~$ sudo mkdir -p /etc/letsencrypt/renewal-hooks/pre /etc/letsencrypt/renewal-hooks/post
-uproot@server:~$ echo '#!/bin/bash
-systemctl stop nginx' | sudo tee /etc/letsencrypt/renewal-hooks/pre/stop-nginx > /dev/null
-uproot@server:~$ echo '#!/bin/bash
-systemctl start nginx' | sudo tee /etc/letsencrypt/renewal-hooks/post/start-nginx > /dev/null
+uproot@server:~$ sudo nano /etc/letsencrypt/renewal-hooks/pre/stop-nginx
+```
+
+Paste the following:
+
+```bash
+#!/bin/bash
+systemctl stop nginx
+```
+
+Then create the post-renewal hook:
+
+```console
+uproot@server:~$ sudo nano /etc/letsencrypt/renewal-hooks/post/start-nginx
+```
+
+Paste the following:
+
+```bash
+#!/bin/bash
+systemctl start nginx
+```
+
+Make both hooks executable:
+
+```console
 uproot@server:~$ sudo chmod +x /etc/letsencrypt/renewal-hooks/pre/stop-nginx /etc/letsencrypt/renewal-hooks/post/start-nginx
 ```
 
@@ -301,8 +348,6 @@ server {
     }
 }
 ```
-
-In `nano`, save with Ctrl+O, Enter, then exit with Ctrl+X.
 
 Enable the site and start nginx:
 
