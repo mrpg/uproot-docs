@@ -52,7 +52,7 @@ async def handle_stealth_fields(page, player, data):
     photo = data["photo"]
     if photo.size > 0:
         contents = await photo.read()
-        path = f"uploads/{player.session.sid}_{player.pid}_{photo.filename}"
+        path = f"uploads/{player.session.name}_{player.name}_{photo.filename}"
         with open(path, "wb") as f:
             f.write(contents)
         player.photo_path = path

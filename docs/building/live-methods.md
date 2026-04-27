@@ -171,7 +171,7 @@ Validate input as the user types:
 ```python
 class Registration(Page):
     fields = dict(
-        username=TextField(label="Username"),
+        username=StringField(label="Username"),
     )
 
     @live

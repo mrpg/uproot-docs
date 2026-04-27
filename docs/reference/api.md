@@ -254,8 +254,10 @@ label=StringField(label=safe("Enter a value <b>in euros</b>"))
 Convert binary data to a data URI string for embedding in HTML.
 
 ```python
-player.image_uri = data_uri(image_bytes, "image/png")
+player.image_uri = data_uri(image_bytes)
 ```
+
+The MIME type is inferred from common file signatures such as JPEG, PNG, GIF, PDF, ZIP, and MP4. Unknown data is emitted as `application/octet-stream`.
 
 ## Identifier types
 

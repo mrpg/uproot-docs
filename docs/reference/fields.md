@@ -150,7 +150,7 @@ confidence=DecimalRangeField(
 
 ## EmailField
 
-Email input with format validation.
+HTML email input. It checks required/optional status like other fields; add a page `validate` method if you need stricter server-side email validation.
 
 ```python
 email=EmailField(label="Your email address")

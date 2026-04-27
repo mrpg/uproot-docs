@@ -154,7 +154,7 @@ Set `player.add_round` in your page logic to control whether the sequence repeat
 ```python
 class Feedback(Page):
     @classmethod
-    def before_next(page, player):
+    def after_once(page, player):
         if player.score >= 100:
             player.add_round = False  # Stop repeating, proceed to Results
         else:

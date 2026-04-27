@@ -68,7 +68,7 @@ class Decision(Page):
     )
 
     @classmethod
-    def before_next(page, player):
+    def after_once(page, player):
         # Form fields are saved automatically, but you can add computed fields:
         player.made_choice = True
         player.choice_time = time()
@@ -165,7 +165,7 @@ def templatevars(page, player):
 
 ## Working with mutable types
 
-When mutating lists or dictionaries in-place, uproot needs to know the value changed. Inside standard page methods (`templatevars`, `before_next`, `after_once`, etc.), this is handled automatically. Outside of page methods — for example, in standalone helper functions or `@live` methods — use a context manager:
+When mutating lists or dictionaries in-place, uproot needs to know the value changed. Inside standard page methods (`templatevars`, `after_once`, `after_always_once`, etc.), this is handled automatically. Outside of page methods — for example, in standalone helper functions or `@live` methods — use a context manager:
 
 ```python
 with player as p:

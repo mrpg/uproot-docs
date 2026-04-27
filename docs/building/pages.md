@@ -303,10 +303,9 @@ Pages have several methods that run at different points:
 | `show` | Before displaying—return `False` to skip the page |
 | `templatevars` | Before rendering—return template variables |
 | `before_once` | Once per player, before first display |
-| `before_always_once` | Before each display |
+| `before_always_once` | Once when this page position is reached |
 | `after_once` | Once per player, after first submission |
-| `after_always_once` | After each submission |
-| `before_next` | Just before advancing to the next page |
+| `after_always_once` | Once after this page position is submitted |
 
 ### Example: one-time initialization
 
@@ -324,7 +323,7 @@ class Task(Page):
 class Task(Page):
     @classmethod
     def after_always_once(page, player):
-        # Runs after each submission
+        # Runs after this page position is submitted
         player.attempts += 1
 ```
 
@@ -348,8 +347,8 @@ Access these in your template's JavaScript:
 
 ```html+jinja
 <script>
-const price = _uproot_js.initial_price;
-const maxTrades = _uproot_js.max_trades;
+const price = uproot.vars.initial_price;
+const maxTrades = uproot.vars.max_trades;
 </script>
 ```
 
@@ -381,7 +380,7 @@ class Offer(Page):
         )
 
     @classmethod
-    def before_next(page, player):
+    def after_once(page, player):
         player.offer_made = True
 ```
 

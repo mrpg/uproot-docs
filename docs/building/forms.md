@@ -32,7 +32,7 @@ name=StringField(label="Your name")
 comments=TextAreaField(label="Additional comments", optional=True)
 ```
 
-**EmailField** — Email input with validation:
+**EmailField** — HTML email input:
 
 ```python
 email=EmailField(label="Email address")
@@ -123,12 +123,12 @@ document=FileField(label="Upload your document")
 
 ## Field options
 
-All fields support these common options:
+Most fields support these common options:
 
 | Option | Description | Default |
 |--------|-------------|---------|
 | `label` | Question text shown to participant | `""` |
-| `optional` | Allow empty responses | `False` |
+| `optional` | Allow empty responses where supported | `False` |
 | `description` | Help text below the field | `None` |
 | `default` | Pre-filled value | `None` |
 
@@ -208,7 +208,7 @@ Fields validate automatically based on their type and options:
 
 - Required fields must have a value (unless `optional=True`)
 - Numeric fields check `min` and `max` bounds
-- Email fields check format
+- Email fields use an email input element; add custom validation if you need strict server-side email checks
 
 Invalid submissions show error messages and keep the participant on the page.
 
@@ -286,14 +286,15 @@ class UploadPage(Page):
     stealth_fields = ["photo"]
 
     @classmethod
-    async def handle_stealth_fields(page, player, photo=None):
+    async def handle_stealth_fields(page, player, data):
+        photo = data["photo"]
         if photo is not None:
             content = await photo.read()
             player.photo_size = len(content)
             player.photo_name = photo.filename
 ```
 
-The `name` field saves automatically to `player.name`. The `photo` field is passed to `handle_stealth_fields` instead.
+The `name` field saves automatically to `player.name`. The `photo` field is available in the `data` dictionary passed to `handle_stealth_fields` instead.
 
 ### Validation in stealth handlers
 
@@ -301,7 +302,8 @@ Return error messages to reject the submission:
 
 ```python
 @classmethod
-async def handle_stealth_fields(page, player, document=None):
+async def handle_stealth_fields(page, player, data):
+    document = data["document"]
     if document is None:
         return "Please upload a document"
 
@@ -335,7 +337,8 @@ class PaymentForm(Page):
     stealth_fields = ["iban"]
 
     @classmethod
-    async def handle_stealth_fields(page, player, iban: str):
+    async def handle_stealth_fields(page, player, data):
+        iban = data["iban"]
         # Write to separate secure storage, send to payment processor, etc.
         print(f"Payment data for {player}: {iban}")
 ```

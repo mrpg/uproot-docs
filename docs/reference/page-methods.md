@@ -1,6 +1,6 @@
 # Page methods
 
-All page methods are `@classmethod`s that receive `page` (the page class) and `player` (the current participant) as arguments. They can be sync or async.
+Page methods are `@classmethod`s that receive `page` (the page class) and usually `player` (the current participant) as arguments. Standard page hooks can be sync or async; wait-page callbacks such as `after_grouping` and `all_here` are sync-only.
 
 ## Lifecycle overview
 
@@ -8,19 +8,18 @@ When a participant navigates to a page, methods run in this order:
 
 1. **`show`** — Should the page be displayed?
 2. **`early`** — Earliest hook (before any rendering)
-3. **`before_always_once`** — Runs once per page display
+3. **`before_always_once`** — Runs once when this page position is reached
 4. **`before_once`** — Runs once per player, on first visit only
 5. **`fields`** — Determine form fields
 6. **`templatevars`** / **`jsvars`** — Prepare template and JS data
 7. *(Page is rendered and displayed)*
 8. *(Participant submits)*
 9. **`validate`** — Check submitted data
-10. **`may_proceed`** — Gate before advancing
-11. **`stealth_fields`** / **`handle_stealth_fields`** — Manual field handling
-12. **`after_always_once`** — Runs once after each submission
-13. **`after_once`** — Runs once per player, on first submission only
-14. **`before_next`** — Last hook before advancing to the next page
-15. **`timeout`** / **`timeout_reached`** — Handle page timeouts
+10. **`stealth_fields`** / **`handle_stealth_fields`** — Manual field handling
+11. **`may_proceed`** — Gate before advancing
+12. **`after_once`** — Runs once per player, on first submission only
+13. **`after_always_once`** — Runs once after this page position is submitted
+14. **`timeout`** / **`timeout_reached`** — Set and handle page timeouts
 
 ## show
 
@@ -71,7 +70,7 @@ def before_once(page, player):
 
 ## before_always_once
 
-Runs once each time the page is displayed (including on back navigation). Use this for per-visit initialization.
+Runs once when this page position is reached. Use this for setup that should also happen for internal or skipped pages.
 
 ```python
 @classmethod
@@ -137,7 +136,7 @@ def templatevars(page, player):
 
 ## jsvars
 
-Returns variables available in JavaScript as `_uproot_js`.
+Returns variables available in JavaScript as `uproot.vars`.
 
 ```python
 @classmethod
@@ -151,7 +150,7 @@ def jsvars(page, player):
 Access in JavaScript:
 
 ```javascript
-const price = _uproot_js.initial_price;
+const price = uproot.vars.initial_price;
 ```
 
 | Parameter | Description |
@@ -230,7 +229,7 @@ def after_once(page, player):
 
 ## after_always_once
 
-Runs once after each forward submission (including revisits after back navigation).
+Runs once after this page position is submitted in the forward direction.
 
 ```python
 @classmethod
@@ -245,21 +244,6 @@ def after_always_once(page, player):
 
 !!! note
     `after_once` and `after_always_once` are not available on `GroupCreatingWait` or `SynchronizingWait` pages.
-
-## before_next
-
-Runs just before the player advances to the next page. This is the last hook before navigation.
-
-```python
-@classmethod
-def before_next(page, player):
-    player.offer_made = True
-```
-
-| Parameter | Description |
-|-----------|-------------|
-| `page` | The page class |
-| `player` | The current player |
 
 ## timeout
 
