@@ -117,7 +117,7 @@ you@local:~$ ssh uproot@YOUR_SERVER_IP
 In a separate terminal on your local machine, copy your uproot project to the server:
 
 ```console
-you@local:~$ scp -r my_project/ uproot@YOUR_SERVER_IP:~/
+you@local:~$ rsync --delete -Pa my_project uproot@YOUR_SERVER_IP:
 ```
 
 ### Before going to production
@@ -373,7 +373,7 @@ Your experiment is now live at `https://example.com/admin/`.
 Upload the new version from your local machine, then restart:
 
 ```console
-you@local:~$ scp -r my_project/ uproot@YOUR_SERVER_IP:~/
+you@local:~$ rsync --delete -Pa my_project uproot@YOUR_SERVER_IP:
 ```
 
 ```console
