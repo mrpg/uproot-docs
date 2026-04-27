@@ -15,6 +15,7 @@ my_project/
 │   ├── Welcome.html         # Template for Welcome page
 │   ├── Decision.html        # Template for Decision page
 │   ├── Results.html         # Template for Results page
+│   ├── simulate.js          # Automated page interactions for testing (optional)
 │   └── static/              # App-specific static files (optional)
 │       └── diagram.png
 └── another_app/

@@ -48,6 +48,7 @@ Navigate to **Sessions** → **New session** to create a session:
 3. **Settings (JSON)** — Optional JSON object for session settings (accessible via `session.settings`)
 4. **Custom session name** — Optional (auto-generated if omitted)
 5. **Custom player names** — Optional (auto-generated if omitted)
+6. **Simulate responses** — If enabled, the app's `simulate.js` file runs on every player page load (see [App testing](#app-testing) below)
 
 After creation, each player gets a unique URL:
 
@@ -124,6 +125,52 @@ When a session is associated, the room's admin page shows:
 - **Close room** / **Reopen room** — stop or resume accepting new participants without affecting the running session (see [Closing and reopening a room](rooms.md#closing-and-reopening-a-room))
 - **Disassociate** — unlink the session so the room can be reused
 
+## Admin chat
+
+The admin chat lets experimenters communicate directly with individual participants during a running session. Open it from the session detail page by clicking the chat icon next to a player.
+
+Features:
+
+- **Per-player channels** — Each participant gets a private conversation with the experimenter
+- **Enable/disable replies** — Control whether the participant can write back or only receive messages
+- **Participant-side widget** — A floating chat button appears on the participant's screen when the admin sends a message
+- **Real-time updates** — Messages appear instantly on both sides via WebSocket
+
+Participants see a small button in the bottom-right corner. Messages from the experimenter appear in a pop-up chat window. Whether the participant can reply is controlled by the toggle in the admin view.
+
+!!! note
+    Admin chat channels are created automatically the first time the admin sends a message to a participant. No setup is required in your app code.
+
+## App testing
+
+uproot supports automated page interactions via a `simulate.js` file in each app. When a session is created with the **Simulate responses** option enabled, `simulate.js` runs on every player page load.
+
+This lets you verify that your experiment works end-to-end without manually clicking through as a participant.
+
+### Writing simulate.js
+
+When you create a new project with `uproot setup`, a template `simulate.js` is generated automatically. The file uses `uproot.currentPage` to determine which page is loaded and can fill in form fields and submit:
+
+```javascript
+if (uproot.currentPage == "my_app/Decision") {
+    // Fill in a radio field randomly
+    if (Math.random() < 0.5) {
+        I("choice-0").checked = true;
+    } else {
+        I("choice-1").checked = true;
+    }
+
+    uproot.submit();
+}
+```
+
+`uproot.currentPage` is a string in the format `"app_name/PageClassName"`. Use `I(id)` as shorthand for `document.getElementById(id)`.
+
+!!! warning
+    Simulation is session-level and permanent—once a session is created with simulation enabled, it cannot be disabled for that session. Create a new session without the option to run without simulation.
+
+:material-github: [See simulate.js in the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma)
+
 ## Server status
 
 The status page (`/admin/status/`) shows:
@@ -145,6 +192,7 @@ Download a complete database dump from `/admin/dump/`. This is equivalent to run
 | Sessions | `/admin/sessions/` | List all sessions |
 | New session | `/admin/sessions/new/` | Create a session |
 | Session detail | `/admin/session/{sname}/` | Monitor and control a session |
+| Admin chat | `/admin/session/{sname}/chat/` | Chat with individual participants |
 | Data browser | `/admin/session/{sname}/data/` | Browse session data |
 | Rooms | `/admin/rooms/` | List all rooms |
 | Status | `/admin/status/` | Server information |

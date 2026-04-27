@@ -288,6 +288,23 @@ pairs = [[all_players[i], all_players[i+1]] for i in range(0, len(all_players), 
 gids = create_groups(session, pairs)
 ```
 
+### add_to_group()
+
+Adds players to an existing group. This is useful when latecomers need to join a group that has already been created:
+
+```python
+# Add a single player
+add_to_group(session.groups[0], player)
+
+# Add multiple players
+add_to_group(session.groups[0], [player1, player2])
+
+# Allow reassigning players already in a group
+add_to_group(session.groups[0], player, overwrite=True)
+```
+
+Players receive sequential `member_id` values starting after the existing members.
+
 ### Grouping by attribute
 
 Match participants based on their responses:
@@ -306,6 +323,10 @@ class WaitAndMatch(SynchronizingWait):
         for p1, p2 in zip(prefer_a, prefer_b):
             create_group(session, [p1, p2])
 ```
+
+## Groups in multi-app configs
+
+When a config contains multiple apps that each use `GroupCreatingWait`, groups from a previous app are automatically cleared when participants reach a new `GroupCreatingWait` page. This means each app forms its own independent groups without manual cleanup.
 
 ## Complete example: prisoner's dilemma
 
@@ -373,3 +394,4 @@ page_order = [
 | `session.players` | All players in a session |
 | `player.group` | Access group-level storage |
 | `create_group()` | Programmatically create a group |
+| `add_to_group()` | Add players to an existing group |

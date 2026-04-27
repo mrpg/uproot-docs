@@ -107,7 +107,7 @@ Bare `_.field` (no operator) tests for truthiness. To check for `False`, write `
 class MyPage(Page):
     @classmethod
     def templatevars(page, player):
-        return dict(...)  # Variables for template
+        return dict(...)  # Variables for template (may also return None)
 
     @classmethod
     def show(page, player):
@@ -191,11 +191,11 @@ Using a context manager is always safe, even when not strictly required.
 - `new_player(player)` — once per player init
 - `restart()` — on server restart (can be async)
 - `digest(session)` — data for admin digest view
-- `page_order` — can be a list or a callable taking `player=`
+- `page_order` — can be a list or a callable taking `player=` (nested lists are flattened, so SmoothOperators work inside sublists)
 
 ### Templates
 - Extend `"Base.html"` (participant-facing) or `"_uproot/Page.html"`
-- Blocks: `{% block title %}`, `{% block main %}`, `{% block head %}`, `{% block late %}`
+- Blocks: `{% block title %}`, `{% block head %}`, `{% block pre_container %}`, `{% block main %}`, `{% block late %}`
 - `{{ fields() }}` renders all form fields; `{{ field(form.name) }}` renders one
 - `{{ chat(session.chat) }}` renders chat widget
 - Built-in filters: `| to(n)` (decimal places), `| fmtnum(pre=, post=, places=)`
@@ -211,6 +211,8 @@ Using a context manager is always safe, even when not strictly required.
 ### Admin interface
 - Web UI at `/admin/` with session/room management
 - Player actions: advance, revert, move to end, reload, send message, mark dropout, redirect, set fields, group/ungroup
+- Admin chat: per-player private messaging during sessions (enable/disable participant replies)
+- App testing: "Simulate responses" option runs `simulate.js` on player pages
 - Data browser, page times CSV, digest view
 - REST API at `/admin/api/v1/` with Bearer token auth (`upd.API_KEYS.add(key)`)
 
@@ -226,3 +228,4 @@ Using a context manager is always safe, even when not strictly required.
 - `filters=True` cleans up internal `_uproot_*` fields
 - Page times CSV tracks when players entered/left each page
 - `uproot dump`/`uproot restore` for full database backup
+- `uproot.read`: offline analysis in Python — `from uproot.read import read; db = read("uproot.sqlite3")`

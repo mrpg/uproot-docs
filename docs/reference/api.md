@@ -204,6 +204,16 @@ Create multiple groups at once.
 gids = create_groups(session, [[p1, p2], [p3, p4]])
 ```
 
+### add_to_group
+
+Add players to an existing group.
+
+```python
+add_to_group(group, player)
+add_to_group(group, [player1, player2])
+add_to_group(group, player, overwrite=True)  # reassign players already in a group
+```
+
 ## The @live decorator
 
 Makes a page method callable from JavaScript via WebSocket.

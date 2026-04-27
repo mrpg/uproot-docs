@@ -35,6 +35,9 @@ One row per storage, showing only the most recent value for each field. This is 
 
 Use the `gvar` parameter to group rows by specific fields (e.g., group by `round` to get one row per player per round).
 
+!!! note
+    When using `gvar` with the `WITHIN-ADJACENT` algorithm, every field with a non-unavailable latest value is included in each snapshot—the group-by fields determine *when* snapshots are taken, not which other fields they carry. This means fields set before the group-by field appear in the output as expected.
+
 ## Filtering
 
 Enable the `filters` option to apply reasonable filters that clean up internal fields:
@@ -114,6 +117,48 @@ You can also download a dump from the admin interface at `/admin/dump/`.
 !!! note
     Database dumps contain all sessions and all data. Use the CSV/JSON export endpoints for per-session exports.
 
+## Offline analysis with uproot.read
+
+For analysis in Python (e.g., in a Jupyter notebook), you can open an `uproot.sqlite3` database file directly and navigate it using the same Storage objects the server uses:
+
+```python
+from uproot.read import read
+
+db = read("uproot.sqlite3")
+
+for session in db.sessions:
+    for group in session.groups:
+        for player in group.players:
+            with player:
+                print(player.name, player.label, player.payoff)
+
+db.close()
+```
+
+The `Database` object supports context managers:
+
+```python
+with read("uproot.sqlite3") as db:
+    session = db.session("my_session")
+    with session:
+        for player in session.players:
+            with player:
+                print(player.choice)
+```
+
+### Database API
+
+| Method/Property | Description |
+|-----------------|-------------|
+| `db.sessions` | All sessions in the database |
+| `db.session(sname)` | Get a session by name |
+| `db.group(sname, gname)` | Get a group by session and group name |
+| `db.player(sname, uname)` | Get a player by session and username |
+| `db.close()` | Close the database |
+
+!!! note
+    `uproot.read` gives you the same Storage objects used at runtime—you can access `player.group`, `player.session`, `group.players`, and all virtual fields. Remember to use `with player:` (or `with session:`, etc.) before reading attributes.
+
 ## Live data browser
 
 The admin data browser (`/admin/session/{sname}/data/`) shows session data in real-time in your browser. It updates automatically as new data comes in, making it useful for monitoring experiments in progress.
@@ -127,5 +172,6 @@ The data display page (`/admin/session/{sname}/viewdata/`) shows a table view of
 | Admin data browser | Real-time monitoring during experiments |
 | CSV/JSON download | Per-session data for analysis |
 | Page times CSV | Response time analysis |
+| `uproot.read` | Offline analysis in Python/Jupyter |
 | `uproot dump` | Full database backup |
 | REST API | Programmatic access and automation |

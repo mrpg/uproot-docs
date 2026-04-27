@@ -265,7 +265,7 @@ Chat
 {% endblock main %}
 ```
 
-:material-github: [See the full chat example](https://github.com/mrpg/uproot-examples/tree/master/chat)
+:material-github: [See the full chat example](https://github.com/mrpg/uproot-examples/tree/master/chat) · [prisoners_dilemma_chat example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma_chat)
 
 ## Summary
 

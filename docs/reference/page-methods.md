@@ -131,7 +131,9 @@ def templatevars(page, player):
 |-----------|-------------|
 | `page` | The page class |
 | `player` | The current player |
-| **Returns** | `dict` of template variables |
+| **Returns** | `dict` of template variables, or `None` |
+
+`templatevars` may return `None` instead of a dict — this is treated the same as returning `{}`.
 
 ## jsvars
 
