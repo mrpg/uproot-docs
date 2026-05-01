@@ -42,6 +42,14 @@
 
     [:octicons-arrow-right-24: Example apps](https://github.com/mrpg/uproot-examples)
 
+-   :material-robot-outline:{ .lg .middle } __AI-assisted development__
+
+    ---
+
+    Build experiments faster with Claude Code, Codex, and other agentic coding tools.
+
+    [:octicons-arrow-right-24: Set up AI tooling](getting-started/installation.md#set-up-ai-assisted-development)
+
 </div>
 
 ## Why uproot?

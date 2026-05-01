@@ -81,6 +81,20 @@ Auto login:
 
 Click this URL or copy it to your browser to log in automatically. This auto-login feature only appears when using the default administrator with an empty password.
 
+## Set up AI-assisted development
+
+We recommend developing uproot experiments with an agentic coding tool such as [Claude Code](https://claude.ai/code) or [Codex](https://openai.com/index/introducing-codex/). These tools understand uproot's patterns and can build pages, write form logic, set up multiplayer interactions, and debug issues far faster than working from scratch.
+
+If your coding agent supports skills (Claude Code, Codex, and others do), install the **uproot skill** to give it deep knowledge of uproot's API:
+
+:material-github: [mrpg/uproot-skill](https://github.com/mrpg/uproot-skill)
+
+Follow the instructions in the repository to set it up. Once installed, the agent can work with uproot's page lifecycle, fields, SmoothOperators, data model, and multiplayer features out of the box.
+
+!!! tip
+
+    Even without the skill, agentic coding tools work well if you clone the [uproot-docs](https://github.com/mrpg/uproot-docs) repository alongside your project — this gives the agent direct access to all documentation source files.
+
 ## What's next?
 
 Now that uproot is running, you can:

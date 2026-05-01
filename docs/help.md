@@ -12,9 +12,15 @@ Advanced users can also browse the [:material-github: uproot source code](https:
 
 ## 2. Ask a coding agent
 
-AI coding assistants work very well with uproot. Claude and Claude Code in particular can help you debug experiments, write page logic, or figure out how to use a specific feature.
+AI coding agents like [Claude Code](https://claude.ai/code), [Codex](https://openai.com/index/introducing-codex/), and similar tools are excellent at helping with uproot. They can debug experiments, explain page lifecycle behavior, write form logic, and work through multiplayer synchronization issues.
 
-A useful prompt to get started:
+If your coding agent supports skills (Claude Code, Codex, and others do), install the **uproot skill** for best results:
+
+:material-github: [mrpg/uproot-skill](https://github.com/mrpg/uproot-skill)
+
+This skill gives the agent deep knowledge of uproot's API, page lifecycle, fields, SmoothOperators, and multiplayer features. See the [installation guide](getting-started/installation.md#set-up-ai-assisted-development) for setup instructions.
+
+If your coding agent does not support skills, this prompt provides useful context:
 
 > I'm building a behavioral experiment using the uproot framework (https://github.com/mrpg/uproot). Documentation is at https://uproot.science/ and example experiments are at https://github.com/mrpg/uproot-examples. The documentation source is at https://github.com/mrpg/uproot-docs — you can clone it for full context.
 >
@@ -22,7 +28,7 @@ A useful prompt to get started:
 
 !!! tip
 
-    If you use Claude Code, you can clone the `uproot-docs` repository alongside your project. This gives the agent direct access to all documentation source files, which tends to produce much better answers.
+    Cloning the [uproot-docs](https://github.com/mrpg/uproot-docs) repository alongside your project gives any coding agent direct access to all documentation source files, which tends to produce much better answers.
 
 ## 3. Email Max and Holger
 
