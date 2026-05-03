@@ -50,6 +50,9 @@ You should see output like this:
 	uv run uproot run
 ```
 
+??? note "If you get an error about git"
+    The above command assumes that you have [git](https://git-scm.com/) installed.
+
 ## 3. Run uproot
 
 Navigate to your new project and run the command shown in the output above:

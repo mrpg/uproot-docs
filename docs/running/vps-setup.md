@@ -98,7 +98,7 @@ From now on, use `root@server` for system administration and `uproot@server` for
 Still as root:
 
 ```console
-root@server:~# apt update && apt install -y python3 python-is-python3 python3-pip python3-venv nginx certbot python3-certbot-nginx tmux unattended-upgrades dnsutils
+root@server:~# apt update && apt install -y git python3 python-is-python3 python3-pip python3-venv nginx certbot python3-certbot-nginx tmux unattended-upgrades dnsutils
 root@server:~# dpkg-reconfigure -plow unattended-upgrades
 ```
 
