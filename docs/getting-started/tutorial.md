@@ -16,7 +16,7 @@ A two-player prisoner's dilemma where participants are paired, each choose to co
 If you haven't already, create a new uproot project:
 
 ```console
-uv run --with 'uproot-science[dev] @ git+https://github.com/mrpg/uproot.git@main' uproot setup my_project
+uv run --with 'uproot-science @ git+https://github.com/mrpg/uproot.git@main' uproot setup my_project
 cd my_project
 ```
 

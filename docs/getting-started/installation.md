@@ -29,7 +29,7 @@ After installation, you may need to restart your terminal or run `source ~/.bash
 Run the following command to create a new uproot project:
 
 ```console
-uv run --with 'uproot-science[dev] @ git+https://github.com/mrpg/uproot.git@main' uproot setup my_project
+uv run --with 'uproot-science @ git+https://github.com/mrpg/uproot.git@main' uproot setup my_project
 ```
 
 This command:
@@ -44,10 +44,10 @@ You should see output like this:
 📂 A new project has been created in 'my_project'.
 ✅ 'main.py' and some other files have been written.
 🚶 Go to the new project directory by running
-	cd my_project
+       cd my_project
 📖 Get started by reading 'main.py'.
 🚀 Then you may run this project using
-	uv run uproot run
+       uv run uproot run
 ```
 
 ??? note "If you get an error about git"
