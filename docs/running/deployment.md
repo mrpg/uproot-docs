@@ -68,19 +68,39 @@ server {
 
 ### Hosting in a subdirectory
 
-uproot can run in a subdirectory instead of at the root. Set the `UPROOT_SUBDIRECTORY` environment variable and adjust your nginx location block:
+If you want to serve uproot at a path like `https://example.com/my-study/` instead of the root, set the `UPROOT_SUBDIRECTORY` environment variable to your chosen path:
 
 ```bash
-export UPROOT_SUBDIRECTORY=/u/
-uproot run  # or: uv run uproot run
+export UPROOT_SUBDIRECTORY=my-study  # use whatever path you want
+uproot run
 ```
 
+Leading and trailing slashes are stripped automatically, so `my-study`, `/my-study`, and `/my-study/` are all equivalent.
+
+When set, uproot prefixes all routes with the subdirectory — participant pages, the admin interface, static files, and WebSocket connections all work without any further changes to your code or templates.
+
+Then adjust your nginx config to match. Here is a complete example — the only difference from a root deployment is the `location` path:
+
 ```nginx
-location /u/ {  # ONLY THIS CHANGES
-    proxy_pass http://127.0.0.1:8000;  # same as above
-    # ... same proxy settings as above ...
+location /my-study/ {
+    proxy_pass http://127.0.0.1:8000;
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_set_header Front-End-Https on;
+    proxy_set_header X-Forwarded-Protocol https;
+    proxy_set_header X-Forwarded-Ssl on;
+    proxy_set_header X-Url-Scheme https;
+    proxy_buffering off;
+
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $connection_upgrade;
 }
 ```
+
+The admin interface will be at `https://example.com/my-study/admin/`.
+
+!!! tip "Persistent configuration"
+    If you run uproot via a systemd service, set the variable in an environment file or in the service unit's `Environment=` directive so it persists across restarts.
 
 ## Fly.io with SQLite
 
