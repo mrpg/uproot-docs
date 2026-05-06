@@ -4,7 +4,7 @@ uproot stores all experiment data in an [append-only log](../building/data.md). 
 
 ## Export from the admin interface
 
-Navigate to a session's detail page and click **Data** → **Download**. Choose between CSV and JSON, and select an export format.
+Navigate to a session's detail page and click **Data** → **Download**. Choose between CSV and JSONL, and select an export format.
 
 ## Export formats
 
@@ -47,38 +47,35 @@ Enable the `filters` option to apply reasonable filters that clean up internal f
 - Keeps `_uproot_dropout` and `_uproot_settings`
 - Removes other internal `_uproot_*` fields
 
-## Export via the REST API
+## Why JSONL?
 
-Use the [Admin REST API](../reference/admin-api.md) for programmatic access:
+uproot exports structured data as [JSONL](https://jsonlines.org/) (JSON Lines): one self-contained JSON object per line, separated by newlines. JSONL has significant advantages over both CSV and monolithic JSON for experiment data:
 
-```bash
-# Download CSV (ultralong format)
-uproot api session/mysession/data/csv
+- **Streaming-friendly.** Each line is independently parseable, so data can be processed as it arrives without buffering the entire file into memory.
+- **Type-preserving.** Unlike CSV, JSONL retains the distinction between numbers, strings, booleans, nulls, and nested structures. No more guessing whether `"1"` is a number or a string.
+- **No quoting ambiguity.** CSV quoting rules are notoriously inconsistent across tools. JSONL uses standard JSON encoding, eliminating field-delimiter conflicts.
+- **Append-only by nature.** Adding new records means appending lines—no need to rewrite the file or close an array bracket. This makes JSONL ideal for append-only logs.
+- **Handles heterogeneous rows.** Different rows can have different fields without padding every row with empty columns.
 
-# Download CSV (latest format, with filters)
-uproot api "session/mysession/data/csv?format=latest&filters=true"
+### Reading JSONL in pandas
 
-# Download JSON
-uproot api session/mysession/data/json
+```python
+import pandas as pd
 
-# Download page times
-uproot api session/mysession/page-times
+df = pd.read_json("mysession.jsonl", lines=True)
 ```
 
-Or with curl:
+The `lines=True` parameter tells pandas to parse one JSON object per line rather than expecting a single JSON array.
 
-```bash
-curl -H "Authorization: Bearer YOUR_TOKEN" \
-  "https://your-server.com/admin/api/v1/session/mysession/data/csv/?format=latest&filters=true"
+### Reading JSONL in R
+
+```r
+library(jsonlite)
+
+df <- stream_in(file("mysession.jsonl"))
 ```
 
-### API query parameters
-
-| Parameter | Values | Default | Description |
-|-----------|--------|---------|-------------|
-| `format` | `ultralong`, `sparse`, `latest` | `ultralong` | Export format |
-| `gvar` | field names | — | Group-by variables (for `latest` format) |
-| `filters` | `true`, `false` | `false` | Apply reasonable filters |
+`stream_in()` reads JSONL natively and returns a data frame. For large files, it processes the file in chunks without loading everything into memory at once.
 
 ## Page times
 
@@ -115,7 +112,7 @@ uv run uproot restore --file backup.bin
 You can also download a dump from the admin interface at `/admin/dump/`.
 
 !!! note
-    Database dumps contain all sessions and all data. Use the CSV/JSON export endpoints for per-session exports.
+    Database dumps contain all sessions and all data. Use the CSV/JSONL export endpoints for per-session exports.
 
 ## Offline analysis with uproot.read
 
@@ -165,12 +162,45 @@ The admin data browser (`/admin/session/{sname}/data/`) shows session data in re
 
 The data display page (`/admin/session/{sname}/viewdata/`) shows a table view of all player data with timestamps and code locations.
 
+## Export via the REST API
+
+Use the [Admin REST API](../reference/admin-api.md) for programmatic access:
+
+```bash
+# Download CSV (ultralong format)
+uproot api session/mysession/data/csv
+
+# Download CSV (latest format, with filters)
+uproot api "session/mysession/data/csv?format=latest&filters=true"
+
+# Download JSONL
+uproot api session/mysession/data/jsonl
+
+# Download page times
+uproot api session/mysession/page-times
+```
+
+Or with curl:
+
+```bash
+curl -H "Authorization: Bearer YOUR_TOKEN" \
+  "https://your-server.com/admin/api/v1/session/mysession/data/csv/?format=latest&filters=true"
+```
+
+### API query parameters
+
+| Parameter | Values | Default | Description |
+|-----------|--------|---------|-------------|
+| `format` | `ultralong`, `sparse`, `latest` | `ultralong` | Export format |
+| `gvar` | field names | — | Group-by variables (for `latest` format) |
+| `filters` | `true`, `false` | `false` | Apply reasonable filters |
+
 ## Summary
 
 | Method | Use case |
 |--------|----------|
 | Admin data browser | Real-time monitoring during experiments |
-| CSV/JSON download | Per-session data for analysis |
+| CSV/JSONL download | Per-session data for analysis |
 | Page times CSV | Response time analysis |
 | `uproot.read` | Offline analysis in Python/Jupyter |
 | `uproot dump` | Full database backup |

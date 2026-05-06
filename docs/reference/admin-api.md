@@ -417,9 +417,9 @@ Download session data as CSV.
 
 ---
 
-### `GET /admin/api/v1/session/{sname}/data/json/`
+### `GET /admin/api/v1/session/{sname}/data/jsonl/`
 
-Download session data as JSON (streaming).
+Download session data as JSONL (streaming).
 
 **Path parameters**:
 
@@ -435,7 +435,7 @@ Download session data as JSON (streaming).
 | `gvar` | array[string] | `[]` | Group-by variables |
 | `filters` | boolean | `false` | Apply reasonable filters |
 
-**Response**: JSON file download.
+**Response**: JSONL file download (one JSON object per line).
 
 ---
 
