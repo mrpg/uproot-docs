@@ -9,7 +9,7 @@ Mark a page method with `@live` to make it callable from JavaScript:
 ```python
 class Counter(Page):
     @live
-    async def increment(page, player):
+    def increment(page, player):
         player.counter += 1
         return player.counter
 ```
@@ -55,7 +55,7 @@ Return data directly from the live method. The JavaScript Promise resolves with 
 ```python
 class Quiz(Page):
     @live
-    async def check_answer(page, player, answer: str):
+    def check_answer(page, player, answer: str):
         correct = answer.lower() == "paris"
         if correct:
             player.score += 1
@@ -78,7 +78,7 @@ Live method parameters are validated using Python type hints:
 
 ```python
 @live
-async def place_bid(page, player, amount: float, item_id: int):
+def place_bid(page, player, amount: float, item_id: int):
     # amount must be a float
     # item_id must be an integer
     player.bid = amount
@@ -126,12 +126,12 @@ def new_player(player):
 
 class Counter(Page):
     @live
-    async def increment(page, player):
+    def increment(page, player):
         player.counter += 1
         return player.counter
 
     @live
-    async def reset(page, player):
+    def reset(page, player):
         player.counter = 0
         return player.counter
 ```
@@ -175,7 +175,7 @@ class Registration(Page):
     )
 
     @live
-    async def check_username(page, player, username: str):
+    def check_username(page, player, username: str):
         # Check if username is available
         taken = username.lower() in ["admin", "root", "system"]
         return {"available": not taken}
@@ -200,7 +200,7 @@ Load data dynamically without page reload:
 ```python
 class Dashboard(Page):
     @live
-    async def get_stats(page, player):
+    def get_stats(page, player):
         return {
             "total_responses": player.session.response_count,
             "average_score": player.session.average_score,
@@ -224,16 +224,63 @@ setInterval(() => {
 
 ## Async operations
 
-Live methods can be async for I/O operations:
+Live methods can be async for I/O operations. Keep reads and writes of `player`,
+`player.session`, and other uproot storage outside the part of the method that
+awaits whenever you can:
 
 ```python
 @live
 async def process_data(page, player, data: dict):
-    # Perform async operations
+    # Do slow external work first.
     result = await some_async_function(data)
+
+    # Then update uproot state without another await in between.
     player.processed = result
     return {"status": "complete"}
 ```
+
+### Advanced concurrency note
+
+Special care must be taken when you want to allow live methods to interleave with
+`async`. Specifically:
+
+Live method calls from the same browser page are not a transaction queue. If an
+advanced `@live` method reaches an `await`, another live method call for the same
+participant may run before the first one resumes. This matters only for methods
+whose correctness depends on a check-then-act sequence across an `await`.
+
+Avoid this pattern:
+
+```python
+@live
+async def submit_once(page, player, payload: dict):
+    if player.submitted:
+        raise ValueError("Already submitted")
+
+    result = await external_service(payload)
+
+    player.result = result
+    player.submitted = True
+```
+
+Prefer doing awaited work before entering the state-sensitive section, or keep
+the state-sensitive section free of awaits:
+
+```python
+@live
+async def submit_once(page, player, payload: dict):
+    result = await external_service(payload)
+
+    if player.submitted:
+        raise ValueError("Already submitted")
+
+    player.result = result
+    player.submitted = True
+```
+
+For most live methods, including the examples in this guide, this is not a
+concern because the method does not await while it is reading or updating uproot
+state.
 
 ## Example: real-effort task
 
@@ -244,13 +291,13 @@ class Sumhunt(Page):
     timeout = 120
 
     @live
-    async def get_matrix(page, player):
+    def get_matrix(page, player):
         if player.matrix is None:
             player.matrix = generate_matrix(...)
         return player.matrix
 
     @live
-    async def propose_solution(page, player, solution: list[int]):
+    def propose_solution(page, player, solution: list[int]):
         if sum(solution) == TARGET and all(x in player.matrix for x in solution):
             player.solutions += 1
             player.matrix = generate_matrix(...)  # New puzzle
