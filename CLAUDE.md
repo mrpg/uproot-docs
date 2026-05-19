@@ -198,7 +198,7 @@ Using a context manager is always safe, even when not strictly required.
 - Blocks: `{% block title %}`, `{% block head %}`, `{% block pre_container %}`, `{% block main %}`, `{% block late %}`
 - `{{ fields() }}` renders all form fields; `{{ field(form.name) }}` renders one
 - `{{ chat(session.chat) }}` renders chat widget
-- Built-in filters: `| to(n)` (decimal places), `| fmtnum(pre=, post=, places=)`
+- Built-in filters: `| to(n)` (decimal places), `| fmtnum(pre=, post=, places=, sep=, decsep=)`
 - All Python builtins available in templates (`sum()`, `max()`, `min()`, `len()`, `range()`, `enumerate()`, `zip()`)
 - `{% set buttons = False %}` to hide navigation buttons
 - `player.along("round")` — iterate all rounds as `(round_number, data)` tuples

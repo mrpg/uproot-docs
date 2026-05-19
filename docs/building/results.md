@@ -93,6 +93,16 @@ For currency and units with prefix/suffix:
 {{ player.change | fmtnum(pre="$", places=2) }}           <!-- −$5.00 (uses minus sign) -->
 ```
 
+Large numbers use comma thousands separators by default. Use `sep` and `decsep`
+to choose different thousands and decimal separators, or set `sep=""` to omit
+the thousands separator:
+
+```html+jinja
+{{ player.payoff | fmtnum(pre="$", places=2) }}                  <!-- $1,234.50 -->
+{{ player.payoff | fmtnum(sep=".", decsep=",", places=2) }}      <!-- 1.234,50 -->
+{{ player.payoff | fmtnum(sep="", places=2) }}                   <!-- 1234.50 -->
+```
+
 ## Calculations in templates
 
 uproot passes all Python builtins to templates. Perform calculations directly:
@@ -270,7 +280,7 @@ class C:
 | Filter | Purpose | Example |
 |--------|---------|---------|
 | `to(n)` | Format to n decimal places | `{{ x \| to(2) }}` → `3.14` |
-| `fmtnum(pre, post, places)` | Format with prefix/suffix | `{{ x \| fmtnum(pre="$") }}` |
+| `fmtnum(pre, post, places, sep, decsep)` | Format with prefix/suffix and separators | `{{ x \| fmtnum(pre="$", sep=",") }}` |
 | `tojson` | Convert to JSON | `{{ data \| tojson }}` |
 | `repr` | Python repr | `{{ x \| repr }}` |
 
