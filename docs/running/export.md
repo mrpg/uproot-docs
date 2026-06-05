@@ -143,6 +143,40 @@ with read("uproot.sqlite3") as db:
                 print(player.choice)
 ```
 
+### Plain-row helpers
+
+For analysis scripts that need regular dictionaries rather than live Storage objects, use the plain-row methods. Each returns a list of dictionaries with identifier columns plus any extra fields you request. Missing fields become `None`.
+
+```python
+with read("uproot.sqlite3") as db:
+    players = db.player_rows(["label", "role", "payoff"])
+    memberships = db.membership_rows()
+```
+
+| Method | Identifier columns | Extra fields |
+|--------|--------------------|--------------|
+| `db.session_rows(fields)` | `session` | Yes |
+| `db.group_rows(fields)` | `session`, `group` | Yes |
+| `db.player_rows(fields)` | `session`, `uname` | Yes |
+| `db.membership_rows()` | `session`, `group`, `uname`, `position` | No |
+
+To grab all four tables at once, use `snapshot`:
+
+```python
+with read("uproot.sqlite3") as db:
+    snap = db.snapshot(
+        session_fields=["sid"],
+        group_fields=["round"],
+        player_fields=["label", "role", "payoff"],
+    )
+
+print(snap.sessions)      # list of dicts
+print(snap.groups)
+print(snap.players)
+print(snap.memberships)
+print(snap.as_dict())      # single dict with all four tables
+```
+
 ### Database API
 
 | Method/Property | Description |
@@ -151,10 +185,15 @@ with read("uproot.sqlite3") as db:
 | `db.session(sname)` | Get a session by name |
 | `db.group(sname, gname)` | Get a group by session and group name |
 | `db.player(sname, uname)` | Get a player by session and username |
+| `db.session_rows(fields)` | Plain dictionaries, one per session |
+| `db.group_rows(fields)` | Plain dictionaries, one per group |
+| `db.player_rows(fields)` | Plain dictionaries, one per player |
+| `db.membership_rows()` | Plain dictionaries, one per group membership |
+| `db.snapshot(...)` | All four plain-row tables as a `Snapshot` |
 | `db.close()` | Close the database |
 
 !!! note
-    `uproot.read` gives you the same Storage objects used at runtime—you can access `player.group`, `player.session`, `group.players`, and all virtual fields. Remember to use `with player:` (or `with session:`, etc.) before reading attributes.
+    `uproot.read` gives you the same Storage objects used at runtime—you can access `player.group`, `player.session`, `group.players`, and all virtual fields. Remember to use `with player:` (or `with session:`, etc.) before reading attributes. The plain-row helpers handle context management internally.
 
 ## Live data browser
 
