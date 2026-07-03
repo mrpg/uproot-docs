@@ -766,6 +766,34 @@ Download session data as CSV.
 
 ---
 
+### `GET /admin/api/v1/sessions/{sname}/data/export/`
+
+Download session data using the same format/filetype controls as the admin UI.
+
+**Path parameters**:
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `sname` | string | Yes |  |
+
+**Query parameters**:
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `format` | string | No | Export format: ultralong, sparse, or latest |
+| `filetype` | string | No | Export file type: csv or jsonl |
+| `gvar` | array[string] | No | Group-by variables |
+| `filters` | boolean | No | Apply reasonable filters |
+| `player_data_only` | boolean | No | Restrict export to player data |
+
+**Responses**:
+
+| Status | Content | Description |
+|--------|---------|-------------|
+| `200` | `application/json` | Successful Response |
+
+---
+
 ### `GET /admin/api/v1/sessions/{sname}/data/jsonl/`
 
 Download session data as JSONL (streaming).
@@ -831,9 +859,46 @@ Run all available app digests for a session.
 
 ---
 
+### `GET /admin/api/v1/sessions/{sname}/digests/html/`
+
+Render the app-authored AdminDigest.html fragments shown by the admin UI.
+
+**Path parameters**:
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `sname` | string | Yes |  |
+
+**Responses**:
+
+| Status | Content | Description |
+|--------|---------|-------------|
+| `200` | `application/json` | Successful Response |
+
+---
+
 ### `GET /admin/api/v1/sessions/{sname}/digests/{appname}/`
 
 Run one app digest for a session.
+
+**Path parameters**:
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `sname` | string | Yes |  |
+| `appname` | string | Yes |  |
+
+**Responses**:
+
+| Status | Content | Description |
+|--------|---------|-------------|
+| `200` | `application/json` | Successful Response |
+
+---
+
+### `GET /admin/api/v1/sessions/{sname}/digests/{appname}/html/`
+
+Render one app-authored AdminDigest.html fragment.
 
 **Path parameters**:
 
@@ -859,6 +924,71 @@ List apps that provide a pipeline for a session.
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `sname` | string | Yes |  |
+
+**Responses**:
+
+| Status | Content | Description |
+|--------|---------|-------------|
+| `200` | `application/json` | Successful Response |
+
+---
+
+### `GET /admin/api/v1/sessions/{sname}/pipelines/html/`
+
+Render app-authored AdminPipeline.html fragments shown by the admin UI.
+
+**Path parameters**:
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `sname` | string | Yes |  |
+
+**Responses**:
+
+| Status | Content | Description |
+|--------|---------|-------------|
+| `200` | `application/json` | Successful Response |
+
+---
+
+### `GET /admin/api/v1/sessions/{sname}/pipelines/{appname}/html/`
+
+Render one app-authored AdminPipeline.html fragment.
+
+**Path parameters**:
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `sname` | string | Yes |  |
+| `appname` | string | Yes |  |
+
+**Responses**:
+
+| Status | Content | Description |
+|--------|---------|-------------|
+| `200` | `application/json` | Successful Response |
+
+---
+
+### `GET /admin/api/v1/sessions/{sname}/pipelines/{appname}/runs/`
+
+Run an app pipeline without custom JSON data, matching the admin UI button.
+
+!!! note
+    This endpoint accepts an optional JSON request body. If the app's `pipeline()` callable declares a `data` parameter, the decoded body is passed as `data`.
+
+**Path parameters**:
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `sname` | string | Yes |  |
+| `appname` | string | Yes |  |
+
+**Query parameters**:
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `filetype` | string | No | Export file type: csv or jsonl |
 
 **Responses**:
 
@@ -1125,6 +1255,40 @@ Fetch announcements from upstream.
 
 ---
 
+### `GET /admin/api/v1/auth/challenge/`
+
+Issue the same login proof-of-work challenge used by the admin UI.
+
+**Responses**:
+
+| Status | Content | Description |
+|--------|---------|-------------|
+| `200` | `application/json` | Successful Response |
+
+---
+
+### `POST /admin/api/v1/auth/login/`
+
+Create the same browser admin session token as submitting /admin/login/.
+
+**Request body** (`AuthLogin`):
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `user` | string | No | Admin username (default: `admin`) |
+| `pw` | string | No | Admin password (default: ``) |
+| `token` | string | No | Auto-login token (default: ``) |
+| `pow_challenge` | string | No | Proof-of-work challenge (default: ``) |
+| `pow_solution` | string | No | Proof-of-work solution (default: ``) |
+
+**Responses**:
+
+| Status | Content | Description |
+|--------|---------|-------------|
+| `201` | `application/json` | Successful Response |
+
+---
+
 ### `GET /admin/api/v1/auth/sessions/`
 
 Get information about active authentication sessions.
@@ -1149,6 +1313,42 @@ Revoke all browser admin sessions for one user.
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `user` | string | Yes |  |
+
+**Responses**:
+
+| Status | Content | Description |
+|--------|---------|-------------|
+| `200` | `application/json` | Successful Response |
+
+---
+
+### `DELETE /admin/api/v1/auth/tokens/`
+
+Revoke all browser admin sessions for the user named by one token.
+
+**Request body** (`AuthToken`):
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `auth_token` | string | Yes | Value of the uauth browser cookie |
+
+**Responses**:
+
+| Status | Content | Description |
+|--------|---------|-------------|
+| `200` | `application/json` | Successful Response |
+
+---
+
+### `DELETE /admin/api/v1/auth/tokens/current/`
+
+Revoke one browser admin session token, matching /admin/logout/.
+
+**Request body** (`AuthToken`):
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `auth_token` | string | Yes | Value of the uauth browser cookie |
 
 **Responses**:
 
