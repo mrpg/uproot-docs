@@ -6,7 +6,7 @@
 
 !!! warning "Work in progress"
 
-    uproot is in pre-alpha. Breaking changes are made with reckless abandon. We are working towards the first alpha (0.0.1) and invite you to join us.
+    uproot is in initial development. Breaking changes are made with reckless abandon. We are working towards the first alpha (0.0.1) and invite you to join us.
 
 <div class="grid cards" markdown>
 
