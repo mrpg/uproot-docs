@@ -10,3 +10,6 @@ dependencies = [
 [tool.uv.sources]
 mkdocs = { git = "https://github.com/mkdocs/mkdocs", rev = "bb7e8b62185b11d9f59bb7f50b13c15134f62f8a" }
 mkdocs-material = { git = "https://github.com/squidfunk/mkdocs-material", rev = "00b9933e5821fd852700268767d4fd53ae1ce1cb" }
+
+[tool.black]
+target-version = ["py311"]

@@ -1,96 +1,244 @@
 #!/usr/bin/env python3
-"""
-Generate markdown documentation from the uproot admin API (server4.py).
-Uses FastAPI's OpenAPI schema generation.
+"""Generate Markdown documentation from FastAPI's OpenAPI schema."""
 
-Usage:
-    python scripts/generate_admin_api_docs.py > docs/reference/admin-api.md
-
-Then manually review and edit the output as needed.
-"""
+from __future__ import annotations
 
 import sys
-sys.path.insert(0, "../uproot/src")
+from pathlib import Path
+from typing import Any
 
 from fastapi import FastAPI
-from uproot.server4 import router
 
-# Create a minimal FastAPI app and include the router
-app = FastAPI(title="uproot Admin API", version="1.0.0")
-app.include_router(router)
+DOCS_REPO = Path(__file__).resolve().parents[1]
+UPROOT_SRC = DOCS_REPO.parent / "uproot" / "src"
+sys.path.insert(0, str(UPROOT_SRC))
 
-# Get the OpenAPI schema
-schema = app.openapi()
+from uproot.server4 import router  # noqa: E402
+
+APP = FastAPI(title="uproot Admin API", version="1.0.0")
+APP.include_router(router)
+SCHEMA = APP.openapi()
+SCHEMAS = SCHEMA.get("components", {}).get("schemas", {})
+
+SECTION_NAMES = (
+    "Dashboard and Configurations",
+    "Sessions",
+    "Players",
+    "Admin Chat",
+    "Data Export",
+    "Digests and Pipelines",
+    "Rooms",
+    "System",
+)
+
+METHOD_ORDER = {"get": 0, "post": 1, "patch": 2, "delete": 3, "put": 4}
 
 
-def format_params(params, include_required=True):
-    """Format parameters as markdown table."""
-    if not params:
+def clean_text(value: str) -> str:
+    return " ".join(str(value).strip().split())
+
+
+def table_text(value: str) -> str:
+    return clean_text(value).replace("|", "\\|")
+
+
+def schema_type(schema: dict[str, Any]) -> str:
+    if not schema:
+        return "any"
+
+    if "$ref" in schema:
+        return f"{schema['$ref'].split('/')[-1]}"
+
+    if "anyOf" in schema:
+        parts = [schema_type(part) for part in schema["anyOf"]]
+        return " or ".join(dict.fromkeys(parts))
+
+    if "allOf" in schema:
+        parts = [schema_type(part) for part in schema["allOf"]]
+        return " & ".join(dict.fromkeys(parts))
+
+    if "enum" in schema:
+        return " or ".join(f"`{item}`" for item in schema["enum"])
+
+    stype = schema.get("type")
+    if stype == "array":
+        return f"array[{schema_type(schema.get('items', {}))}]"
+    if stype == "object":
+        additional = schema.get("additionalProperties")
+        if isinstance(additional, dict):
+            return f"object[string, {schema_type(additional)}]"
+        return "object"
+    if stype is None:
+        return "any"
+    return str(stype)
+
+
+def schema_constraints(schema: dict[str, Any]) -> str:
+    constraints = []
+
+    for source, label in (
+        ("minimum", "min"),
+        ("maximum", "max"),
+        ("exclusiveMinimum", "exclusive min"),
+        ("exclusiveMaximum", "exclusive max"),
+        ("minLength", "min length"),
+        ("maxLength", "max length"),
+        ("minItems", "min items"),
+        ("maxItems", "max items"),
+    ):
+        if source in schema:
+            constraints.append(f"{label}: `{schema[source]}`")
+
+    return "; ".join(constraints)
+
+
+def format_params(params: list[dict[str, Any]], where: str) -> str:
+    chosen = [p for p in params if p.get("in") == where]
+    if where == "header":
+        chosen = [p for p in chosen if p.get("name", "").lower() != "authorization"]
+
+    if not chosen:
         return ""
 
-    if include_required:
-        lines = ["| Parameter | Type | Required | Description |",
-                 "|-----------|------|----------|-------------|"]
-    else:
-        lines = ["| Parameter | Type | Description |",
-                 "|-----------|------|-------------|"]
+    lines = [
+        "| Parameter | Type | Required | Description |",
+        "|-----------|------|----------|-------------|",
+    ]
 
-    for p in params:
-        required = "Yes" if p.get("required", False) else "No"
-        ptype = p.get("schema", {}).get("type", "string")
-        desc = p.get("description", "")
-        if include_required:
-            lines.append(f"| `{p['name']}` | {ptype} | {required} | {desc} |")
-        else:
-            lines.append(f"| `{p['name']}` | {ptype} | {desc} |")
+    for param in chosen:
+        pschema = param.get("schema", {})
+        desc = table_text(param.get("description", ""))
+        constraints = schema_constraints(pschema)
+        if constraints:
+            desc = f"{desc} ({constraints})" if desc else constraints
+        lines.append(
+            f"| `{param['name']}` | {schema_type(pschema)} | "
+            f"{'Yes' if param.get('required') else 'No'} | {desc} |"
+        )
+
     return "\n".join(lines)
 
 
-def format_request_body(body_schema, schemas):
-    """Format request body as markdown."""
-    if not body_schema:
+def request_body_schema(request_body: dict[str, Any] | None) -> dict[str, Any] | None:
+    if not request_body:
+        return None
+
+    content = request_body.get("content", {})
+    for media_type in ("application/json", "application/x-www-form-urlencoded"):
+        schema = content.get(media_type, {}).get("schema")
+        if schema:
+            return schema
+    return None
+
+
+def dereference(schema: dict[str, Any]) -> tuple[str | None, dict[str, Any]]:
+    if "$ref" in schema:
+        model_name = schema["$ref"].split("/")[-1]
+        return model_name, SCHEMAS.get(model_name, {})
+    return None, schema
+
+
+def format_request_body(request_body: dict[str, Any] | None) -> str:
+    schema = request_body_schema(request_body)
+    if not schema:
         return ""
 
-    ref = body_schema.get("content", {}).get("application/json", {}).get("schema", {}).get("$ref", "")
-    if ref:
-        model_name = ref.split("/")[-1]
-        model = schemas.get(model_name, {})
-        props = model.get("properties", {})
-        required = model.get("required", [])
+    model_name, body = dereference(schema)
+    props = body.get("properties", {})
+    required = set(body.get("required", []))
 
-        lines = [f"\n**Request body** (`{model_name}`):\n",
-                 "| Field | Type | Required | Description |",
-                 "|-------|------|----------|-------------|"]
-        for name, prop in props.items():
-            ptype = prop.get("type", prop.get("$ref", "").split("/")[-1] if "$ref" in prop else "any")
-            if "items" in prop:
-                item_type = prop["items"].get("type", "any")
-                ptype = f"array[{item_type}]"
-            req = "Yes" if name in required else "No"
-            desc = prop.get("description", "")
-            default = prop.get("default")
-            if default is not None:
-                desc += f" (default: `{default}`)"
-            lines.append(f"| `{name}` | {ptype} | {req} | {desc} |")
-        return "\n".join(lines)
-    return ""
+    if not props:
+        return ""
+
+    title = "**Request body**"
+    if model_name:
+        title += f" (`{model_name}`)"
+    title += ":"
+
+    lines = [
+        title,
+        "",
+        "| Field | Type | Required | Description |",
+        "|-------|------|----------|-------------|",
+    ]
+
+    for name, prop in props.items():
+        desc = table_text(prop.get("description", ""))
+        constraints = schema_constraints(prop)
+        if "default" in prop:
+            constraints = "; ".join(
+                part for part in (constraints, f"default: `{prop['default']}`") if part
+            )
+        if constraints:
+            desc = f"{desc} ({constraints})" if desc else constraints
+        lines.append(
+            f"| `{name}` | {schema_type(prop)} | "
+            f"{'Yes' if name in required else 'No'} | {desc} |"
+        )
+
+    return "\n".join(lines)
 
 
-# Group endpoints by tag/section
-sections = {
-    "Sessions": [],
-    "Players": [],
-    "Data export": [],
-    "Rooms": [],
-    "Configurations": [],
-    "System": [],
-}
+def format_responses(responses: dict[str, Any]) -> str:
+    if not responses:
+        return ""
 
-schemas = schema.get("components", {}).get("schemas", {})
+    lines = [
+        "**Responses**:",
+        "",
+        "| Status | Content | Description |",
+        "|--------|---------|-------------|",
+    ]
 
-for path, methods in schema.get("paths", {}).items():
-    for method, details in methods.items():
-        if method in ("get", "post", "patch", "delete", "put"):
+    for status, response in responses.items():
+        if status == "422":
+            continue
+        content = response.get("content", {})
+        media_types = ", ".join(f"`{name}`" for name in content) or "-"
+        desc = table_text(response.get("description", ""))
+        lines.append(f"| `{status}` | {media_types} | {desc} |")
+
+    return "\n".join(lines)
+
+
+def section_for(path: str) -> str:
+    if (
+        "/auth/" in path
+        or "/database/" in path
+        or "/status/" in path
+        or "/announcements/" in path
+        or "/praise/" in path
+    ):
+        return "System"
+    if "/admin-chat" in path:
+        return "Admin Chat"
+    if "/data/" in path or "/page-times/" in path:
+        return "Data Export"
+    if "/digests/" in path or "/pipelines/" in path:
+        return "Digests and Pipelines"
+    if "/players/" in path or "/multiview/" in path:
+        return "Players"
+    if "/rooms/" in path:
+        return "Rooms"
+    if "/dashboard/" in path or "/configs" in path:
+        return "Dashboard and Configurations"
+    if "/sessions" in path:
+        return "Sessions"
+    return "System"
+
+
+def operation_sort_key(endpoint: dict[str, Any]) -> tuple[str, int]:
+    return endpoint["path"], METHOD_ORDER.get(endpoint["method"].lower(), 99)
+
+
+def collect_endpoints() -> dict[str, list[dict[str, Any]]]:
+    sections: dict[str, list[dict[str, Any]]] = {name: [] for name in SECTION_NAMES}
+
+    for path, methods in SCHEMA.get("paths", {}).items():
+        for method, details in methods.items():
+            if method not in METHOD_ORDER:
+                continue
+
             endpoint = {
                 "method": method.upper(),
                 "path": path,
@@ -100,79 +248,130 @@ for path, methods in schema.get("paths", {}).items():
                 "requestBody": details.get("requestBody"),
                 "responses": details.get("responses", {}),
             }
+            sections[section_for(path)].append(endpoint)
 
-            # Categorize based on path
-            if "/sessions/" in path or ("/session/" in path and "/players" not in path and "/data" not in path and "/digest" not in path and "/page-times" not in path):
-                sections["Sessions"].append(endpoint)
-            elif "/players/" in path:
-                sections["Players"].append(endpoint)
-            elif "/data/" in path or "/page-times/" in path:
-                sections["Data export"].append(endpoint)
-            elif "/room" in path:
-                sections["Rooms"].append(endpoint)
-            elif "/config" in path:
-                sections["Configurations"].append(endpoint)
-            else:
-                sections["System"].append(endpoint)
+    return sections
 
-# Generate markdown
-output = []
-output.append("# Admin API reference")
-output.append("")
-output.append("The Admin REST API provides programmatic access to manage uproot experiments.")
-output.append("All endpoints are located under `/admin/api/` and require Bearer token authentication.")
-output.append("")
-output.append("## Authentication")
-output.append("")
-output.append("All requests must include an `Authorization` header with a valid API token:")
-output.append("")
-output.append("```")
-output.append("Authorization: Bearer YOUR_API_TOKEN")
-output.append("```")
-output.append("")
-output.append("API tokens are configured in `deployment.API_KEYS`.")
-output.append("")
 
-for section_name, endpoints in sections.items():
-    if not endpoints:
-        continue
+def endpoint_notes(endpoint: dict[str, Any]) -> list[str]:
+    path = endpoint["path"]
+    notes = []
 
-    output.append(f"## {section_name}")
-    output.append("")
+    if path.endswith("/pipelines/{appname}/runs/"):
+        notes.append(
+            "This endpoint accepts an optional JSON request body. If the app's `pipeline()` "
+            "callable declares a `data` parameter, the decoded body is passed as `data`."
+        )
+    if path.endswith("/database/dump/"):
+        notes.append(
+            "The response is a binary MessagePack dump intended for `uproot restore`, not JSON."
+        )
+    if path.endswith("/auth/sessions/{user}/"):
+        notes.append(
+            "This revokes browser admin-login sessions for the named user. It does not revoke API keys."
+        )
 
-    for ep in endpoints:
-        output.append(f"### `{ep['method']} {ep['path']}`")
+    return notes
+
+
+def render() -> str:
+    sections = collect_endpoints()
+    output: list[str] = []
+
+    output.extend(
+        [
+            "# Admin API reference",
+            "",
+            "The Admin REST API provides programmatic access to manage uproot experiments.",
+            "All endpoints are located under `/admin/api/v1/` and require Bearer token authentication.",
+            "",
+            '!!! note "Generated from FastAPI OpenAPI"',
+            "    This page is generated by `scripts/generate_admin_api_docs.py` from FastAPI's OpenAPI schema. A running uproot server also exposes FastAPI's live schema at `/openapi.json` and interactive documentation at `/docs` and `/redoc`.",
+            "",
+            "## Authentication",
+            "",
+            "All requests must include an `Authorization` header with a valid API token:",
+            "",
+            "```http",
+            "Authorization: Bearer YOUR_API_TOKEN",
+            "```",
+            "",
+            "To enable API access, add one or more tokens in your project's `main.py`:",
+            "",
+            "```python",
+            'upd.API_KEYS.add("YOUR_API_TOKEN")',
+            "```",
+            "",
+            "## CLI access",
+            "",
+            "The `uproot api` command calls these endpoints from the command line:",
+            "",
+            "```bash",
+            'export UPROOT_API_KEY="YOUR_API_TOKEN"',
+            "uproot api sessions",
+            "uproot api sessions/mysession",
+            "uproot api rooms",
+            "uproot api rooms/waiting-room",
+            "uproot api sessions/mysession/players/online",
+            'uproot api -X POST sessions -d \'{"config": "myconfig", "n_players": 4}\'',
+            "uproot api -X PATCH sessions/mysession/active",
+            'uproot api -X POST sessions/mysession/players/advance -d \'{"unames": ["ABC"]}\'',
+            "```",
+            "",
+        ]
+    )
+
+    for section, endpoints in sections.items():
+        if not endpoints:
+            continue
+
+        output.append(f"## {section}")
         output.append("")
-        if ep["summary"]:
-            # Convert CamelCase to sentence
-            summary = ep["summary"].replace("_", " ")
-            output.append(summary)
+
+        for endpoint in sorted(endpoints, key=operation_sort_key):
+            output.append(f"### `{endpoint['method']} {endpoint['path']}`")
             output.append("")
 
-        # Path parameters
-        path_params = [p for p in ep["parameters"] if p.get("in") == "path"]
-        query_params = [p for p in ep["parameters"] if p.get("in") == "query"]
+            description = clean_text(
+                endpoint.get("description") or endpoint.get("summary") or ""
+            )
+            if description:
+                output.append(description)
+                output.append("")
 
-        if path_params:
-            output.append("**Path parameters**:")
-            output.append("")
-            output.append(format_params(path_params, include_required=False))
+            for note in endpoint_notes(endpoint):
+                output.append(f"!!! note\n    {note}")
+                output.append("")
+
+            path_params = format_params(endpoint["parameters"], "path")
+            if path_params:
+                output.append("**Path parameters**:")
+                output.append("")
+                output.append(path_params)
+                output.append("")
+
+            query_params = format_params(endpoint["parameters"], "query")
+            if query_params:
+                output.append("**Query parameters**:")
+                output.append("")
+                output.append(query_params)
+                output.append("")
+
+            request_body = format_request_body(endpoint.get("requestBody"))
+            if request_body:
+                output.append(request_body)
+                output.append("")
+
+            responses = format_responses(endpoint.get("responses", {}))
+            if responses:
+                output.append(responses)
+                output.append("")
+
+            output.append("---")
             output.append("")
 
-        if query_params:
-            output.append("**Query parameters**:")
-            output.append("")
-            output.append(format_params(query_params))
-            output.append("")
+    return "\n".join(output).rstrip() + "\n"
 
-        body = format_request_body(ep["requestBody"], schemas)
-        if body:
-            output.append(body)
-            output.append("")
 
-        output.append("**Response**: Successful Response")
-        output.append("")
-        output.append("---")
-        output.append("")
-
-print("\n".join(output))
+if __name__ == "__main__":
+    print(render(), end="")

@@ -105,7 +105,7 @@ This is useful when:
 - You need to temporarily pause enrollment while checking on the experiment.
 - You want to control exactly when new participants can enter.
 
-Via the API, use [`PATCH /admin/api/v1/room/{roomname}/open/`](../reference/admin-api.md#patch-adminapiv1roomroomnameopen) with `{"open": false}` to close or `{"open": true}` to reopen.
+Via the API, use [`PATCH /admin/api/v1/rooms/{roomname}/open/`](../reference/admin-api.md#patch-adminapiv1roomsroomnameopen) with `{"open": false}` to close or `{"open": true}` to reopen.
 
 #### Closing vs. capacity
 

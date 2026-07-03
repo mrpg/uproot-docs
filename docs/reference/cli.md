@@ -27,7 +27,7 @@ Access the [Admin REST API](admin-api.md) from the command line.
 uproot api sessions
 
 # Get session details
-uproot api session/mysession
+uproot api sessions/mysession
 
 # Create a session
 uproot api -X POST sessions -d '{"config": "myconfig", "n_players": 4}'

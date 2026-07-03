@@ -82,7 +82,7 @@ df <- stream_in(file("mysession.jsonl"))
 Page times track when each player entered and left each page. Export as CSV from the session detail page or via the API:
 
 ```bash
-uproot api session/mysession/page-times
+uproot api sessions/mysession/page-times
 ```
 
 The CSV contains:
@@ -207,23 +207,23 @@ Use the [Admin REST API](../reference/admin-api.md) for programmatic access:
 
 ```bash
 # Download CSV (ultralong format)
-uproot api session/mysession/data/csv
+uproot api sessions/mysession/data/csv
 
 # Download CSV (latest format, with filters)
-uproot api "session/mysession/data/csv?format=latest&filters=true"
+uproot api "sessions/mysession/data/csv?format=latest&filters=true"
 
 # Download JSONL
-uproot api session/mysession/data/jsonl
+uproot api sessions/mysession/data/jsonl
 
 # Download page times
-uproot api session/mysession/page-times
+uproot api sessions/mysession/page-times
 ```
 
 Or with curl:
 
 ```bash
 curl -H "Authorization: Bearer YOUR_TOKEN" \
-  "https://your-server.com/admin/api/v1/session/mysession/data/csv/?format=latest&filters=true"
+  "https://your-server.com/admin/api/v1/sessions/mysession/data/csv/?format=latest&filters=true"
 ```
 
 ### API query parameters
