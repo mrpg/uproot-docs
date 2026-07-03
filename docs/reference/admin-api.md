@@ -1052,7 +1052,7 @@ Create a new room.
 | `config` | string or null | No | Default configuration for sessions |
 | `labels` | array[string] or null | No | Allowed labels for participants |
 | `capacity` | integer or null | No | Maximum capacity |
-| `open` | boolean | No | Whether the room is open for joining (default: `False`) |
+| `open` | boolean or null | No | Whether the room is open for joining (defaults to true if sname is given, false otherwise) |
 | `sname` | string or null | No | Associated session name |
 
 **Responses**:
@@ -1083,7 +1083,7 @@ Get detailed information about a specific room.
 
 ### `PATCH /admin/api/v1/rooms/{roomname}/`
 
-Update room settings (only when no session is associated).
+Update room settings, optionally associating an existing session (only when no session is currently associated).
 
 **Path parameters**:
 
@@ -1098,7 +1098,8 @@ Update room settings (only when no session is associated).
 | `config` | string or null | No | Default configuration |
 | `labels` | array[string] or null | No | Allowed labels |
 | `capacity` | integer or null | No | Maximum capacity |
-| `open` | boolean or null | No | Whether the room is open |
+| `open` | boolean or null | No | Whether the room is open (defaults to true if sname is given, otherwise unchanged) |
+| `sname` | string or null | No | Existing session to associate with the room |
 
 **Responses**:
 
@@ -1117,6 +1118,30 @@ Delete a room (only when no session is associated).
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `roomname` | string | Yes |  |
+
+**Responses**:
+
+| Status | Content | Description |
+|--------|---------|-------------|
+| `200` | `application/json` | Successful Response |
+
+---
+
+### `PATCH /admin/api/v1/rooms/{roomname}/capacity/`
+
+Set a room's capacity, even while a session is associated.
+
+**Path parameters**:
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `roomname` | string | Yes |  |
+
+**Request body** (`RoomCapacity`):
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `capacity` | integer or null | Yes | Maximum capacity (null for unlimited) |
 
 **Responses**:
 
