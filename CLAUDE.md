@@ -34,6 +34,7 @@ The navigation follows a learning arc: orient → build → connect → harden �
 
 Key structural decisions:
 - Sessions and rooms are a single page (`running/rooms.md`), not two — sessions was too thin to stand alone
+- Data export is split in two: `running/export.md` targets the median user (download the ZIP briefcase, analyze in R/Python), while `running/export-advanced.md` holds REST API/CLI export, database dumps, and `uproot.read`
 - Alpine.js lives in Building (not Advanced) — it's a building tool like live methods
 - Rounds/randomization do not have their own pages — they are covered by SmoothOperators (`building/operators.md`)
 - Results follows Data in the Building section (natural collect → display arc)
@@ -224,8 +225,10 @@ Using a context manager is always safe, even when not strictly required.
 - Rooms: `upd.DEFAULT_ROOMS.append(room(name, config=, labels=, capacity=, open=))`
 
 ### Data export
-- Formats: `ultralong` (one row per field change), `sparse` (wide), `latest` (current values only)
-- `filters=True` cleans up internal `_uproot_*` fields
+- Every download is a ZIP "briefcase": one top-level folder named after the session, containing `README.txt`, `SHA256SUMS`, and one folder per format (`ultralong/`, `sparse/`, `latest/`, optionally `latest_by_<gvar>/`), each split into one file per storage kind (`player.csv`, `group.csv`, `session.csv`, `model.csv`)
+- Formats: `ultralong` (one row per field change), `sparse` (wide event log), `latest` (one row per storage with final values); file type CSV or JSONL applies to the whole briefcase
+- `filters=true` cleans up internal `_uproot_*` fields (renames `_uproot_group` → `group`, `_uproot_session` → `session`)
+- REST: `GET /sessions/{sname}/data/export/` returns the ZIP briefcase; `GET /sessions/{sname}/data/jsonl/` streams a single format
 - Page times CSV tracks when players entered/left each page
 - `uproot dump`/`uproot restore` for full database backup
 - `uproot.read`: offline analysis in Python — `from uproot.read import read; db = read("uproot.sqlite3")`

@@ -1,91 +1,242 @@
 # Exporting data
 
-uproot stores all experiment data in an [append-only log](../building/data.md). You can export this data in several formats from the admin interface, the REST API, or the CLI.
+uproot stores every piece of data your experiment collects in an [append-only log](../building/data.md) — nothing is ever overwritten or lost. When you download your data, you don't have to pick and choose: you always get a single ZIP archive (the *data briefcase*) that contains your session's complete data in all key formats, ready for Excel, R, or Python.
 
-## Export from the admin interface
+This page shows you how to download that ZIP and how to analyze its contents. If you want to automate exports, work with the REST API, or analyze the database directly in Python, see [Advanced data access](export-advanced.md).
 
-Navigate to a session's detail page and click **Data** → **Download**. Choose between CSV and JSONL, and select an export format.
+## Downloading your data
 
-## Export formats
+On a session's page in the admin interface, click **Download data**. You'll see a short form:
 
-uproot offers three export formats that represent the append-only log at different levels of detail.
+- **Latest × Field(s)** *(optional)* — adds an extra format with one row per player per grouping you specify (for example, one row per player per `round`). Leave it unchecked if you're not sure; you can always download again.
+- **File type** — **CSV** (opens in Excel and every stats package) or **JSONL** (preserves data types; see [CSV or JSONL?](#csv-or-jsonl) below).
+- **Apply reasonable filters** — checked by default; cleans up uproot-internal fields so your data focuses on what your experiment actually collected.
 
-### ultralong
+Click **Download** and you'll receive one ZIP file named after the session and the current date, for example `mysession_2026-07-04_1412.zip`.
 
-One row per field change. Every time a field's value is set, a row is created:
+## What's inside the ZIP
+
+Unpacking the ZIP gives you a single folder named after your session:
+
+```
+mysession/
+├── README.txt        ← explains the contents, right inside the ZIP
+├── SHA256SUMS        ← checksums for verifying your files
+├── latest/
+│   ├── player.csv
+│   ├── group.csv
+│   └── session.csv
+├── sparse/
+│   ├── player.csv
+│   ├── group.csv
+│   └── session.csv
+└── ultralong/
+    ├── player.csv
+    ├── group.csv
+    └── session.csv
+```
+
+Each subfolder contains the same data in a different *format* (explained below). Within each format, the data is split into one file per kind of storage:
+
+| File | Contains |
+|------|----------|
+| `player.csv` | Data stored on players — usually what you want |
+| `group.csv` | Data stored on groups (only if your session has groups) |
+| `session.csv` | Session-level data |
+| `model.csv` | [Custom data models](../advanced/models.md) (only if your apps use them) |
+
+Each file only has columns for fields that actually occur in that kind of storage, so player files aren't cluttered with session-level columns and vice versa.
+
+!!! tip "In a hurry?"
+    **`latest/player.csv`** is the file most people want: one row per participant, one column per field, showing each field's final value.
+
+If you checked **Latest × Field(s)**, there is one more folder, named after your grouping variables — for example `latest_by_round/` if you grouped by `round`.
+
+## The three formats
+
+Every briefcase contains the same underlying data at three levels of detail:
+
+### latest — one row per player
+
+One row per storage (e.g., per player), showing the most recent value of every field. This is the most compact format and what you'll typically use for analysis.
+
+If you enabled **Latest × Field(s)**, the extra `latest_by_…/` folder contains one row per player *per combination of your grouping variables* — for example, each participant's state at the end of each round. This is ideal for panel-style analyses.
+
+!!! note
+    Grouped snapshots include every field known at that point in time — the grouping variables determine *when* snapshots are taken, not which columns they carry. Fields set before the grouping variable appear in the output as expected.
+
+### sparse — one row per change, one column per field
+
+Each row represents a single change. Every field has its own column, and only the field that changed at that moment is filled in. This produces a wide but mostly empty table. Useful when you want to reconstruct *how* values evolved but still prefer one column per field.
+
+### ultralong — the raw event log
+
+One row per field change, in full detail. Every time a field's value was set, there is a row recording what changed, when, and where in the code. This is the most detailed format and preserves the complete history — use it for temporal analyses, audits, or debugging.
+
+## Understanding the columns
+
+Columns that start with `!` come from uproot itself; they sort to the front and can never clash with your own field names. In `ultralong` files you'll find all of them:
 
 | Column | Description |
 |--------|-------------|
-| `!storage` | The storage path (e.g., `player/session1/ABC`) |
+| `!storage` | Which storage this row belongs to (e.g., `player/mysession/9wpsj`) |
 | `!field` | Field name |
 | `!time` | Unix timestamp of the change |
+| `!seq` | Sequence number of the change (for exact ordering) |
 | `!context` | Code location that made the change |
-| `!unavailable` | Whether this is a deletion marker |
+| `!unavailable` | Whether this row marks a deletion |
 | `!data` | The value |
 
-This is the most detailed format and preserves the complete history. Use it for temporal analysis or debugging.
+`latest` files just have `!storage`, `!time`, and `!seq` (the time and sequence of the most recent change), followed by one column per field.
 
-### sparse
+The last part of `!storage` is the participant's uproot name — `player/mysession/9wpsj` is participant `9wpsj` in session `mysession`.
 
-Like ultralong, but each row has the field name as a separate column header with the value placed in that column. This produces a wide but sparse table where most cells are empty.
+## Reasonable filters
 
-### latest
+The **Apply reasonable filters** option (on by default) cleans up uproot-internal fields:
 
-One row per storage, showing only the most recent value for each field. This is the most compact format and what you'll typically want for analysis.
-
-Use the `gvar` parameter to group rows by specific fields (e.g., group by `round` to get one row per player per round).
-
-!!! note
-    When using `gvar` with the `WITHIN-ADJACENT` algorithm, every field with a non-unavailable latest value is included in each snapshot—the group-by fields determine *when* snapshots are taken, not which other fields they carry. This means fields set before the group-by field appear in the output as expected.
-
-## Filtering
-
-Enable the `filters` option to apply reasonable filters that clean up internal fields:
-
-- Renames `_uproot_group` to `group`
+- Renames `_uproot_group` to `group` (with values like `group/mysession/g1`, matching the `!storage` column of `group.csv` — handy for merging, see below)
 - Renames `_uproot_session` to `session`
 - Keeps `_uproot_dropout` and `_uproot_settings`
-- Removes other internal `_uproot_*` fields
+- Removes all other internal `_uproot_*` fields
 
-## Why JSONL?
+Turn filters off only if you need to inspect uproot's internal bookkeeping.
 
-uproot exports structured data as [JSONL](https://jsonlines.org/) (JSON Lines): one self-contained JSON object per line, separated by newlines. JSONL has significant advantages over both CSV and monolithic JSON for experiment data:
+## CSV or JSONL?
 
-- **Streaming-friendly.** Each line is independently parseable, so data can be processed as it arrives without buffering the entire file into memory.
-- **Type-preserving.** Unlike CSV, JSONL retains the distinction between numbers, strings, booleans, nulls, and nested structures. No more guessing whether `"1"` is a number or a string.
-- **No quoting ambiguity.** CSV quoting rules are notoriously inconsistent across tools. JSONL uses standard JSON encoding, eliminating field-delimiter conflicts.
-- **Append-only by nature.** Adding new records means appending lines—no need to rewrite the file or close an array bracket. This makes JSONL ideal for append-only logs.
-- **Handles heterogeneous rows.** Different rows can have different fields without padding every row with empty columns.
+**CSV** is the safe default: it opens directly in Excel, R, Python, Stata, and everything else. Booleans are written as `TRUE`/`FALSE`, missing values as empty cells, and lists or dictionaries as JSON text within the cell.
 
-### Reading JSONL in pandas
+**JSONL** ([JSON Lines](https://jsonlines.org/) — one JSON object per line) is worth choosing when your data contains lists, dictionaries, or mixed types. Unlike CSV, it keeps the distinction between numbers, strings, booleans, and nested structures — no more guessing whether `"1"` is a number or a string. Both pandas and R read it with one line of code.
 
-```python
-import pandas as pd
+Whichever you choose, the briefcase has the same structure — just with `.jsonl` files instead of `.csv` files.
 
-df = pd.read_json("mysession.jsonl", lines=True)
+## Analyzing your data
+
+You don't even have to unpack the ZIP: both R and Python can read individual files straight out of the archive, entirely in memory. The examples below assume you downloaded `mysession_2026-07-04_1412.zip` and that the session is called `mysession` — adjust the names accordingly. (Of course, if you prefer, you can also unpack the ZIP and read the files from disk; the reading code is the same, minus the ZIP part.)
+
+=== "R"
+
+    With base R, `unz()` opens a single file inside a ZIP as a connection — no extraction needed:
+
+    ```r
+    zipfile <- "mysession_2026-07-04_1412.zip"
+
+    players <- read.csv(unz(zipfile, "mysession/latest/player.csv"),
+                        check.names = FALSE)
+    ```
+
+    (`check.names = FALSE` keeps column names like `!storage` intact instead of mangling them to `X.storage`.)
+
+    With **readr/dplyr**, `read_csv()` accepts the same connection and preserves column names by default:
+
+    ```r
+    library(readr)
+
+    players <- read_csv(unz(zipfile, "mysession/latest/player.csv"))
+    ```
+
+    With **data.table**, let `fread()` pull the file out of the ZIP via the `unzip` command:
+
+    ```r
+    library(data.table)
+
+    players <- fread(cmd = paste("unzip -p", zipfile, "mysession/latest/player.csv"))
+    ```
+
+    Column names starting with `!` are perfectly legal in R — just wrap them in backticks:
+
+    ```r
+    library(dplyr)
+
+    players |>
+        select(`!storage`, payoff) |>
+        arrange(desc(payoff))
+    ```
+
+    **Merging players with their groups.** With filters applied, each player's `group` column matches the `!storage` column of `group.csv`:
+
+    ```r
+    library(dplyr)
+
+    players <- read_csv(unz(zipfile, "mysession/latest/player.csv"))
+    groups <- read_csv(unz(zipfile, "mysession/latest/group.csv"))
+
+    full <- left_join(players, groups,
+                      by = c("group" = "!storage"),
+                      suffix = c("", ".group"))
+    ```
+
+    Or with data.table:
+
+    ```r
+    full <- merge(players, groups,
+                  by.x = "group", by.y = "!storage",
+                  suffixes = c("", ".group"))
+    ```
+
+    **JSONL** briefcases work exactly the same way, with jsonlite:
+
+    ```r
+    library(jsonlite)
+
+    players <- stream_in(unz(zipfile, "mysession/latest/player.jsonl"))
+    ```
+
+=== "Python"
+
+    Python's built-in `zipfile` module opens a single file inside a ZIP — no extraction needed — and **pandas** reads directly from it:
+
+    ```python
+    import zipfile
+    import pandas as pd
+
+    with zipfile.ZipFile("mysession_2026-07-04_1412.zip") as zf:
+        with zf.open("mysession/latest/player.csv") as f:
+            players = pd.read_csv(f)
+    ```
+
+    Column names starting with `!` require bracket notation:
+
+    ```python
+    players[["!storage", "payoff"]].sort_values("payoff", ascending=False)
+    ```
+
+    **Merging players with their groups.** With filters applied, each player's `group` column matches the `!storage` column of `group.csv`:
+
+    ```python
+    with zipfile.ZipFile("mysession_2026-07-04_1412.zip") as zf:
+        with zf.open("mysession/latest/player.csv") as f:
+            players = pd.read_csv(f)
+        with zf.open("mysession/latest/group.csv") as f:
+            groups = pd.read_csv(f)
+
+    full = players.merge(groups, how="left",
+                         left_on="group", right_on="!storage",
+                         suffixes=("", "_group"))
+    ```
+
+    **JSONL** briefcases need just one extra argument:
+
+    ```python
+    with zipfile.ZipFile("mysession_2026-07-04_1412.zip") as zf:
+        with zf.open("mysession/latest/player.jsonl") as f:
+            players = pd.read_json(f, lines=True)
+    ```
+
+## Verifying your download
+
+Every briefcase includes a `SHA256SUMS` file listing the checksum of every other file in the archive. To confirm that nothing was corrupted or modified — for instance, before archiving data for publication — run this inside the unpacked folder:
+
+```bash
+cd mysession
+sha256sum -c SHA256SUMS
 ```
 
-The `lines=True` parameter tells pandas to parse one JSON object per line rather than expecting a single JSON array.
-
-### Reading JSONL in R
-
-```r
-library(jsonlite)
-
-df <- stream_in(file("mysession.jsonl"))
-```
-
-`stream_in()` reads JSONL natively and returns a data frame. For large files, it processes the file in chunks without loading everything into memory at once.
+(On macOS, use `shasum -a 256 -c SHA256SUMS`.)
 
 ## Page times
 
-Page times track when each player entered and left each page. Export as CSV from the session detail page or via the API:
-
-```bash
-uproot api sessions/mysession/page-times
-```
-
-The CSV contains:
+Page times track when each player entered and left each page — useful for measuring response times. On the **Download data** page, click **Page times** under *Other data* to get a CSV with these columns:
 
 | Column | Description |
 |--------|-------------|
@@ -97,150 +248,11 @@ The CSV contains:
 | `left` | Unix timestamp when the player left the page |
 | `context` | Round/context information |
 
-## Database dumps
+## Going further
 
-For a complete backup of all data, use the dump/restore commands:
+For everything beyond the download button, see [Advanced data access](export-advanced.md):
 
-```bash
-# Dump the entire database to a file
-uv run uproot dump --file backup.bin
-
-# Restore from a dump
-uv run uproot restore --file backup.bin
-```
-
-You can also download a dump from the admin interface at `/admin/dump/`.
-
-!!! note
-    Database dumps contain all sessions and all data. Use the CSV/JSONL export endpoints for per-session exports.
-
-## Offline analysis with uproot.read
-
-For analysis in Python (e.g., in a Jupyter notebook), you can open an `uproot.sqlite3` database file directly and navigate it using the same Storage objects the server uses:
-
-```python
-from uproot.read import read
-
-db = read("uproot.sqlite3")
-
-for session in db.sessions:
-    for group in session.groups:
-        for player in group.players:
-            with player:
-                print(player.name, player.label, player.payoff)
-
-db.close()
-```
-
-The `Database` object supports context managers:
-
-```python
-with read("uproot.sqlite3") as db:
-    session = db.session("my_session")
-    with session:
-        for player in session.players:
-            with player:
-                print(player.choice)
-```
-
-### Plain-row helpers
-
-For analysis scripts that need regular dictionaries rather than live Storage objects, use the plain-row methods. Each returns a list of dictionaries with identifier columns plus any extra fields you request. Missing fields become `None`.
-
-```python
-with read("uproot.sqlite3") as db:
-    players = db.player_rows(["label", "role", "payoff"])
-    memberships = db.membership_rows()
-```
-
-| Method | Identifier columns | Extra fields |
-|--------|--------------------|--------------|
-| `db.session_rows(fields)` | `session` | Yes |
-| `db.group_rows(fields)` | `session`, `group` | Yes |
-| `db.player_rows(fields)` | `session`, `uname` | Yes |
-| `db.membership_rows()` | `session`, `group`, `uname`, `position` | No |
-
-To grab all four tables at once, use `snapshot`:
-
-```python
-with read("uproot.sqlite3") as db:
-    snap = db.snapshot(
-        session_fields=["sid"],
-        group_fields=["round"],
-        player_fields=["label", "role", "payoff"],
-    )
-
-print(snap.sessions)      # list of dicts
-print(snap.groups)
-print(snap.players)
-print(snap.memberships)
-print(snap.as_dict())      # single dict with all four tables
-```
-
-### Database API
-
-| Method/Property | Description |
-|-----------------|-------------|
-| `db.sessions` | All sessions in the database |
-| `db.session(sname)` | Get a session by name |
-| `db.group(sname, gname)` | Get a group by session and group name |
-| `db.player(sname, uname)` | Get a player by session and username |
-| `db.session_rows(fields)` | Plain dictionaries, one per session |
-| `db.group_rows(fields)` | Plain dictionaries, one per group |
-| `db.player_rows(fields)` | Plain dictionaries, one per player |
-| `db.membership_rows()` | Plain dictionaries, one per group membership |
-| `db.snapshot(...)` | All four plain-row tables as a `Snapshot` |
-| `db.close()` | Close the database |
-
-!!! note
-    `uproot.read` gives you the same Storage objects used at runtime—you can access `player.group`, `player.session`, `group.players`, and all virtual fields. Remember to use `with player:` (or `with session:`, etc.) before reading attributes. The plain-row helpers handle context management internally.
-
-## Live data browser
-
-The admin data browser (`/admin/session/{sname}/data/`) shows session data in real-time in your browser. It updates automatically as new data comes in, making it useful for monitoring experiments in progress.
-
-The data display page (`/admin/session/{sname}/viewdata/`) shows a table view of all player data with timestamps and code locations.
-
-## Export via the REST API
-
-Use the [Admin REST API](../reference/admin-api.md) for programmatic access:
-
-```bash
-# Download CSV (ultralong format)
-uproot api sessions/mysession/data/csv
-
-# Download CSV (latest format, with filters)
-uproot api "sessions/mysession/data/csv?format=latest&filters=true"
-
-# Download JSONL
-uproot api sessions/mysession/data/jsonl
-
-# Download page times
-uproot api sessions/mysession/page-times
-```
-
-Or with curl:
-
-```bash
-curl -H "Authorization: Bearer YOUR_TOKEN" \
-  "https://your-server.com/admin/api/v1/sessions/mysession/data/csv/?format=latest&filters=true"
-```
-
-### API query parameters
-
-| Parameter | Values | Default | Description |
-|-----------|--------|---------|-------------|
-| `format` | `ultralong`, `sparse`, `latest` | `ultralong` | Export format |
-| `gvar` | field names | — | Group-by variables (for `latest` format) |
-| `filters` | `true`, `false` | `false` | Apply reasonable filters |
-
-## Summary
-
-| Method | Use case |
-|--------|----------|
-| Admin data browser | Real-time monitoring during experiments |
-| CSV/JSONL download | Per-session data for analysis |
-| Page times CSV | Response time analysis |
-| `uproot.read` | Offline analysis in Python/Jupyter |
-| `uproot dump` | Full database backup |
-| REST API | Programmatic access and automation |
+- Downloading briefcases automatically via the [REST API](../reference/admin-api.md)
+- Streaming JSONL exports
+- Full database backups with `uproot dump`
+- Offline analysis of the database in Python with `uproot.read`

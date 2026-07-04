@@ -739,36 +739,9 @@ Get all session data in display format, optionally filtered by timestamp.
 
 ---
 
-### `GET /admin/api/v1/sessions/{sname}/data/csv/`
-
-Download session data as CSV.
-
-**Path parameters**:
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `sname` | string | Yes |  |
-
-**Query parameters**:
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `format` | string | No | Export format: ultralong, sparse, or latest |
-| `gvar` | array[string] | No | Group-by variables |
-| `filters` | boolean | No | Apply reasonable filters |
-| `player_data_only` | boolean | No | Restrict export to player data |
-
-**Responses**:
-
-| Status | Content | Description |
-|--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
-
----
-
 ### `GET /admin/api/v1/sessions/{sname}/data/export/`
 
-Download session data using the same format/filetype controls as the admin UI.
+Download a ZIP briefcase of session data, as in the admin UI. The briefcase always contains the ultralong, sparse, and latest formats as per-storage CSV or JSONL files; passing gvar adds a grouped latest format on top.
 
 **Path parameters**:
 
@@ -780,11 +753,9 @@ Download session data using the same format/filetype controls as the admin UI.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `format` | string | No | Export format: ultralong, sparse, or latest |
 | `filetype` | string | No | Export file type: csv or jsonl |
-| `gvar` | array[string] | No | Group-by variables |
+| `gvar` | array[string] | No | Group-by variables for the optional grouped latest format |
 | `filters` | boolean | No | Apply reasonable filters |
-| `player_data_only` | boolean | No | Restrict export to player data |
 
 **Responses**:
 
@@ -811,7 +782,6 @@ Download session data as JSONL (streaming).
 | `format` | string | No | Export format: ultralong, sparse, or latest |
 | `gvar` | array[string] | No | Group-by variables |
 | `filters` | boolean | No | Apply reasonable filters |
-| `player_data_only` | boolean | No | Restrict export to player data |
 
 **Responses**:
 

@@ -102,6 +102,7 @@ nav:
     - The admin interface: running/admin.md
     - Sessions and rooms: running/rooms.md
     - Exporting data: running/export.md
+    - Advanced data access: running/export-advanced.md
     - Deployment: running/deployment.md
   - Reference:
     - Form fields: reference/fields.md

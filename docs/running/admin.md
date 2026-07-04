@@ -97,11 +97,15 @@ Select one or more players and use these actions:
 
 ### Data browser
 
-Click **Data** on the session page to browse all stored data in a table view. Each player's fields are shown with their current values, timestamps, and the code location that set each value.
+Click **View data** on the session page to browse all stored data in a table view. Each player's fields are shown with their current values, timestamps, and the code location that set each value.
+
+### Downloading data
+
+Click **Download data** on the session page to download the session's complete data as a single ZIP archive. See [Exporting data](export.md) for what's inside and how to analyze it.
 
 ### Page times
 
-Download a CSV of page visit times showing when each player entered and left each page. Useful for measuring response times.
+Download a CSV of page visit times showing when each player entered and left each page (available under *Other data* on the **Download data** page). Useful for measuring response times.
 
 ### Digest
 
@@ -193,6 +197,7 @@ Download a complete database dump from `/admin/dump/`. This is equivalent to run
 | New session | `/admin/sessions/new/` | Create a session |
 | Session detail | `/admin/session/{sname}/` | Monitor and control a session |
 | Admin chat | `/admin/session/{sname}/chat/` | Chat with individual participants |
-| Data browser | `/admin/session/{sname}/data/` | Browse session data |
+| Data browser | `/admin/session/{sname}/viewdata/` | Browse session data |
+| Data download | `/admin/session/{sname}/data/` | Download session data as a ZIP archive |
 | Rooms | `/admin/rooms/` | List all rooms |
 | Status | `/admin/status/` | Server information |
