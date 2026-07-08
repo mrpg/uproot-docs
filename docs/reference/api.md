@@ -231,6 +231,17 @@ Called from JavaScript:
 uproot.invoke("my_method", "hello").then(data => console.log(data.result));
 ```
 
+## App HTTP APIs
+
+Apps may expose HTTP endpoints by defining `api(request, session)` or `api2(request, session)`.
+
+`api` is served at `/api/{appname}/{sname}/` and requires an `Authorization: Bearer ...` header matching one of the server API keys in `upd.API_KEYS`. Use it for programmatic access that should be limited to trusted operators or scripts.
+
+`api2` is served at `/api2/{appname}/{sname}/` and is intentionally unauthenticated. It is for participant-browser assets and callbacks, such as loading a captcha image. Anyone who knows the app name and session name can call it.
+
+!!! warning "Trust boundary"
+    Treat every `api2` request as public, untrusted input. Do not expose secrets, admin-only data, participant answers from other players, or state-changing operations that should require an API key. If a route needs authentication, implement it with `api`, not `api2`.
+
 ## Utility functions
 
 ### cu
