@@ -95,6 +95,28 @@ Available blocks:
 | `main` | Main page content (inside the container) |
 | `late` | Extra content at the end of `<body>` (scripts) |
 
+### Base template switches
+
+The built-in templates also read a few optional Jinja variables. Set them near the top of a child template when you need to disable part of the default layout:
+
+```html+jinja
+{% extends "Base.html" %}
+{% set buttons = False %}
+{% set disable_connection_lost_modal = True %}
+```
+
+| Variable | Default | Effect when set to `True` |
+|----------|---------|---------------------------|
+| `buttons` | `True` | Set to `False` to hide the default Back/Next buttons |
+| `disable_bootstrap` | `False` | Do not load uproot's bundled Bootstrap CSS and JavaScript |
+| `disable_uproot_fonts` | `False` | Do not load uproot's bundled web fonts |
+| `disable_tabular_numbers` | `False` | Do not load the tabular-number font stylesheet |
+| `disable_terms` | `False` | Do not load the terms script |
+| `disable_auto_start` | `False` | Do not run the default `uproot.init()` and WebSocket startup hook |
+| `disable_connection_lost_modal` | `False` | Do not show or enable the connection-lost modal |
+
+For admin templates that extend the built-in admin layout, `disable_navigation = True` hides the admin navigation bar.
+
 ### Adding a form
 
 To collect data, include form fields in your template:

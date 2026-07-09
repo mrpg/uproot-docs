@@ -202,6 +202,8 @@ Using a context manager is always safe, even when not strictly required.
 - Built-in filters: `| to(n)` (decimal places), `| fmtnum(pre=, post=, places=, sep=, decsep=)`
 - All Python builtins available in templates (`sum()`, `max()`, `min()`, `len()`, `range()`, `enumerate()`, `zip()`)
 - `{% set buttons = False %}` to hide navigation buttons
+- Base template disable switches: `disable_bootstrap`, `disable_uproot_fonts`, `disable_tabular_numbers`, `disable_terms`, `disable_auto_start`, `disable_connection_lost_modal`
+- Admin template disable switch: `disable_navigation`
 - `player.along("round")` — iterate all rounds as `(round_number, data)` tuples
 - `player.within(round=n)` — access data from a specific round
 
