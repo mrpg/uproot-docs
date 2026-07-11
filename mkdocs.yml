@@ -74,6 +74,7 @@ copyright: |
 
 nav:
   - Home: index.md
+  - Why uproot?: why-uproot.md
   - Getting help: help.md
   - Legal information: legal.md
   - Getting started:

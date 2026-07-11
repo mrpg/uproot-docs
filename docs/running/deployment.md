@@ -284,7 +284,7 @@ First, edit your `pyproject.toml` to include PostgreSQL support:
 
 ```toml
 dependencies = [
-    "uproot-science[pg] @ git+https://github.com/mrpg/uproot.git@main",
+    "uproot-science[pg]<1",
 ]
 ```
 

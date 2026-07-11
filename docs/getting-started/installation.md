@@ -29,7 +29,7 @@ After installation, you may need to restart your terminal or run `source ~/.bash
 Run the following command to create a new uproot project:
 
 ```console
-uv run --with 'uproot-science @ git+https://github.com/mrpg/uproot.git@main' uproot setup my_project
+uv run --with uproot-science uproot setup my_project
 ```
 
 This command:
