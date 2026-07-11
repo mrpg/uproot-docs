@@ -136,7 +136,9 @@ This line shows two pages in random order, then repeats a task-and-feedback bloc
 
 **The advantage in one sentence: when a live session hits a problem, you can fix it from the admin interface — per participant, in real time — instead of aborting the session.**
 
-From the admin interface you can advance, revert, reload, or regroup individual participants, message anyone privately, and watch everyone's progress live, filtering and sorting by any data field. If a participant's browser throws an error, uproot captures it automatically, with full context — you find out during the session, not after.
+From the admin interface you can advance, revert, reload, or regroup individual participants, message anyone privately (you may allow them to respond), and watch everyone's progress live, filtering and sorting by any data field.
+
+Even if you do need to make live changes to your code, uproot will reload them immediately. (If an error occurs while reloading a Python module, the old continues to run, so that your server will never crash.)
 
 When the study is done, your data exports in [four formats](running/export.md) matched to different analyses — from "one row per participant" to the complete event-by-event history.
 
@@ -146,17 +148,27 @@ When the study is done, your data exports in [four formats](running/export.md) m
 
 **The advantage in one sentence: you can describe a study in plain language and have an AI coding assistant generate a working uproot version of it.**
 
-Studies are written in [Python](https://www.python.org/) and HTML — the two languages with the broadest ecosystem support, and the ones AI coding assistants handle best. The [uproot skill](https://github.com/mrpg/uproot-skill) gives assistants such as [Claude Code](https://claude.com/claude-code) access to the full documentation and all examples, so "build a [public goods game with punishment](https://github.com/mrpg/uproot-examples/tree/master/pgg_punishment) for 4 players" produces a working study you then review and refine. The same mechanism can convert existing Qualtrics, z-Tree, or oTree studies.
+Studies are written in [Python](https://www.python.org/) and HTML — the two languages with the broadest ecosystem support, and the ones AI coding assistants handle best. The [uproot skill](https://github.com/mrpg/uproot-skill) gives assistants such as [Claude Code](https://claude.com/claude-code) and [Codex](https://openai.com/codex/) access to the full documentation and all examples, so "build a [public goods game with punishment](https://github.com/mrpg/uproot-examples/tree/master/pgg_punishment) for 4 players" produces a working study you then review and refine. The same mechanism can convert existing Qualtrics, z-Tree, or oTree studies.
 
-The 65+ examples are also yours in the fullest sense: licensed under [0BSD](https://opensource.org/license/0bsd), meaning you may copy, modify, and use them without restriction or attribution.
+The dozens of examples are also yours in the fullest sense: licensed under [0BSD](https://opensource.org/license/0bsd), meaning you may copy, modify, and use them without restriction or attribution.
 
 :material-github: [Browse the examples](https://github.com/mrpg/uproot-examples)
+
+## High performance
+
+uproot is seriously fast. On simple pages, uproot can easily handle more than 600 requests per second.
+
+Even complex data structures or custom database entries are stored rapidly if you use the user-friendly default deployment. No special software or hardware needed.
+
+[:octicons-arrow-right-24: Deploying uproot experiments](running/deployment.md)
 
 ## Free, open, and yours
 
 **The advantage in one sentence: uproot costs nothing, hides nothing, and locks you into nothing.**
 
-uproot is 100% [Free/Libre Open Source Software](https://www.gnu.org/philosophy/free-sw.html) — you have the [four freedoms](https://www.gnu.org/philosophy/free-sw.html#four-freedoms): to run, study, share, and improve the software, guaranteed by the [LGPL](https://www.gnu.org/licenses/lgpl-3.0.html). There are no license fees, no per-response pricing, and no vendor who can retire a feature you depend on. You can inspect [every line of the code](https://github.com/mrpg/uproot), host it on your own infrastructure (a small server is plenty — the default database is [SQLite](https://sqlite.org/), which requires zero setup), and extend it freely.
+uproot was built by [academics](legal.md#who-created-uproot) with no financial stake in the promotion of uproot. If you do not want to use uproot, that's also fine!
+
+To protect uproot and its community, our software is 100% [Free/Libre Open Source Software](https://www.gnu.org/philosophy/free-sw.html) — you have the [four freedoms](https://www.gnu.org/philosophy/free-sw.html#four-freedoms): to run, study, share, and improve the software, guaranteed by the [LGPL](https://www.gnu.org/licenses/lgpl-3.0.html). There are no license fees, no per-response pricing, and no vendor who can retire a feature you depend on. You can inspect [every line of the code](https://github.com/mrpg/uproot), host it on your own infrastructure (a small server is plenty — the default database is [SQLite](https://sqlite.org/), which requires zero setup), and extend it freely.
 
 ## See for yourself
 
