@@ -207,7 +207,7 @@ Every template has access to these variables:
 ### Accessing player data
 
 ```html+jinja
-<p>Your name: {{ player.name }}</p>
+<p>Your name: {{ player.participant_name }}</p>
 <p>Current round: {{ player.round }}</p>
 ```
 
@@ -295,7 +295,8 @@ class Survey(Page):
 This adds a "Back" button that lets participants revisit and change previous answers.
 
 !!! note
-    Back navigation only re-displays pages—it doesn't undo any data changes or re-run page logic.
+    Going back re-displays the page but does not undo any data that was
+    already saved. Submission hooks like `after_once` do not run again.
 
 ## NoshowPage for logic-only pages
 

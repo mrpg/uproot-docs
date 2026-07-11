@@ -4,22 +4,24 @@ Page methods are `@classmethod`s that receive `page` (the page class) and usuall
 
 ## Lifecycle overview
 
-When a participant navigates to a page, methods run in this order:
+For a forward visit to a page, the lifecycle is:
 
-1. **`show`** — Should the page be displayed?
-2. **`early`** — Earliest hook (before any rendering)
-3. **`before_always_once`** — Runs once when this page position is reached
-4. **`before_once`** — Runs once per player, on first visit only
+1. **`show`** — Decide whether the page is displayed
+2. **`early`** — Run before rendering
+3. **`before_always_once`** — Run once when this page position is reached
+4. **`before_once`** — Run once per player, on first visit only
 5. **`fields`** — Determine form fields
 6. **`templatevars`** / **`jsvars`** — Prepare template and JS data
-7. *(Page is rendered and displayed)*
-8. *(Participant submits)*
+7. *(The page is rendered and displayed.)*
+8. *(The participant submits.)*
 9. **`validate`** — Check submitted data
-10. **`stealth_fields`** / **`handle_stealth_fields`** — Manual field handling
-11. **`may_proceed`** — Gate before advancing
-12. **`after_once`** — Runs once per player, on first submission only
-13. **`after_always_once`** — Runs once after this page position is submitted
-14. **`timeout`** / **`timeout_reached`** — Set and handle page timeouts
+10. **`before_form_save`** — Run before ordinary form fields are saved
+11. **`stealth_fields`** / **`handle_stealth_fields`** — Handle manual fields
+12. **`may_proceed`** — Gate before advancing
+13. **`after_once`** — Run once per player, on first successful submission only
+14. **`after_always_once`** — Run once after this page position is submitted
+
+The `timeout` method configures the deadline while the page is rendered. The browser submits when the deadline is reached. If the server receives a request after the deadline, `timeout_reached` handles that request before normal form processing; validation and `may_proceed` are skipped, and the page advances. A direct visit to the current page can omit `early`, because that hook runs when entering a new page position.
 
 ## show
 
@@ -194,6 +196,25 @@ def validate(page, player, data):
 ```
 
 :material-github: [See the input_validation example](https://github.com/mrpg/uproot-examples/tree/master/input_validation)
+
+## before_form_save
+
+Runs after built-in and custom validation passes, immediately before ordinary
+form fields are saved to the player. The submitted `data` mapping is read-only;
+use this hook for checks or side effects that need the validated values before
+they are persisted.
+
+```python
+@classmethod
+def before_form_save(page, player, data):
+    player.submitted_at = time()
+```
+
+| Parameter | Description |
+|-----------|-------------|
+| `page` | The page class |
+| `player` | The current player |
+| `data` | Read-only mapping of validated form values |
 
 ## may_proceed
 

@@ -23,7 +23,7 @@ Field names become attributes on the player object. After submission, access the
 **StringField** — Single-line text input:
 
 ```python
-name=StringField(label="Your name")
+participant_name=StringField(label="Your name")
 ```
 
 **TextAreaField** — Multi-line text input:
@@ -279,7 +279,7 @@ Mark fields as stealth and provide a handler:
 ```python
 class UploadPage(Page):
     fields = dict(
-        name=StringField(label="Your name"),
+        participant_name=StringField(label="Your name"),
         photo=FileField(label="Upload a photo"),
     )
 
@@ -294,7 +294,9 @@ class UploadPage(Page):
             player.photo_name = photo.filename
 ```
 
-The `name` field saves automatically to `player.name`. The `photo` field is available in the `data` dictionary passed to `handle_stealth_fields` instead.
+The `participant_name` field saves automatically to `player.participant_name`.
+`player.name` is reserved for uproot's generated player name. The `photo` field
+is available in the `data` dictionary passed to `handle_stealth_fields` instead.
 
 ### Validation in stealth handlers
 

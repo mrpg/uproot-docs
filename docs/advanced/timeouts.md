@@ -150,17 +150,21 @@ Access the timeout flag in your results template:
 
 ## Advanced: JavaScript timeout API
 
-The `uproot` object exposes timeout state and events for custom interfaces.
+The `uproot` object exposes timeout state and events for custom interfaces. The
+countdown uses the monotonic `performance.now()` clock, not a Unix deadline.
 
 ### Reading timeout state
 
-```javascript
-// Deadline as Unix timestamp (milliseconds)
-uproot.timeoutUntil  // e.g., 1706198400000
+The current state is available in the built-in Alpine store:
 
-// Calculate remaining seconds
-const remaining = (uproot.timeoutUntil - Date.now()) / 1000;
+```javascript
+const timeout = Alpine.store("uproot").timeout;
+// { active, level, text, compact }
 ```
+
+For lower-level access, use `uproot.pageTimeoutRemainingMs()` while a timeout
+is active. The `pageTimeoutStartMs` and `pageTimeoutDurationMs` properties are
+also available, but the Alpine store is the more stable interface.
 
 ### Timeout events
 
@@ -168,26 +172,26 @@ Two custom events fire on `window`:
 
 ```javascript
 // Fires once when the timeout is set
-window.addEventListener("UprootInternalPageTimeoutSet", () => {
-    console.log("Timeout started:", uproot.timeoutUntil);
+window.addEventListener("UprootInternalPageTimeoutSet", (event) => {
+    console.log("Timeout started:", event.detail);
 });
 
 // Fires every second during countdown
-window.addEventListener("UprootInternalPageTimeout", () => {
-    const remaining = (uproot.timeoutUntil - Date.now()) / 1000;
-    updateCustomDisplay(remaining);
+window.addEventListener("UprootInternalPageTimeout", (event) => {
+    updateCustomDisplay(event.detail);
 });
 ```
 
 ### Visual feedback classes
 
-The default `#uproot-timeout` element automatically changes Bootstrap alert classes based on remaining time:
+The default `#uproot-timeout` element automatically changes its timeout level
+class based on the remaining time:
 
 | Remaining time | Class added |
 |----------------|-------------|
-| ≥ 60 seconds | `alert-light` |
-| < 60 seconds | `alert-warning` |
-| < 15 seconds | `alert-danger` |
+| More than 60 seconds | `uproot-timeout-light` |
+| 15–60 seconds | `uproot-timeout-warning` |
+| Less than 15 seconds | `uproot-timeout-danger` |
 
 ### Custom countdown display
 
@@ -198,7 +202,7 @@ Combine these APIs for a fully custom countdown:
 
 <script>
 window.addEventListener("UprootInternalPageTimeout", () => {
-    const secs = Math.max(0, Math.floor((uproot.timeoutUntil - Date.now()) / 1000));
+    const secs = Math.max(0, Math.ceil(uproot.pageTimeoutRemainingMs() / 1000));
     const mins = Math.floor(secs / 60);
     const remainder = secs % 60;
     document.getElementById("my-timer").innerText =
@@ -218,6 +222,6 @@ document.getElementById("uproot-timeout")?.remove();
 | `def timeout(page, player)` | Dynamic timeout calculation |
 | `def timeout_reached(page, player)` | Callback when timeout expires |
 | Return `None` from timeout | Disable timeout for that player |
-| `uproot.timeoutUntil` | JavaScript: deadline timestamp |
+| `Alpine.store("uproot").timeout` | JavaScript: current timeout state |
 | `UprootInternalPageTimeoutSet` | JavaScript: event when timeout starts |
 | `UprootInternalPageTimeout` | JavaScript: event every second |

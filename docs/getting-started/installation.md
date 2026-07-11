@@ -62,7 +62,7 @@ cd my_project
 uv run uproot run
 ```
 
-The first run will set up a virtual environment and install dependencies automatically. You'll see:
+The first run will set up a virtual environment and install dependencies automatically. On your local machine the admin panel logs you in automatically — no password needed. (When you deploy to a server later, set `UPROOT_ADMIN_PASSWORD` in your `.env` file to require a password.) You'll see:
 
 ```
 INFO:     Started server process [...]

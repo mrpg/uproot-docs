@@ -323,7 +323,7 @@ In HTML (attributes, element content), never add `| safe` — autoescaping is wh
 | `templatevars(page, player)` | Pass variables to template |
 | `player.other_in_group` | Get partner in 2-player group |
 | `player.others_in_group` | Get all other group members |
-| `players(group)` | Get all group members (function form) |
+| `group.players` | Get all group members |
 | `player.along("round")` | Iterate all rounds |
 | `player.within(round=n)` | Access specific round data |
 | `{{ expression }}` | Output values |

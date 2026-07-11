@@ -67,9 +67,25 @@ uproot run
 |--------|---------|-------------|
 | `-h`, `--host` | `127.0.0.1` | Host to bind to |
 | `-p`, `--port` | `8000` | Port to listen on |
-| `--no-enter` | — | Don't open the admin in the browser |
 | `--unsafe` | — | Disable HTTPS requirement (for development behind certain proxies) |
 | `--public-demo` | — | Run in public demo mode (restricted admin) |
+
+### `uproot start`
+
+Create a quick room for a config and start the server. This is useful for
+trying an experiment without creating a session manually in the admin:
+
+```bash
+uproot start myconfig
+```
+
+It accepts the same `--host`, `--port`, `--unsafe`, and `--public-demo`
+options as `uproot run`, plus:
+
+| Option | Description |
+|--------|-------------|
+| `CONFIG` or `--config` | Config to use |
+| `--simulate` | Enable the app's `simulate.js` responses for the quick-room session |
 
 ### uproot reset
 
@@ -147,7 +163,7 @@ Downloads and extracts all example apps into the current directory. Useful for l
 
 ### uproot deployment
 
-Show the current deployment configuration, including all `UPROOT_*` environment variables and their values.
+Print the currently set `UPROOT_*` environment variables.
 
 ```bash
 uproot deployment

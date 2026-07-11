@@ -236,6 +236,17 @@ age=IntegerField(label="How old are you?", min=18, max=100)
 | `default` | any | `None` | |
 | `class_wrapper` | `str` | `None` | |
 
+## BICField
+
+BIC/SWIFT code input with format validation (requires the `schwifty` library).
+
+```python
+bic=BICField(label="Your bank's BIC")
+```
+
+It accepts the same addon, label, optional, rendering, and wrapper parameters as
+`IBANField`. See [the payment data example](https://github.com/mrpg/uproot-examples/tree/master/payment_data).
+
 ## LikertField
 
 Rating scale rendered as radio buttons with labeled endpoints.
@@ -324,7 +335,7 @@ Accepts the same choice formats as `RadioField`.
 Single-line text input.
 
 ```python
-name=StringField(label="Your name")
+participant_name=StringField(label="Your name")
 ```
 
 | Parameter | Type | Default | Description |

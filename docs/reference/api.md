@@ -10,7 +10,7 @@ The standard page type. Displays a template and optionally collects form data.
 
 ```python
 class MyPage(Page):
-    fields = dict(name=StringField(label="Your name"))
+    fields = dict(participant_name=StringField(label="Your name"))
 
     @classmethod
     def templatevars(page, player):
@@ -118,7 +118,7 @@ class Context(PlayerContext):
 Send data from one player to one or more recipients.
 
 ```python
-notify(sender, recipients, data, event="EventName")
+notify(sender, recipients, data, event="EventName", where=...)
 ```
 
 | Parameter | Description |
@@ -127,13 +127,14 @@ notify(sender, recipients, data, event="EventName")
 | `recipients` | Player, `StorageBunch`, or list of players |
 | `data` | Any JSON-serializable data |
 | `event` | Custom event name (default: `"_uproot_Received"`) |
+| `where` | Recipient page index; `...` delivers regardless of page |
 
 ### send_to
 
 Send data to one or more players without a sender context.
 
 ```python
-send_to(recipients, data, event="EventName")
+send_to(recipients, data, event="EventName", where=...)
 ```
 
 ### send_to_one
@@ -141,7 +142,7 @@ send_to(recipients, data, event="EventName")
 Send data to a single player.
 
 ```python
-send_to_one(player, data, event="EventName")
+send_to_one(player, data, event="EventName", where=...)
 ```
 
 ### reload
@@ -168,6 +169,16 @@ Move a player past all remaining pages.
 move_to_end(player, reload_=True)
 ```
 
+### spawn
+
+Run an async function as a supervised background task. The task keeps running after the calling method returns. Exceptions are logged, and all spawned tasks are cancelled at server shutdown. Tasks do not survive server restarts.
+
+```python
+spawn(my_coroutine(player))
+```
+
+Because spawned tasks run outside a page method, wrap data mutations in a context manager (`with player as p:`). See [Background tasks](../multiplayer/real-time.md#background-tasks-with-spawn) for examples.
+
 ## Dropout functions
 
 ### watch_for_dropout
@@ -180,7 +191,7 @@ watch_for_dropout(player, handler, tolerance=30.0)
 
 ### mark_dropout
 
-Manually mark a player as a dropout.
+Add a player to the manual dropout set used by the dropout watcher.
 
 ```python
 mark_dropout(player_pid)

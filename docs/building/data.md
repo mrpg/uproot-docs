@@ -183,7 +183,7 @@ uproot supports all common Python types:
 | Type | Example |
 |------|---------|
 | Numbers | `player.score = 100`, `player.rate = 0.75` |
-| Strings | `player.name = "Alice"` |
+| Strings | `player.nickname = "Alice"` |
 | Booleans | `player.consented = True` |
 | Lists | `player.choices = [1, 2, 3]` |
 | Dictionaries | `player.responses = {"q1": "yes"}` |
@@ -241,9 +241,8 @@ for g in player.session.groups:
     print(g.name)
 ```
 
-### Function form
-
-The standalone functions `other_in_group(player)`, `others_in_group(player)`, and `players(group)` remain available as alternatives.
+There is no separate function-form API for these relationships in the current
+framework; use the virtual fields shown above.
 
 ### Accessing history (advanced)
 

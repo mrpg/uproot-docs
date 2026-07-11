@@ -164,6 +164,7 @@ primary_region = "iad"  # or your chosen region
 
 [env]
   PORT = "8080"
+  UPROOT_SQLITE3 = "/data/uproot.sqlite3"
 
 [http_service]
   internal_port = 8080
@@ -194,16 +195,7 @@ Update your `fly.toml` to mount the volume:
   destination = "/data"
 ```
 
-Then modify your `main.py` to use the persistent storage location:
-
-```python
-import os
-
-# Add this near the top of your main.py
-if os.getenv("FLY_APP_NAME"):
-    # Running on Fly.io, use persistent volume
-    os.environ["UPROOT_DB_PATH"] = "/data/uproot.sqlite3"
-```
+The `UPROOT_SQLITE3` setting above points uproot at the mounted volume.
 
 ### Deploy
 

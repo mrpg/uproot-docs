@@ -8,6 +8,8 @@ An uproot project is a Python package with a specific layout. Here's what a typi
 my_project/
 ├── main.py                  # Entry point and configuration
 ├── pyproject.toml           # Python dependencies
+├── requirements.txt         # Alternative dependency file
+├── .env                     # Local environment settings
 ├── Procfile                 # For cloud deployment (Heroku, Railway)
 ├── uproot_license.txt       # uproot's LGPL license
 ├── my_app/
@@ -36,7 +38,7 @@ upd.project_metadata(created="1970-01-01", uproot="*.*.*")
 
 load_config(uproot_server, config="my_experiment", apps=["my_app"])
 
-upd.ADMINS["admin"] = ...  # Ellipsis = auto-login on localhost
+upd.ADMINS["admin"] = upd.auto_login()  # Token login locally; password in production
 
 upd.LANGUAGE = "en"  # Available: "de", "en", "es"
 
@@ -82,9 +84,12 @@ upd.ADMINS["admin"] = "your-secure-password"
 ### API keys
 
 ```python
-# Enable the REST API
+# Register a server-side REST API token
 upd.API_KEYS.add("your-api-key")
 ```
+
+`UPROOT_API_KEY` is read by the `uproot api` client. It does not register a
+server token by itself; add the token to `upd.API_KEYS` in the project.
 
 ### Default rooms
 
@@ -197,7 +202,8 @@ SQLite works well in production too—uproot is optimized for it. PostgreSQL is 
 | `UPROOT_POSTGRESQL` | — | PostgreSQL connection URL |
 | `UPROOT_ORIGIN` | — | Public server URL |
 | `UPROOT_SUBDIRECTORY` | — | Subdirectory prefix for all routes |
-| `UPROOT_API_KEY` | — | API key for the REST API |
+| `UPROOT_API_KEY` | — | Bearer token used by the `uproot api` client |
+| `UPROOT_ADMIN_PASSWORD` | — | Password used by `upd.auto_login()` when set |
 
 Run `uproot deployment` to see the current values.
 

@@ -51,7 +51,8 @@ async def handle_dropout(player):
 
 ## Marking dropouts manually
 
-From the admin interface, select players and use the **Mark as dropout** action. This sets `player._uproot_dropout = True`.
+From the admin interface, select players and use the **Mark as dropout** action.
+This sets `player._uproot_dropout = True` and triggers the admin dropout flow.
 
 Programmatically:
 
@@ -60,6 +61,10 @@ from uproot.smithereens import mark_dropout
 
 mark_dropout(player.pid)
 ```
+
+`mark_dropout` marks the player for the dropout watcher. Register a watcher if
+you want a handler to run; the function alone does not move the player or call
+the handler immediately.
 
 ## Handling dropouts in group experiments
 

@@ -104,6 +104,7 @@ nav:
     - Exporting data: running/export.md
     - Advanced data access: running/export-advanced.md
     - Deployment: running/deployment.md
+    - VPS setup: running/vps-setup.md
   - Reference:
     - Form fields: reference/fields.md
     - Page methods: reference/page-methods.md

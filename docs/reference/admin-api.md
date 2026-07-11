@@ -1382,7 +1382,7 @@ Fetch the same praise text shown by the admin UI.
 
 ### `GET /admin/api/v1/status/`
 
-Get server status information.
+Get status information.
 
 **Responses**:
 

@@ -59,7 +59,7 @@ To add an entry without auto-filling, use `add_raw_entry`:
 ```python
 from uproot.models import add_raw_entry
 
-add_raw_entry(session.log, {"event": "started", "detail": "phase 2"})
+add_raw_entry(session.offers, {"event": "started", "detail": "phase 2"})
 ```
 
 ## Retrieving entries

@@ -260,7 +260,7 @@ page_order = [
 ]
 ```
 
-:material-github: [See the grouping_test example](https://github.com/mrpg/uproot-examples/tree/master/grouping_test) · [grouping_test_arbitrary_size example](https://github.com/mrpg/uproot-examples/tree/master/grouping_test_arbitrary_size) · [grouping_test_one_spare example](https://github.com/mrpg/uproot-examples/tree/master/grouping_test_one_spare) · [grouping_via_GroupCreatingWait_and_move_to_page example](https://github.com/mrpg/uproot-examples/tree/master/grouping_via_GroupCreatingWait_and_move_to_page)
+:material-github: [See the grouping example](https://github.com/mrpg/uproot-examples/tree/master/grouping) · [grouping_arbitrary_size example](https://github.com/mrpg/uproot-examples/tree/master/grouping_arbitrary_size) · [grouping_one_spare example](https://github.com/mrpg/uproot-examples/tree/master/grouping_one_spare) · [group_with_dropout example](https://github.com/mrpg/uproot-examples/tree/master/group_with_dropout)
 
 ### create_group()
 

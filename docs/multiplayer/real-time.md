@@ -25,7 +25,8 @@ Use return values for request-response patterns. Use `notify` for broadcasting t
 
 ## Broadcasting with notify
 
-`notify` sends data to one or more participants:
+`notify` sends data to one or more participants. By default it only delivers to
+recipients currently on the sender's page (`where=sender.show_page`):
 
 ```python
 # Notify one player
@@ -41,7 +42,9 @@ notify(player, player.session.players, data)
 notify(player, player.others_in_group, data)
 ```
 
-The first argument is the sender (used to determine the current page context). The second is the recipient(s).
+The first argument is the sender (used to determine the current page context).
+The second is the recipient(s). Use `where=...` to deliver regardless of the
+recipient's current page, or pass a page index to target a specific page.
 
 ### Custom events
 
@@ -118,7 +121,8 @@ Multiple participants drawing on a shared canvas:
 class Draw(Page):
     @live
     async def stroke(page, player, points: list, color: str):
-        player.session.strokes.append({"points": points, "color": color})
+        with player.session as session:
+            session.strokes.append({"points": points, "color": color})
 
         # Send to others (not the sender)
         notify(player, player.others_in_session, {"points": points, "color": color}, event="NewStroke")
@@ -175,6 +179,48 @@ uproot.onCustomEvent("OfferAccepted", (event) => {
 
 :material-github: [See the double_auction example](https://github.com/mrpg/uproot-examples/tree/master/double_auction)
 
+## Background tasks with spawn
+
+Sometimes you need work to continue after a `@live` method returns — for example, calling an external API or running a loop that pushes updates every few seconds. `spawn` launches an async function in the background so it keeps running independently:
+
+```python
+async def ask_llm(player):
+    response = await call_api(player.question)
+    player.answer = response
+    send_to(player, response, event="Answer")
+
+class Question(Page):
+    @live
+    async def submit_question(page, player, text: str):
+        player.question = text
+        spawn(ask_llm(player))   # returns immediately; ask_llm keeps running
+        return {"status": "thinking"}
+```
+
+The spawned task is supervised: exceptions are logged instead of silently swallowed, and all tasks are cancelled when the server shuts down. Tasks do **not** survive server restarts — if your server restarts and you need the task again, re-launch it from the `restart()` function in your app module.
+
+```python
+async def tick(session):
+    while True:
+        with session:
+            session.counter += 1
+            send_to(session.players, session.counter)
+        await asyncio.sleep(1)
+
+async def restart():
+    # Re-launch background tasks after a server restart
+    from uproot.storage import Admin
+    with Admin() as admin:
+        for session in admin.sessions:
+            if session.get("counter") is not None:
+                spawn(tick(session))
+```
+
+!!! warning
+    Because spawned tasks run outside a page method, uproot does not auto-track mutations to lists and dicts. Wrap writes in a context manager: `with player as p:` or `with session as s:`.
+
+:material-github: [See the continuous example](https://github.com/mrpg/uproot-examples/tree/master/continuous) · [chat_with_claude example](https://github.com/mrpg/uproot-examples/tree/master/chat_with_claude)
+
 ## Summary
 
 | Feature | Use case |
@@ -186,3 +232,4 @@ uproot.onCustomEvent("OfferAccepted", (event) => {
 | `uproot.receive = fn` | Default handler for unnamed notifications |
 | `player.others_in_group` | All group members except sender |
 | `player.others_in_session` | All session members except sender |
+| `spawn(coroutine)` | Run a background task (see above) |

@@ -153,22 +153,17 @@ This lets you verify that your experiment works end-to-end without manually clic
 
 ### Writing simulate.js
 
-When you create a new project with `uproot setup`, a template `simulate.js` is generated automatically. The file uses `uproot.currentPage` to determine which page is loaded and can fill in form fields and submit:
+When you create a new project with `uproot setup`, a template `simulate.js` is generated automatically. Register a handler with `uproot.simulate.on()` and use the simulation helpers to fill fields and submit:
 
 ```javascript
-if (uproot.currentPage == "my_app/Decision") {
-    // Fill in a radio field randomly
-    if (Math.random() < 0.5) {
-        I("choice-0").checked = true;
-    } else {
-        I("choice-1").checked = true;
-    }
-
-    uproot.submit();
-}
+uproot.simulate.on("my_app/Decision", (sim) => {
+    sim.choose("choice", sim.random(["A", "B"])).submit();
+});
 ```
 
-`uproot.currentPage` is a string in the format `"app_name/PageClassName"`. Use `I(id)` as shorthand for `document.getElementById(id)`.
+The page key passed to `uproot.simulate.on()` is `"app_name/PageClassName"`.
+The simulation object provides helpers such as `choose()`, `fill()`,
+`random()`, and `submit()`.
 
 !!! warning
     Simulation is session-level and permanent—once a session is created with simulation enabled, it cannot be disabled for that session. Create a new session without the option to run without simulation.

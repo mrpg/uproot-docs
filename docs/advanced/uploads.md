@@ -17,7 +17,7 @@ class Upload(Page):
         cv = data["cv"]
         contents = await cv.read()
         player.file_name = cv.filename
-        player.file_size = cv.size
+        player.file_size = len(contents)
 ```
 
 `FileField` is always treated as a stealth field. The uploaded file is passed to `handle_stealth_fields` as a [Starlette UploadFile](https://www.starlette.io/requests/#request-files) object.
@@ -52,10 +52,16 @@ async def handle_stealth_fields(page, player, data):
     photo = data["photo"]
     if photo.size > 0:
         contents = await photo.read()
-        path = f"uploads/{player.session.name}_{player.name}_{photo.filename}"
-        with open(path, "wb") as f:
+        from pathlib import Path
+
+        path = Path("uploads") / (
+            f"{player.session.name}_{player.name}_{uuid()}"
+            f"{Path(photo.filename or '').suffix.lower()}"
+        )
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("wb") as f:
             f.write(contents)
-        player.photo_path = path
+        player.photo_path = str(path)
 ```
 
 ### Store metadata only
@@ -98,7 +104,7 @@ You can mix file uploads with regular fields on the same page. Regular fields ar
 ```python
 class UploadPage(Page):
     fields = dict(
-        name=StringField(label="Your name"),
+        participant_name=StringField(label="Your name"),
         photo=FileField(label="Upload a photo"),
     )
 
@@ -110,7 +116,9 @@ class UploadPage(Page):
             player.photo_name = photo.filename
 ```
 
-The `name` field saves to `player.name` automatically. The `photo` field is handled separately.
+The `participant_name` field saves to `player.participant_name` automatically.
+`player.name` is reserved for uproot's generated player name. The `photo`
+field is handled separately.
 
 ## Rendering in templates
 
