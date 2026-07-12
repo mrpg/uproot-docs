@@ -64,7 +64,7 @@ root@server:~# nano /etc/ssh/sshd_config.d/99-keys-only.conf
 ```
 
 !!! tip
-    In `nano`, save with ++ctrl+s++ and exit with ++ctrl+x++.
+    In `nano`, save with ++Ctrl+s++ and exit with ++Ctrl+x++.
 
 Paste the following:
 
@@ -143,7 +143,7 @@ Verify it works:
 (env) uproot@server:~/my_project$ uproot run -h 127.0.0.1 -p 8000
 ```
 
-Stop it with Ctrl+C once you see the startup output. The remaining steps don't require the virtual environment.
+Stop it with ++Ctrl+C++ once you see the startup output. The remaining steps don't require the virtual environment.
 
 ### Create a run script
 

@@ -21,7 +21,7 @@ tmux new -s uproot
 uproot run  # or: uv run uproot run
 ```
 
-Detach with `Ctrl+B` then `D`. Reattach later with `tmux attach -t uproot`.
+Detach with ++Ctrl+B++ then ++D++. Reattach later with `tmux attach -t uproot`.
 
 For a more robust setup that survives reboots automatically, the [VPS setup guide](vps-setup.md#start-uproot-on-boot) shows how to create a systemd user service instead.
 
