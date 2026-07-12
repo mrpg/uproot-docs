@@ -64,7 +64,7 @@ root@server:~# nano /etc/ssh/sshd_config.d/99-keys-only.conf
 ```
 
 !!! tip
-    In `nano`, save with Ctrl+S and exit with Ctrl+X.
+    In `nano`, save with ++ctrl+s++ and exit with ++ctrl+x++.
 
 Paste the following:
 
