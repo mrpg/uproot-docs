@@ -1,4 +1,4 @@
-# CLAUDE.md
+# AGENTS.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
@@ -38,6 +38,22 @@ Key structural decisions:
 - Alpine.js lives in Building (not Advanced) — it's a building tool like live methods
 - Rounds/randomization do not have their own pages — they are covered by SmoothOperators (`building/operators.md`)
 - Results follows Data in the Building section (natural collect → display arc)
+
+## Pedagogical principles
+
+The typical reader is a behavioral researcher — an economist, psychologist, or other social scientist — who writes analysis scripts in Python or R but is not a professional developer. Every page must be easy to understand for that reader. When in doubt, explain more and link more, never less.
+
+- **Assume little; gloss and link the rest.** Never assume knowledge of web development, async Python, decorators, classmethods, HTTP, WebSockets, or Jinja. When a page needs such a concept, explain it in one plain sentence at first use and link to an authoritative external resource for depth (official Python docs, MDN, Jinja, Alpine.js, Bootstrap).
+- **Link internal resources at first mention.** The first time a page mentions a concept documented elsewhere in these docs, link to that page with a relative link (e.g. `[live methods](../building/live.md)`). Never make readers hunt through the navigation.
+- **Concrete before abstract.** Open with a minimal working example, then explain it. Readers should see what a feature looks like before reading theory about it.
+- **One new idea at a time.** Start with the simplest version that works; add parameters, options, and edge cases afterward, not inline. Advanced material goes at the bottom of the page or on a separate page.
+- **Say why before how.** Introduce every feature with the problem it solves, in one or two sentences, before showing the API.
+- **Complete, pasteable examples.** Code blocks must run as shown in a real project — no hidden setup, no `...` where code is required. When a full app is needed for context, link to uproot-examples.
+- **Plain language.** Short sentences, active voice, second person ("you"). Prefer everyday words to jargon ("saves" not "persists", "runs when" not "is invoked upon"). If a technical term is unavoidable, define it at first use.
+- **Consistent terminology.** Use exactly one name per concept across all pages (e.g. always "page order", never "page sequence" or "page flow").
+- **Signpost prerequisites.** Pages that build on earlier material say so in the first paragraph, with links ("This page assumes you have read [Forms](forms.md).").
+- **Anticipate mistakes.** Where users commonly go wrong, show the mistake, the error they will see, and the fix — `!!! warning` admonitions work well for this.
+- **Prose teaches; tables look things up.** Guide pages explain in flowing prose with examples; reference pages enumerate in tables and lists. Don't turn a tutorial into a wall of tables.
 
 ## Style guidelines
 
