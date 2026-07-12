@@ -20,8 +20,10 @@ Unpacking the ZIP gives you a single folder named after your session:
 
 ```
 mysession/
-├── README.txt        ← explains the contents, right inside the ZIP
-├── SHA256SUMS        ← checksums for verifying your files
+├── README.txt            ← explains the contents, right inside the ZIP
+├── DATA_DICTIONARY.json  ← defines the !-prefixed columns
+├── page_times.csv        ← when each player entered/left each page
+├── SHA256SUMS            ← checksums for verifying all other files
 ├── latest/
 │   ├── player.csv
 │   ├── group.csv
@@ -84,10 +86,12 @@ Columns that start with `!` come from uproot itself; they sort to the front and 
 | `!time` | Unix timestamp of the change |
 | `!seq` | Sequence number of the change (for exact ordering) |
 | `!context` | Code location that made the change |
-| `!unavailable` | Whether this row marks a deletion |
+| `!unavailable` | Whether this row marks a deletion (a tombstone) |
 | `!data` | The value |
 
-`latest` files just have `!storage`, `!time`, and `!seq` (the time and sequence of the most recent change), followed by one column per field.
+`latest` files just have `!storage`, `!time`, and `!seq` (the time and sequence of the most recent change reflected in the row), followed by one column per field.
+
+The full machine-readable definitions live in `DATA_DICTIONARY.json` inside the briefcase.
 
 The last part of `!storage` is the participant's uproot name — `player/mysession/9wpsj` is participant `9wpsj` in session `mysession`.
 
@@ -236,7 +240,7 @@ sha256sum -c SHA256SUMS
 
 ## Page times
 
-Page times track when each player entered and left each page — useful for measuring response times. On the **Download data** page, click **Page times** under *Other data* to get a CSV with these columns:
+Every briefcase includes a `page_times.csv` (or `.jsonl`) file tracking when each player entered and left each page — useful for measuring response times. Its columns are:
 
 | Column | Description |
 |--------|-------------|
@@ -247,6 +251,8 @@ Page times track when each player entered and left each page — useful for meas
 | `entered` | Unix timestamp when the player entered the page |
 | `left` | Unix timestamp when the player left the page |
 | `context` | Round/context information |
+
+Page times are derived from the players' `show_page` and `page_order` histories.
 
 ## Going further
 

@@ -56,12 +56,6 @@ Query parameters:
 | `gvar` | field names (repeatable) | — | Group-by variables (for `latest`) |
 | `filters` | `true`, `false` | `false` | Apply reasonable filters |
 
-### Page times
-
-```bash
-uproot api sessions/mysession/page-times > page_times.csv
-```
-
 ## Database dumps
 
 For a complete backup of all data, use the dump/restore commands:
@@ -166,6 +160,5 @@ print(snap.as_dict())      # single dict with all four tables
 |--------|----------|
 | [ZIP briefcase](export.md) | Per-session data for analysis (admin UI or API) |
 | Streaming JSONL endpoint | Piping one format into other tools |
-| Page times CSV | Response time analysis |
 | `uproot.read` | Offline analysis in Python/Jupyter |
 | `uproot dump` | Full database backup |

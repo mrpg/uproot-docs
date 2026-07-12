@@ -217,7 +217,7 @@ Using a context manager is always safe, even when not strictly required.
 - Player actions: advance, revert, move to end, reload, send message, mark dropout, redirect, set fields, group/ungroup
 - Admin chat: per-player private messaging during sessions (enable/disable participant replies)
 - App testing: "Simulate responses" option runs `simulate.js` on player pages
-- Data browser, page times CSV, digest view
+- Data browser, digest view
 - REST API at `/admin/api/v1/` with Bearer token auth (`upd.API_KEYS.add(key)`)
 
 ### Database and deployment
@@ -228,10 +228,9 @@ Using a context manager is always safe, even when not strictly required.
 - Rooms: `upd.DEFAULT_ROOMS.append(room(name, config=, labels=, capacity=, open=))`
 
 ### Data export
-- Every download is a ZIP "briefcase": one top-level folder named after the session, containing `README.txt`, `SHA256SUMS`, and one folder per format (`ultralong/`, `sparse/`, `latest/`, optionally `latest_by_<gvar>/`), each split into one file per storage kind (`player.csv`, `group.csv`, `session.csv`, `model.csv`)
+- Every download is a ZIP "briefcase": one top-level folder named after the session, containing `README.txt`, `DATA_DICTIONARY.json`, `page_times.csv` (or `.jsonl`), `SHA256SUMS`, and one folder per format (`ultralong/`, `sparse/`, `latest/`, optionally `latest_by_<gvar>/`), each split into one file per storage kind (`player.csv`, `group.csv`, `session.csv`, `model.csv`)
 - Formats: `ultralong` (one row per field change), `sparse` (wide event log), `latest` (one row per storage with final values); file type CSV or JSONL applies to the whole briefcase
 - `filters=true` cleans up internal `_uproot_*` fields (renames `_uproot_group` → `group`, `_uproot_session` → `session`)
 - REST: `GET /sessions/{sname}/data/export/` returns the ZIP briefcase; `GET /sessions/{sname}/data/jsonl/` streams a single format
-- Page times CSV tracks when players entered/left each page
 - `uproot dump`/`uproot restore` for full database backup
 - `uproot.read`: offline analysis in Python — `from uproot.read import read; db = read("uproot.sqlite3")`
