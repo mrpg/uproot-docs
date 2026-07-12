@@ -85,7 +85,7 @@ Auto login:
 Click this URL or copy it to your browser to log in automatically. This auto-login feature only appears when using the default administrator with an empty password.
 
 !!! tip
-    You can stop the server with ++Ctrl+C++.
+    You can stop the server with ++ctrl+c++.
 
 ## 5. Try the sample experiment
 
