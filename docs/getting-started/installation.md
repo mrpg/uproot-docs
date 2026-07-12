@@ -71,6 +71,9 @@ INFO:uproot:This is uproot 0.0.1 (https://uproot.science/)
 INFO:uproot:Server is running at http://127.0.0.1:8000/
 ```
 
+!!! tip
+    You can stop the server with ++ctrl+c++.
+
 ## 4. Access the admin interface
 
 Open your browser and go to [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/).
@@ -83,9 +86,6 @@ Auto login:
 ```
 
 Click this URL or copy it to your browser to log in automatically. This auto-login feature only appears when using the default administrator with an empty password.
-
-!!! tip
-    You can stop the server with ++ctrl+c++.
 
 ## 5. Try the sample experiment
 
@@ -105,7 +105,7 @@ Follow the instructions in the repository to set it up. Once installed, the agen
 
 !!! tip
 
-    Even without the skill, agentic coding tools work well if you clone the [uproot-docs](https://github.com/mrpg/uproot-docs) repository alongside your project — this gives the agent direct access to all documentation source files.
+    Even without the skill, agentic coding tools work well if you clone the [uproot-examples](https://github.com/mrpg/uproot-examples) and [uproot-docs](https://github.com/mrpg/uproot-docs) repositories alongside your project — this gives the agent direct access to a lot of important information. Just tell your agent to "kindly inhale the examples and the docs."
 
 ## What's next?
 
