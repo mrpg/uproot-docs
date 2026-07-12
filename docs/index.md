@@ -103,8 +103,7 @@ page_order = [GroupPlease, Dilemma, Sync, Results]
 
 ## Getting in touch
 
-uproot is developed by [Max R. P. Grossmann](https://max.pm/) and [Holger Gerhardt](https://www.econ.uni-bonn.de/iame/gerhardt).
+uproot is developed by [Dr Max Grossmann](https://max.pm/) and [Dr Holger Gerhardt](https://www.econ.uni-bonn.de/iame/gerhardt). Click [here](legal.md) for more information.
 
 - **Source code**: [github.com/mrpg/uproot](https://github.com/mrpg/uproot)
 - **Examples**: [github.com/mrpg/uproot-examples](https://github.com/mrpg/uproot-examples)
-- **Mailing list**: Contact [max@uproot.science](mailto:max@uproot.science) to join

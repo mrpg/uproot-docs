@@ -4,7 +4,7 @@ Relax and move slowly. Most problems with experiments turn out to be small thing
 
 ## 1. Read the documentation
 
-Start here. This documentation covers all of uproot's features with explanations and code examples. Use the search function and navigate by topic — chances are your question is already answered. Pay particular attention to the [reference section](reference/fields.md) for detailed specifications.
+Start here. This documentation covers almost all of uproot's features with explanations and code examples. Use the search function and navigate by topic — chances are your question is already answered. Pay particular attention to the [reference section](reference/fields.md) for detailed specifications.
 
 For complete, runnable examples, browse the [:material-github: uproot-examples](https://github.com/mrpg/uproot-examples/tree/master) repository.
 
@@ -34,11 +34,11 @@ If your coding agent does not support skills, this prompt provides useful contex
 
 If you've read the docs, asked an AI, and are still stuck — write to us. Email **both** Max and Holger jointly so that whoever is available can respond and neither of us loses context. You can find our contact details on the [legal information](legal.md#contact) page.
 
-We are happy to help, and we mean it. Especially if your question reveals a gap in the documentation, your experience helps us improve uproot for everyone.
+We are happy to help, and we mean it. Especially if your question reveals a gap in the documentation, or even a bug in uproot itself, your experience helps us improve uproot for everyone.
 
 !!! note
 
-    All issues raised via email are treated anonymously if they lead to documentation updates.
+    All issues raised via email are treated anonymously.
 
 ## 4. File an issue on GitHub
 

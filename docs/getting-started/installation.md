@@ -139,5 +139,4 @@ uv run uproot run --port 8001
 
 ### Getting help
 
-- **GitHub issues**: [github.com/mrpg/uproot/issues](https://github.com/mrpg/uproot/issues)
-- **Mailing list**: Contact [max@uproot.science](mailto:max@uproot.science) to join
+See [here](../help.md).
