@@ -84,6 +84,12 @@ Auto login:
 
 Click this URL or copy it to your browser to log in automatically. This auto-login feature only appears when using the default administrator with an empty password.
 
+## 5. Try the sample experiment
+
+Your new project includes a sample experiment: a two-player prisoner's dilemma.
+
+Once logged in, you can start it from the admin interface.
+
 ## Set up AI-assisted development
 
 We recommend developing uproot experiments with an agentic coding tool such as [Claude Code](https://claude.ai/code) or [Codex](https://openai.com/index/introducing-codex/). These tools understand uproot's patterns and can build pages, write form logic, set up multiplayer interactions, and debug issues far faster than working from scratch.

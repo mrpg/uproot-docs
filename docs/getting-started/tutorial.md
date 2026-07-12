@@ -205,6 +205,15 @@ Open the admin at [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) a
 
 Open the two player links in separate browser tabs. Both players will wait at the grouping page until the other arrives. After making their choices and submitting, they wait at the sync page until both have decided. Then they see the results.
 
+!!! tip "Shortcut: uproot start"
+    For quick test runs, [`uproot start`](../reference/cli.md#uproot-start) does all of the above in one step:
+
+    ```console
+    uv run uproot start prisoners_dilemma
+    ```
+
+    This starts the server, creates a session for the config, and prints a participant link. Open that link in two browser tabs, and each tab joins as a new player.
+
 ## The complete code
 
 ```python

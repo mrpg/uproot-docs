@@ -70,22 +70,30 @@ uproot run
 | `--unsafe` | — | Disable HTTPS requirement (for development behind certain proxies) |
 | `--public-demo` | — | Run in public demo mode (restricted admin) |
 
-### `uproot start`
+### uproot start
 
-Create a quick room for a config and start the server. This is useful for
-trying an experiment without creating a session manually in the admin:
+Start the development server with a participant link ready to go. This is the fastest way to try an experiment: instead of creating a session in the admin by hand, uproot creates an open [room](../running/rooms.md) for your config and prints its URL when the server starts.
 
 ```bash
 uproot start myconfig
 ```
+
+```
+Room:
+     http://127.0.0.1:8000/room/quick1/
+```
+
+Open the room URL in one browser tab per participant — each tab joins the session as a new player. If your project has exactly one config, you can omit the config name and just run `uproot start`.
+
+The rooms created this way are ordinary rooms named `quick1`, `quick2`, and so on; each `uproot start` creates a new one, and they appear under **Rooms** in the admin like any other.
 
 It accepts the same `--host`, `--port`, `--unsafe`, and `--public-demo`
 options as `uproot run`, plus:
 
 | Option | Description |
 |--------|-------------|
-| `CONFIG` or `--config` | Config to use |
-| `--simulate` | Enable the app's `simulate.js` responses for the quick-room session |
+| `CONFIG` or `--config` | Config to use (optional if the project has exactly one config) |
+| `--simulate` | Enable the app's `simulate.js` responses for the quick room's session (see [App testing](../running/admin.md#app-testing)) |
 
 ### uproot reset
 

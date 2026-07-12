@@ -60,6 +60,18 @@ upd.DEFAULT_ROOMS.append(
 
 Rooms defined this way are created automatically when the server starts.
 
+### Quick rooms from the command line
+
+During development, creating a room by hand just to test a config is tedious. The [`uproot start`](../reference/cli.md#uproot-start) command does it in one step:
+
+```console
+uv run uproot start my_experiment
+```
+
+This creates an open room named `quick1` (then `quick2`, and so on), creates a session for the config, starts the server, and prints the room URL. Open the URL in one browser tab per participant. Add `--simulate` to enable [simulated responses](admin.md#app-testing) for the session.
+
+Quick rooms are ordinary rooms: they appear under **Rooms** in the admin, and everything on this page applies to them.
+
 ### Room lifecycle
 
 A room acts as a finite-state machine with two main states:

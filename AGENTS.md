@@ -226,7 +226,7 @@ Using a context manager is always safe, even when not strictly required.
 
 ### CLI commands
 **Global**: `uproot setup <path>`, `uproot api <endpoint>`, `uproot --version`
-**Project** (run from project dir): `uproot run`, `uproot reset`, `uproot dump --file`, `uproot restore --file`, `uproot new <app>`, `uproot newpage <app> <page>`, `uproot examples`, `uproot deployment`
+**Project** (run from project dir): `uproot run`, `uproot start [config]` (creates and opens a quick room, prints its URL, then runs the server; `--simulate` enables simulated responses — prefer advertising this for trying out experiments), `uproot reset`, `uproot dump --file`, `uproot restore --file`, `uproot new <app>`, `uproot newpage <app> <page>`, `uproot examples`, `uproot deployment`
 
 ### Admin interface
 - Web UI at `/admin/` with session/room management

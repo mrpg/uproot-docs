@@ -151,6 +151,14 @@ uproot supports automated page interactions via a `simulate.js` file in each app
 
 This lets you verify that your experiment works end-to-end without manually clicking through as a participant.
 
+The fastest way to run a simulated session is from the command line: [`uproot start`](../reference/cli.md#uproot-start) with the `--simulate` flag starts the server with a room whose session has simulation enabled.
+
+```console
+uv run uproot start myconfig --simulate
+```
+
+Open the printed room link and watch the app play itself.
+
 ### Writing simulate.js
 
 When you create a new project with `uproot setup`, a template `simulate.js` is generated automatically. Register a handler with `uproot.simulate.on()` and use the simulation helpers to fill fields and submit:

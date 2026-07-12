@@ -60,6 +60,8 @@ load_config(uproot_server, config="full_experiment", apps=["instructions", "game
 
 When you create a session in the admin, you select a config. The session runs all listed apps in order.
 
+During development, the fastest way to try a config is [`uproot start`](../reference/cli.md#uproot-start): `uv run uproot start my_experiment` starts the server and prints a participant link for that config, with no admin steps needed.
+
 You can optionally pass a `settings` dictionary to `load_config` that provides default session settings:
 
 ```python
