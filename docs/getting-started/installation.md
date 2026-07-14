@@ -43,15 +43,8 @@ You should see output like this:
 ```
 📂 A new project has been created in 'my_project'.
 ✅ 'main.py' and some other files have been written.
-🚶 Go to the new project directory by running
-       cd my_project
-📖 Get started by reading 'main.py'.
-🚀 Then you may run this project using
-       uv run uproot run
+...
 ```
-
-??? note "If you get an error about git"
-    The above command assumes that you have [git](https://git-scm.com/) installed.
 
 ## 3. Run uproot
 
@@ -62,7 +55,7 @@ cd my_project
 uv run uproot run
 ```
 
-The first run will set up a virtual environment and install dependencies automatically. On your local machine the admin panel logs you in automatically — no password needed. (When you deploy to a server later, set `UPROOT_ADMIN_PASSWORD` in your `.env` file to require a password.) You'll see:
+The first run will set up a virtual environment and install dependencies automatically. You'll see:
 
 ```
 INFO:     Started server process [...]
@@ -76,8 +69,6 @@ INFO:uproot:Server is running at http://127.0.0.1:8000/
 
 ## 4. Access the admin interface
 
-Open your browser and go to [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/).
-
 The server output includes an auto-login URL that looks like:
 
 ```
@@ -85,7 +76,7 @@ Auto login:
      http://127.0.0.1:8000/admin/login/#aBcDeFgHiJkL...
 ```
 
-Click this URL or copy it to your browser to log in automatically. This auto-login feature only appears when using the default administrator with an empty password.
+Click that URL or copy it to your browser to log in automatically. This auto-login feature only appears when using the default administrator with an empty password.
 
 ## 5. Try the sample experiment
 
