@@ -45,7 +45,7 @@ Navigate to **Sessions** → **New session** to create a session:
 
 1. **Config** — Select which experiment config to run
 2. **Number of players** — How many player slots to create
-3. **Settings (JSON)** — Optional JSON object for session settings (accessible via `session.settings`)
+3. **Settings (JSON)** — Optional JSON object for session settings (accessible via `session.settings`); apps can replace this JSON editor with a [custom settings form](../advanced/settings-forms.md)
 4. **Custom session name** — Optional (auto-generated if omitted)
 5. **Custom player names** — Optional (auto-generated if omitted)
 6. **Simulate responses** — If enabled, the app's `simulate.js` file runs on every player page load (see [App testing](#app-testing) below)

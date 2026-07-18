@@ -100,6 +100,7 @@ nav:
     - Handling dropouts: advanced/dropouts.md
     - File uploads: advanced/uploads.md
     - Custom data models: advanced/models.md
+    - Custom settings forms: advanced/settings-forms.md
   - Running experiments:
     - The admin interface: running/admin.md
     - Sessions and rooms: running/rooms.md

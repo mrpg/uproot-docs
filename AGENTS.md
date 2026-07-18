@@ -28,7 +28,7 @@ The navigation follows a learning arc: orient → build → connect → harden �
 1. **Getting started** — Installation, tutorial, project structure
 2. **Building experiments** — Pages, forms, data, results, SmoothOperators, live methods, Alpine.js
 3. **Multiplayer experiments** — Groups, synchronization, real-time, chat
-4. **Advanced features** — Timeouts, dropouts, uploads, custom data models
+4. **Advanced features** — Timeouts, dropouts, uploads, custom data models, custom settings forms
 5. **Running experiments** — Admin, sessions/rooms, export, deployment
 6. **Reference** — Fields, page methods, API, admin API, CLI
 
