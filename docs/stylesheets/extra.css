@@ -2,3 +2,28 @@
   --md-primary-fg-color: #4e1388;
   --md-accent-fg-color: #4e1388;
 }
+
+h1 {
+  color: var(--md-primary-fg-color) !important;
+  font-size: 225% !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.0025em !important;
+}
+h2 {
+  color: var(--md-primary-fg-color) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.0075em !important;
+}
+h3 {
+  font-weight: 700 !important;
+  letter-spacing: 0.0075em !important;
+}
+
+.md-nav__link {
+  color: gray;
+  font-size: smaller;
+}
+.md-nav__title, label.md-nav__link {
+  color: var(--md-primary-fg-color) !important;
+  font-size: 90% !important;
+}
