@@ -41,6 +41,10 @@ h3 {
   letter-spacing: 0.0075em !important;
 }
 
+.admonition {
+  border-width: 1px !important;
+}
+
 .card-title-icon {
   float: right;
   padding-top: 0.25em;
