@@ -2,6 +2,7 @@
   --md-primary-fg-color: #4e1388;
   --md-accent-fg-color: #4e1388;
   --uproot-highlight-color: var(--md-primary-fg-color);
+  --md-kbd-bg-color: var(--md-primary-fg-color);
 }
 
 [data-md-color-scheme="slate"] {
@@ -10,12 +11,48 @@
   --uproot-highlight-color: #c598f1;
 }
 
+* {
+    /* Enable selected features defined in inter.css to improve disambiguation of glyphs */
+    font-variant-alternates:
+        character-variant(lc-l-with-tail, alt-double-s)
+        styleset(open-digits);
+    /* Disable contextual alternates, since they may produce unwanted results with Inter (e.g., in “Step 1: ‘Go’” */
+    font-feature-settings: "calt" 0;
+    /* Settings related to number formatting */
+    font-variant-numeric:
+        var(--fvn-figure-style,)
+        var(--fvn-spacing, proportional-nums)
+        var(--fvn-fractions,)
+        var(--fvn-zero,)
+        var(--fvn-alt,);
+}
+
+body {
+  font-family: "Inter", sans-serif !important;
+}
+
+code,
+kbd,
+pre,
+samp,
+.md-code__content {
+  font-family: "Cascadia Mono", monospace !important;
+  font-size: 92% !important;
+}
+kbd {
+  padding: 0.0em 0.5em !important;
+  background-color: var(--md-default-bg-color) !important;
+  color: var(--md-default-fg-color) !important;
+  border: 1px solid rgb(from var(--md-default-fg-color) r g b / 25%) !important;
+  border-radius: 0.25rem;
+  box-shadow: none !important;
+  border-width: 1px !important;
+  vertical-align: baseline !important;
+  white-space: nowrap;
+}
+
 details.note {
-  background-color: color-mix(
-    in srgb,
-    var(--uproot-highlight-color) 7%,
-    transparent
-  );
+  background-color: rgb(from var(--uproot-highlight-color) r g b / 6%);
   border: 1px solid var(--uproot-highlight-color) !important;
 }
 details.note > summary::after {
