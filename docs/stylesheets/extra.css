@@ -26,6 +26,11 @@ h3 {
   letter-spacing: 0.0075em !important;
 }
 
+.card-title-icon {
+  float: right;
+  padding-top: 0.25em;
+}
+
 .md-nav__link {
   color: var(--md-default-fg-color--light);
   font-size: smaller;
