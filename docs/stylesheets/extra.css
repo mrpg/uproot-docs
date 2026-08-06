@@ -1,16 +1,23 @@
 :root > * {
   --md-primary-fg-color: #4e1388;
   --md-accent-fg-color: #4e1388;
+  --uproot-highlight-color: var(--md-primary-fg-color);
+}
+
+[data-md-color-scheme="slate"] {
+  --md-accent-fg-color: #c598f1;
+  --md-typeset-a-color: #c598f1;
+  --uproot-highlight-color: #c598f1;
 }
 
 h1 {
-  color: var(--md-primary-fg-color) !important;
+  color: var(--uproot-highlight-color) !important;
   font-size: 225% !important;
   font-weight: 600 !important;
   letter-spacing: 0.0025em !important;
 }
 h2 {
-  color: var(--md-primary-fg-color) !important;
+  color: var(--uproot-highlight-color) !important;
   font-weight: 700 !important;
   letter-spacing: 0.0075em !important;
 }
@@ -20,10 +27,10 @@ h3 {
 }
 
 .md-nav__link {
-  color: gray;
+  color: var(--md-default-fg-color--light);
   font-size: smaller;
 }
-.md-nav__title, label.md-nav__link {
-  color: var(--md-primary-fg-color) !important;
+.md-nav__title:not([for="__drawer"]), label.md-nav__link {
+  color: var(--uproot-highlight-color) !important;
   font-size: 90% !important;
 }
