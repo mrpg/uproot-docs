@@ -10,6 +10,21 @@
   --uproot-highlight-color: #c598f1;
 }
 
+details.note {
+  background-color: color-mix(
+    in srgb,
+    var(--uproot-highlight-color) 7%,
+    transparent
+  );
+  border: 1px solid var(--uproot-highlight-color) !important;
+}
+details.note > summary::after {
+  color: var(--uproot-highlight-color) !important;
+}
+details.note > summary::before {
+  background-color: var(--uproot-highlight-color) !important;
+}
+
 h1 {
   color: var(--uproot-highlight-color) !important;
   font-size: 225% !important;
