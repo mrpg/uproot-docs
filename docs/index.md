@@ -10,7 +10,7 @@
 
 <div class="grid cards" markdown>
 
--   :material-download:{ .lg .middle } __Get started in minutes__
+-   :material-download:{ .card-title-icon .lg .middle } __Get started in minutes__
 
     ---
 
@@ -18,7 +18,7 @@
 
     [:octicons-arrow-right-24: Installation](getting-started/installation.md)
 
--   :material-book-open-variant:{ .lg .middle } __Learn by doing__
+-   :material-book-open-variant:{ .card-title-icon .lg .middle } __Learn by doing__
 
     ---
 
@@ -26,7 +26,7 @@
 
     [:octicons-arrow-right-24: Tutorial](getting-started/tutorial.md)
 
--   :material-account-group:{ .lg .middle } __Built for multiplayer__
+-   :material-account-group:{ .card-title-icon .lg .middle } __Built for multiplayer__
 
     ---
 
@@ -34,7 +34,7 @@
 
     [:octicons-arrow-right-24: Multiplayer experiments](multiplayer/groups.md)
 
--   :material-folder-open:{ .lg .middle } __Explore examples__
+-   :material-folder-open:{ .card-title-icon .lg .middle } __Explore examples__
 
     ---
 
@@ -42,7 +42,7 @@
 
     [:octicons-arrow-right-24: Example apps](https://github.com/mrpg/uproot-examples)
 
--   :material-robot-outline:{ .lg .middle } __AI-assisted development__
+-   :material-robot-outline:{ .card-title-icon .lg .middle } __AI-assisted development__
 
     ---
 
