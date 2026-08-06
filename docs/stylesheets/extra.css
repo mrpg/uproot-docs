@@ -41,8 +41,18 @@ h3 {
   letter-spacing: 0.0075em !important;
 }
 
-.admonition {
+.admonition,
+.md-typeset__table table {
   border-width: 1px !important;
+}
+
+/* Harmoize border-radius across elements */
+.admonition,
+.cards li,
+.md-code__content,
+.md-button,
+.md-typeset__table table {
+  border-radius: 5px !important;
 }
 
 .card-title-icon {
