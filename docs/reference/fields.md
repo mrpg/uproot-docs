@@ -128,6 +128,9 @@ confidence=DecimalRangeField(
 )
 ```
 
+!!! note
+    `label_min` and `label_max` must each be at most 10 characters. Longer labels leave too little room for the slider on mobile screens.
+
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `min` | number | — | Minimum value |
