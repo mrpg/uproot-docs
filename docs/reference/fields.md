@@ -135,6 +135,7 @@ confidence=DecimalRangeField(
 | `step` | number | `1.0` | Step increment |
 | `label_min` | `str` | `None` | Label below left end (defaults to `str(min)`) |
 | `label_max` | `str` | `None` | Label below right end (defaults to `str(max)`) |
+| `breakpoint` | `int` | `992` | Viewport width in pixels at or above which endpoint labels no longer wrap |
 | `label_max_min_class_suffix` | `str` | `"-custom"` | CSS class suffix for endpoint labels |
 | `hide_popover` | `bool` | `False` | Hide the current value popover |
 | `anchoring` | `bool` | `True` | Show initial slider position |
