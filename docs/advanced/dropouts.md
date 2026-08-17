@@ -68,25 +68,226 @@ the handler immediately.
 
 ## Handling dropouts in group experiments
 
-In multiplayer experiments, a dropout can block other group members at synchronization points. Handle this by checking for dropouts in your game logic:
+In multiplayer experiments, a dropout can block other group members at synchronization points. A single participant closing their browser, walking away, or losing connectivity can leave their partner staring at "waiting for other participants" indefinitely.
+
+A robust solution tracks dropout at the *group* level and handles three distinct dropout vectors:
+
+1. **Browser disconnect** — the participant closes the tab or loses connectivity (`watch_for_dropout`)
+2. **Page timeout** — the participant sits on a decision page without submitting (`timeout_reached`)
+3. **Sync timeout** — one participant submits but their partner never arrives at the wait page (`timeout` on `SynchronizingWait`)
+
+### The group-level drop pattern
+
+Use a boolean `group.dropped` flag as the single source of truth. When any dropout vector fires, mark the group and redirect all other members to a dedicated Dropped page:
 
 ```python
-def new_player(player):
-    watch_for_dropout(player, handle_dropout)
+class C:
+    TIMEOUT = 60       # seconds to make a decision
+    SYNC_TIMEOUT = 90  # seconds to wait at sync points
 
 
+def drop_group(group, culprit):
+    group.dropped = True
+    group.dropped_by = culprit.name
+    for p in group.players:
+        if p.name != culprit.name:
+            with p as pp:
+                move_to_page(pp, Dropped)
+```
+
+`drop_group` does three things: marks the group, records who caused the drop, and moves every *other* player to the Dropped page. The `with p as pp:` [context manager](../building/data.md) is required here because you are mutating a player object from outside that player's own page method.
+
+!!! warning "Guard against double-dropping"
+    Multiple dropout vectors can fire for the same group (e.g., a browser disconnect triggers `watch_for_dropout` at the same moment a page timeout fires). Always check `if not group.get("dropped")` before calling `drop_group`.
+
+### Registering watchers in after_grouping
+
+Register `watch_for_dropout` in `after_grouping`, not `new_player`, because the handler needs access to the group. When iterating `group.players` inside `after_grouping`, wrap each player in a context manager:
+
+```python
+class GroupPlease(GroupCreatingWait):
+    group_size = 2
+
+    @classmethod
+    def after_grouping(page, group):
+        group.dropped = False
+        for player in group.players:
+            player.timed_out = False
+
+            with player:
+                watch_for_dropout(player, handle_dropout)
+```
+
+The `with player:` block is needed because `after_grouping` receives the group, and iterating `group.players` yields player objects that require the context manager for uproot to track their mutations properly.
+
+### The dropout handler
+
+The handler fires when a participant disconnects. It marks the player as timed out, drops the group if it has not been dropped already, and moves the disconnected player to the end:
+
+```python
 async def handle_dropout(player):
-    player.dropout = True
+    player.timed_out = True
+    group = player.group
+    if group is not None and not group.get("dropped"):
+        drop_group(group, player)
     move_to_end(player)
+```
 
+### Page timeouts on decision pages
 
+Add a [timeout](timeouts.md) to every decision page. When it expires, `timeout_reached` drops the group:
+
+```python
+class Dilemma(Page):
+    fields = dict(
+        cooperate=RadioField(
+            label="Do you wish to cooperate?",
+            choices=[(True, "Yes"), (False, "No")],
+        ),
+    )
+
+    @classmethod
+    def timeout(page, player):
+        return C.TIMEOUT
+
+    @classmethod
+    def timeout_reached(page, player):
+        player.timed_out = True
+        if not player.group.get("dropped"):
+            drop_group(player.group, player)
+
+    @classmethod
+    def before_once(page, player):
+        if player.group.get("dropped"):
+            move_to_page(player, Dropped)
+```
+
+The `before_once` guard at the bottom is equally important: if the group was already dropped (because the *other* player timed out or disconnected), this player should not see the decision page at all — they get redirected to Dropped immediately.
+
+### Sync timeout
+
+A `SynchronizingWait` page can also time out. This covers the case where one player submits their decision but the other never arrives:
+
+```python
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
-        active_players = [p for p in group.players if not p.dropout]
+    def timeout(page, player):
+        return C.SYNC_TIMEOUT
 
-        for player in active_players:
-            set_payoff(player)
+    @classmethod
+    def timeout_reached(page, player):
+        if not player.group.get("dropped"):
+            player.group.dropped = True
+            player.group.dropped_by = "sync_timeout"
+
+    @classmethod
+    def all_here(page, group):
+        if group.get("dropped"):
+            return
+        for player in group.players:
+            # ... compute and assign payoffs ...
+```
+
+The guard in `all_here` prevents payoff calculation for dropped groups.
+
+### The Dropped page
+
+Create a terminal page that tells participants what happened. Distinguish between the player who timed out and their partner:
+
+```html+jinja
+{% extends "Base.html" %}
+
+{% block title %}Time expired{% endblock title %}
+
+{% block main %}
+{% if player.timed_out %}
+<p>You did not make a choice in time. Your pair has been removed from this round.</p>
+{% else %}
+<p>Your partner did not make a choice in time. Your pair has been removed from this round.</p>
+{% endif %}
+{% endblock main %}
+```
+
+In your Python code, the Dropped page moves the player to the end after they see the message:
+
+```python
+class Dropped(Page):
+    @classmethod
+    def after_once(page, player):
+        move_to_end(player)
+```
+
+Add Dropped to the end of `page_order`:
+
+```python
+page_order = [
+    GroupPlease,
+    Dilemma,
+    Sync,
+    Results,
+    Dropped,
+]
+```
+
+### Guarding downstream pages
+
+Every page after grouping should check the drop flag and redirect. Add a `before_once` guard to your Results page (and any other post-sync page):
+
+```python
+class Results(Page):
+    @classmethod
+    def before_once(page, player):
+        if player.group.get("dropped"):
+            move_to_page(player, Dropped)
+```
+
+### Excluding dropped groups from data
+
+If your experiment uses a `digest` function, skip dropped groups so they do not contaminate the summary:
+
+```python
+def digest(session):
+    dropped_pairs = 0
+
+    for group in session.groups(app=__name__):
+        if group.get("dropped"):
+            dropped_pairs += 1
+            continue
+
+        # ... normal payoff analysis ...
+
+    return {
+        # ...
+        "dropped_pairs": dropped_pairs,
+    }
+```
+
+If your experiment uses a `pipeline` function, include `timed_out` and `dropped` so you can filter in downstream analysis:
+
+```python
+def pipeline(session):
+    rows = []
+    for group in session.groups(app=__name__):
+        for player in group.players:
+            player_data = player.within(app=__name__)
+            rows.append({
+                # ... other fields ...
+                "timed_out": player_data.get("timed_out"),
+                "dropped": group.get("dropped"),
+            })
+    return rows
+```
+
+### Showing dropout counts in the admin digest
+
+If your experiment uses an `AdminDigest.html` template, display a warning when groups were dropped:
+
+```html+jinja
+{% if dropped_pairs > 0 %}
+<div class="alert alert-warning mb-3">
+    {{ dropped_pairs }} pair{{ "s" if dropped_pairs != 1 }} dropped due to timeout.
+</div>
+{% endif %}
 ```
 
 ## Adjusting tolerance
@@ -117,6 +318,11 @@ watch_for_dropout(player, handle_dropout, tolerance=120.0)
 |---------|---------|
 | `watch_for_dropout(player, handler, tolerance=30.0)` | Monitor a player for disconnection |
 | `move_to_end(player)` | Move player past all remaining pages |
+| `move_to_page(player, PageClass)` | Redirect a player to a specific page |
 | `mark_dropout(pid)` | Manually mark a player as dropout |
 | `player._uproot_dropout` | Internal dropout flag |
 | Admin: Mark as dropout | Manual dropout from admin interface |
+| `group.dropped` | Group-level flag for tracking dropped groups |
+| `with p as pp:` / `with player:` | Context manager for cross-player mutations |
+| `group.get("dropped")` | Safe check that returns `None` if not set |
+| `before_once` guard | Redirect dropped players away from normal pages |
