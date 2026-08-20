@@ -205,7 +205,14 @@ For repeated games, iterate through all rounds with `player.along()`:
 </table>
 ```
 
-The `along("round")` method returns tuples of `(round_number, player_data_for_that_round)`.
+The `along("round")` method returns tuples of `(round_number, player_data_for_that_round)`. The data for each round is a live, read-only view.
+
+You can narrow the data before iterating. This is useful when one player stores data for several apps:
+
+```python
+for round_number, round_data in player.within(app=__name__).along("round"):
+    print(round_number, round_data.choice)
+```
 
 :material-github: [See the rounds example](https://github.com/mrpg/uproot-examples/tree/master/rounds)
 
@@ -259,6 +266,16 @@ class Decision(Page):
 ```
 
 :material-github: [See the prisoners_dilemma_repeated example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma_repeated)
+
+By default, a view may carry forward a value that was stored before the requested context began. Pass `strict=True` when you only want fields written while that context held:
+
+```python
+round_data = player.within(round=3, strict=True)
+choice = round_data.get("choice")
+
+for round_number, round_data in player.along("round", strict=True):
+    print(round_number, round_data.get("choice"))
+```
 
 ## Accessing constants
 

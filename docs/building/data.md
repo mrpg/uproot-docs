@@ -88,6 +88,9 @@ class Results(Page):
 
 Form field values are saved automatically when participants submit. You can store any additional data you need.
 
+!!! warning
+    The names `along`, `fields`, `flush`, `get`, `history`, `refresh`, `strict`, and `within` are reserved for storage operations. Use a different name for your own data fields.
+
 ## Session data
 
 Store data shared across all participants in a session using `player.session`:
@@ -251,7 +254,7 @@ framework; use the virtual fields shown above.
 View the complete history of a player's data:
 
 ```python
-history = player.__history__()
+history = player.history()
 # Returns: {"choice": [Value(...), Value(...)], "payoff": [...], ...}
 ```
 
@@ -260,6 +263,13 @@ Each historical value includes:
 - `data` — The value that was stored
 - `context` — The file and line that made the change
 - `unavailable` — Whether this represents a deletion of a field
+
+Use `player.fields()` when you only need the names of fields that are currently available:
+
+```python
+field_names = player.fields()
+# Returns: ["choice", "payoff", ...]
+```
 
 ## Quick reference
 
@@ -274,6 +284,7 @@ Each historical value includes:
 | `player.x = value` | Storing immutable data (numbers, strings, bools) |
 | `with player as p:` | Mutating lists or dicts outside page methods |
 | `hasattr(player, "x")` | Checking if a field exists |
-| `player.__history__()` | Accessing the complete audit trail |
+| `player.fields()` | Listing the currently available fields |
+| `player.history()` | Accessing the complete audit trail |
 
 :material-github: [See data patterns in the examples](https://github.com/mrpg/uproot-examples)
