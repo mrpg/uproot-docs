@@ -108,19 +108,18 @@ The admin interface will be at `https://example.com/my-study/admin/`.
 
 ## Fly.io with SQLite
 
-[Fly.io](https://fly.io/) is an excellent platform for deploying uproot experiments. It provides excellent support for long-running WebSocket connections, works seamlessly with uproot's architecture, and uses SQLite for simple, reliable data persistence.
+[Fly.io](https://fly.io/) supports long-running WebSocket connections and persistent volumes, so you can run uproot with its default SQLite database. Fly charges for the Machines, volumes, and network traffic that you use; check its [current pricing](https://fly.io/docs/about/pricing/) before you deploy.
 
 !!! tip "Why Fly.io?"
     - Full support for WebSocket connections and real-time features
-    - Works with uproot's default SQLite database (no additional setup needed)
-    - Simple pricing with generous free tier
+    - Works with uproot's default SQLite database on a persistent volume
     - Regional deployment for lower latency
     - Native support for persistent volumes
 
 ### Prerequisites
 
 1. Create a [Fly.io account](https://fly.io/app/sign-up)
-2. Install the [Fly CLI](https://fly.io/docs/hands-on/install-flyctl/):
+2. Install the [Fly CLI](https://fly.io/docs/flyctl/install/):
 
 === "macOS / Linux"
     ```bash
@@ -143,15 +142,14 @@ fly auth login
 Navigate to your uproot project directory and run:
 
 ```bash
-fly launch
+fly launch --no-deploy
 ```
 
-Fly will detect your Python application and guide you through the setup. When prompted:
+The `--no-deploy` option is important: it lets you attach persistent storage before uproot starts for the first time. Fly will detect your Python application and guide you through the setup. When prompted:
 
 - Choose an app name or let Fly generate one
 - Choose a region close to your participants
-- Decline PostgreSQL when asked (uproot uses SQLite by default)
-- Decline Redis when asked
+- Do not add PostgreSQL or Redis if Fly offers them
 
 This creates a `fly.toml` configuration file. Edit it to ensure the correct settings:
 
@@ -160,11 +158,12 @@ app = "your-app-name"
 primary_region = "iad"  # or your chosen region
 
 [build]
-  builder = "paketobuildpacks/builder:base"
+  builder = "paketobuildpacks/builder-jammy-base"
 
 [env]
   PORT = "8080"
   UPROOT_SQLITE3 = "/data/uproot.sqlite3"
+  UPROOT_ORIGIN = "https://your-app-name.fly.dev"
 
 [http_service]
   internal_port = 8080
@@ -178,6 +177,9 @@ primary_region = "iad"  # or your chosen region
   cpu_kind = "shared"
   cpus = 1
 ```
+
+Replace `your-app-name` and `iad` with the app name and region selected by `fly launch`.
+If you later add a custom domain, update `UPROOT_ORIGIN` to that domain.
 
 ### Adding persistent storage for SQLite
 
@@ -197,6 +199,23 @@ Update your `fly.toml` to mount the volume:
 
 The `UPROOT_SQLITE3` setting above points uproot at the mounted volume.
 
+!!! warning "Use one Machine"
+    A Fly volume is attached to one Machine and is not automatically replicated. Keep this SQLite deployment at one Machine; do not clone the Machine or scale it horizontally.
+
+### Set the admin password
+
+New uproot projects use `upd.auto_login()` in `main.py`. Set the production password as a Fly secret so that it is not committed to Git:
+
+```bash
+fly secrets set UPROOT_ADMIN_PASSWORD='choose-a-long-random-password'
+```
+
+If your project does not already contain this line, add it to `main.py`:
+
+```python
+upd.ADMINS["admin"] = upd.auto_login()
+```
+
 ### Deploy
 
 Deploy your application:
@@ -209,23 +228,6 @@ After deployment completes, Fly will show your app's URL. Open it in your browse
 
 ```bash
 fly open
-```
-
-### Setting up the admin account
-
-Since auto-login only works on localhost, you'll need to set a password for the admin account. Edit your `main.py`:
-
-```python
-import uproot.deployment as upd
-
-# Replace the ... with a secure password
-upd.ADMINS["admin"] = "your-secure-password-here"
-```
-
-Then redeploy:
-
-```bash
-fly deploy
 ```
 
 ### Monitoring and logs
@@ -242,31 +244,67 @@ Check app status:
 fly status
 ```
 
-Access the admin interface at `https://your-app-name.fly.dev/admin/`
+Access the admin interface at `https://your-app-name.fly.dev/admin/`.
 
-## Railway
+## Railway with SQLite
 
-[Railway](https://railway.app/) is another excellent option that auto-detects uproot's `Procfile` and requires minimal configuration. It's particularly good for quick deployments.
-
-### Advantages
-
-- Zero-config deployment (detects `Procfile` automatically)
-- Built-in PostgreSQL support if needed
-- Simple GitHub integration
+[Railway](https://railway.com/) can deploy an uproot project directly from GitHub. Its WebSocket connections are [exempt from inactivity timeouts](https://docs.railway.com/networking/public-networking/specs-and-limits), but its ordinary container disk is temporary. You must attach a [volume](https://docs.railway.com/volumes) for the SQLite database.
 
 ### Quick start
 
-1. Sign up at [railway.app](https://railway.app/)
-2. Connect your GitHub repository
-3. Railway auto-deploys your app
-4. Set `UPROOT_ORIGIN` environment variable to your Railway domain
+1. Sign up at [railway.com](https://railway.com/) and create a project from your GitHub repository.
+2. Open the uproot service's **Settings** tab. Under **Deploy**, set the start command to `uproot run -h 0.0.0.0 -p $PORT`. This is the same command as the generated `Procfile`, but setting it explicitly avoids relying on [deprecated Procfile detection](https://railpack.com/config/procfile/).
+3. Add a Railway volume to the service and set its mount path to `/data`.
+4. Under **Networking**, select **Generate Domain**.
+5. Under **Variables**, add the following values, replacing the example domain and password:
+
+    ```text
+    UPROOT_SQLITE3=/data/uproot.sqlite3
+    UPROOT_ORIGIN=https://your-service.up.railway.app
+    UPROOT_ADMIN_PASSWORD=choose-a-long-random-password
+    ```
+
+6. Deploy the staged changes, then open `https://your-service.up.railway.app/admin/`.
+
+The password variable assumes that `main.py` contains `upd.ADMINS["admin"] = upd.auto_login()`, as current uproot projects do. Add that line if you have an older project.
+
+Railway services with a volume [cannot use replicas and have a short period of downtime during a redeploy](https://docs.railway.com/volumes/reference). Do not redeploy while an experiment is running.
+
+## Render with SQLite
+
+[Render](https://render.com/) supports WebSockets without a fixed connection timeout and can attach a persistent disk to a paid web service. Do not use a free web service for a real experiment: free services cannot attach a disk, and their local SQLite files are [lost when the service restarts, redeploys, or spins down](https://render.com/docs/free#local-files-lost-on-redeploy).
+
+### Quick start
+
+1. Sign up at [render.com](https://render.com/) and select **New > Web Service**.
+2. Connect the Git repository that contains your uproot project and choose the **Python 3** runtime.
+3. Set the build command to `pip install -r requirements.txt`.
+4. Set the start command to `uproot run -h 0.0.0.0 -p $PORT`.
+5. Choose a paid instance type. Under **Advanced**, add a persistent disk with the mount path `/var/data`.
+6. Add the following environment variables, replacing the example service name and password:
+
+    ```text
+    UPROOT_SQLITE3=/var/data/uproot.sqlite3
+    UPROOT_ORIGIN=https://your-service-name.onrender.com
+    UPROOT_ADMIN_PASSWORD=choose-a-long-random-password
+    ```
+
+7. Create the web service. When the first deploy finishes, open `https://your-service-name.onrender.com/admin/`.
+
+The password variable assumes that `main.py` contains `upd.ADMINS["admin"] = upd.auto_login()`, as current uproot projects do. Add that line if you have an older project. Render's Python runtime uses the project's `.python-version` file, so the file generated by uproot selects a compatible Python version. If you add a custom domain, update `UPROOT_ORIGIN` to its full `https://` URL.
+
+!!! warning "Persistent-disk limitations"
+    A Render persistent disk is available to only one service instance and [disables zero-downtime deploys](https://render.com/docs/disks#disk-limitations-and-considerations). This matches uproot's single-process live state, but it means each deploy briefly stops the experiment. Keep one instance and do not deploy while participants are active. Render can also replace an instance during platform maintenance, which closes its [WebSocket connections](https://render.com/docs/websocket#faq).
 
 ## Heroku
 
-Heroku provides a straightforward way to deploy uproot experiments with PostgreSQL. Note that Heroku requires PostgreSQL and doesn't support persistent SQLite storage.
+Heroku can run uproot with PostgreSQL. A Heroku dyno's local disk is temporary, so the default SQLite database is not suitable for production there.
 
-!!! warning "WebSocket connection instability"
-    Heroku's router has a [55-second idle timeout](https://devcenter.heroku.com/articles/request-timeout) for streaming connections including WebSockets. If no data is transmitted for 55 seconds, the connection is terminated. This can cause issues in uproot experiments where participants may be inactive for longer periods (reading instructions, thinking, waiting for others). Consider using Fly.io or Railway for more stable WebSocket support.
+!!! note "WebSocket timeout"
+    Heroku supports WebSockets and applies a rolling [55-second idle timeout](https://devcenter.heroku.com/articles/websockets). uproot sends a heartbeat every 9 seconds, so a participant reading or waiting does not leave the connection idle long enough to hit that limit.
+
+!!! warning "Dyno restarts"
+    Heroku [restarts dynos at least daily](https://devcenter.heroku.com/articles/dyno-restarts), as well as after deploys and configuration changes. PostgreSQL keeps the saved data, but a restart interrupts active connections and in-process background tasks. Restart or deploy shortly before a scheduled experiment, and do not change the app while participants are active.
 
 ### Prerequisites
 
@@ -280,47 +318,21 @@ heroku login
 
 ### Deploy your experiment
 
-First, edit your `pyproject.toml` to include PostgreSQL support:
+First, add PostgreSQL support to the project's main dependencies:
 
-```toml
-dependencies = [
-    "uproot-science[pg]<1",
-]
+```bash
+uv add 'uproot-science[pg]<1'
 ```
 
-Create an `app.json` file in your project root:
+This updates `pyproject.toml` and `uv.lock`. Current uproot projects also contain a `requirements.txt`, but Heroku's Python buildpack [requires exactly one package-manager file](https://github.com/heroku/heroku-buildpack-python/blob/main/lib/package_manager.sh). Remove `requirements.txt` from Git so that Heroku uses the lock file:
 
-```json
-{
-  "name": "Uproot Project",
-  "description": "An uproot-based web application for behavioral science experiments",
-  "keywords": ["python", "uproot", "experimental-economics", "behavioral-science"],
-  "buildpacks": [
-    {
-      "url": "heroku/python"
-    }
-  ],
-  "formation": {
-    "web": {
-      "quantity": 1,
-      "size": "basic"
-    }
-  },
-  "addons": [
-    {
-      "plan": "heroku-postgresql:essential-0"
-    }
-  ],
-  "env": {
-    "UPROOT_ORIGIN": {
-      "description": "The public URL of your app (e.g., https://your-app-name.herokuapp.com). Auto-detected if you enable 'heroku labs:enable runtime-dyno-metadata'. Override for custom domains.",
-      "required": false
-    }
-  }
-}
+```bash
+git rm requirements.txt
+git add pyproject.toml uv.lock
+git commit -m "Configure Heroku deployment"
 ```
 
-Then deploy:
+The generated `Procfile` already binds uproot to Heroku's `$PORT`. Make sure `main.py` contains `upd.ADMINS["admin"] = upd.auto_login()`. Then create the app, enable runtime metadata so uproot can discover its public URL, add PostgreSQL, and set the admin password:
 
 ```bash
 # Create a new Heroku app
@@ -331,7 +343,22 @@ heroku labs:enable runtime-dyno-metadata
 
 # Provision PostgreSQL
 heroku addons:create heroku-postgresql:essential-0
+heroku pg:wait
+
+# Store the admin password outside the source code
+heroku config:set UPROOT_ADMIN_PASSWORD='choose-a-long-random-password'
 
 # Deploy
 git push heroku main
+
+# Keep uproot on exactly one web dyno
+heroku ps:scale web=1:basic
+
+# Open the admin interface
+heroku open /admin/
 ```
+
+If your local branch is not named `main`, deploy it with `git push heroku HEAD:main` instead. The PostgreSQL add-on sets `DATABASE_URL`; uproot detects it automatically. If you add a custom domain, set `UPROOT_ORIGIN` to its full `https://` URL with `heroku config:set`.
+
+!!! warning "Do not scale horizontally"
+    uproot's live connection queues and background tasks belong to one server process. Keep exactly one web dyno; adding more web dynos would split participants across processes that do not share that live state.
