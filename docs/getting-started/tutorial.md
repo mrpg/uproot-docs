@@ -6,10 +6,16 @@ This tutorial walks you through building a complete prisoner’s dilemma experim
 
 A two-player prisoner’s dilemma where participants are paired, each choose to cooperate or defect, and then see the outcome. The payoff matrix:
 
+<style>
+    .md-typeset__table td {
+        font-variant-numeric: tabular-nums !important;
+    }
+</style>
+
 | | Partner cooperates | Partner defects |
 |--|--|--|
-| **You cooperate** | 10 | 0 |
-| **You defect** | 15 | 3 |
+| **You cooperate** | You: 10 / Partner: 10 | You: &numsp;0 / Partner: 15 |
+| **You defect** | You: 15 / Partner: &numsp;0 | You: &numsp;3 / Partner: &numsp;3 |
 
 ## 1. Create a project
 
