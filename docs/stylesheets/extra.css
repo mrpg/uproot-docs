@@ -27,6 +27,16 @@
         var(--fvn-alt,);
 }
 
+a.headerlink {
+  width: 0px !important;
+  font-weight: 300 !important;
+}
+
+/* Dial back salience of targeted headerlinks (pilcrow) */
+.md-typeset :target>.headerlink {
+  opacity: 0.5 !important;
+}
+
 body {
   font-family: "Inter", sans-serif !important;
 }
@@ -84,7 +94,7 @@ h3 {
 .note {
   font-size: 0.7rem !important;
 }
-/* Style admonitions like callouts */
+/* Style admonitions and notes like callouts */
 .admonition,
 details.note {
   border-bottom-width: 0px !important;
