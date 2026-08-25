@@ -108,13 +108,13 @@ Now that uproot is running, you can:
 
 ## Troubleshooting
 
-### uv command not found
+### `uv` command not found
 
 If you get “command not found” after installing uv:
 
-1. Close and reopen your terminal
-2. Or run `source ~/.bashrc` (Linux) / `source ~/.zshrc` (macOS)
-3. Or add `~/.local/bin` to your PATH manually
+- Close and reopen your terminal.
+- Or run `source ~/.bashrc` (Linux) / `source ~/.zshrc` (macOS).
+- Or add `~/.local/bin` to your PATH manually.
 
 ### Permission errors on Linux
 
