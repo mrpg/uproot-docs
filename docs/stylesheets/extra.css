@@ -79,13 +79,29 @@ h3 {
   letter-spacing: 0.0075em !important;
 }
 
+/* Slightly increase font size for admonitions and notes */
 .admonition,
+.note {
+  font-size: 0.7rem !important;
+}
+/* Style admonitions like callouts */
+.admonition,
+details.note {
+  border-bottom-width: 0px !important;
+  border-left-width: 6px !important;
+  border-right-width: 0px !important;
+  border-top-width: 0px !important;
+  border-radius: 0px !important;
+  margin-left: 1px !important;  /* With 0px, border looks as if it were protruding into the left margin */
+  margin-right: 1px !important;  /* To compensate for the shadow */
+}
+
+/* Harmonize border-width across elements */
 .md-typeset__table table {
   border-width: 1px !important;
 }
 
 /* Harmonize border-radius across elements */
-.admonition,
 .cards li,
 .md-code__content,
 .md-button,
