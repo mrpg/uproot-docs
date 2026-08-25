@@ -84,7 +84,7 @@ h3 {
   border-width: 1px !important;
 }
 
-/* Harmoize border-radius across elements */
+/* Harmonize border-radius across elements */
 .admonition,
 .cards li,
 .md-code__content,
@@ -113,4 +113,21 @@ h3 {
 .md-nav__title:not([for="__drawer"]), label.md-nav__link {
   color: var(--uproot-highlight-color) !important;
   font-size: 90% !important;
+}
+
+/* Reduce line height of body text sligtly (1.6 originally) */
+.md-typeset {
+  line-height: 1.5 !important;
+}
+@media (min-width: 960px) {
+  .md-typeset {
+    line-height: 1.55 !important;
+  }
+}
+
+/* Disable increase of font size at 2000px break point */
+@media (min-width: 2000px) {
+  .md-typeset {
+    font-size: 0.7333rem !important;
+  }
 }
