@@ -176,7 +176,7 @@ Templates extend a base layout:
 {% endblock main %}
 ```
 
-### PlayerContext
+### Using `PlayerContext`
 
 Define a `Context` class for computed values accessible across all templates:
 
