@@ -58,11 +58,11 @@ Use the `chat()` template function to render the chat interface:
 
 The chat widget provides:
 
-- A message display area showing all messages
-- An input field for typing messages
-- A send button
-- Real-time updates when others send messages
-- Visual distinction between your messages and others'
+- a message display area showing all messages;
+- an input field for typing messages;
+- a send button;
+- real-time updates when others send messages;
+- visual distinction between your messages and others’.
 
 ## Session-level chat
 
