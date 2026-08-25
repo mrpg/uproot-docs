@@ -32,11 +32,11 @@ Run the following command to create a new uproot project:
 uv run --with uproot-science uproot setup my_project
 ```
 
-This command:
+This command
 
-1. Downloads and installs the latest version of uproot
-2. Creates a new directory called `my_project`
-3. Generates starter files including a sample experiment
+1. downloads and installs the latest version of uproot;
+2. creates a new directory called `my_project`;
+3. generates starter files including a sample experiment.
 
 You should see output like this:
 
