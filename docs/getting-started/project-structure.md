@@ -25,7 +25,7 @@ my_project/
     └── ...
 ```
 
-## main.py
+## The `main.py` file
 
 The entry point configures your experiment and starts the server:
 
