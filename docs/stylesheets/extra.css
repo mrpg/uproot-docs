@@ -27,6 +27,12 @@
         var(--fvn-alt,);
 }
 
+.md-typeset a:hover{
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 a.headerlink {
   width: 0px !important;
   font-weight: 300 !important;
@@ -87,6 +93,15 @@ h2 {
 h3 {
   font-weight: 700 !important;
   letter-spacing: 0.0075em !important;
+}
+h1 code,
+h2 code {
+  color: var(--uproot-highlight-color) !important;
+  font-size: 103% !important;
+}
+h3 code {
+  color: var(--md-typeset-color) !important;
+  font-size: 103% !important;
 }
 
 /* Slightly increase font size for admonitions and notes */
