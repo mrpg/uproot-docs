@@ -100,7 +100,7 @@ high_scorers = session.players.filter(_.score > 50)
 eligible = session.players.filter(_.present == True, _.age >= 18)
 ```
 
-`_` supports all comparison operators: `==`, `!=`, `>`, `>=`, `<`, `<=`. You can also chain attribute access—`_.group.round` refers to each player's group's round field.
+`_` supports all comparison operators: `==`, `!=`, `>`, `>=`, `<`, `<=`. You can also chain attribute access—`_.group.round` refers to each player’s group’s round field.
 
 !!! note
     `_` builds a lazy comparison, so `_.active` alone (without a comparison operator) tests for truthiness. To check for `False`, write `_.active == False` explicitly.
@@ -157,7 +157,7 @@ if player.cooperate and other.cooperate:
     player.payoff = 10
 ```
 
-Raises an error if the group doesn't have exactly two members.
+Raises an error if the group doesn’t have exactly two members.
 
 :material-github: [See the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma) · [twobytwo example](https://github.com/mrpg/uproot-examples/tree/master/twobytwo)
 
@@ -328,9 +328,9 @@ class WaitAndMatch(SynchronizingWait):
 
 When a config contains multiple apps that each use `GroupCreatingWait`, groups from a previous app are automatically cleared when participants reach a new `GroupCreatingWait` page. This means each app forms its own independent groups without manual cleanup.
 
-## Complete example: prisoner's dilemma
+## Complete example: prisoner’s dilemma
 
-Here's a complete two-player game showing group formation, decision collection, and payoff calculation:
+Here’s a complete two-player game showing group formation, decision collection, and payoff calculation:
 
 ```python
 class GroupPlease(GroupCreatingWait):

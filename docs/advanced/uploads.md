@@ -117,7 +117,7 @@ class UploadPage(Page):
 ```
 
 The `participant_name` field saves to `player.participant_name` automatically.
-`player.name` is reserved for uproot's generated player name. The `photo`
+`player.name` is reserved for uproot’s generated player name. The `photo`
 field is handled separately.
 
 ## Rendering in templates

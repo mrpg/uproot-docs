@@ -93,7 +93,7 @@ options as `uproot run`, plus:
 | Option | Description |
 |--------|-------------|
 | `CONFIG` or `--config` | Config to use (optional if the project has exactly one config) |
-| `--simulate` | Enable the app's `simulate.js` responses for the quick room's session (see [App testing](../running/admin.md#app-testing)) |
+| `--simulate` | Enable the app’s `simulate.js` responses for the quick room’s session (see [App testing](../running/admin.md#app-testing)) |
 
 ### uproot reset
 
@@ -157,7 +157,7 @@ Create a new page in an existing app.
 uproot newpage my_app MyNewPage
 ```
 
-This creates a new HTML template file for the page and adds the page class to the app's `__init__.py`.
+This creates a new HTML template file for the page and adds the page class to the app’s `__init__.py`.
 
 ### uproot examples
 
@@ -179,7 +179,7 @@ uproot deployment
 
 ## Using with uv
 
-If you're using uv (recommended), prefix commands with `uv run`:
+If you’re using uv (recommended), prefix commands with `uv run`:
 
 ```bash
 uv run uproot run

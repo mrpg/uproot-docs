@@ -1,6 +1,6 @@
 # Displaying results
 
-Results pages show participants their outcomes, payoffs, and other players' choices. uproot uses Jinja2 templates with full access to Python builtins, enabling calculations and logic directly in your templates.
+Results pages show participants their outcomes, payoffs, and other players’ choices. uproot uses Jinja2 templates with full access to Python builtins, enabling calculations and logic directly in your templates.
 
 ## Basic results display
 
@@ -29,7 +29,7 @@ In the template, access player data and context variables:
 
 :material-github: [See the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma)
 
-## Accessing other players' data
+## Accessing other players’ data
 
 ### Two-player groups
 
@@ -218,7 +218,7 @@ for round_number, round_data in player.within(app=__name__).along("round"):
 
 ### Using `player.within()`
 
-Access a specific round's data with `player.within(round=n)`:
+Access a specific round’s data with `player.within(round=n)`:
 
 ```html+jinja
 <table class="table">
@@ -303,7 +303,7 @@ class C:
 
 ### `tojson` and `| safe`
 
-`tojson` converts a Python value to a JSON string. Jinja2's autoescaping then HTML-encodes the result. This is the right default: it keeps values safe in HTML attributes and element content.
+`tojson` converts a Python value to a JSON string. Jinja2’s autoescaping then HTML-encodes the result. This is the right default: it keeps values safe in HTML attributes and element content.
 
 **Most of the time, `tojson` alone is all you need.** Numbers, booleans, and `None` produce JSON like `42`, `true`, or `null`—no characters that autoescaping would change. Even inside `<script>` blocks, autoescaping is a no-op for these types, so `| safe` is unnecessary:
 

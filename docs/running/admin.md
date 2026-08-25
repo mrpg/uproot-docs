@@ -48,7 +48,7 @@ Navigate to **Sessions** → **New session** to create a session:
 3. **Settings (JSON)**—Optional JSON object for session settings (accessible via `session.settings`); apps can replace this JSON editor with a [custom settings form](../advanced/settings-forms.md).
 4. **Custom session name**—Optional (auto-generated if omitted).
 5. **Custom player names**—Optional (auto-generated if omitted).
-6. **Simulate responses**—If enabled, the app's `simulate.js` file runs on every player page load (see [App testing](#app-testing) below).
+6. **Simulate responses**—If enabled, the app’s `simulate.js` file runs on every player page load (see [App testing](#app-testing) below).
 
 After creation, each player gets a unique URL:
 
@@ -77,8 +77,8 @@ Select one or more players and use these actions:
 | **Advance** | Move selected players forward one page |
 | **Revert** | Move selected players back one page |
 | **Move to end** | Skip selected players to the end of the experiment |
-| **Reload** | Force a page reload in selected players' browsers |
-| **Send message** | Display a message on selected players' screens |
+| **Reload** | Force a page reload in selected players’ browsers |
+| **Send message** | Display a message on selected players’ screens |
 | **Mark as dropout** | Flag selected players as dropouts |
 | **Redirect** | Send selected players to an external URL |
 | **Set fields** | Set arbitrary field values on selected players |
@@ -97,11 +97,11 @@ Select one or more players and use these actions:
 
 ### Data browser
 
-Click **View data** on the session page to browse all stored data in a table view. Each player's fields are shown with their current values, timestamps, and the code location that set each value.
+Click **View data** on the session page to browse all stored data in a table view. Each player’s fields are shown with their current values, timestamps, and the code location that set each value.
 
 ### Downloading data
 
-Click **Download data** on the session page to download the session's complete data as a single ZIP archive. See [Exporting data](export.md) for what's inside and how to analyze it.
+Click **Download data** on the session page to download the session’s complete data as a single ZIP archive. See [Exporting data](export.md) for what’s inside and how to analyze it.
 
 ### Page times
 
@@ -117,13 +117,13 @@ If your app defines a `digest(session)` function, the digest view shows its outp
 
 Navigate to **Rooms** to see all rooms, separated into open and closed sections. See [Rooms](rooms.md) for details on room configuration.
 
-From a room's admin page you can:
+From a room’s admin page you can:
 
 - See which participants are waiting in the room (with live label tracking)
 - Create a session with pre-assigned player slots
 - Edit room settings (config, labels, capacity) when no session is associated
 
-When a session is associated, the room's admin page shows:
+When a session is associated, the room’s admin page shows:
 
 - **Room status**—Open/closed, capacity, and join mode (free join or restricted);
 - **Close room**/**Reopen room**—Stop or resume accepting new participants without affecting the running session (see [Closing and reopening a room](rooms.md#closing-and-reopening-a-room)).
@@ -137,7 +137,7 @@ Features:
 
 - **Per-player channels**—Each participant gets a private conversation with the experimenter.
 - **Enable/disable replies**—Control whether the participant can write back or only receive messages.
-- **Participant-side widget**—A floating chat button appears on the participant's screen when the admin sends a message.
+- **Participant-side widget**—A floating chat button appears on the participant’s screen when the admin sends a message.
 - **Real-time updates**—Messages appear instantly on both sides via WebSocket.
 
 Participants see a small button in the bottom-right corner. Messages from the experimenter appear in a pop-up chat window. Whether the participant can reply is controlled by the toggle in the admin view.

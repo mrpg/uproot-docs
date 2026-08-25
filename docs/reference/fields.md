@@ -242,7 +242,7 @@ age=IntegerField(label="How old are you?", min=18, max=100)
 BIC/SWIFT code input with format validation (requires the `schwifty` library).
 
 ```python
-bic=BICField(label="Your bank's BIC")
+bic=BICField(label="Your bank’s BIC")
 ```
 
 It accepts the same addon, label, optional, rendering, and wrapper parameters as

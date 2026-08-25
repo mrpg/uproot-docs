@@ -30,4 +30,4 @@ Substantial contributions during the public review will be gratefully acknowledg
 Large language models are already very capable of helping you write experiments in uproot and convert code from other frameworks. To get the best results, point your LLM to:
 
 - The [:material-github: examples repository](https://github.com/mrpg/uproot-examples/tree/master), which contains a large and growing number of complete experiments.
-- The [:material-github: uproot skill](https://github.com/mrpg/uproot-skill), which gives Claude Code and other agentic tools detailed knowledge of uproot's API.
+- The [:material-github: uproot skill](https://github.com/mrpg/uproot-skill), which gives Claude Code and other agentic tools detailed knowledge of uproot’s API.

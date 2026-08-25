@@ -22,7 +22,7 @@
 
     ---
 
-    Follow the tutorial to build a complete prisoner's dilemma experiment.
+    Follow the tutorial to build a complete prisoner’s dilemma experiment.
 
     [:octicons-arrow-right-24: Tutorial](getting-started/tutorial.md)
 
@@ -64,7 +64,7 @@
 
 ## Quick example
 
-Here's the core logic of a prisoner's dilemma experiment:
+Here’s the core logic of a prisoner’s dilemma experiment:
 
 ```python
 from uproot.fields import *

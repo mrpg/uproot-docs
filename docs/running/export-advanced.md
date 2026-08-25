@@ -8,7 +8,7 @@ Use the [Admin REST API](../reference/admin-api.md) for programmatic access. All
 
 ### Downloading the briefcase
 
-`GET /admin/api/v1/sessions/{sname}/data/export/` returns the same ZIP briefcase as the admin interface's **Download data** page:
+`GET /admin/api/v1/sessions/{sname}/data/export/` returns the same ZIP briefcase as the admin interface’s **Download data** page:
 
 ```bash
 curl -OJ -H "Authorization: Bearer YOUR_TOKEN" \

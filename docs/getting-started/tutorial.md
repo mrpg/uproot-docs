@@ -1,10 +1,10 @@
 # Your first experiment
 
-This tutorial walks you through building a complete prisoner's dilemma experiment from scratch. By the end, you'll understand how uproot pages, forms, groups, and synchronization work together.
+This tutorial walks you through building a complete prisoner’s dilemma experiment from scratch. By the end, you’ll understand how uproot pages, forms, groups, and synchronization work together.
 
-## What we're building
+## What we’re building
 
-A two-player prisoner's dilemma where participants are paired, each choose to cooperate or defect, and then see the outcome. The payoff matrix:
+A two-player prisoner’s dilemma where participants are paired, each choose to cooperate or defect, and then see the outcome. The payoff matrix:
 
 | | Partner cooperates | Partner defects |
 |--|--|--|
@@ -13,7 +13,7 @@ A two-player prisoner's dilemma where participants are paired, each choose to co
 
 ## 1. Create a project
 
-If you haven't already, create a new uproot project:
+If you haven’t already, create a new uproot project:
 
 ```console
 uv run --with uproot-science uproot setup my_project
@@ -46,7 +46,7 @@ Replace the contents of `prisoners_dilemma/__init__.py` with:
 from uproot.fields import *
 from uproot.smithereens import *
 
-DESCRIPTION = "Prisoner's dilemma"
+DESCRIPTION = "Prisoner’s dilemma"
 SUGGESTED_MULTIPLE = 2
 
 
@@ -90,7 +90,7 @@ The `fields` dictionary defines the form. After submission, the choice is stored
 
 ### Synchronization
 
-Add a wait page so both players' decisions are in before showing results:
+Add a wait page so both players’ decisions are in before showing results:
 
 ```python
 class Sync(SynchronizingWait):
@@ -220,7 +220,7 @@ Open the two player links in separate browser tabs. Both players will wait at th
 from uproot.fields import *
 from uproot.smithereens import *
 
-DESCRIPTION = "Prisoner's dilemma"
+DESCRIPTION = "Prisoner’s dilemma"
 SUGGESTED_MULTIPLE = 2
 
 
@@ -273,7 +273,7 @@ page_order = [
 
 :material-github: [See the full prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma)
 
-## What's next?
+## What’s next?
 
 - **[Project structure](project-structure.md)**—Understand the files in your project.
 - **[Pages and templates](../building/pages.md)**—Learn about page lifecycle methods.

@@ -35,7 +35,7 @@ The navigation follows a learning arc: orient → build → connect → harden �
 Key structural decisions:
 - Sessions and rooms are a single page (`running/rooms.md`), not two — sessions was too thin to stand alone
 - Data export is split in two: `running/export.md` targets the median user (download the ZIP briefcase, analyze in R/Python), while `running/export-advanced.md` holds REST API/CLI export, database dumps, and `uproot.read`
-- Alpine.js lives in Building (not Advanced) — it's a building tool like live methods
+- Alpine.js lives in Building (not Advanced) — it’s a building tool like live methods
 - Rounds/randomization do not have their own pages — they are covered by SmoothOperators (`building/operators.md`)
 - Results follows Data in the Building section (natural collect → display arc)
 
@@ -53,7 +53,7 @@ The typical reader is a behavioral researcher — an economist, psychologist, or
 - **Consistent terminology.** Use exactly one name per concept across all pages (e.g. always "page order", never "page sequence" or "page flow").
 - **Signpost prerequisites.** Pages that build on earlier material say so in the first paragraph, with links ("This page assumes you have read [Forms](forms.md).").
 - **Anticipate mistakes.** Where users commonly go wrong, show the mistake, the error they will see, and the fix — `!!! warning` admonitions work well for this.
-- **Prose teaches; tables look things up.** Guide pages explain in flowing prose with examples; reference pages enumerate in tables and lists. Don't turn a tutorial into a wall of tables.
+- **Prose teaches; tables look things up.** Guide pages explain in flowing prose with examples; reference pages enumerate in tables and lists. Don’t turn a tutorial into a wall of tables.
 
 ## Style guidelines
 
@@ -65,7 +65,7 @@ The typical reader is a behavioral researcher — an economist, psychologist, or
 - uproot-examples uses the `master` branch (not `main`), so links should be e.g. `https://github.com/mrpg/uproot-examples/tree/master/...`
 - Use `:material-github:` prefix for GitHub links in docs
 - No manual imports needed in code examples—uproot projects have everything available automatically via `from uproot.smithereens import *`
-- Avoid guide pages that are just thin wrappers pointing to another page — either cover the topic properly or don't give it its own page
+- Avoid guide pages that are just thin wrappers pointing to another page — either cover the topic properly or don’t give it its own page
 
 ## Related repositories
 

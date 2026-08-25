@@ -14,12 +14,12 @@ Each claim, explained so you can check it yourself:
 
 Most software stores your data like a whiteboard: when a value changes, the old one is erased. uproot stores it like a **lab notebook**: entries are permanent, every entry is dated, and new information is added on a new line. This is called an append-only log.
 
-Concretely, every data change is recorded with three things: a timestamp, the value itself, and the exact place in your study's code that caused the change. If a participant's payoff was set to 10 by a function called `set_payoff()` on line 42, that fact is stored forever, next to the payoff itself. When a reviewer, a co-author, or your future self asks "where does this number come from?"—the data itself answers.
+Concretely, every data change is recorded with three things: a timestamp, the value itself, and the exact place in your study’s code that caused the change. If a participant’s payoff was set to 10 by a function called `set_payoff()` on line 42, that fact is stored forever, next to the payoff itself. When a reviewer, a co-author, or your future self asks "where does this number come from?"—the data itself answers.
 
 Two practical consequences experimenters will appreciate:
 
 - Repeated rounds do not create dozens of duplicate columns, so you no longer write reshaping scripts before analysis.
-- You can reconstruct any participant's complete state at any moment of the study, after the fact.
+- You can reconstruct any participant’s complete state at any moment of the study, after the fact.
 
 [:octicons-arrow-right-24: Storing and accessing data](building/data.md)
 
@@ -33,7 +33,7 @@ With uproot, reproducibility is not an extra chore. It falls out of the normal w
 
 1. **Your project folder *is* your experiment.** Pages, logic, texts, and settings all live in one ordinary folder that you can copy, archive, and share.
 2. **A file in that folder, `uv.lock`, lists the exact version of every piece of software your project uses**—uproot itself and everything underneath it. Think of it as a receipt for your software environment. It is written automatically; you never edit it.
-3. **One command, `uv sync`, reinstalls exactly what is on that receipt.** Not "the current version"—*your* version. On your laptop, on a lab server, or on a replicator's machine in 2031.
+3. **One command, `uv sync`, reinstalls exactly what is on that receipt.** Not "the current version"—*your* version. On your laptop, on a lab server, or on a replicator’s machine in 2031.
 4. **Nothing updates behind your back.** Your environment changes only when you explicitly ask for an upgrade. Mid-study, it stays frozen.
 5. **No hidden moving parts.** uproot ships all browser assets (fonts, styling, JavaScript libraries) inside the package itself, so your study does not silently depend on external servers that may change or vanish.
 
@@ -68,7 +68,7 @@ And the pages work for *everyone*, because accessibility is built in rather than
 - Participants navigating by keyboard alone can skip past repeated content and operate every input.
 - Time limits are announced to screen-reader users, not just shown visually.
 
-(For the technically inclined: uproot's default templates implement this with standard [WAI-ARIA](https://www.w3.org/WAI/standards-guidelines/aria/) markup—labeled inputs, radio groups with accessible names, live announcements, and correctly marked-up dialogs and tables.)
+(For the technically inclined: uproot’s default templates implement this with standard [WAI-ARIA](https://www.w3.org/WAI/standards-guidelines/aria/) markup—labeled inputs, radio groups with accessible names, live announcements, and correctly marked-up dialogs and tables.)
 
 This matters scientifically as well as ethically: participants who use screen readers, keyboards, or five-year-old phones belong in your sample. The visual foundation is [Bootstrap 5](https://getbootstrap.com/), bundled with uproot itself, so pages look consistent and professional out of the box.
 
@@ -80,9 +80,9 @@ This matters scientifically as well as ethically: participants who use screen re
 
 !!! quote "The principle of verisimilitude"
 
-    uproot follows the principle that **if something is hard, it's a bug.**
+    uproot follows the principle that **if something is hard, it’s a bug.**
 
-We call this the principle of *verisimilitude*—and the bug is not yours, it's uproot's. If an ordinary research need is hard to express, the framework is what gets fixed.
+We call this the principle of *verisimilitude*—and the bug is not yours, it’s uproot’s. If an ordinary research need is hard to express, the framework is what gets fixed.
 
 A concrete example. On other platforms, a common pattern is to add a €5 bonus when the results page is shown. The hidden flaw: every time the participant refreshes the page, the code runs again—and they receive another €5. Bugs like this have gone undetected for entire studies, and the standard fix is manual bookkeeping that every researcher must remember to write, every time. In uproot, no workaround is needed: its page lifecycle includes methods that are **guaranteed to run exactly once** per participant, no matter how often a page is reloaded. You write the natural code; the framework makes it correct.
 
@@ -94,7 +94,7 @@ The same philosophy runs through everything else on this page: back buttons, ran
 
 **The advantage in one sentence: everything a participant sends is checked on the server, where participants have no access—not in their browser, where they do.**
 
-On platforms whose logic runs in the participant's browser, a tech-savvy participant can open the developer tools and modify any value—payoffs, treatments, answers. There is no way to prevent this, because the checking happens on hardware the participant controls.
+On platforms whose logic runs in the participant’s browser, a tech-savvy participant can open the developer tools and modify any value—payoffs, treatments, answers. There is no way to prevent this, because the checking happens on hardware the participant controls.
 
 In uproot, the server decides what is valid. Every piece of data a participant sends is validated against the types declared in your code before it reaches your logic:
 
@@ -110,9 +110,9 @@ This says: the `bid` action accepts one thing, a number. Anything else—text, m
 
 ## Real interaction between participants, built in
 
-**The advantage in one sentence: participants can interact live—chat, trade, draw, negotiate—because uproot keeps a permanent connection to every participant's browser.**
+**The advantage in one sentence: participants can interact live—chat, trade, draw, negotiate—because uproot keeps a permanent connection to every participant’s browser.**
 
-Updates appear on participants' screens instantly, without page reloads. This is not a bolted-on extra; it is the foundation the framework is built on. Working examples you can run today include a [double auction](https://github.com/mrpg/uproot-examples/tree/master/double_auction) with live order books, a [collaborative drawing board](https://github.com/mrpg/uproot-examples/tree/master/drawing_board), and [built-in chat](multiplayer/chat.md) with pseudonyms for anonymity.
+Updates appear on participants’ screens instantly, without page reloads. This is not a bolted-on extra; it is the foundation the framework is built on. Working examples you can run today include a [double auction](https://github.com/mrpg/uproot-examples/tree/master/double_auction) with live order books, a [collaborative drawing board](https://github.com/mrpg/uproot-examples/tree/master/drawing_board), and [built-in chat](multiplayer/chat.md) with pseudonyms for anonymity.
 
 uproot also notices when a participant disconnects and lets you [decide what happens next](advanced/dropouts.md)—and groups are formed based on who actually shows up, not who signed up.
 
@@ -136,7 +136,7 @@ This line shows two pages in random order, then repeats a task-and-feedback bloc
 
 **The advantage in one sentence: when a live session hits a problem, you can fix it from the admin interface—per participant, in real time—instead of aborting the session.**
 
-From the admin interface you can advance, revert, reload, or regroup individual participants, message anyone privately (you may allow them to respond), and watch everyone's progress live, filtering and sorting by any data field.
+From the admin interface you can advance, revert, reload, or regroup individual participants, message anyone privately (you may allow them to respond), and watch everyone’s progress live, filtering and sorting by any data field.
 
 Even if you do need to make live changes to your code, uproot will reload them immediately. (If an error occurs while reloading a Python module, the old continues to run, so that your server will never crash.)
 
@@ -166,7 +166,7 @@ Even complex data structures or custom database entries are stored rapidly if yo
 
 **The advantage in one sentence: uproot costs nothing, hides nothing, and locks you into nothing.**
 
-uproot was built by [academics](legal.md#who-created-uproot) with no financial stake in the promotion of uproot. If you do not want to use uproot, that's also fine!
+uproot was built by [academics](legal.md#who-created-uproot) with no financial stake in the promotion of uproot. If you do not want to use uproot, that’s also fine!
 
 To protect uproot and its community, our software is 100% [Free/Libre Open Source Software](https://www.gnu.org/philosophy/free-sw.html)—you have the [four freedoms](https://www.gnu.org/philosophy/free-sw.html#four-freedoms): to run, study, share, and improve the software, guaranteed by the [LGPL](https://www.gnu.org/licenses/lgpl-3.0.html). There are no license fees, no per-response pricing, and no vendor who can retire a feature you depend on. You can inspect [every line of the code](https://github.com/mrpg/uproot), host it on your own infrastructure (a small server is plenty—the default database is [SQLite](https://sqlite.org/), which requires zero setup), and extend it freely.
 

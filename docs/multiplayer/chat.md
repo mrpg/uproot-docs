@@ -106,7 +106,7 @@ class GroupPlease(GroupCreatingWait):
             chat.add_player(group.chat, player)
 ```
 
-Then display the group's chat:
+Then display the group’s chat:
 
 ```html+jinja
 {{ chat(player.group.chat) }}
@@ -227,7 +227,7 @@ Example custom styling:
 
 ## Complete example
 
-Here's a complete session-level chat:
+Here’s a complete session-level chat:
 
 ```python
 def new_session(session):

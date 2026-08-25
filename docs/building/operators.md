@@ -24,7 +24,7 @@ Each participant sees `Instructions` first, then the three tasks in a randomized
 
 ### Keeping pages together with Bracket
 
-Sometimes you want to randomize the order of *groups* of pages while keeping each group's internal order intact. Use `Bracket` to treat multiple pages as a single unit:
+Sometimes you want to randomize the order of *groups* of pages while keeping each group’s internal order intact. Use `Bracket` to treat multiple pages as a single unit:
 
 ```python
 page_order = [
@@ -76,7 +76,7 @@ Participants see `Instructions`, then cycle through `Decision` → `Feedback` fi
 
 ### Accessing the current round
 
-Inside your pages, access `player.round` to know which round you're in (1-indexed):
+Inside your pages, access `player.round` to know which round you’re in (1-indexed):
 
 ```python
 class Decision(Page):

@@ -1,6 +1,6 @@
 # Synchronizing progress
 
-In multiplayer experiments, you often need to wait for all group members to reach a certain point before continuing. The `SynchronizingWait` page type handles this automatically and provides a callback to process all players' data together.
+In multiplayer experiments, you often need to wait for all group members to reach a certain point before continuing. The `SynchronizingWait` page type handles this automatically and provides a callback to process all players’ data together.
 
 ## Basic synchronization
 
@@ -24,7 +24,7 @@ page_order = [
 
 ## Processing data with all_here
 
-The `all_here` callback runs exactly once when all group members have arrived. This is where you calculate outcomes based on everyone's choices:
+The `all_here` callback runs exactly once when all group members have arrived. This is where you calculate outcomes based on everyone’s choices:
 
 ```python
 class Sync(SynchronizingWait):
@@ -36,13 +36,13 @@ class Sync(SynchronizingWait):
             player.payoff = ENDOWMENT - player.contribution + MPCR * total
 ```
 
-The callback receives the `group` object and has access to all players' data.
+The callback receives the `group` object and has access to all players’ data.
 
 :material-github: [See the public_goods_game example](https://github.com/mrpg/uproot-examples/tree/master/public_goods_game) · [beauty_contest example](https://github.com/mrpg/uproot-examples/tree/master/beauty_contest) · [minimum_effort_game example](https://github.com/mrpg/uproot-examples/tree/master/minimum_effort_game)
 
 ## Calculating payoffs
 
-A common pattern is to calculate payoffs for all players in `all_here`. Here's a complete example using the prisoner's dilemma payoff matrix:
+A common pattern is to calculate payoffs for all players in `all_here`. Here’s a complete example using the prisoner’s dilemma payoff matrix:
 
 ```python
 def set_payoff(player):
@@ -179,7 +179,7 @@ def digest(session):
         player1 = group.players.find_one(member_id=0)
 
         for round in range(1, player1.round + 1):
-            # Get this player's choice in a specific round
+            # Get this player’s choice in a specific round
             choice = player1.within(round=round).get("cooperate")
 ```
 
@@ -187,7 +187,7 @@ def digest(session):
 
 ## Complete example: public goods game
 
-Here's a complete example showing synchronization with a three-player group:
+Here’s a complete example showing synchronization with a three-player group:
 
 ```python
 ENDOWMENT = cu("10")

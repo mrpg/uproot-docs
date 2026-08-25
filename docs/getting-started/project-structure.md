@@ -1,6 +1,6 @@
 # Project structure
 
-An uproot project is a Python package with a specific layout. Here's what a typical project looks like.
+An uproot project is a Python package with a specific layout. Here’s what a typical project looks like.
 
 ## Directory layout
 
@@ -11,7 +11,7 @@ my_project/
 ├── requirements.txt         # Alternative dependency file
 ├── .env                     # Local environment settings
 ├── Procfile                 # For cloud deployment (Heroku, Railway)
-├── uproot_license.txt       # uproot's LGPL license
+├── uproot_license.txt       # uproot’s LGPL license
 ├── my_app/
 │   ├── __init__.py          # App logic: pages, fields, callbacks
 │   ├── Welcome.html         # Template for Welcome page
@@ -209,7 +209,7 @@ SQLite works well in production too—uproot is optimized for it. PostgreSQL is 
 
 Run `uproot deployment` to see the current values.
 
-## What's next?
+## What’s next?
 
 - **[Pages and templates](../building/pages.md)**—How pages work.
 - **[Collecting data with forms](../building/forms.md)**—Available field types.

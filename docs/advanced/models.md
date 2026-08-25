@@ -38,7 +38,7 @@ Fields with types `PlayerIdentifier`, `SessionIdentifier`, `GroupIdentifier`, or
 
 ## Adding entries
 
-Use `add_entry` to add an entry to a model. Identifier fields matching the player's session, group, or player ID are filled automatically:
+Use `add_entry` to add an entry to a model. Identifier fields matching the player’s session, group, or player ID are filled automatically:
 
 ```python
 from uproot.models import add_entry
@@ -48,7 +48,7 @@ async def post_offer(page, player, price: float, quantity: int):
     add_entry(player.session.offers, player, Offer, price=price, quantity=quantity)
 ```
 
-The first argument is the model identifier, the second is the player (used for auto-filling identifier fields), and the third is the entry type. Remaining keyword arguments fill the entry's fields.
+The first argument is the model identifier, the second is the player (used for auto-filling identifier fields), and the third is the entry type. Remaining keyword arguments fill the entry’s fields.
 
 Each entry is timestamped and assigned a UUID.
 
@@ -104,7 +104,7 @@ uuid, timestamp, latest = get_latest_entry(session.offers, Offer)
 
 ### Single field
 
-Read a single field from the model's storage:
+Read a single field from the model’s storage:
 
 ```python
 from uproot.models import get_field

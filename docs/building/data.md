@@ -139,7 +139,7 @@ In templates:
 
 `session.settings` is a read-only dict-like object that supports both attribute access (`settings.key`) and `.get(key, default)`.
 
-Apps can replace the admin's raw JSON settings editor with their own form—see [Custom settings forms](../advanced/settings-forms.md).
+Apps can replace the admin’s raw JSON settings editor with their own form—see [Custom settings forms](../advanced/settings-forms.md).
 
 :material-github: [See the read_settings example](https://github.com/mrpg/uproot-examples/tree/master/read_settings) · [conjoint example](https://github.com/mrpg/uproot-examples/tree/master/conjoint)
 
@@ -251,7 +251,7 @@ framework; use the virtual fields shown above.
 
 ### Accessing history (advanced)
 
-View the complete history of a player's data:
+View the complete history of a player’s data:
 
 ```python
 history = player.history()

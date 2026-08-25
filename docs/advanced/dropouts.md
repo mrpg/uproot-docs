@@ -17,7 +17,7 @@ async def handle_dropout(player):
     move_to_end(player)
 ```
 
-The watcher checks every few seconds whether the player's browser is still connected. If the player has been offline for longer than the tolerance period (default: 30 seconds), the handler fires.
+The watcher checks every few seconds whether the player’s browser is still connected. If the player has been offline for longer than the tolerance period (default: 30 seconds), the handler fires.
 
 :material-github: [See the dropouts example](https://github.com/mrpg/uproot-examples/tree/master/dropouts)
 
@@ -47,7 +47,7 @@ async def handle_dropout(player):
     move_to_end(player)
 ```
 
-`move_to_end(player)` advances the player past all remaining pages. If they return, they'll see the end page instead of being stuck on a wait page that blocks other players.
+`move_to_end(player)` advances the player past all remaining pages. If they return, they’ll see the end page instead of being stuck on a wait page that blocks other players.
 
 ## Marking dropouts manually
 
@@ -95,7 +95,7 @@ def drop_group(group, culprit):
                 move_to_page(pp, Dropped)
 ```
 
-`drop_group` does three things: marks the group, records who caused the drop, and moves every *other* player to the Dropped page. The `with p as pp:` [context manager](../building/data.md) is required here because you are mutating a player object from outside that player's own page method.
+`drop_group` does three things: marks the group, records who caused the drop, and moves every *other* player to the Dropped page. The `with p as pp:` [context manager](../building/data.md) is required here because you are mutating a player object from outside that player’s own page method.
 
 !!! warning "Guard against double-dropping"
     Multiple dropout vectors can fire for the same group (e.g., a browser disconnect triggers `watch_for_dropout` at the same moment a page timeout fires). Always check `if not group.get("dropped")` before calling `drop_group`.
