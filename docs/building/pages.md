@@ -292,7 +292,7 @@ class Survey(Page):
     allow_back = True
 ```
 
-This adds a "Back" button that lets participants revisit and change previous answers.
+This adds a “Back” button that lets participants revisit and change previous answers.
 
 !!! note
     Going back re-displays the page but does not undo any data that was

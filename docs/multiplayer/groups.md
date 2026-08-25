@@ -87,7 +87,7 @@ p1, p2 = group.players
 
 #### Filtering with `_`
 
-The `_` symbol is a field referent—a placeholder that stands for "each player" in a filter expression. When you write `_.cooperate == True`, uproot builds a comparison object that gets evaluated against each player in the collection.
+The `_` symbol is a field referent—a placeholder that stands for “each player” in a filter expression. When you write `_.cooperate == True`, uproot builds a comparison object that gets evaluated against each player in the collection.
 
 ```python
 # Players who cooperated

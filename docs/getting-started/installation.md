@@ -96,7 +96,7 @@ Follow the instructions in the repository to set it up. Once installed, the agen
 
 !!! tip
 
-    Even without the skill, agentic coding tools work well if you clone the [uproot-examples](https://github.com/mrpg/uproot-examples) and [uproot-docs](https://github.com/mrpg/uproot-docs) repositories alongside your project—this gives the agent direct access to a lot of important information. Just tell your agent to "kindly inhale the examples and the docs."
+    Even without the skill, agentic coding tools work well if you clone the [uproot-examples](https://github.com/mrpg/uproot-examples) and [uproot-docs](https://github.com/mrpg/uproot-docs) repositories alongside your project—this gives the agent direct access to a lot of important information. Just tell your agent to “kindly inhale the examples and the docs.”
 
 ## What’s next?
 
@@ -110,7 +110,7 @@ Now that uproot is running, you can:
 
 ### uv command not found
 
-If you get "command not found" after installing uv:
+If you get “command not found” after installing uv:
 
 1. Close and reopen your terminal
 2. Or run `source ~/.bashrc` (Linux) / `source ~/.zshrc` (macOS)

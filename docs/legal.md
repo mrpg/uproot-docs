@@ -20,7 +20,7 @@ The documentation and code examples are licensed under the [0BSD license](https:
 
 ## Warranty disclaimer
 
-uproot is provided "as is", without warranty of any kind, express or implied. To the extent permitted by Law, we disclaim all warranties, including but not limited to fitness for a particular purpose and non-infringement. **Use uproot at your own risk.**
+uproot is provided “as is,” without warranty of any kind, express or implied. To the extent permitted by Law, we disclaim all warranties, including but not limited to fitness for a particular purpose and non-infringement. **Use uproot at your own risk.**
 
 ## Contact
 

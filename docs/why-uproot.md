@@ -1,6 +1,6 @@
 # Why uproot?
 
-If you have ever run a survey or collected data from human participants, you have relied on software to sit between you and your respondents—and you have probably run into its limitations: fragile JavaScript workarounds, "copy survey" as version control, rigid page sequences, and data-reshaping scripts for every single project.
+If you have ever run a survey or collected data from human participants, you have relied on software to sit between you and your respondents—and you have probably run into its limitations: fragile JavaScript workarounds, “copy survey” as version control, rigid page sequences, and data-reshaping scripts for every single project.
 
 The quality of the tools we use determines the quality of the science we can do. uproot was built on the conviction that your software should never be the weakest part of your study.
 
@@ -14,7 +14,7 @@ Each claim, explained so you can check it yourself:
 
 Most software stores your data like a whiteboard: when a value changes, the old one is erased. uproot stores it like a **lab notebook**: entries are permanent, every entry is dated, and new information is added on a new line. This is called an append-only log.
 
-Concretely, every data change is recorded with three things: a timestamp, the value itself, and the exact place in your study’s code that caused the change. If a participant’s payoff was set to 10 by a function called `set_payoff()` on line 42, that fact is stored forever, next to the payoff itself. When a reviewer, a co-author, or your future self asks "where does this number come from?"—the data itself answers.
+Concretely, every data change is recorded with three things: a timestamp, the value itself, and the exact place in your study’s code that caused the change. If a participant’s payoff was set to 10 by a function called `set_payoff()` on line 42, that fact is stored forever, next to the payoff itself. When a reviewer, a co-author, or your future self asks “where does this number come from?”—the data itself answers.
 
 Two practical consequences experimenters will appreciate:
 
@@ -33,7 +33,7 @@ With uproot, reproducibility is not an extra chore. It falls out of the normal w
 
 1. **Your project folder *is* your experiment.** Pages, logic, texts, and settings all live in one ordinary folder that you can copy, archive, and share.
 2. **A file in that folder, `uv.lock`, lists the exact version of every piece of software your project uses**—uproot itself and everything underneath it. Think of it as a receipt for your software environment. It is written automatically; you never edit it.
-3. **One command, `uv sync`, reinstalls exactly what is on that receipt.** Not "the current version"—*your* version. On your laptop, on a lab server, or on a replicator’s machine in 2031.
+3. **One command, `uv sync`, reinstalls exactly what is on that receipt.** Not “the current version”—*your* version. On your laptop, on a lab server, or on a replicator’s machine in 2031.
 4. **Nothing updates behind your back.** Your environment changes only when you explicitly ask for an upgrade. Mid-study, it stays frozen.
 5. **No hidden moving parts.** uproot ships all browser assets (fonts, styling, JavaScript libraries) inside the package itself, so your study does not silently depend on external servers that may change or vanish.
 
@@ -76,7 +76,7 @@ This matters scientifically as well as ethically: participants who use screen re
 
 ## Obvious things work without workarounds
 
-**The advantage in one sentence: on other platforms, perfectly ordinary needs—"pay this bonus once", "let participants go back", "repeat these pages"—require workarounds; in uproot, the obvious way is the correct way.**
+**The advantage in one sentence: on other platforms, perfectly ordinary needs—“pay this bonus once,” “let participants go back,” “repeat these pages”—require workarounds; in uproot, the obvious way is the correct way.**
 
 !!! quote "The principle of verisimilitude"
 
@@ -140,7 +140,7 @@ From the admin interface you can advance, revert, reload, or regroup individual 
 
 Even if you do need to make live changes to your code, uproot will reload them immediately. (If an error occurs while reloading a Python module, the old continues to run, so that your server will never crash.)
 
-When the study is done, your data exports in [four formats](running/export.md) matched to different analyses—from "one row per participant" to the complete event-by-event history.
+When the study is done, your data exports in [four formats](running/export.md) matched to different analyses—from “one row per participant” to the complete event-by-event history.
 
 [:octicons-arrow-right-24: The admin interface](running/admin.md)
 
@@ -148,7 +148,7 @@ When the study is done, your data exports in [four formats](running/export.md) m
 
 **The advantage in one sentence: you can describe a study in plain language and have an AI coding assistant generate a working uproot version of it.**
 
-Studies are written in [Python](https://www.python.org/) and HTML—the two languages with the broadest ecosystem support, and the ones AI coding assistants handle best. The [uproot skill](https://github.com/mrpg/uproot-skill) gives assistants such as [Claude Code](https://claude.com/claude-code) and [Codex](https://openai.com/codex/) access to the full documentation and all examples, so "build a [public goods game with punishment](https://github.com/mrpg/uproot-examples/tree/master/pgg_punishment) for 4 players" produces a working study you then review and refine. The same mechanism can convert existing Qualtrics, z-Tree, or oTree studies.
+Studies are written in [Python](https://www.python.org/) and HTML—the two languages with the broadest ecosystem support, and the ones AI coding assistants handle best. The [uproot skill](https://github.com/mrpg/uproot-skill) gives assistants such as [Claude Code](https://claude.com/claude-code) and [Codex](https://openai.com/codex/) access to the full documentation and all examples, so “build a [public goods game with punishment](https://github.com/mrpg/uproot-examples/tree/master/pgg_punishment) for 4 players” produces a working study you then review and refine. The same mechanism can convert existing Qualtrics, z-Tree, or oTree studies.
 
 The dozens of examples are also yours in the fullest sense: licensed under [0BSD](https://opensource.org/license/0bsd), meaning you may copy, modify, and use them without restriction or attribution.
 

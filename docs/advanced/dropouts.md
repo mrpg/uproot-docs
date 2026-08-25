@@ -68,7 +68,7 @@ the handler immediately.
 
 ## Handling dropouts in group experiments
 
-In multiplayer experiments, a dropout can block other group members at synchronization points. A single participant closing their browser, walking away, or losing connectivity can leave their partner staring at "waiting for other participants" indefinitely.
+In multiplayer experiments, a dropout can block other group members at synchronization points. A single participant closing their browser, walking away, or losing connectivity can leave their partner staring at “waiting for other participants” indefinitely.
 
 A robust solution tracks dropout at the *group* level and handles three distinct dropout vectors:
 

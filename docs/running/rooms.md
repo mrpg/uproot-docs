@@ -84,7 +84,7 @@ The room is in waiting state when any of the following are true:
 - No config is associated with the room
 - Both of the above
 
-Participants who visit a waiting room see a "Please wait" page. This page maintains a WebSocket connection to the server so it can advance automatically when the room opens. Participants do not need to refresh.
+Participants who visit a waiting room see a “Please wait” page. This page maintains a WebSocket connection to the server so it can advance automatically when the room opens. Participants do not need to refresh.
 
 **Accepting (open)**
 
@@ -101,7 +101,7 @@ From a room’s admin page, you can start a session in two ways:
 
 **Let participants join on their own.** Set the room to open with a config. A session is created automatically when the first participant arrives, and subsequent participants join the same session. This is the most common approach.
 
-**Pre-create a session with players.** Use the "Create session" form on the room’s admin page. Specify a config and the number of players. The session is created with player slots, the room opens, and waiting participants are notified via WebSocket. Pre-created player slots are claimed on a first-come, first-served basis.
+**Pre-create a session with players.** Use the “Create session” form on the room’s admin page. Specify a config and the number of players. The session is created with player slots, the room opens, and waiting participants are notified via WebSocket. Pre-created player slots are claimed on a first-come, first-served basis.
 
 When a session is started in a room (either way), the `r.start(roomname)` signal fires, which wakes all WebSocket connections on the waiting page. Participants’ browsers automatically submit the join form.
 
@@ -123,8 +123,8 @@ Via the API, use [`PATCH /admin/api/v1/rooms/{roomname}/open/`](../reference/adm
 
 Closing a room and setting a capacity are two different mechanisms:
 
-- **Capacity** limits how many players can join. Once the limit is reached, new participants see a "Room full" page—but the room remains open and will accept participants again if capacity is freed up or increased.
-- **Closing** shuts the door entirely. No new participants can join regardless of available capacity. Participants who visit a closed room see a "Please wait" page.
+- **Capacity** limits how many players can join. Once the limit is reached, new participants see a “Room full” page—but the room remains open and will accept participants again if capacity is freed up or increased.
+- **Closing** shuts the door entirely. No new participants can join regardless of available capacity. Participants who visit a closed room see a “Please wait” page.
 
 Use capacity when you want a fixed maximum group size. Use closing when you want manual control over *when* participants can enter, independent of how many have already joined.
 
@@ -150,7 +150,7 @@ upd.DEFAULT_ROOMS.append(
 
 When labels are set:
 
-- Participants see a "Welcome" page with an access code input field.
+- Participants see a “Welcome” page with an access code input field.
 - The entered label is validated against the room’s label list.
 - Invalid labels are rejected with an error message.
 - Labels must use only the characters `A-Za-z0-9-._` and be at most 128 characters long.
@@ -177,7 +177,7 @@ If you set both labels and an explicit capacity, the capacity value takes preced
 
 ### Capacity
 
-Capacity sets the maximum number of players that can join a room’s session. When the session is full, new participants see a "Room full" page.
+Capacity sets the maximum number of players that can join a room’s session. When the session is full, new participants see a “Room full” page.
 
 ```python
 upd.DEFAULT_ROOMS.append(
@@ -205,7 +205,7 @@ When you create a session in a room with pre-created players, you can check the 
 
 Without that option, the room’s original capacity setting (if any) remains. Pre-created slots can always be claimed, but new slots are only created up to the capacity.
 
-This implies: if you create a session with *n* players, but uncheck "Set room capacity to number of players", your session can keep growing until the room’s capacity is reached. If the capacity is infinite, the session will be able to grow indefinitely. **Rooms are the only method to create new player slots in a session.**
+This implies: if you create a session with *n* players, but uncheck “Set room capacity to number of players,” your session can keep growing until the room’s capacity is reached. If the capacity is infinite, the session will be able to grow indefinitely. **Rooms are the only method to create new player slots in a session.**
 
 ### Freejoin rooms
 

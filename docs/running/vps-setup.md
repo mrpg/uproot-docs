@@ -102,7 +102,7 @@ root@server:~# apt update && apt install -y git python3 python-is-python3 python
 root@server:~# dpkg-reconfigure -plow unattended-upgrades
 ```
 
-Select "Yes" when prompted to enable automatic security updates. This ensures critical patches are installed without your intervention.
+Select “Yes” when prompted to enable automatic security updates. This ensures critical patches are installed without your intervention.
 
 ## 4. Set up your project
 
