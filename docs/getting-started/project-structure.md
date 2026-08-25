@@ -1,6 +1,6 @@
 # Project structure
 
-An uproot project is a Python package with a specific layout. Here's what a typical project looks like.
+An uproot project is a Python package with a specific layout. Here’s what a typical project looks like.
 
 ## Directory layout
 
@@ -11,7 +11,7 @@ my_project/
 ├── requirements.txt         # Alternative dependency file
 ├── .env                     # Local environment settings
 ├── Procfile                 # For cloud deployment (Heroku, Railway)
-├── uproot_license.txt       # uproot's LGPL license
+├── uproot_license.txt       # uproot’s LGPL license
 ├── my_app/
 │   ├── __init__.py          # App logic: pages, fields, callbacks
 │   ├── Welcome.html         # Template for Welcome page
@@ -25,7 +25,7 @@ my_project/
     └── ...
 ```
 
-## main.py
+## The `main.py` file
 
 The entry point configures your experiment and starts the server:
 
@@ -111,7 +111,7 @@ Each app is a Python package (a directory with `__init__.py`). The `__init__.py`
 
 ### Required
 
-- **`page_order`** — List of page classes (and [SmoothOperators](../building/operators.md)) that define the participant flow:
+- **`page_order`**—list of page classes (and [SmoothOperators](../building/operators.md)) that define the participant flow:
 
 ```python
 page_order = [Welcome, Decision, Results]
@@ -176,7 +176,7 @@ Templates extend a base layout:
 {% endblock main %}
 ```
 
-### PlayerContext
+### Using `PlayerContext`
 
 Define a `Context` class for computed values accessible across all templates:
 
@@ -209,8 +209,8 @@ SQLite works well in production too—uproot is optimized for it. PostgreSQL is 
 
 Run `uproot deployment` to see the current values.
 
-## What's next?
+## What’s next?
 
-- **[Pages and templates](../building/pages.md)** — How pages work
-- **[Collecting data with forms](../building/forms.md)** — Available field types
-- **[The admin interface](../running/admin.md)** — Managing your experiments
+- **[Pages and templates](../building/pages.md)**—How pages work.
+- **[Collecting data with forms](../building/forms.md)**—Available field types.
+- **[The admin interface](../running/admin.md)**—Managing your experiments.

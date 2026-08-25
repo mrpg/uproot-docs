@@ -1,6 +1,6 @@
 # Using Alpine.js
 
-uproot includes [Alpine.js](https://alpinejs.dev/start-here), a lightweight JavaScript framework for adding interactivity to templates. It's already loaded—no setup required.
+uproot includes [Alpine.js](https://alpinejs.dev/start-here), a lightweight JavaScript framework for adding interactivity to templates. It’s already loaded—no setup required.
 
 ## Essentials
 

@@ -6,12 +6,12 @@ uproot is currently in a **public review period** before the release of version 
 
 ## What does “public review” mean?
 
-Public review is like peer review — just much, much better.
+Public review is like peer review—just much, much better.
 
 We have already tested uproot extensively ourselves by developing and running several experiments of our own. Now we want to hear from you. During the public review, we invite researchers to:
 
 - **Install uproot** and try building an experiment with it.
-- **Report any issues** you run into — bugs, confusing behavior, missing features, or unclear documentation.
+- **Report any issues** you run into—bugs, confusing behavior, missing features, or unclear documentation.
 - **Share ideas** for improvements or new features.
 
 Your feedback will directly shape the 1.0.0 release.
@@ -30,4 +30,4 @@ Substantial contributions during the public review will be gratefully acknowledg
 Large language models are already very capable of helping you write experiments in uproot and convert code from other frameworks. To get the best results, point your LLM to:
 
 - The [:material-github: examples repository](https://github.com/mrpg/uproot-examples/tree/master), which contains a large and growing number of complete experiments.
-- The [:material-github: uproot skill](https://github.com/mrpg/uproot-skill), which gives Claude Code and other agentic tools detailed knowledge of uproot's API.
+- The [:material-github: uproot skill](https://github.com/mrpg/uproot-skill), which gives Claude Code and other agentic tools detailed knowledge of uproot’s API.

@@ -6,20 +6,20 @@ Page methods are `@classmethod`s that receive `page` (the page class) and usuall
 
 For a forward visit to a page, the lifecycle is:
 
-1. **`show`** — Decide whether the page is displayed
-2. **`early`** — Run before rendering
-3. **`before_always_once`** — Run once when this page position is reached
-4. **`before_once`** — Run once per player, on first visit only
-5. **`fields`** — Determine form fields
-6. **`templatevars`** / **`jsvars`** — Prepare template and JS data
+1. **`show`**—Decide whether the page is displayed.
+2. **`early`**—Run before rendering.
+3. **`before_always_once`**—Run once when this page position is reached.
+4. **`before_once`**—Run once per player, on first visit only.
+5. **`fields`**—Determine form fields.
+6. **`templatevars`** / **`jsvars`**—Prepare template and JS data.
 7. *(The page is rendered and displayed.)*
 8. *(The participant submits.)*
-9. **`validate`** — Check submitted data
-10. **`before_form_save`** — Run before ordinary form fields are saved
-11. **`stealth_fields`** / **`handle_stealth_fields`** — Handle manual fields
-12. **`may_proceed`** — Gate before advancing
-13. **`after_once`** — Run once per player, on first successful submission only
-14. **`after_always_once`** — Run once after this page position is submitted
+9. **`validate`**—Check submitted data.
+10. **`before_form_save`**—Run before ordinary form fields are saved.
+11. **`stealth_fields`** / **`handle_stealth_fields`**—Handle manual fields.
+12. **`may_proceed`**—Gate before advancing.
+13. **`after_once`**—Run once per player, on first successful submission only.
+14. **`after_always_once`**—Run once after this page position is submitted.
 
 The `timeout` method configures the deadline while the page is rendered. The browser submits when the deadline is reached. If the server receives a request after the deadline, `timeout_reached` handles that request before normal form processing; validation and `may_proceed` are skipped, and the page advances. A direct visit to the current page can omit `early`, because that hook runs when entering a new page position.
 
@@ -37,7 +37,7 @@ def show(page, player):
 |-----------|-------------|
 | `page` | The page class |
 | `player` | The current player |
-| **Returns** | `bool` — `True` to show (default), `False` to skip |
+| **Returns** | `bool`—`True` to show (default), `False` to skip |
 
 ## early
 
@@ -134,7 +134,7 @@ def templatevars(page, player):
 | `player` | The current player |
 | **Returns** | `dict` of template variables, or `None` |
 
-`templatevars` may return `None` instead of a dict — this is treated the same as returning `{}`.
+`templatevars` may return `None` instead of a dict—this is treated the same as returning `{}`.
 
 ## jsvars
 
@@ -181,9 +181,9 @@ def validate(page, player, data):
 
 Return types:
 
-- `str` — Single error displayed at the top of the form
-- `list[str]` — Multiple errors displayed at the top
-- `dict[str, str | list[str]]` — Per-field errors displayed next to each field
+- `str`—Single error displayed at the top of the form.
+- `list[str]`—Multiple errors displayed at the top.
+- `dict[str, str | list[str]]`—Per-field errors displayed next to each field.
 
 ```python
 @classmethod
@@ -231,7 +231,7 @@ def may_proceed(page, player):
 |-----------|-------------|
 | `page` | The page class |
 | `player` | The current player |
-| **Returns** | `bool` — `True` to allow proceeding (default), `False` to block |
+| **Returns** | `bool`—`True` to allow proceeding (default), `False` to block |
 
 ## after_once
 

@@ -8,7 +8,7 @@ Use the [Admin REST API](../reference/admin-api.md) for programmatic access. All
 
 ### Downloading the briefcase
 
-`GET /admin/api/v1/sessions/{sname}/data/export/` returns the same ZIP briefcase as the admin interface's **Download data** page:
+`GET /admin/api/v1/sessions/{sname}/data/export/` returns the same ZIP briefcase as the admin interface’s **Download data** page:
 
 ```bash
 curl -OJ -H "Authorization: Bearer YOUR_TOKEN" \
@@ -33,11 +33,11 @@ curl -OJ -H "Authorization: Bearer YOUR_TOKEN" \
 ```
 
 !!! note
-    The `uproot api` CLI command prints responses as text, so it is not suited to binary downloads like the briefcase — use `curl` (or any HTTP client) for this endpoint.
+    The `uproot api` CLI command prints responses as text, so it is not suited to binary downloads like the briefcase—use `curl` (or any HTTP client) for this endpoint.
 
 ### Streaming JSONL
 
-`GET /admin/api/v1/sessions/{sname}/data/jsonl/` streams a single format as JSONL — no ZIP, no splitting by storage kind. This is useful for piping data directly into other tools, or when sessions are large:
+`GET /admin/api/v1/sessions/{sname}/data/jsonl/` streams a single format as JSONL—no ZIP, no splitting by storage kind. This is useful for piping data directly into other tools, or when sessions are large:
 
 ```bash
 # Raw event log (default)

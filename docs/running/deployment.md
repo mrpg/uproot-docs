@@ -7,10 +7,10 @@ This page covers deploying uproot experiments for production use.
 The recommended way to run uproot in production is behind an nginx reverse proxy. This setup gives you full control and works well on any VPS or dedicated server. **We strongly recommend that you use a VPS with Debian 13+.** (While uproot itself works flawlessly on Ubuntu, using Ubuntu is in general considered bad practice. uproot also works on OpenBSD.)
 
 !!! tip "New to VPS deployment?"
-    If you're setting up a server from scratch, follow the [complete VPS setup guide](vps-setup.md) — it covers everything from getting a VPS to a working HTTPS setup, step by step.
+    If you’re setting up a server from scratch, follow the [complete VPS setup guide](vps-setup.md)—it covers everything from getting a VPS to a working HTTPS setup, step by step.
 
 !!! warning "HTTPS required"
-    uproot requires HTTPS in production. Many browser features (like the secure cookies needed for accessing the admin area) only work over HTTPS. Use [Let's Encrypt](https://letsencrypt.org/) with `certbot` to get free TLS certificates.
+    uproot requires HTTPS in production. Many browser features (like the secure cookies needed for accessing the admin area) only work over HTTPS. Use [Let’s Encrypt](https://letsencrypt.org/) with `certbot` to get free TLS certificates.
 
 ### Running uproot
 
@@ -79,9 +79,9 @@ uproot run
 
 Leading and trailing slashes are stripped automatically, so `my-study`, `/my-study`, and `/my-study/` are all equivalent.
 
-When set, uproot prefixes all routes with the subdirectory — participant pages, the admin interface, static files, and WebSocket connections all work without any further changes to your code or templates.
+When set, uproot prefixes all routes with the subdirectory—participant pages, the admin interface, static files, and WebSocket connections all work without any further changes to your code or templates.
 
-Then adjust your nginx config to match. Here is a complete example — the only difference from a root deployment is the `location` path:
+Then adjust your nginx config to match. Here is a complete example—the only difference from a root deployment is the `location` path:
 
 ```nginx
 location /my-study/ {
@@ -104,7 +104,7 @@ location /my-study/ {
 The admin interface will be at `https://example.com/my-study/admin/`.
 
 !!! tip "Persistent configuration"
-    If you run uproot via a systemd service, set the variable in an environment file or in the service unit's `Environment=` directive so it persists across restarts.
+    If you run uproot via a systemd service, set the variable in an environment file or in the service unit’s `Environment=` directive so it persists across restarts.
 
 ## Fly.io with SQLite
 
@@ -112,7 +112,7 @@ The admin interface will be at `https://example.com/my-study/admin/`.
 
 !!! tip "Why Fly.io?"
     - Full support for WebSocket connections and real-time features
-    - Works with uproot's default SQLite database on a persistent volume
+    - Works with uproot’s default SQLite database on a persistent volume
     - Regional deployment for lower latency
     - Native support for persistent volumes
 
@@ -224,7 +224,7 @@ Deploy your application:
 fly deploy
 ```
 
-After deployment completes, Fly will show your app's URL. Open it in your browser:
+After deployment completes, Fly will show your app’s URL. Open it in your browser:
 
 ```bash
 fly open
@@ -232,7 +232,7 @@ fly open
 
 ### Monitoring and logs
 
-View your app's logs:
+View your app’s logs:
 
 ```bash
 fly logs
@@ -253,7 +253,7 @@ Access the admin interface at `https://your-app-name.fly.dev/admin/`.
 ### Quick start
 
 1. Sign up at [railway.com](https://railway.com/) and create a project from your GitHub repository.
-2. Open the uproot service's **Settings** tab. Under **Deploy**, set the start command to `uproot run -h 0.0.0.0 -p $PORT`. This is the same command as the generated `Procfile`, but setting it explicitly avoids relying on [deprecated Procfile detection](https://railpack.com/config/procfile/).
+2. Open the uproot service’s **Settings** tab. Under **Deploy**, set the start command to `uproot run -h 0.0.0.0 -p $PORT`. This is the same command as the generated `Procfile`, but setting it explicitly avoids relying on [deprecated Procfile detection](https://railpack.com/config/procfile/).
 3. Add a Railway volume to the service and set its mount path to `/data`.
 4. Under **Networking**, select **Generate Domain**.
 5. Under **Variables**, add the following values, replacing the example domain and password:
@@ -291,14 +291,14 @@ Railway services with a volume [cannot use replicas and have a short period of d
 
 7. Create the web service. When the first deploy finishes, open `https://your-service-name.onrender.com/admin/`.
 
-The password variable assumes that `main.py` contains `upd.ADMINS["admin"] = upd.auto_login()`, as current uproot projects do. Add that line if you have an older project. Render's Python runtime uses the project's `.python-version` file, so the file generated by uproot selects a compatible Python version. If you add a custom domain, update `UPROOT_ORIGIN` to its full `https://` URL.
+The password variable assumes that `main.py` contains `upd.ADMINS["admin"] = upd.auto_login()`, as current uproot projects do. Add that line if you have an older project. Render’s Python runtime uses the project’s `.python-version` file, so the file generated by uproot selects a compatible Python version. If you add a custom domain, update `UPROOT_ORIGIN` to its full `https://` URL.
 
 !!! warning "Persistent-disk limitations"
-    A Render persistent disk is available to only one service instance and [disables zero-downtime deploys](https://render.com/docs/disks#disk-limitations-and-considerations). This matches uproot's single-process live state, but it means each deploy briefly stops the experiment. Keep one instance and do not deploy while participants are active. Render can also replace an instance during platform maintenance, which closes its [WebSocket connections](https://render.com/docs/websocket#faq).
+    A Render persistent disk is available to only one service instance and [disables zero-downtime deploys](https://render.com/docs/disks#disk-limitations-and-considerations). This matches uproot’s single-process live state, but it means each deploy briefly stops the experiment. Keep one instance and do not deploy while participants are active. Render can also replace an instance during platform maintenance, which closes its [WebSocket connections](https://render.com/docs/websocket#faq).
 
 ## Heroku
 
-Heroku can run uproot with PostgreSQL. A Heroku dyno's local disk is temporary, so the default SQLite database is not suitable for production there.
+Heroku can run uproot with PostgreSQL. A Heroku dyno’s local disk is temporary, so the default SQLite database is not suitable for production there.
 
 !!! note "WebSocket timeout"
     Heroku supports WebSockets and applies a rolling [55-second idle timeout](https://devcenter.heroku.com/articles/websockets). uproot sends a heartbeat every 9 seconds, so a participant reading or waiting does not leave the connection idle long enough to hit that limit.
@@ -318,13 +318,13 @@ heroku login
 
 ### Deploy your experiment
 
-First, add PostgreSQL support to the project's main dependencies:
+First, add PostgreSQL support to the project’s main dependencies:
 
 ```bash
 uv add 'uproot-science[pg]<1'
 ```
 
-This updates `pyproject.toml` and `uv.lock`. Current uproot projects also contain a `requirements.txt`, but Heroku's Python buildpack [requires exactly one package-manager file](https://github.com/heroku/heroku-buildpack-python/blob/main/lib/package_manager.sh). Remove `requirements.txt` from Git so that Heroku uses the lock file:
+This updates `pyproject.toml` and `uv.lock`. Current uproot projects also contain a `requirements.txt`, but Heroku’s Python buildpack [requires exactly one package-manager file](https://github.com/heroku/heroku-buildpack-python/blob/main/lib/package_manager.sh). Remove `requirements.txt` from Git so that Heroku uses the lock file:
 
 ```bash
 git rm requirements.txt
@@ -332,7 +332,7 @@ git add pyproject.toml uv.lock
 git commit -m "Configure Heroku deployment"
 ```
 
-The generated `Procfile` already binds uproot to Heroku's `$PORT`. Make sure `main.py` contains `upd.ADMINS["admin"] = upd.auto_login()`. Then create the app, enable runtime metadata so uproot can discover its public URL, add PostgreSQL, and set the admin password:
+The generated `Procfile` already binds uproot to Heroku’s `$PORT`. Make sure `main.py` contains `upd.ADMINS["admin"] = upd.auto_login()`. Then create the app, enable runtime metadata so uproot can discover its public URL, add PostgreSQL, and set the admin password:
 
 ```bash
 # Create a new Heroku app
@@ -361,4 +361,4 @@ heroku open /admin/
 If your local branch is not named `main`, deploy it with `git push heroku HEAD:main` instead. The PostgreSQL add-on sets `DATABASE_URL`; uproot detects it automatically. If you add a custom domain, set `UPROOT_ORIGIN` to its full `https://` URL with `heroku config:set`.
 
 !!! warning "Do not scale horizontally"
-    uproot's live connection queues and background tasks belong to one server process. Keep exactly one web dyno; adding more web dynos would split participants across processes that do not share that live state.
+    uproot’s live connection queues and background tasks belong to one server process. Keep exactly one web dyno; adding more web dynos would split participants across processes that do not share that live state.

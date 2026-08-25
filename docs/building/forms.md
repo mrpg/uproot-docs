@@ -20,19 +20,19 @@ Field names become attributes on the player object. After submission, access the
 
 ### Text fields
 
-**StringField** — Single-line text input:
+**StringField**—Single-line text input:
 
 ```python
 participant_name=StringField(label="Your name")
 ```
 
-**TextAreaField** — Multi-line text input:
+**TextAreaField**—Multi-line text input:
 
 ```python
 comments=TextAreaField(label="Additional comments", optional=True)
 ```
 
-**EmailField** — HTML email input:
+**EmailField**—HTML email input:
 
 ```python
 email=EmailField(label="Email address")
@@ -40,13 +40,13 @@ email=EmailField(label="Email address")
 
 ### Numeric fields
 
-**IntegerField** — Whole numbers:
+**IntegerField**—Whole numbers:
 
 ```python
 age=IntegerField(label="Age", min=0, max=120)
 ```
 
-**DecimalField** — Decimal numbers:
+**DecimalField**—Decimal numbers:
 
 ```python
 amount=DecimalField(label="Amount to contribute", min=0.0, max=100.0)
@@ -54,7 +54,7 @@ amount=DecimalField(label="Amount to contribute", min=0.0, max=100.0)
 
 ### Selection fields
 
-**RadioField** — Choose one option with radio buttons:
+**RadioField**—Choose one option with radio buttons:
 
 ```python
 choice=RadioField(
@@ -63,7 +63,7 @@ choice=RadioField(
 )
 ```
 
-**SelectField** — Dropdown selection:
+**SelectField**—Dropdown selection:
 
 ```python
 country=SelectField(
@@ -76,7 +76,7 @@ country=SelectField(
 )
 ```
 
-**BooleanField** — Checkbox:
+**BooleanField**—Checkbox:
 
 ```python
 consent=BooleanField(label="I agree to participate")
@@ -84,7 +84,7 @@ consent=BooleanField(label="I agree to participate")
 
 ### Scales and sliders
 
-**LikertField** — Rating scale with labeled endpoints:
+**LikertField**—Rating scale with labeled endpoints:
 
 ```python
 satisfaction=LikertField(
@@ -96,7 +96,7 @@ satisfaction=LikertField(
 )
 ```
 
-**DecimalRangeField** — Slider input:
+**DecimalRangeField**—Slider input:
 
 ```python
 confidence=DecimalRangeField(
@@ -109,13 +109,13 @@ confidence=DecimalRangeField(
 
 ### Other fields
 
-**DateField** — Date picker:
+**DateField**—Date picker:
 
 ```python
 birthdate=DateField(label="Date of birth")
 ```
 
-**FileField** — File upload (see [File uploads](../advanced/uploads.md)):
+**FileField**—File upload (see [File uploads](../advanced/uploads.md)):
 
 ```python
 document=FileField(label="Upload your document")
@@ -229,7 +229,7 @@ class Allocation(Page):
             return "Total cannot exceed 100"
 ```
 
-The `data` parameter contains submitted values as a dictionary. Return a string (or list of strings) if there's an error. Return nothing if validation passes.
+The `data` parameter contains submitted values as a dictionary. Return a string (or list of strings) if there’s an error. Return nothing if validation passes.
 
 ### Async validation
 
@@ -264,7 +264,7 @@ This is useful for:
 - Personalizing questions based on prior responses
 - Showing different options per experimental condition
 - Building adaptive surveys
-- Setting field constraints based on other players' choices (in multiplayer games)
+- Setting field constraints based on other players’ choices (in multiplayer games)
 
 :material-github: [See dynamic fields in the trust_game example](https://github.com/mrpg/uproot-examples/tree/master/trust_game)
 
@@ -295,7 +295,7 @@ class UploadPage(Page):
 ```
 
 The `participant_name` field saves automatically to `player.participant_name`.
-`player.name` is reserved for uproot's generated player name. The `photo` field
+`player.name` is reserved for uproot’s generated player name. The `photo` field
 is available in the `data` dictionary passed to `handle_stealth_fields` instead.
 
 ### Validation in stealth handlers
@@ -327,7 +327,7 @@ def stealth_fields(page, player):
     return ["response"] if player.condition == "special" else []
 ```
 
-Stealth fields are ideal for sensitive data like payment information that shouldn't be stored in the main database:
+Stealth fields are ideal for sensitive data like payment information that shouldn’t be stored in the main database:
 
 ```python
 class PaymentForm(Page):
@@ -365,7 +365,7 @@ Values are stored with their proper types—integers stay integers, booleans sta
 
 ## Complete example
 
-Here's a complete page with multiple field types and validation:
+Here’s a complete page with multiple field types and validation:
 
 ```python
 class Questionnaire(Page):

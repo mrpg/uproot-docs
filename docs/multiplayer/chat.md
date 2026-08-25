@@ -58,11 +58,11 @@ Use the `chat()` template function to render the chat interface:
 
 The chat widget provides:
 
-- A message display area showing all messages
-- An input field for typing messages
-- A send button
-- Real-time updates when others send messages
-- Visual distinction between your messages and others'
+- a message display area showing all messages;
+- an input field for typing messages;
+- a send button;
+- real-time updates when others send messages;
+- visual distinction between your messages and others’.
 
 ## Session-level chat
 
@@ -106,7 +106,7 @@ class GroupPlease(GroupCreatingWait):
             chat.add_player(group.chat, player)
 ```
 
-Then display the group's chat:
+Then display the group’s chat:
 
 ```html+jinja
 {{ chat(player.group.chat) }}
@@ -150,9 +150,9 @@ def new_player(player):
 ```
 
 The callback receives:
-- `chat` — the `ModelIdentifier` of the chat
-- `player` — the player who sent the message, or `None` if sent programmatically
-- `message` — the message text
+- `chat`—the `ModelIdentifier` of the chat;
+- `player`—the player who sent the message, or `None` if sent programmatically;
+- `message`—the message text.
 
 The callback is persistent: it is automatically restored when the server restarts.
 
@@ -227,7 +227,7 @@ Example custom styling:
 
 ## Complete example
 
-Here's a complete session-level chat:
+Here’s a complete session-level chat:
 
 ```python
 def new_session(session):

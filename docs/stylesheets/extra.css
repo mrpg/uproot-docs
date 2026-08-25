@@ -27,6 +27,22 @@
         var(--fvn-alt,);
 }
 
+.md-typeset a:hover{
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+a.headerlink {
+  width: 0px !important;
+  font-weight: 300 !important;
+}
+
+/* Dial back salience of targeted headerlinks (pilcrow) */
+.md-typeset :target>.headerlink {
+  opacity: 0.5 !important;
+}
+
 body {
   font-family: "Inter", sans-serif !important;
 }
@@ -78,14 +94,39 @@ h3 {
   font-weight: 700 !important;
   letter-spacing: 0.0075em !important;
 }
+h1 code,
+h2 code {
+  color: var(--uproot-highlight-color) !important;
+  font-size: 103% !important;
+}
+h3 code {
+  color: var(--md-typeset-color) !important;
+  font-size: 103% !important;
+}
 
+/* Slightly increase font size for admonitions and notes */
 .admonition,
+.note {
+  font-size: 0.7rem !important;
+}
+/* Style admonitions and notes like callouts */
+.admonition,
+details.note {
+  border-bottom-width: 0px !important;
+  border-left-width: 6px !important;
+  border-right-width: 0px !important;
+  border-top-width: 0px !important;
+  border-radius: 0px !important;
+  margin-left: 1px !important;  /* With 0px, border looks as if it were protruding into the left margin */
+  margin-right: 1px !important;  /* To compensate for the shadow */
+}
+
+/* Harmonize border-width across elements */
 .md-typeset__table table {
   border-width: 1px !important;
 }
 
 /* Harmonize border-radius across elements */
-.admonition,
 .cards li,
 .md-code__content,
 .md-button,

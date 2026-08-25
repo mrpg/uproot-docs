@@ -32,11 +32,11 @@ Run the following command to create a new uproot project:
 uv run --with uproot-science uproot setup my_project
 ```
 
-This command:
+This command
 
-1. Downloads and installs the latest version of uproot
-2. Creates a new directory called `my_project`
-3. Generates starter files including a sample experiment
+1. downloads and installs the latest version of uproot;
+2. creates a new directory called `my_project`;
+3. generates starter files including a sample experiment.
 
 You should see output like this:
 
@@ -55,7 +55,7 @@ cd my_project
 uv run uproot run
 ```
 
-The first run will set up a virtual environment and install dependencies automatically. You'll see:
+The first run will set up a virtual environment and install dependencies automatically. You’ll see:
 
 ```
 INFO:     Started server process [...]
@@ -80,37 +80,37 @@ Click that URL or copy it to your browser to log in automatically. This auto-log
 
 ## 5. Try the sample experiment
 
-Your new project includes a sample experiment: a two-player prisoner's dilemma.
+Your new project includes a sample experiment: a two-player prisoner’s dilemma.
 
 Once logged in, you can start it from the admin interface.
 
 ## Set up AI-assisted development
 
-We recommend developing uproot experiments with an agentic coding tool such as [Claude Code](https://claude.ai/code) or [Codex](https://openai.com/index/introducing-codex/). These tools understand uproot's patterns and can build pages, write form logic, set up multiplayer interactions, and debug issues far faster than working from scratch.
+We recommend developing uproot experiments with an agentic coding tool such as [Claude Code](https://claude.ai/code) or [Codex](https://openai.com/index/introducing-codex/). These tools understand uproot’s patterns and can build pages, write form logic, set up multiplayer interactions, and debug issues far faster than working from scratch.
 
-If your coding agent supports skills (Claude Code, Codex, and others do), install the **uproot skill** to give it deep knowledge of uproot's API:
+If your coding agent supports skills (Claude Code, Codex, and others do), install the **uproot skill** to give it deep knowledge of uproot’s API:
 
 :material-github: [mrpg/uproot-skill](https://github.com/mrpg/uproot-skill)
 
-Follow the instructions in the repository to set it up. Once installed, the agent can work with uproot's page lifecycle, fields, SmoothOperators, data model, and multiplayer features out of the box.
+Follow the instructions in the repository to set it up. Once installed, the agent can work with uproot’s page lifecycle, fields, SmoothOperators, data model, and multiplayer features out of the box.
 
 !!! tip
 
-    Even without the skill, agentic coding tools work well if you clone the [uproot-examples](https://github.com/mrpg/uproot-examples) and [uproot-docs](https://github.com/mrpg/uproot-docs) repositories alongside your project — this gives the agent direct access to a lot of important information. Just tell your agent to "kindly inhale the examples and the docs."
+    Even without the skill, agentic coding tools work well if you clone the [uproot-examples](https://github.com/mrpg/uproot-examples) and [uproot-docs](https://github.com/mrpg/uproot-docs) repositories alongside your project—this gives the agent direct access to a lot of important information. Just tell your agent to “kindly inhale the examples and the docs.”
 
-## What's next?
+## What’s next?
 
 Now that uproot is running, you can:
 
-- **[Follow the tutorial](tutorial.md)** — Build a complete experiment step by step
-- **[Explore the project structure](project-structure.md)** — Understand the generated files
-- **[Browse example apps](https://github.com/mrpg/uproot-examples)** — See complete experiments you can learn from
+- **[Follow the tutorial](tutorial.md)**—Build a complete experiment step by step.
+- **[Explore the project structure](project-structure.md)**—Understand the generated files.
+- **[Browse example apps](https://github.com/mrpg/uproot-examples)**—See complete experiments you can learn from.
 
 ## Troubleshooting
 
 ### uv command not found
 
-If you get "command not found" after installing uv:
+If you get “command not found” after installing uv:
 
 1. Close and reopen your terminal
 2. Or run `source ~/.bashrc` (Linux) / `source ~/.zshrc` (macOS)
@@ -118,7 +118,7 @@ If you get "command not found" after installing uv:
 
 ### Permission errors on Linux
 
-If you encounter permission errors, make sure you're not running as root. uv is designed to work in user space.
+If you encounter permission errors, make sure you’re not running as root. uv is designed to work in user space.
 
 ### Port already in use
 

@@ -147,7 +147,7 @@ send_to_one(player, data, event="EventName", where=...)
 
 ### reload
 
-Force a player's browser to reload the current page.
+Force a player’s browser to reload the current page.
 
 ```python
 reload(player)
@@ -265,7 +265,7 @@ endowment = cu("10.00")
 
 ### safe
 
-Mark a string as HTML-safe (won't be escaped in templates).
+Mark a string as HTML-safe (won’t be escaped in templates).
 
 ```python
 label=StringField(label=safe("Enter a value <b>in euros</b>"))
@@ -309,7 +309,7 @@ A collection of storage objects (players, groups) with query methods.
 
 ### The `_` field referent
 
-`_` is a `FieldReferent` — a placeholder that stands for each item in the collection. It builds lazy comparison objects that are evaluated per item during `filter()`.
+`_` is a `FieldReferent`—a placeholder that stands for each item in the collection. It builds lazy comparison objects that are evaluated per item during `filter()`.
 
 ```python
 # _ is auto-imported via `from uproot.smithereens import *`

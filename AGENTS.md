@@ -35,7 +35,7 @@ The navigation follows a learning arc: orient → build → connect → harden �
 Key structural decisions:
 - Sessions and rooms are a single page (`running/rooms.md`), not two — sessions was too thin to stand alone
 - Data export is split in two: `running/export.md` targets the median user (download the ZIP briefcase, analyze in R/Python), while `running/export-advanced.md` holds REST API/CLI export, database dumps, and `uproot.read`
-- Alpine.js lives in Building (not Advanced) — it's a building tool like live methods
+- Alpine.js lives in Building (not Advanced) — it’s a building tool like live methods
 - Rounds/randomization do not have their own pages — they are covered by SmoothOperators (`building/operators.md`)
 - Results follows Data in the Building section (natural collect → display arc)
 
@@ -49,11 +49,13 @@ The typical reader is a behavioral researcher — an economist, psychologist, or
 - **One new idea at a time.** Start with the simplest version that works; add parameters, options, and edge cases afterward, not inline. Advanced material goes at the bottom of the page or on a separate page.
 - **Say why before how.** Introduce every feature with the problem it solves, in one or two sentences, before showing the API.
 - **Complete, pasteable examples.** Code blocks must run as shown in a real project — no hidden setup, no `...` where code is required. When a full app is needed for context, link to uproot-examples.
-- **Plain language.** Short sentences, active voice, second person ("you"). Prefer everyday words to jargon ("saves" not "persists", "runs when" not "is invoked upon"). If a technical term is unavoidable, define it at first use.
-- **Consistent terminology.** Use exactly one name per concept across all pages (e.g. always "page order", never "page sequence" or "page flow").
-- **Signpost prerequisites.** Pages that build on earlier material say so in the first paragraph, with links ("This page assumes you have read [Forms](forms.md).").
+- **Plain language.** Short sentences, active voice, second person (“you”). Prefer everyday words to jargon (“saves”, not “persists”; “runs when”, not “is invoked upon”). If a technical term is unavoidable, define it at first use.
+- **Consistent terminology.** Use exactly one name per concept across all pages (e.g., always “page order”, never “page sequence” or “page flow”).
+- **Typographical quotes and apostrophes in body text.** In regular text — that is, outside code blocks — use typographical quotes (“...”) instead of straight quotes ("..."), and use the typographical apostrophe (’) instead of the straight apostrophe (').
+- **No spaces around em dashes.** Do not surround em dashes (—) by spaces.
+- **Signpost prerequisites.** Pages that build on earlier material say so in the first paragraph, with links (“This page assumes you have read [Forms](forms.md).”).
 - **Anticipate mistakes.** Where users commonly go wrong, show the mistake, the error they will see, and the fix — `!!! warning` admonitions work well for this.
-- **Prose teaches; tables look things up.** Guide pages explain in flowing prose with examples; reference pages enumerate in tables and lists. Don't turn a tutorial into a wall of tables.
+- **Prose teaches; tables look things up.** Guide pages explain in flowing prose with examples; reference pages enumerate in tables and lists. Don’t turn a tutorial into a wall of tables.
 
 ## Style guidelines
 
@@ -65,7 +67,7 @@ The typical reader is a behavioral researcher — an economist, psychologist, or
 - uproot-examples uses the `master` branch (not `main`), so links should be e.g. `https://github.com/mrpg/uproot-examples/tree/master/...`
 - Use `:material-github:` prefix for GitHub links in docs
 - No manual imports needed in code examples—uproot projects have everything available automatically via `from uproot.smithereens import *`
-- Avoid guide pages that are just thin wrappers pointing to another page — either cover the topic properly or don't give it its own page
+- Avoid guide pages that are just thin wrappers pointing to another page — either cover the topic properly or don’t give it its own page
 
 ## Related repositories
 
@@ -232,7 +234,7 @@ Using a context manager is always safe, even when not strictly required.
 - Web UI at `/admin/` with session/room management
 - Player actions: advance, revert, move to end, reload, send message, mark dropout, redirect, set fields, group/ungroup
 - Admin chat: per-player private messaging during sessions (enable/disable participant replies)
-- App testing: "Simulate responses" option runs `simulate.js` on player pages
+- App testing: “Simulate responses” option runs `simulate.js` on player pages
 - Data browser, digest view
 - REST API at `/admin/api/v1/` with Bearer token auth (`upd.API_KEYS.add(key)`)
 
@@ -244,7 +246,7 @@ Using a context manager is always safe, even when not strictly required.
 - Rooms: `upd.DEFAULT_ROOMS.append(room(name, config=, labels=, capacity=, open=))`
 
 ### Data export
-- Every download is a ZIP "briefcase": one top-level folder named after the session, containing `README.txt`, `DATA_DICTIONARY.json`, `page_times.csv` (or `.jsonl`), `SHA256SUMS`, and one folder per format (`ultralong/`, `sparse/`, `latest/`, optionally `latest_by_<gvar>/`), each split into one file per storage kind (`player.csv`, `group.csv`, `session.csv`, `model.csv`)
+- Every download is a ZIP “briefcase”: one top-level folder named after the session, containing `README.txt`, `DATA_DICTIONARY.json`, `page_times.csv` (or `.jsonl`), `SHA256SUMS`, and one folder per format (`ultralong/`, `sparse/`, `latest/`, optionally `latest_by_<gvar>/`), each split into one file per storage kind (`player.csv`, `group.csv`, `session.csv`, `model.csv`)
 - Formats: `ultralong` (one row per field change), `sparse` (wide event log), `latest` (one row per storage with final values); file type CSV or JSONL applies to the whole briefcase
 - `filters=true` cleans up internal `_uproot_*` fields (renames `_uproot_group` → `group`, `_uproot_session` → `session`)
 - REST: `GET /sessions/{sname}/data/export/` returns the ZIP briefcase; `GET /sessions/{sname}/data/jsonl/` streams a single format

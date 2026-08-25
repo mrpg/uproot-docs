@@ -4,7 +4,7 @@ Step-by-step instructions for deploying uproot on a fresh VPS. This guide assume
 
 ## 1. Get a VPS
 
-Rent a virtual private server from any major provider — [Hetzner](https://www.hetzner.com/), [DigitalOcean](https://www.digitalocean.com/), or [AWS Lightsail](https://aws.amazon.com/lightsail/) are all good options. uproot is lightweight; the smallest available tier (1 vCPU, 512 MB–1 GB RAM) is sufficient for most experiments.
+Rent a virtual private server from any major provider—[Hetzner](https://www.hetzner.com/), [DigitalOcean](https://www.digitalocean.com/), or [AWS Lightsail](https://aws.amazon.com/lightsail/) are all good options. uproot is lightweight; the smallest available tier (1 vCPU, 512 MB–1 GB RAM) is sufficient for most experiments.
 
 Choose **Debian** (latest stable) as the operating system. We recommend Debian for reasons we need not elaborate here.
 
@@ -12,7 +12,7 @@ Choose **Debian** (latest stable) as the operating system. We recommend Debian f
 
 ### Generate an SSH key (on your local machine)
 
-If you don't already have an SSH key, create one:
+If you don’t already have an SSH key, create one:
 
 ```console
 you@local:~$ ssh-keygen -t ed25519
@@ -26,7 +26,7 @@ Most VPS providers let you paste your public key during server creation. If you 
 you@local:~$ ssh root@YOUR_SERVER_IP
 ```
 
-If you didn't add a key during creation, log in with the password the provider gave you, then install your key:
+If you didn’t add a key during creation, log in with the password the provider gave you, then install your key:
 
 ```console
 you@local:~$ ssh-copy-id -i ~/.ssh/id_ed25519.pub root@YOUR_SERVER_IP
@@ -34,14 +34,14 @@ you@local:~$ ssh-copy-id -i ~/.ssh/id_ed25519.pub root@YOUR_SERVER_IP
 
 ### Create a non-root user
 
-Don't run experiments as root. Create a normal user and give it sudo access:
+Don’t run experiments as root. Create a normal user and give it sudo access:
 
 ```console
 root@server:~# adduser uproot
 root@server:~# usermod -aG sudo uproot
 ```
 
-`adduser` asks you to set a password (you'll need it for `sudo` later) and some optional fields you can skip by pressing Enter.
+`adduser` asks you to set a password (you’ll need it for `sudo` later) and some optional fields you can skip by pressing Enter.
 
 ### Set up SSH keys for both users
 
@@ -89,7 +89,7 @@ root@server:~# systemctl restart ssh
     you@local:~$ ssh uproot@YOUR_SERVER_IP
     ```
 
-    Both must succeed. If either fails, fix it before closing your root session — otherwise you may lock yourself out.
+    Both must succeed. If either fails, fix it before closing your root session—otherwise you may lock yourself out.
 
 From now on, use `root@server` for system administration and `uproot@server` for managing your experiment.
 
@@ -102,7 +102,7 @@ root@server:~# apt update && apt install -y git python3 python-is-python3 python
 root@server:~# dpkg-reconfigure -plow unattended-upgrades
 ```
 
-Select "Yes" when prompted to enable automatic security updates. This ensures critical patches are installed without your intervention.
+Select “Yes” when prompted to enable automatic security updates. This ensures critical patches are installed without your intervention.
 
 ## 4. Set up your project
 
@@ -143,7 +143,7 @@ Verify it works:
 (env) uproot@server:~/my_project$ uproot run -h 127.0.0.1 -p 8000
 ```
 
-Stop it with ++ctrl+c++ once you see the startup output. The remaining steps don't require the virtual environment.
+Stop it with ++ctrl+c++ once you see the startup output. The remaining steps don’t require the virtual environment.
 
 ### Create a run script
 
@@ -175,11 +175,11 @@ The script reinstalls your project on every start (picking up any dependency cha
 
 ### Start uproot on boot
 
-There are two ways to keep uproot running: a systemd user service (automatic, survives reboots) or tmux (manual, simpler to understand). We recommend systemd, but tmux is a perfectly reasonable alternative — see the [deployment page](deployment.md#running-uproot) for the tmux approach.
+There are two ways to keep uproot running: a systemd user service (automatic, survives reboots) or tmux (manual, simpler to understand). We recommend systemd, but tmux is a perfectly reasonable alternative—see the [deployment page](deployment.md#running-uproot) for the tmux approach.
 
 #### systemd (recommended)
 
-Create a user-level systemd service so uproot starts automatically when the server boots. First enable lingering, which allows the user's systemd services to run even when the user is not logged in:
+Create a user-level systemd service so uproot starts automatically when the server boots. First enable lingering, which allows the user’s systemd services to run even when the user is not logged in:
 
 ```console
 uproot@server:~$ sudo loginctl enable-linger uproot
@@ -230,19 +230,19 @@ Useful commands:
 
 ### Choose a hostname
 
-You need a domain name for HTTPS. A custom domain is not required — there are easier options:
+You need a domain name for HTTPS. A custom domain is not required—there are easier options:
 
-- **Provider-assigned hostname** — Some VPS providers let you assign a hostname through their control panel. If your provider offers this and the hostname already resolves to your server's IP, you can use it directly and skip the DNS step below.
-- **University subdomain** — Many universities allow researchers to create subdomains (e.g., `experiment.econ.uni-example.de`). Ask your IT department — this is often the easiest and most professional-looking option.
-- **Your own domain** — Register one from any registrar if you prefer full control.
+- **Provider-assigned hostname**—Some VPS providers let you assign a hostname through their control panel. If your provider offers this and the hostname already resolves to your server’s IP, you can use it directly and skip the DNS step below.
+- **University subdomain**—Many universities allow researchers to create subdomains (e.g., `experiment.econ.uni-example.de`). Ask your IT department—this is often the easiest and most professional-looking option.
+- **Your own domain**—Register one from any registrar if you prefer full control.
 
-If you're using a university subdomain or your own domain, create a DNS **A record** pointing it to your server's IP address. Wait for it to propagate (usually a few minutes, sometimes up to an hour). You can verify with:
+If you’re using a university subdomain or your own domain, create a DNS **A record** pointing it to your server’s IP address. Wait for it to propagate (usually a few minutes, sometimes up to an hour). You can verify with:
 
 ```console
 uproot@server:~$ dig +short example.com
 ```
 
-This should return your server's IP.
+This should return your server’s IP.
 
 ### Get a TLS certificate
 

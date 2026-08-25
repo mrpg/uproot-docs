@@ -11,7 +11,7 @@ class Welcome(Page):
     pass
 ```
 
-This minimal page displays the template `Welcome.html` from your app's templates folder. Every page needs a corresponding template file.
+This minimal page displays the template `Welcome.html` from your app’s templates folder. Every page needs a corresponding template file.
 
 ### The page_order list
 
@@ -39,7 +39,7 @@ def page_order(player):
     return pages
 ```
 
-Nested lists are flattened automatically, so you can compose page sequences from reusable building blocks — including SmoothOperators:
+Nested lists are flattened automatically, so you can compose page sequences from reusable building blocks—including SmoothOperators:
 
 ```python
 def page_order(player):
@@ -91,7 +91,7 @@ Available blocks:
 |-------|----------|
 | `title` | Page title (shown in browser tab and as heading) |
 | `head` | Extra content in `<head>` (CSS, meta tags) |
-| `pre_container` | Just before the main container — useful for full-width banners or custom layouts outside the Bootstrap container |
+| `pre_container` | Just before the main container—useful for full-width banners or custom layouts outside the Bootstrap container |
 | `main` | Main page content (inside the container) |
 | `late` | Extra content at the end of `<body>` (scripts) |
 
@@ -108,8 +108,8 @@ The built-in templates also read a few optional Jinja variables. Set them near t
 | Variable | Default | Effect when set to `True` |
 |----------|---------|---------------------------|
 | `buttons` | `True` | Set to `False` to hide the default Back/Next buttons |
-| `disable_bootstrap` | `False` | Do not load uproot's bundled Bootstrap CSS and JavaScript |
-| `disable_uproot_fonts` | `False` | Do not load uproot's bundled web fonts |
+| `disable_bootstrap` | `False` | Do not load uproot’s bundled Bootstrap CSS and JavaScript |
+| `disable_uproot_fonts` | `False` | Do not load uproot’s bundled web fonts |
 | `disable_tabular_numbers` | `False` | Do not load the tabular-number font stylesheet |
 | `disable_terms` | `False` | Do not load the terms script |
 | `disable_auto_start` | `False` | Do not run the default `uproot.init()` and WebSocket startup hook |
@@ -163,7 +163,7 @@ Then use these variables in your template:
 {% endblock %}
 ```
 
-The `templatevars` method receives `page` (the page class) and `player` (the current participant's data).
+The `templatevars` method receives `page` (the page class) and `player` (the current participant’s data).
 
 ### The PlayerContext class
 
@@ -197,10 +197,10 @@ Every template has access to these variables:
 
 | Variable | Description |
 |----------|-------------|
-| `player` | The current participant's data |
+| `player` | The current participant’s data |
 | `form` | The form instance (if the page has fields) |
 | `page` | The page class |
-| `C` | Constants defined in your app's `C` class |
+| `C` | Constants defined in your app’s `C` class |
 | `session` | The current session |
 | `_("text")` | Translation function for internationalization |
 
@@ -292,7 +292,7 @@ class Survey(Page):
     allow_back = True
 ```
 
-This adds a "Back" button that lets participants revisit and change previous answers.
+This adds a “Back” button that lets participants revisit and change previous answers.
 
 !!! note
     Going back re-displays the page but does not undo any data that was
@@ -366,7 +366,7 @@ class TradingGame(Page):
         )
 ```
 
-Access these in your template's JavaScript:
+Access these in your template’s JavaScript:
 
 ```html+jinja
 <script>
@@ -377,7 +377,7 @@ const maxTrades = uproot.vars.max_trades;
 
 ## Complete example
 
-Here's a complete page with context, conditional display, and form handling:
+Here’s a complete page with context, conditional display, and form handling:
 
 ```python
 class Offer(Page):
