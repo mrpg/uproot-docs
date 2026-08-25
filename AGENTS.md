@@ -51,6 +51,8 @@ The typical reader is a behavioral researcher — an economist, psychologist, or
 - **Complete, pasteable examples.** Code blocks must run as shown in a real project — no hidden setup, no `...` where code is required. When a full app is needed for context, link to uproot-examples.
 - **Plain language.** Short sentences, active voice, second person (“you”). Prefer everyday words to jargon (“saves”, not “persists”; “runs when”, not “is invoked upon”). If a technical term is unavoidable, define it at first use.
 - **Consistent terminology.** Use exactly one name per concept across all pages (e.g., always “page order”, never “page sequence” or “page flow”).
+- **Typographical quotes and apostrophes in body text.** In regular text — that is, outside code blocks — use typographical quotes (“...”) instead of straight quotes ("..."), and use the typographical apostrophe (’) instead of the straight apostrophe (').
+- **No spaces around em dashes.** Do not surround em dashes (—) by spaces.
 - **Signpost prerequisites.** Pages that build on earlier material say so in the first paragraph, with links (“This page assumes you have read [Forms](forms.md).”).
 - **Anticipate mistakes.** Where users commonly go wrong, show the mistake, the error they will see, and the fix — `!!! warning` admonitions work well for this.
 - **Prose teaches; tables look things up.** Guide pages explain in flowing prose with examples; reference pages enumerate in tables and lists. Don’t turn a tutorial into a wall of tables.
