@@ -107,7 +107,7 @@ When a session is started in a room (either way), the `r.start(roomname)` signal
 
 ### Closing and reopening a room
 
-You can close a room at any time to stop accepting new participants — even while a session is active. Closing a room does **not** affect the running session or its current players; it only prevents new participants from joining.
+You can close a room at any time to stop accepting new participants—even while a session is active. Closing a room does **not** affect the running session or its current players; it only prevents new participants from joining.
 
 From the room's admin page, use the **Close room** button. To resume accepting participants into the same session, use **Reopen room**.
 
@@ -123,7 +123,7 @@ Via the API, use [`PATCH /admin/api/v1/rooms/{roomname}/open/`](../reference/adm
 
 Closing a room and setting a capacity are two different mechanisms:
 
-- **Capacity** limits how many players can join. Once the limit is reached, new participants see a "Room full" page — but the room remains open and will accept participants again if capacity is freed up or increased.
+- **Capacity** limits how many players can join. Once the limit is reached, new participants see a "Room full" page—but the room remains open and will accept participants again if capacity is freed up or increased.
 - **Closing** shuts the door entirely. No new participants can join regardless of available capacity. Participants who visit a closed room see a "Please wait" page.
 
 Use capacity when you want a fixed maximum group size. Use closing when you want manual control over *when* participants can enter, independent of how many have already joined.
@@ -197,7 +197,7 @@ A participant can join a room's session if any of the following conditions are t
 2. **The session has room**: the current number of players is below the capacity.
 3. **A free slot exists**: a pre-created player slot that hasn't been claimed yet. Free slots bypass the capacity check, so pre-created players can always be claimed.
 
-This means capacity primarily controls *growth* — it prevents new player slots from being created beyond the limit. It does not prevent participants from claiming pre-created slots, even if the number of pre-created slots exceeds the capacity.
+This means capacity primarily controls *growth*—it prevents new player slots from being created beyond the limit. It does not prevent participants from claiming pre-created slots, even if the number of pre-created slots exceeds the capacity.
 
 ### Capacity and manual session creation
 

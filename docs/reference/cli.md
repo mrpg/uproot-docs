@@ -83,7 +83,7 @@ Room:
      http://127.0.0.1:8000/room/quick1/
 ```
 
-Open the room URL in one browser tab per participant — each tab joins the session as a new player. If your project has exactly one config, you can omit the config name and just run `uproot start`.
+Open the room URL in one browser tab per participant—each tab joins the session as a new player. If your project has exactly one config, you can omit the config name and just run `uproot start`.
 
 The rooms created this way are ordinary rooms named `quick1`, `quick2`, and so on; each `uproot start` creates a new one, and they appear under **Rooms** in the admin like any other.
 

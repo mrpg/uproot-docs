@@ -87,7 +87,7 @@ p1, p2 = group.players
 
 #### Filtering with `_`
 
-The `_` symbol is a field referent — a placeholder that stands for "each player" in a filter expression. When you write `_.cooperate == True`, uproot builds a comparison object that gets evaluated against each player in the collection.
+The `_` symbol is a field referent—a placeholder that stands for "each player" in a filter expression. When you write `_.cooperate == True`, uproot builds a comparison object that gets evaluated against each player in the collection.
 
 ```python
 # Players who cooperated
@@ -100,7 +100,7 @@ high_scorers = session.players.filter(_.score > 50)
 eligible = session.players.filter(_.present == True, _.age >= 18)
 ```
 
-`_` supports all comparison operators: `==`, `!=`, `>`, `>=`, `<`, `<=`. You can also chain attribute access — `_.group.round` refers to each player's group's round field.
+`_` supports all comparison operators: `==`, `!=`, `>`, `>=`, `<`, `<=`. You can also chain attribute access—`_.group.round` refers to each player's group's round field.
 
 !!! note
     `_` builds a lazy comparison, so `_.active` alone (without a comparison operator) tests for truthiness. To check for `False`, write `_.active == False` explicitly.

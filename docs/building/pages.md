@@ -39,7 +39,7 @@ def page_order(player):
     return pages
 ```
 
-Nested lists are flattened automatically, so you can compose page sequences from reusable building blocks — including SmoothOperators:
+Nested lists are flattened automatically, so you can compose page sequences from reusable building blocks—including SmoothOperators:
 
 ```python
 def page_order(player):
@@ -91,7 +91,7 @@ Available blocks:
 |-------|----------|
 | `title` | Page title (shown in browser tab and as heading) |
 | `head` | Extra content in `<head>` (CSS, meta tags) |
-| `pre_container` | Just before the main container — useful for full-width banners or custom layouts outside the Bootstrap container |
+| `pre_container` | Just before the main container—useful for full-width banners or custom layouts outside the Bootstrap container |
 | `main` | Main page content (inside the container) |
 | `late` | Extra content at the end of `<body>` (scripts) |
 

@@ -305,7 +305,7 @@ class C:
 
 `tojson` converts a Python value to a JSON string. Jinja2's autoescaping then HTML-encodes the result. This is the right default: it keeps values safe in HTML attributes and element content.
 
-**Most of the time, `tojson` alone is all you need.** Numbers, booleans, and `None` produce JSON like `42`, `true`, or `null` — no characters that autoescaping would change. Even inside `<script>` blocks, autoescaping is a no-op for these types, so `| safe` is unnecessary:
+**Most of the time, `tojson` alone is all you need.** Numbers, booleans, and `None` produce JSON like `42`, `true`, or `null`—no characters that autoescaping would change. Even inside `<script>` blocks, autoescaping is a no-op for these types, so `| safe` is unnecessary:
 
 ```html+jinja
 {# These all work without | safe, everywhere — including <script> blocks #}
@@ -323,7 +323,7 @@ class C:
 </script>
 ```
 
-In HTML (attributes, element content), never add `| safe` — autoescaping is what protects you:
+In HTML (attributes, element content), never add `| safe`—autoescaping is what protects you:
 
 ```html+jinja
 {# Safe: autoescaping prevents XSS even if player.response contains malicious strings #}

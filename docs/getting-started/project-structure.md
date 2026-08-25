@@ -111,7 +111,7 @@ Each app is a Python package (a directory with `__init__.py`). The `__init__.py`
 
 ### Required
 
-- **`page_order`** — List of page classes (and [SmoothOperators](../building/operators.md)) that define the participant flow:
+- **`page_order`**—list of page classes (and [SmoothOperators](../building/operators.md)) that define the participant flow:
 
 ```python
 page_order = [Welcome, Decision, Results]
@@ -211,6 +211,6 @@ Run `uproot deployment` to see the current values.
 
 ## What's next?
 
-- **[Pages and templates](../building/pages.md)** — How pages work
-- **[Collecting data with forms](../building/forms.md)** — Available field types
-- **[The admin interface](../running/admin.md)** — Managing your experiments
+- **[Pages and templates](../building/pages.md)**—How pages work.
+- **[Collecting data with forms](../building/forms.md)**—Available field types.
+- **[The admin interface](../running/admin.md)**—Managing your experiments.

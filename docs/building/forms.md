@@ -20,19 +20,19 @@ Field names become attributes on the player object. After submission, access the
 
 ### Text fields
 
-**StringField** — Single-line text input:
+**StringField**—Single-line text input:
 
 ```python
 participant_name=StringField(label="Your name")
 ```
 
-**TextAreaField** — Multi-line text input:
+**TextAreaField**—Multi-line text input:
 
 ```python
 comments=TextAreaField(label="Additional comments", optional=True)
 ```
 
-**EmailField** — HTML email input:
+**EmailField**—HTML email input:
 
 ```python
 email=EmailField(label="Email address")
@@ -40,13 +40,13 @@ email=EmailField(label="Email address")
 
 ### Numeric fields
 
-**IntegerField** — Whole numbers:
+**IntegerField**—Whole numbers:
 
 ```python
 age=IntegerField(label="Age", min=0, max=120)
 ```
 
-**DecimalField** — Decimal numbers:
+**DecimalField**—Decimal numbers:
 
 ```python
 amount=DecimalField(label="Amount to contribute", min=0.0, max=100.0)
@@ -54,7 +54,7 @@ amount=DecimalField(label="Amount to contribute", min=0.0, max=100.0)
 
 ### Selection fields
 
-**RadioField** — Choose one option with radio buttons:
+**RadioField**—Choose one option with radio buttons:
 
 ```python
 choice=RadioField(
@@ -63,7 +63,7 @@ choice=RadioField(
 )
 ```
 
-**SelectField** — Dropdown selection:
+**SelectField**—Dropdown selection:
 
 ```python
 country=SelectField(
@@ -76,7 +76,7 @@ country=SelectField(
 )
 ```
 
-**BooleanField** — Checkbox:
+**BooleanField**—Checkbox:
 
 ```python
 consent=BooleanField(label="I agree to participate")
@@ -84,7 +84,7 @@ consent=BooleanField(label="I agree to participate")
 
 ### Scales and sliders
 
-**LikertField** — Rating scale with labeled endpoints:
+**LikertField**—Rating scale with labeled endpoints:
 
 ```python
 satisfaction=LikertField(
@@ -96,7 +96,7 @@ satisfaction=LikertField(
 )
 ```
 
-**DecimalRangeField** — Slider input:
+**DecimalRangeField**—Slider input:
 
 ```python
 confidence=DecimalRangeField(
@@ -109,13 +109,13 @@ confidence=DecimalRangeField(
 
 ### Other fields
 
-**DateField** — Date picker:
+**DateField**—Date picker:
 
 ```python
 birthdate=DateField(label="Date of birth")
 ```
 
-**FileField** — File upload (see [File uploads](../advanced/uploads.md)):
+**FileField**—File upload (see [File uploads](../advanced/uploads.md)):
 
 ```python
 document=FileField(label="Upload your document")

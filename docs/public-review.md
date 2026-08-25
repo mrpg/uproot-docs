@@ -6,12 +6,12 @@ uproot is currently in a **public review period** before the release of version 
 
 ## What does “public review” mean?
 
-Public review is like peer review — just much, much better.
+Public review is like peer review—just much, much better.
 
 We have already tested uproot extensively ourselves by developing and running several experiments of our own. Now we want to hear from you. During the public review, we invite researchers to:
 
 - **Install uproot** and try building an experiment with it.
-- **Report any issues** you run into — bugs, confusing behavior, missing features, or unclear documentation.
+- **Report any issues** you run into—bugs, confusing behavior, missing features, or unclear documentation.
 - **Share ideas** for improvements or new features.
 
 Your feedback will directly shape the 1.0.0 release.

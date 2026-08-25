@@ -6,8 +6,8 @@ uproot supports real-time communication between participants through WebSockets.
 
 There are two ways to send data back to the browser:
 
-1. **Return values** — Data goes back to the caller only
-2. **Notifications** — Data is pushed to one or more participants
+1. **Return values**—Data goes back to the caller only.
+2. **Notifications**—Data is pushed to one or more participants.
 
 ```python
 @live
@@ -181,7 +181,7 @@ uproot.onCustomEvent("OfferAccepted", (event) => {
 
 ## Background tasks with spawn
 
-Sometimes you need work to continue after a `@live` method returns — for example, calling an external API or running a loop that pushes updates every few seconds. `spawn` launches an async function in the background so it keeps running independently:
+Sometimes you need work to continue after a `@live` method returns—for example, calling an external API or running a loop that pushes updates every few seconds. `spawn` launches an async function in the background so it keeps running independently:
 
 ```python
 async def ask_llm(player):
@@ -197,7 +197,7 @@ class Question(Page):
         return {"status": "thinking"}
 ```
 
-The spawned task is supervised: exceptions are logged instead of silently swallowed, and all tasks are cancelled when the server shuts down. Tasks do **not** survive server restarts — if your server restarts and you need the task again, re-launch it from the `restart()` function in your app module.
+The spawned task is supervised: exceptions are logged instead of silently swallowed, and all tasks are cancelled when the server shuts down. Tasks do **not** survive server restarts—if your server restarts and you need the task again, re-launch it from the `restart()` function in your app module.
 
 ```python
 async def tick(session):

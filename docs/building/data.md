@@ -15,10 +15,10 @@ Unlike traditional databases that overwrite data, uproot appends every change to
 
 The append-only log provides:
 
-1. **Reproducibility** — Analyze the exact sequence of participant decisions
-2. **Debugging** — Trace when and where unexpected values appeared
-3. **Temporal analysis** — Study how responses evolved over time
-4. **Data integrity** — No accidental overwrites or race conditions
+1. **Reproducibility**—Analyze the exact sequence of participant decisions.
+2. **Debugging**—Trace when and where unexpected values appeared.
+3. **Temporal analysis**—Study how responses evolved over time.
+4. **Data integrity**—No accidental overwrites or race conditions.
 
 See [Exporting data](../running/export.md) for more information about when this data is exported.
 
@@ -139,7 +139,7 @@ In templates:
 
 `session.settings` is a read-only dict-like object that supports both attribute access (`settings.key`) and `.get(key, default)`.
 
-Apps can replace the admin's raw JSON settings editor with their own form — see [Custom settings forms](../advanced/settings-forms.md).
+Apps can replace the admin's raw JSON settings editor with their own form—see [Custom settings forms](../advanced/settings-forms.md).
 
 :material-github: [See the read_settings example](https://github.com/mrpg/uproot-examples/tree/master/read_settings) · [conjoint example](https://github.com/mrpg/uproot-examples/tree/master/conjoint)
 
@@ -170,7 +170,7 @@ def templatevars(page, player):
 
 ## Working with mutable types
 
-When mutating lists or dictionaries in-place, uproot needs to know the value changed. Inside standard page methods (`templatevars`, `after_once`, `after_always_once`, etc.), this is handled automatically. Outside of page methods — for example, in standalone helper functions or `@live` methods — use a context manager:
+When mutating lists or dictionaries in-place, uproot needs to know the value changed. Inside standard page methods (`templatevars`, `after_once`, `after_always_once`, etc.), this is handled automatically. Outside of page methods—for example, in standalone helper functions or `@live` methods—use a context manager:
 
 ```python
 with player as p:
@@ -259,10 +259,10 @@ history = player.history()
 ```
 
 Each historical value includes:
-- `time` — Unix timestamp of the change
-- `data` — The value that was stored
-- `context` — The file and line that made the change
-- `unavailable` — Whether this represents a deletion of a field
+- `time`—Unix timestamp of the change;
+- `data`—the value that was stored;
+- `context`—the file and line that made the change;
+- `unavailable`—whether this represents a deletion of a field.
 
 Use `player.fields()` when you only need the names of fields that are currently available:
 

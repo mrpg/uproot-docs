@@ -72,9 +72,9 @@ In multiplayer experiments, a dropout can block other group members at synchroni
 
 A robust solution tracks dropout at the *group* level and handles three distinct dropout vectors:
 
-1. **Browser disconnect** — the participant closes the tab or loses connectivity (`watch_for_dropout`)
-2. **Page timeout** — the participant sits on a decision page without submitting (`timeout_reached`)
-3. **Sync timeout** — one participant submits but their partner never arrives at the wait page (`timeout` on `SynchronizingWait`)
+1. **Browser disconnect**—the participant closes the tab or loses connectivity (`watch_for_dropout`)
+2. **Page timeout**—the participant sits on a decision page without submitting (`timeout_reached`)
+3. **Sync timeout**—one participant submits but their partner never arrives at the wait page (`timeout` on `SynchronizingWait`)
 
 ### The group-level drop pattern
 
@@ -162,7 +162,7 @@ class Dilemma(Page):
             move_to_page(player, Dropped)
 ```
 
-The `before_once` guard at the bottom is equally important: if the group was already dropped (because the *other* player timed out or disconnected), this player should not see the decision page at all — they get redirected to Dropped immediately.
+The `before_once` guard at the bottom is equally important: if the group was already dropped (because the *other* player timed out or disconnected), this player should not see the decision page at all—they get redirected to Dropped immediately.
 
 !!! tip
     If you have many decision pages, you can avoid repeating these three methods on each one. See [Reducing repetition with a mixin class](#appendix-reducing-repetition-with-a-mixin-class) at the end of this page.
@@ -334,10 +334,10 @@ watch_for_dropout(player, handle_dropout, tolerance=120.0)
 
 ## Appendix: reducing repetition with a mixin class
 
-!!! note "Optional — for readers comfortable with Python classes"
+!!! note "Optional—for readers comfortable with Python classes"
     This section shows a convenience pattern for experiments with many decision pages. It is not required. If you only have one or two decision pages, adding the methods directly (as shown above) is simpler and perfectly fine.
 
-In the group dropout pattern above, every decision page needs the same three methods: `timeout`, `timeout_reached`, and `before_once`. If your experiment has several decision pages, repeating those methods on each one gets tedious. Python lets you factor them out into a **[mixin class](https://docs.python.org/3/tutorial/classes.html#multiple-inheritance)** — a small class that bundles reusable methods and can be combined with `Page` (or any other page type) via [multiple inheritance](https://realpython.com/inheritance-composition-python/#mixing-features-with-mixin-classes).
+In the group dropout pattern above, every decision page needs the same three methods: `timeout`, `timeout_reached`, and `before_once`. If your experiment has several decision pages, repeating those methods on each one gets tedious. Python lets you factor them out into a **[mixin class](https://docs.python.org/3/tutorial/classes.html#multiple-inheritance)**—a small class that bundles reusable methods and can be combined with `Page` (or any other page type) via [multiple inheritance](https://realpython.com/inheritance-composition-python/#mixing-features-with-mixin-classes).
 
 ### Defining the mixin
 
@@ -387,7 +387,7 @@ class Results(DroppableMixin, Page):
         return dict(payoff=player.payoff)
 ```
 
-Each page now inherits the timeout and dropout guard automatically. You still define `fields`, `templatevars`, and any other page-specific methods as usual — they sit alongside the inherited ones without conflict.
+Each page now inherits the timeout and dropout guard automatically. You still define `fields`, `templatevars`, and any other page-specific methods as usual—they sit alongside the inherited ones without conflict.
 
 ### Overriding a single method
 
@@ -402,7 +402,7 @@ class LongDecision(DroppableMixin, Page):
 
 ### Pages that only need the guard
 
-Some pages (like Results) do not need a timeout — they have no form to submit. The mixin still works: `timeout` returning a value on a page without fields is harmless. But if you prefer, you can skip the mixin and add just the guard directly:
+Some pages (like Results) do not need a timeout—they have no form to submit. The mixin still works: `timeout` returning a value on a page without fields is harmless. But if you prefer, you can skip the mixin and add just the guard directly:
 
 ```python
 class Results(Page):

@@ -49,7 +49,7 @@ topics=BoundedChoiceField(
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `choices` | list or dict | — | Available options |
+| `choices` | list or dict |—| Available options |
 | `min` | `int` | `0` | Minimum number of selections |
 | `max` | `int` | `None` | Maximum selections (`None` = unlimited) |
 | `layout` | `str` | `"vertical"` | `"vertical"` or `"horizontal"` |
@@ -303,9 +303,9 @@ choice=RadioField(
 
 Choices can be:
 
-- `list[tuple[value, label]]` — e.g., `[(1, "Option A"), (2, "Option B")]`
-- `dict[value, label]` — e.g., `{"a": "Option A", "b": "Option B"}`
-- `list[value]` — e.g., `[1, 2, 3]` (value and label are the same)
+- `list[tuple[value, label]]`—e.g., `[(1, "Option A"), (2, "Option B")]`.
+- `dict[value, label]`—e.g., `{"a": "Option A", "b": "Option B"}`.
+- `list[value]`—e.g., `[1, 2, 3]` (value and label are the same).
 
 ## SelectField
 
