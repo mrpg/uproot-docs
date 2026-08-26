@@ -64,7 +64,7 @@
 
 ## Quick example
 
-Here’s the core logic of a prisoner’s dilemma experiment:
+Here is the core logic of a prisoner’s dilemma experiment:
 
 ```python
 from uproot.fields import *

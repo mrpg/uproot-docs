@@ -42,7 +42,7 @@ The callback receives the `group` object and has access to all players’ data.
 
 ## Calculating payoffs
 
-A common pattern is to calculate payoffs for all players in `all_here`. Here’s a complete example using the prisoner’s dilemma payoff matrix:
+A common pattern is to calculate payoffs for all players in `all_here`. Here is a complete example using the prisoner’s dilemma payoff matrix:
 
 ```python
 def set_payoff(player):
@@ -187,7 +187,7 @@ def digest(session):
 
 ## Complete example: public goods game
 
-Here’s a complete example showing synchronization with a three-player group:
+Here is a complete example showing synchronization with a three-player group:
 
 ```python
 ENDOWMENT = cu("10")

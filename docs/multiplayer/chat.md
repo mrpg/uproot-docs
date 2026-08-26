@@ -227,7 +227,7 @@ Example custom styling:
 
 ## Complete example
 
-Here’s a complete session-level chat:
+Here is a complete session-level chat:
 
 ```python
 def new_session(session):

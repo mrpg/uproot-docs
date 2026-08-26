@@ -1,6 +1,6 @@
 # Project structure
 
-An uproot project is a Python package with a specific layout. Here’s what a typical project looks like.
+An uproot project is a Python package with a specific layout. Here is what a typical project looks like.
 
 ## Directory layout
 

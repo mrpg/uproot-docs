@@ -155,7 +155,7 @@ When labels are set:
 - Invalid labels are rejected with an error message.
 - Labels must use only the characters `A-Za-z0-9-._` and be at most 128 characters long.
 
-After entering a valid label, participants wait for the room to open (if it isn’t already). Once the room opens, they are automatically redirected.
+After entering a valid label, participants wait for the room to open (if it is not already open). Once the room opens, they are automatically redirected.
 
 If a participant enters a label that has already been used by another player in the session, they are redirected to that existing player’s URL. This means a participant can rejoin using the same label if they lose their connection.
 
@@ -195,7 +195,7 @@ A participant can join a room’s session if any of the following conditions are
 
 1. **The room is freejoin**: no labels and no capacity are set, so anyone can join without limit.
 2. **The session has room**: the current number of players is below the capacity.
-3. **A free slot exists**: a pre-created player slot that hasn’t been claimed yet. Free slots bypass the capacity check, so pre-created players can always be claimed.
+3. **A free slot exists**: a pre-created player slot that has not been claimed yet. Free slots bypass the capacity check, so pre-created players can always be claimed.
 
 This means capacity primarily controls *growth*—it prevents new player slots from being created beyond the limit. It does not prevent participants from claiming pre-created slots, even if the number of pre-created slots exceeds the capacity.
 
@@ -215,7 +215,7 @@ A room with no labels and no capacity is a **freejoin** room. There is no limit 
 
 When participants are on the waiting page, the browser opens a WebSocket connection to the server. This connection serves two purposes:
 
-1. **Instant notification**: When the room opens, a `RoomStarted` event is sent over the WebSocket, and the browser automatically submits the join form. Participants don’t need to refresh.
+1. **Instant notification**: When the room opens, a `RoomStarted` event is sent over the WebSocket, and the browser automatically submits the join form. Participants do not need to refresh.
 2. **Presence tracking**: The server tracks which participants are online in the room’s waiting area. The admin can see this on the room’s admin page.
 
 The WebSocket connection uses a heartbeat mechanism to stay alive. If a participant closes the page, they are marked as offline.

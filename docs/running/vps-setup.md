@@ -12,7 +12,7 @@ Choose **Debian** (latest stable) as the operating system. We recommend Debian f
 
 ### Generate an SSH key (on your local machine)
 
-If you don’t already have an SSH key, create one:
+If you do not yet have an SSH key, create one:
 
 ```console
 you@local:~$ ssh-keygen -t ed25519
@@ -26,7 +26,7 @@ Most VPS providers let you paste your public key during server creation. If you 
 you@local:~$ ssh root@YOUR_SERVER_IP
 ```
 
-If you didn’t add a key during creation, log in with the password the provider gave you, then install your key:
+If you did not add a key during creation, log in with the password the provider gave you, then install your key:
 
 ```console
 you@local:~$ ssh-copy-id -i ~/.ssh/id_ed25519.pub root@YOUR_SERVER_IP
@@ -34,14 +34,14 @@ you@local:~$ ssh-copy-id -i ~/.ssh/id_ed25519.pub root@YOUR_SERVER_IP
 
 ### Create a non-root user
 
-Don’t run experiments as root. Create a normal user and give it sudo access:
+Do not run experiments as root. Create a normal user and give it sudo access:
 
 ```console
 root@server:~# adduser uproot
 root@server:~# usermod -aG sudo uproot
 ```
 
-`adduser` asks you to set a password (you’ll need it for `sudo` later) and some optional fields you can skip by pressing Enter.
+`adduser` asks you to set a password (you will need it for `sudo` later) and some optional fields you can skip by pressing Enter.
 
 ### Set up SSH keys for both users
 
@@ -143,7 +143,7 @@ Verify it works:
 (env) uproot@server:~/my_project$ uproot run -h 127.0.0.1 -p 8000
 ```
 
-Stop it with ++ctrl+c++ once you see the startup output. The remaining steps don’t require the virtual environment.
+Stop it with ++ctrl+c++ once you see the startup output. The remaining steps do not require the virtual environment.
 
 ### Create a run script
 
@@ -236,7 +236,7 @@ You need a domain name for HTTPS. A custom domain is not required—there are ea
 - **University subdomain**—Many universities allow researchers to create subdomains (e.g., `experiment.econ.uni-example.de`). Ask your IT department—this is often the easiest and most professional-looking option.
 - **Your own domain**—Register one from any registrar if you prefer full control.
 
-If you’re using a university subdomain or your own domain, create a DNS **A record** pointing it to your server’s IP address. Wait for it to propagate (usually a few minutes, sometimes up to an hour). You can verify with:
+If you are using a university subdomain or your own domain, create a DNS **A record** pointing it to your server’s IP address. Wait for it to propagate (usually a few minutes, sometimes up to an hour). You can verify with:
 
 ```console
 uproot@server:~$ dig +short example.com

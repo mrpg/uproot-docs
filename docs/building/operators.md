@@ -76,7 +76,7 @@ Participants see `Instructions`, then cycle through `Decision` → `Feedback` fi
 
 ### Accessing the current round
 
-Inside your pages, access `player.round` to know which round you’re in (1-indexed):
+Inside your pages, access `player.round` to know which round you are in (1-indexed):
 
 ```python
 class Decision(Page):

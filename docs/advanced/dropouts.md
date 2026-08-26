@@ -47,7 +47,7 @@ async def handle_dropout(player):
     move_to_end(player)
 ```
 
-`move_to_end(player)` advances the player past all remaining pages. If they return, they’ll see the end page instead of being stuck on a wait page that blocks other players.
+`move_to_end(player)` advances the player past all remaining pages. If they return, they will see the end page instead of being stuck on a wait page that blocks other players.
 
 ## Marking dropouts manually
 

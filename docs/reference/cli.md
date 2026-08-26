@@ -179,7 +179,7 @@ uproot deployment
 
 ## Using with uv
 
-If you’re using uv (recommended), prefix commands with `uv run`:
+If you are using uv (recommended), prefix commands with `uv run`:
 
 ```bash
 uv run uproot run

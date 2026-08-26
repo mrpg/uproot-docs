@@ -1,8 +1,8 @@
 # Your first experiment
 
-This tutorial walks you through building a complete prisoner’s dilemma experiment from scratch. By the end, you’ll understand how uproot pages, forms, groups, and synchronization work together.
+This tutorial walks you through building a complete prisoner’s dilemma experiment from scratch. By the end, you will understand how uproot pages, forms, groups, and synchronization work together.
 
-## What we’re building
+## What we are building
 
 A two-player prisoner’s dilemma where participants are paired, each choose to cooperate or defect, and then see the outcome. The payoff matrix:
 
@@ -19,7 +19,7 @@ A two-player prisoner’s dilemma where participants are paired, each choose to 
 
 ## 1. Create a project
 
-If you haven’t already, create a new uproot project:
+If you have not done so yet, create a new uproot project:
 
 ```console
 uv run --with uproot-science uproot setup my_project

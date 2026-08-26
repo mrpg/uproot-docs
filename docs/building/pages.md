@@ -377,7 +377,7 @@ const maxTrades = uproot.vars.max_trades;
 
 ## Complete example
 
-Here’s a complete page with context, conditional display, and form handling:
+Here is a complete page with context, conditional display, and form handling:
 
 ```python
 class Offer(Page):

@@ -229,7 +229,7 @@ class Allocation(Page):
             return "Total cannot exceed 100"
 ```
 
-The `data` parameter contains submitted values as a dictionary. Return a string (or list of strings) if there’s an error. Return nothing if validation passes.
+The `data` parameter contains submitted values as a dictionary. Return a string (or list of strings) if there is an error. Return nothing if validation passes.
 
 ### Async validation
 
@@ -327,7 +327,7 @@ def stealth_fields(page, player):
     return ["response"] if player.condition == "special" else []
 ```
 
-Stealth fields are ideal for sensitive data like payment information that shouldn’t be stored in the main database:
+Stealth fields are ideal for sensitive data like payment information that should not be stored in the main database:
 
 ```python
 class PaymentForm(Page):
@@ -365,7 +365,7 @@ Values are stored with their proper types—integers stay integers, booleans sta
 
 ## Complete example
 
-Here’s a complete page with multiple field types and validation:
+Here is a complete page with multiple field types and validation:
 
 ```python
 class Questionnaire(Page):
