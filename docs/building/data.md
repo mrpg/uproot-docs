@@ -15,10 +15,10 @@ Unlike traditional databases that overwrite data, uproot appends every change to
 
 The append-only log provides:
 
-1. **Reproducibility**—Analyze the exact sequence of participant decisions.
-2. **Debugging**—Trace when and where unexpected values appeared.
-3. **Temporal analysis**—Study how responses evolved over time.
-4. **Data integrity**—No accidental overwrites or race conditions.
+1. **Reproducibility:** Analyze the exact sequence of participant decisions.
+2. **Debugging:** Trace when and where unexpected values appeared.
+3. **Temporal analysis:** Study how responses evolved over time.
+4. **Data integrity:** No accidental overwrites or race conditions.
 
 See [Exporting data](../running/export.md) for more information about when this data is exported.
 
@@ -28,7 +28,7 @@ Two module-level functions let you set up initial data before participants see a
 
 ### new_session
 
-`new_session(session)` is called once when a session is initialized. Use it to set up session-wide data—shared configuration, models, or anything that should exist before any player arrives:
+`new_session(session)` is called once when a session is initialized. Use it to set up session-wide data, such as shared configuration, models, or anything that should exist before any player arrives:
 
 ```python
 def new_session(session):
@@ -53,7 +53,7 @@ def new_player(player):
 Both callbacks are **lazy**: they run when the first participant initializes, not when the session is created in the admin. `new_session` runs before `new_player` for the very first participant in a session.
 
 !!! note
-    Both `new_session` and `new_player` can be manually re-triggered from the admin session dashboard—useful for resetting state or re-running initialization after fixing a bug mid-experiment.
+    Both `new_session` and `new_player` can be manually re-triggered from the admin session dashboard. This is useful for resetting state or re-running initialization after fixing a bug mid-experiment.
 
 :material-github: [See new_player and new_session in the chat example](https://github.com/mrpg/uproot-examples/tree/master/chat) · [conjoint example](https://github.com/mrpg/uproot-examples/tree/master/conjoint)
 
@@ -139,7 +139,7 @@ In templates:
 
 `session.settings` is a read-only dict-like object that supports both attribute access (`settings.key`) and `.get(key, default)`.
 
-Apps can replace the admin’s raw JSON settings editor with their own form—see [Custom settings forms](../advanced/settings-forms.md).
+Apps can replace the admin’s raw JSON settings editor with their own form, see [Custom settings forms](../advanced/settings-forms.md).
 
 :material-github: [See the read_settings example](https://github.com/mrpg/uproot-examples/tree/master/read_settings) · [conjoint example](https://github.com/mrpg/uproot-examples/tree/master/conjoint)
 
@@ -259,10 +259,11 @@ history = player.history()
 ```
 
 Each historical value includes:
-- `time`—Unix timestamp of the change;
-- `data`—the value that was stored;
-- `context`—the file and line that made the change;
-- `unavailable`—whether this represents a deletion of a field.
+
+- `time`: Unix timestamp of the change;
+- `data`: the value that was stored;
+- `context`: the file and line that made the change;
+- `unavailable`: whether this represents a deletion of a field.
 
 Use `player.fields()` when you only need the names of fields that are currently available:
 

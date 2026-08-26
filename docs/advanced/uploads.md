@@ -1,6 +1,6 @@
 # File uploads
 
-uproot supports file uploads from participants using `FileField`. Uploaded files are handled as stealth fields—they are not stored in the database automatically, giving you full control over how to process them.
+uproot supports file uploads from participants using `FileField`. Uploaded files are handled as stealth fields: They are not stored in the database automatically, giving you full control over how to process them.
 
 ## Basic file upload
 
