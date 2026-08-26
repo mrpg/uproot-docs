@@ -72,9 +72,9 @@ In multiplayer experiments, a dropout can block other group members at synchroni
 
 A robust solution tracks dropout at the *group* level and handles three distinct dropout vectors:
 
-1. **Browser disconnect**—the participant closes the tab or loses connectivity (`watch_for_dropout`)
-2. **Page timeout**—the participant sits on a decision page without submitting (`timeout_reached`)
-3. **Sync timeout**—one participant submits but their partner never arrives at the wait page (`timeout` on `SynchronizingWait`)
+1. **Browser disconnect:** The participant closes the tab or loses connectivity (`watch_for_dropout`).
+2. **Page timeout:** The participant sits on a decision page without submitting (`timeout_reached`).
+3. **Sync timeout:** One participant submits but their partner never arrives at the wait page (`timeout` on `SynchronizingWait`).
 
 ### The group-level drop pattern
 

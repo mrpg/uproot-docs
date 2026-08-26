@@ -120,7 +120,7 @@ uproot also notices when a participant disconnects and lets you [decide what hap
 
 ## Your design is not forced into a fixed pipeline
 
-**The advantage in one sentence: the order of pages is a list your code can change while the study runs—so back buttons, adaptive designs, and randomized blocks are normal, not workarounds.**
+**The advantage in one sentence: The order of pages is a list your code can change while the study runs; so back buttons, adaptive designs, and randomized blocks are normal, not workarounds.**
 
 On most platforms, participants march through a fixed sequence of pages, forward only. In uproot, the [page order](building/pages.md) can change at runtime: participants can [go back and revise answers](https://github.com/mrpg/uproot-examples/tree/master/revise), pages can appear or disappear based on earlier choices, and common designs are one line:
 
@@ -128,19 +128,19 @@ On most platforms, participants march through a fixed sequence of pages, forward
 page_order = [Hello, Random(Page1, Page2), Rounds(Task, Feedback, n=4), Bye]
 ```
 
-This line shows two pages in random order, then repeats a task-and-feedback block four times. Randomized blocks, between-subjects treatments, and indefinite repetition (for random stopping rules—without deception!) are all built in.
+This line shows two pages in random order, then repeats a task-and-feedback block four times. Randomized blocks, between-subjects treatments, and indefinite repetition (for random stopping rules without deception!) are all built in.
 
 [:octicons-arrow-right-24: SmoothOperators](building/operators.md)
 
 ## Full control on the day of your study
 
-**The advantage in one sentence: when a live session hits a problem, you can fix it from the admin interface—per participant, in real time—instead of aborting the session.**
+**The advantage in one sentence: When a live session hits a problem, you can fix it from the admin interface—per participant, in real time—instead of aborting the session.**
 
 From the admin interface you can advance, revert, reload, or regroup individual participants, message anyone privately (you may allow them to respond), and watch everyone’s progress live, filtering and sorting by any data field.
 
 Even if you do need to make live changes to your code, uproot will reload them immediately. (If an error occurs while reloading a Python module, the old continues to run, so that your server will never crash.)
 
-When the study is done, your data exports in [four formats](running/export.md) matched to different analyses—from “one row per participant” to the complete event-by-event history.
+When the study is done, your data exports in [four formats](running/export.md) matched to different analyses: from “one row per participant” to the complete event-by-event history.
 
 [:octicons-arrow-right-24: The admin interface](running/admin.md)
 
@@ -148,7 +148,7 @@ When the study is done, your data exports in [four formats](running/export.md) m
 
 **The advantage in one sentence: you can describe a study in plain language and have an AI coding assistant generate a working uproot version of it.**
 
-Studies are written in [Python](https://www.python.org/) and HTML—the two languages with the broadest ecosystem support, and the ones AI coding assistants handle best. The [uproot skill](https://github.com/mrpg/uproot-skill) gives assistants such as [Claude Code](https://claude.com/claude-code) and [Codex](https://openai.com/codex/) access to the full documentation and all examples, so “build a [public goods game with punishment](https://github.com/mrpg/uproot-examples/tree/master/pgg_punishment) for 4 players” produces a working study you then review and refine. The same mechanism can convert existing Qualtrics, z-Tree, or oTree studies.
+Studies are written in [Python](https://www.python.org/) and HTML. These are the two languages with the broadest ecosystem support, and the ones that AI coding assistants handle best. The [uproot skill](https://github.com/mrpg/uproot-skill) gives assistants such as [Claude Code](https://claude.com/claude-code) and [Codex](https://openai.com/codex/) access to the full documentation and all examples, so “build a [public goods game with punishment](https://github.com/mrpg/uproot-examples/tree/master/pgg_punishment) for 4 players” produces a working study you then review and refine. The same mechanism can convert existing Qualtrics, z-Tree, or oTree studies.
 
 The dozens of examples are also yours in the fullest sense: licensed under [0BSD](https://opensource.org/license/0bsd), meaning you may copy, modify, and use them without restriction or attribution.
 
@@ -168,7 +168,7 @@ Even complex data structures or custom database entries are stored rapidly if yo
 
 uproot was built by [academics](legal.md#who-created-uproot) with no financial stake in the promotion of uproot. If you do not want to use uproot, that is also fine!
 
-To protect uproot and its community, our software is 100% [Free/Libre Open Source Software](https://www.gnu.org/philosophy/free-sw.html)—you have the [four freedoms](https://www.gnu.org/philosophy/free-sw.html#four-freedoms): to run, study, share, and improve the software, guaranteed by the [LGPL](https://www.gnu.org/licenses/lgpl-3.0.html). There are no license fees, no per-response pricing, and no vendor who can retire a feature you depend on. You can inspect [every line of the code](https://github.com/mrpg/uproot), host it on your own infrastructure (a small server is plenty—the default database is [SQLite](https://sqlite.org/), which requires zero setup), and extend it freely.
+To protect uproot and its community, our software is 100% [Free/Libre Open Source Software](https://www.gnu.org/philosophy/free-sw.html). This means you have the [four freedoms](https://www.gnu.org/philosophy/free-sw.html#four-freedoms) guaranteed by the [LGPL](https://www.gnu.org/licenses/lgpl-3.0.html): to run, study, share, and improve the software. There are no license fees, no per-response pricing, and no vendor who can retire a feature you depend on. You can inspect [every line of the code](https://github.com/mrpg/uproot), host it on your own infrastructure (a small server is plenty—the default database is [SQLite](https://sqlite.org/), which requires zero setup), and extend it freely.
 
 ## See for yourself
 
