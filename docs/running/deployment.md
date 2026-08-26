@@ -7,7 +7,7 @@ This page covers deploying uproot experiments for production use.
 The recommended way to run uproot in production is behind an nginx reverse proxy. This setup gives you full control and works well on any VPS or dedicated server. **We strongly recommend that you use a VPS with Debian 13+.** (While uproot itself works flawlessly on Ubuntu, using Ubuntu is in general considered bad practice. uproot also works on OpenBSD.)
 
 !!! tip "New to VPS deployment?"
-    If you’re setting up a server from scratch, follow the [complete VPS setup guide](vps-setup.md)—it covers everything from getting a VPS to a working HTTPS setup, step by step.
+    If you are setting up a server from scratch, follow the [complete VPS setup guide](vps-setup.md)—it covers everything from getting a VPS to a working HTTPS setup, step by step.
 
 !!! warning "HTTPS required"
     uproot requires HTTPS in production. Many browser features (like the secure cookies needed for accessing the admin area) only work over HTTPS. Use [Let’s Encrypt](https://letsencrypt.org/) with `certbot` to get free TLS certificates.

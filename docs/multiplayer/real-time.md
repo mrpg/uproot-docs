@@ -78,7 +78,7 @@ uproot.receive = (data) => {
 
 ## send_to for server-initiated updates
 
-Use `send_to` when you don’t have a sender context (like in background tasks):
+Use `send_to` when you do not have a sender context (like in background tasks):
 
 ```python
 from uproot.smithereens import send_to

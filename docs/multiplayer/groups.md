@@ -157,7 +157,7 @@ if player.cooperate and other.cooperate:
     player.payoff = 10
 ```
 
-Raises an error if the group doesn’t have exactly two members.
+Raises an error if the group does not have exactly two members.
 
 :material-github: [See the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma) · [twobytwo example](https://github.com/mrpg/uproot-examples/tree/master/twobytwo)
 
@@ -330,7 +330,7 @@ When a config contains multiple apps that each use `GroupCreatingWait`, groups f
 
 ## Complete example: prisoner’s dilemma
 
-Here’s a complete two-player game showing group formation, decision collection, and payoff calculation:
+Here is a complete two-player game showing group formation, decision collection, and payoff calculation:
 
 ```python
 class GroupPlease(GroupCreatingWait):

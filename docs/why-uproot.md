@@ -82,7 +82,7 @@ This matters scientifically as well as ethically: participants who use screen re
 
     uproot follows the principle that **if something is hard, it’s a bug.**
 
-We call this the principle of *verisimilitude*—and the bug is not yours, it’s uproot’s. If an ordinary research need is hard to express, the framework is what gets fixed.
+We call this the principle of *verisimilitude*—and the bug is not yours, it is uproot’s. If an ordinary research need is hard to express, the framework is what gets fixed.
 
 A concrete example. On other platforms, a common pattern is to add a €5 bonus when the results page is shown. The hidden flaw: every time the participant refreshes the page, the code runs again—and they receive another €5. Bugs like this have gone undetected for entire studies, and the standard fix is manual bookkeeping that every researcher must remember to write, every time. In uproot, no workaround is needed: its page lifecycle includes methods that are **guaranteed to run exactly once** per participant, no matter how often a page is reloaded. You write the natural code; the framework makes it correct.
 
@@ -166,7 +166,7 @@ Even complex data structures or custom database entries are stored rapidly if yo
 
 **The advantage in one sentence: uproot costs nothing, hides nothing, and locks you into nothing.**
 
-uproot was built by [academics](legal.md#who-created-uproot) with no financial stake in the promotion of uproot. If you do not want to use uproot, that’s also fine!
+uproot was built by [academics](legal.md#who-created-uproot) with no financial stake in the promotion of uproot. If you do not want to use uproot, that is also fine!
 
 To protect uproot and its community, our software is 100% [Free/Libre Open Source Software](https://www.gnu.org/philosophy/free-sw.html)—you have the [four freedoms](https://www.gnu.org/philosophy/free-sw.html#four-freedoms): to run, study, share, and improve the software, guaranteed by the [LGPL](https://www.gnu.org/licenses/lgpl-3.0.html). There are no license fees, no per-response pricing, and no vendor who can retire a feature you depend on. You can inspect [every line of the code](https://github.com/mrpg/uproot), host it on your own infrastructure (a small server is plenty—the default database is [SQLite](https://sqlite.org/), which requires zero setup), and extend it freely.
 

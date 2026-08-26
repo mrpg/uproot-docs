@@ -101,7 +101,7 @@ Click **View data** on the session page to browse all stored data in a table vie
 
 ### Downloading data
 
-Click **Download data** on the session page to download the session’s complete data as a single ZIP archive. See [Exporting data](export.md) for what’s inside and how to analyze it.
+Click **Download data** on the session page to download the session’s complete data as a single ZIP archive. See [Exporting data](export.md) for what is inside and how to analyze it.
 
 ### Page times
 

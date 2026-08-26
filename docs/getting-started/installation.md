@@ -55,7 +55,7 @@ cd my_project
 uv run uproot run
 ```
 
-The first run will set up a virtual environment and install dependencies automatically. You’ll see:
+The first run will set up a virtual environment and install dependencies automatically. You will see:
 
 ```
 INFO:     Started server process [...]
@@ -118,7 +118,7 @@ If you get “command not found” after installing uv:
 
 ### Permission errors on Linux
 
-If you encounter permission errors, make sure you’re not running as root. uv is designed to work in user space.
+If you encounter permission errors, make sure you are not running as root. uv is designed to work in user space.
 
 ### Port already in use
 

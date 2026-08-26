@@ -265,7 +265,7 @@ endowment = cu("10.00")
 
 ### safe
 
-Mark a string as HTML-safe (won’t be escaped in templates).
+Mark a string as HTML-safe (will not be escaped in templates).
 
 ```python
 label=StringField(label=safe("Enter a value <b>in euros</b>"))
