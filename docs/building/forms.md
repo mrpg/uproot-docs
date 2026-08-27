@@ -128,9 +128,12 @@ To render several Likert items as one matrix (shared scale, one row per question
 
 ```html+jinja
 {{ likert_matrix(form.item1, form.item2, form.item3) }}
+{{ errors() }}
 ```
 
 `likert_grid()` is the responsive version: below a width threshold (default 992px, or pass `breakpoint=`), each row becomes its own column of radio buttons.
+
+Unlike `field()`, these two macros do not show validation errors themselves. Add `{{ errors() }}` as in the example so participants can see why a required response was rejected.
 
 :material-github: [See likert_matrix in the input_elements example](https://github.com/mrpg/uproot-examples/tree/master/input_elements)
 
@@ -148,7 +151,7 @@ birthdate=DateField(label="Date of birth")
 document=FileField(label="Upload your document")
 ```
 
-**IBANField** / **BICField**—Bank identifiers (require the optional `schwifty` extra). See [Form fields](../reference/fields.md).
+**IBANField** / **BICField**—Bank identifiers (require the optional `iban` extra, installed with `uv add 'uproot-science[iban]<1'`). See [Form fields](../reference/fields.md).
 
 ## Field options
 

@@ -359,7 +359,7 @@ async def handle_stealth_fields(page, player, data):
 | Attribute | Default | Description |
 |-----------|---------|-------------|
 | `allow_back` | `False` | Show a "Back" button |
-| `template` | `{AppName}/{ClassName}.html` | Custom template path |
+| `template` | Matching app `.html` file, then `.md` | Custom template path relative to the project root |
 | `keep_values` | `False` | Re-populate form from player data on re-render |
 
 ## Wait page methods

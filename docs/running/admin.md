@@ -109,13 +109,15 @@ Download a CSV of page visit times showing when each player entered and left eac
 
 ### Digest
 
-If your app defines `digest(session)`, the digest view shows its output. Return any JSON-serializable value—a list of rows is typical. Pair it with `AdminDigest.html` in the app directory: that file must contain **only** a `main` block (do not extend `Base.html`). The return value is available as `data`:
+If your app defines `digest(session)`, the digest view shows its output. A list of rows is a common return value. Pair it with `AdminDigest.html` in the app directory: that file must contain **only** a `main` block (do not extend `Base.html`). Lists and other non-dict values are available as `data`:
 
 ```html+jinja
 {% block main %}
 <p>{{ data | length }} groups so far.</p>
 {% endblock main %}
 ```
+
+If `digest()` returns a dictionary, its keys become template variables instead. For example, `return {"groups": rows}` makes the rows available as `groups`.
 
 :material-github: [See the prisoners_dilemma_repeated example for a digest implementation](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma_repeated)
 
@@ -128,17 +130,21 @@ def pipeline(session):
     rows = []
     for group in session.groups(app=__name__):
         p1, p2 = group.players
+        p1_data = p1.within(app=__name__)
+        p2_data = p2.within(app=__name__)
         rows.append(dict(
             group=group.name,
             p1=p1.name,
-            p1_cooperate=p1.cooperate,
+            p1_cooperate=p1_data.get("cooperate"),
             p2=p2.name,
-            p2_cooperate=p2.cooperate,
+            p2_cooperate=p2_data.get("cooperate"),
         ))
     return rows
 ```
 
-If `pipeline` declares a `data` parameter, the admin (or [REST API](../reference/admin-api.md)) can post JSON that is passed through as `data`. Pair a custom admin form with `AdminPipeline.html` (again, a `main` block only).
+[`player.within()`](../building/results.md#using-playerwithin) selects values recorded in this app. Using `.get()` keeps the pipeline usable before every participant has submitted a decision.
+
+If `pipeline` declares a `data` parameter, the admin (or [REST API](../reference/admin-api.md)) can post JSON that is passed through as `data`. The admin provides a built-in JSON input for this. To show app-specific instructions or status above the pipeline buttons, add `AdminPipeline.html` with a `main` block only.
 
 :material-github: [See pipeline in the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma) · [prediction_market example](https://github.com/mrpg/uproot-examples/tree/master/prediction_market)
 
@@ -202,7 +208,7 @@ The page key passed to `uproot.simulate.on()` is `"app_name/PageClassName"`.
 
 | Helper | What it does |
 |--------|----------------|
-| `sim.fill(name, value)` or `sim.fill({name: value, ...})` | Set input values |
+| `sim.fill(name, value)` or `sim.fill({age: 30, name: "Ada"})` | Set one or several input values |
 | `sim.choose(name, value)` | Select a radio button or dropdown option |
 | `sim.check(name)` / `sim.uncheck(name)` | Toggle a checkbox |
 | `sim.oneOf(name, values)` | Choose a random value from an array |
@@ -213,7 +219,7 @@ The page key passed to `uproot.simulate.on()` is `"app_name/PageClassName"`.
 | `sim.value(name)` | Read the current value |
 | `sim.element(name)` / `sim.field(name)` | Find a DOM element |
 
-All methods except `random` and `integer` return `sim`, so you can chain them. Pages with no fields can just call `sim.submit()`.
+The setters (`fill`, `choose`, `check`, `uncheck`, `select`, `oneOf`, and `chooseAnyRadio`) and `submit` return `sim`, so you can chain them. Lookup helpers such as `value`, `element`, and `field` return the requested value or DOM element instead. Pages with no fields can just call `sim.submit()`.
 
 !!! warning
     Simulation is session-level and permanent—once a session is created with simulation enabled, it cannot be disabled for that session. Create a new session without the option to run without simulation.

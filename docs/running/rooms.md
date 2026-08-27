@@ -136,7 +136,7 @@ Room settings (config, labels, capacity) can only be edited when no session is a
 
 ### Labels (access codes)
 
-Labels restrict room access to a predefined set of participants. Each participant must enter a valid label (access code) to join.
+Labels normally restrict room access to a predefined set of participants. Each participant must enter a valid label (access code) to join. You can also require a code without defining the allowed values in advance.
 
 ```python
 upd.DEFAULT_ROOMS.append(
@@ -183,7 +183,7 @@ This is useful for physical labs (where `MY_LABEL` may be `01` to `32`, the numb
 
 ### Labels and capacity
 
-When labels are set but no explicit capacity is configured, the room’s effective capacity equals the number of labels. This means each label can be used by exactly one participant.
+When a non-empty label list is set but no explicit capacity is configured, the room’s effective capacity equals the number of labels. This means each label can be used by exactly one participant. The special `labels=[]` mode has no implicit capacity; set `capacity=` as well if you need a limit.
 
 If you set both labels and an explicit capacity, the capacity value takes precedence. For example, you could have 100 labels but a capacity of 50, meaning only the first 50 valid labels will be accepted.
 
@@ -205,7 +205,7 @@ upd.DEFAULT_ROOMS.append(
 
 A participant can join a room’s session if any of the following conditions are true:
 
-1. **The room is freejoin**: no labels and no capacity are set, so anyone can join without limit.
+1. **The room is freejoin**: `labels` is `None` or `[]`, and no capacity is set, so participants can join without limit.
 2. **The session has room**: the current number of players is below the capacity.
 3. **A free slot exists**: a pre-created player slot that has not been claimed yet. Free slots bypass the capacity check, so pre-created players can always be claimed.
 
@@ -221,7 +221,9 @@ This implies: if you create a session with *n* players, but uncheck “Set room 
 
 ### Freejoin rooms
 
-A room with no labels and no capacity is a **freejoin** room. There is no limit on how many participants can join. Every visitor gets a new player slot in the session. This is useful for large-scale experiments where you want to accept as many participants as possible.
+A room with the default `labels=None` and no capacity is a **freejoin** room. There is no limit on how many participants can join, and every visitor gets a new player slot in the session. This is useful for large-scale experiments where you want to accept as many participants as possible.
+
+The `labels=[]` mode with no capacity is also unlimited, but each visitor must enter a non-empty code. Reusing a code returns to the player slot that already has that code.
 
 ### The room WebSocket
 

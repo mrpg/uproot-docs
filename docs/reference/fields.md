@@ -206,7 +206,7 @@ See [File uploads](../advanced/uploads.md) for details.
 
 ## IBANField
 
-IBAN input with format validation (requires the `schwifty` library).
+IBAN input with format validation. Install the optional `iban` extra first with `uv add 'uproot-science[iban]<1'`; it provides the `schwifty` library used for validation.
 
 ```python
 iban=IBANField(label="Your IBAN")
@@ -255,7 +255,7 @@ age=IntegerField(label="How old are you?", min=18, max=100)
 
 ## BICField
 
-BIC/SWIFT code input with format validation (requires the `schwifty` library).
+BIC/SWIFT code input with format validation (requires the optional `iban` extra described under [IBANField](#ibanfield)).
 
 ```python
 bic=BICField(label="Your bank’s BIC")

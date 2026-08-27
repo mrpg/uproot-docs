@@ -59,15 +59,16 @@ Both callbacks are **lazy**: they run when the first participant initializes, no
 
 ## Random numbers
 
-Use `rng()` whenever you need randomness—treatment assignment, shuffling, draws from a distribution. It returns a `random.Random` object seeded from the operating system. You can store it on a player and call it later; the data layer resumes it.
+Use `rng()` whenever you need randomness—treatment assignment, shuffling, or draws from a distribution. It returns an independent `random.Random` object seeded from the operating system. If later draws must continue the same random sequence, store the generator on the player; the data layer saves its state.
 
 ```python
 def new_player(player):
-    player.rng = rng()
-    player.treatment = player.rng.choice(["A", "B"])
+    randomizer = rng()
+    player.treatment = randomizer.choice(["A", "B"])
+    player.rng = randomizer
 ```
 
-Do not use the `random` module for experiment outcomes. `rng()` gives each call an independent generator you can inspect in the data.
+Do not use the module-level functions in `random` for experiment outcomes. A generator returned by `rng()` can be saved and resumed, which makes a sequence of draws reproducible from its stored state.
 
 :material-github: [See the treatments example](https://github.com/mrpg/uproot-examples/tree/master/treatments)
 

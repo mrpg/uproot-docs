@@ -12,6 +12,7 @@ my_project/
 ├── .env                     # Local environment settings
 ├── Procfile                 # For cloud deployment (Heroku, Railway)
 ├── uproot_license.txt       # uproot’s LGPL license
+├── _static/                 # Static files shared by all apps (optional)
 ├── my_app/
 │   ├── __init__.py          # App logic: pages, fields, callbacks
 │   ├── Welcome.html         # Template for Welcome page
@@ -159,15 +160,15 @@ See [Pages and templates](../building/pages.md) for details.
 
 ### Templates
 
-Each page needs a corresponding HTML template in the same directory. By default, uproot looks for a file matching the class name:
+Each displayed page needs a corresponding HTML or [Markdown](../building/pages.md#markdown-pages) template in the same app directory. By default, uproot first looks for an `.html` file matching the class name, then for `.md`:
 
 ```
 my_app/
 ├── __init__.py      # class Welcome(Page)
-└── Welcome.html     # Template for Welcome
+└── Welcome.html     # Template for Welcome (or Welcome.md)
 ```
 
-Templates extend a base layout:
+HTML templates extend a base layout:
 
 ```html+jinja
 {% extends "Base.html" %}

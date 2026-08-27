@@ -1,6 +1,6 @@
 # Pages and templates
 
-Pages are the building blocks of uproot experiments. Each page represents a screen that participants see—instructions, questions, feedback, or results. Pages are defined as Python classes and rendered using HTML templates.
+Pages are the building blocks of uproot experiments. Each page represents a screen that participants see—instructions, questions, feedback, or results. Pages are defined as Python classes and rendered using HTML or Markdown templates.
 
 ## Defining a page
 
@@ -66,8 +66,10 @@ To use a custom template path:
 
 ```python
 class Welcome(Page):
-    template = "Page0.html"
+    template = f"{__name__}/Page0.html"
 ```
+
+Explicit template paths start at the project root, so include the app module name as shown.
 
 ### Basic template structure
 
@@ -279,7 +281,7 @@ To inject HTML into every page, add `ProjectHead.html` (inside `<head>`) or `Pro
 
 ## Markdown pages
 
-If `Welcome.html` is missing, uproot looks for `Welcome.md` instead. The first heading becomes the page title. You can still use Jinja—fields, `player`, `C`, and the rest work as usual:
+If `Welcome.html` is missing, uproot looks for `Welcome.md` instead. Put exactly one level-one heading (`#`) in the file; uproot uses it as the page title and removes it from the main content. You can still use Jinja—fields, `player`, `C`, and the rest work as usual:
 
 ```markdown
 # Welcome
@@ -289,7 +291,12 @@ Thank you for participating. You start with {{ C.ENDOWMENT }} points.
 {{ field(form.consent) }}
 ```
 
-Set `template = "Instructions.md"` if the Markdown file name does not match the page class.
+If the Markdown file name does not match the page class, set its project-root-relative path:
+
+```python
+class Welcome(Page):
+    template = f"{__name__}/Instructions.md"
+```
 
 :material-github: [See the anchoring_markdown example](https://github.com/mrpg/uproot-examples/tree/master/anchoring_markdown)
 
