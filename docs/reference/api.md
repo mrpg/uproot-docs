@@ -309,7 +309,7 @@ A collection of storage objects (players, groups) with query methods.
 
 ### The `_` field referent
 
-`_` is a `FieldReferent`—a placeholder that stands for each item in the collection. It builds lazy comparison objects that are evaluated per item during `filter()`.
+`_` is a `FieldReferent`: a placeholder that stands for each item in the collection. It builds lazy comparison objects that are evaluated per item during `filter()`.
 
 ```python
 # _ is auto-imported via `from uproot.smithereens import *`

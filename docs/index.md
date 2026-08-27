@@ -6,7 +6,7 @@
 
 !!! warning "Work in progress"
 
-    uproot is in initial development. Breaking changes may occur between releases—the announcements shown in the admin interface will tell you when action is needed.
+    uproot is in initial development. Breaking changes may occur between releases. The announcements shown in the admin interface will tell you when action is needed.
 
 <div class="grid cards" markdown>
 
@@ -54,11 +54,11 @@
 
 ## Why uproot?
 
-- **Reproducible experiments**—Your project folder plus `uv` recreates the exact software environment of your study, years later.
-- **Real-time multiplayer**—Built-in support for grouping participants, synchronization, and live interactions.
-- **Flexible data storage**—Append-only log ensures data persistence and supports arbitrary data types.
-- **Modern stack**—Built on [FastAPI](https://fastapi.tiangolo.com/) for performance and reliability.
-- **100% open source**—LGPL-licensed with no vendor lock-in.
+- **Reproducible experiments:** Your project folder plus `uv` recreates the exact software environment of your study, years later.
+- **Real-time multiplayer:** Built-in support for grouping participants, synchronization, and live interactions.
+- **Flexible data storage:** Append-only log ensures data persistence and supports arbitrary data types.
+- **Modern stack:** Built on [FastAPI](https://fastapi.tiangolo.com/) for performance and reliability.
+- **100% open source:** LGPL-licensed with no vendor lock-in.
 
 [:octicons-arrow-right-24: **The full case for uproot**](why-uproot.md)
 

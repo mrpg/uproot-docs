@@ -72,9 +72,9 @@ In multiplayer experiments, a dropout can block other group members at synchroni
 
 A robust solution tracks dropout at the *group* level and handles three distinct dropout vectors:
 
-1. **Browser disconnect**—the participant closes the tab or loses connectivity (`watch_for_dropout`)
-2. **Page timeout**—the participant sits on a decision page without submitting (`timeout_reached`)
-3. **Sync timeout**—one participant submits but their partner never arrives at the wait page (`timeout` on `SynchronizingWait`)
+1. **Browser disconnect:** The participant closes the tab or loses connectivity (`watch_for_dropout`).
+2. **Page timeout:** The participant sits on a decision page without submitting (`timeout_reached`).
+3. **Sync timeout:** One participant submits but their partner never arrives at the wait page (`timeout` on `SynchronizingWait`).
 
 ### The group-level drop pattern
 
@@ -162,7 +162,7 @@ class Dilemma(Page):
             move_to_page(player, Dropped)
 ```
 
-The `before_once` guard at the bottom is equally important: if the group was already dropped (because the *other* player timed out or disconnected), this player should not see the decision page at all—they get redirected to Dropped immediately.
+The `before_once` guard at the bottom is equally important: If the group was already dropped (because the *other* player timed out or disconnected), this player should not see the decision page at all. Instead, they get redirected to `Dropped` immediately.
 
 !!! tip
     If you have many decision pages, you can avoid repeating these three methods on each one. See [Reducing repetition with a mixin class](#appendix-reducing-repetition-with-a-mixin-class) at the end of this page.
@@ -387,7 +387,7 @@ class Results(DroppableMixin, Page):
         return dict(payoff=player.payoff)
 ```
 
-Each page now inherits the timeout and dropout guard automatically. You still define `fields`, `templatevars`, and any other page-specific methods as usual—they sit alongside the inherited ones without conflict.
+Each page now inherits the timeout and dropout guard automatically. You still define `fields`, `templatevars`, and any other page-specific methods as usual; they sit alongside the inherited ones without conflict.
 
 ### Overriding a single method
 
@@ -402,7 +402,7 @@ class LongDecision(DroppableMixin, Page):
 
 ### Pages that only need the guard
 
-Some pages (like Results) do not need a timeout—they have no form to submit. The mixin still works: `timeout` returning a value on a page without fields is harmless. But if you prefer, you can skip the mixin and add just the guard directly:
+Some pages (like `Results`) do not need a timeout—they have no form to submit. The mixin still works: `timeout` returning a value on a page without fields is harmless. But if you prefer, you can skip the mixin and add just the guard directly:
 
 ```python
 class Results(Page):
