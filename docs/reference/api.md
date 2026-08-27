@@ -4,7 +4,7 @@ This page documents the key functions and classes available when building uproot
 
 ## Page types
 
-### Page
+### `Page`
 
 The standard page type. Displays a template and optionally collects form data.
 
@@ -19,7 +19,7 @@ class MyPage(Page):
 
 See [Page methods](page-methods.md) for all available methods.
 
-### NoshowPage
+### `NoshowPage`
 
 A page that runs logic without displaying anything to the participant.
 
@@ -30,7 +30,7 @@ class Calculate(NoshowPage):
         player.payoff = player.correct * 10
 ```
 
-### GroupCreatingWait
+### `GroupCreatingWait`
 
 A wait page that forms groups of participants.
 
@@ -44,7 +44,7 @@ class GroupPlease(GroupCreatingWait):
             player.role = role
 ```
 
-### SynchronizingWait
+### `SynchronizingWait`
 
 A wait page that synchronizes group or session members.
 
@@ -60,7 +60,7 @@ Set `synchronize = "session"` to synchronize across the entire session.
 
 ## SmoothOperators
 
-### Random
+### `Random`
 
 Shuffles pages into a random order per participant.
 
@@ -68,7 +68,7 @@ Shuffles pages into a random order per participant.
 page_order = [Random(TaskA, TaskB, TaskC)]
 ```
 
-### Bracket
+### `Bracket`
 
 Groups pages as an atomic unit within `Random`.
 
@@ -76,7 +76,7 @@ Groups pages as an atomic unit within `Random`.
 page_order = [Random(Bracket(Intro1, Task1), Bracket(Intro2, Task2))]
 ```
 
-### Rounds
+### `Rounds`
 
 Repeats pages a fixed number of times. Sets `player.round` (1-indexed).
 
@@ -84,7 +84,7 @@ Repeats pages a fixed number of times. Sets `player.round` (1-indexed).
 page_order = [Rounds(Decision, Feedback, n=5)]
 ```
 
-### Repeat
+### `Repeat`
 
 Repeats pages indefinitely until `player.add_round = False`.
 
@@ -92,7 +92,7 @@ Repeats pages indefinitely until `player.add_round = False`.
 page_order = [Repeat(Trial, Check), Done]
 ```
 
-### Between
+### `Between`
 
 Randomly selects one option per participant. Records selection in `player.between_showed`.
 
@@ -100,7 +100,7 @@ Randomly selects one option per participant. Records selection in `player.betwee
 page_order = [Between(Treatment, Control)]
 ```
 
-## PlayerContext
+## `PlayerContext`
 
 Base class for computed properties available in templates as `player.context.*`.
 
@@ -113,7 +113,7 @@ class Context(PlayerContext):
 
 ## Real-time functions
 
-### notify
+### `notify`
 
 Send data from one player to one or more recipients.
 
@@ -129,7 +129,7 @@ notify(sender, recipients, data, event="EventName", where=...)
 | `event` | Custom event name (default: `"_uproot_Received"`) |
 | `where` | Recipient page index; `...` delivers regardless of page |
 
-### send_to
+### `send_to`
 
 Send data to one or more players without a sender context.
 
@@ -137,7 +137,7 @@ Send data to one or more players without a sender context.
 send_to(recipients, data, event="EventName", where=...)
 ```
 
-### send_to_one
+### `send_to_one`
 
 Send data to a single player.
 
@@ -145,7 +145,7 @@ Send data to a single player.
 send_to_one(player, data, event="EventName", where=...)
 ```
 
-### reload
+### `reload`
 
 Force a player’s browser to reload the current page.
 
@@ -153,7 +153,7 @@ Force a player’s browser to reload the current page.
 reload(player)
 ```
 
-### move_to_page
+### `move_to_page`
 
 Move a player to a specific page.
 
@@ -161,7 +161,7 @@ Move a player to a specific page.
 move_to_page(player, TargetPage, reload_=True)
 ```
 
-### move_to_end
+### `move_to_end`
 
 Move a player past all remaining pages.
 
@@ -169,7 +169,7 @@ Move a player past all remaining pages.
 move_to_end(player, reload_=True)
 ```
 
-### spawn
+### `spawn`
 
 Run an async function as a supervised background task. The task keeps running after the calling method returns. Exceptions are logged, and all spawned tasks are cancelled at server shutdown. Tasks do not survive server restarts.
 
@@ -181,7 +181,7 @@ Because spawned tasks run outside a page method, wrap data mutations in a contex
 
 ## Dropout functions
 
-### watch_for_dropout
+### `watch_for_dropout`
 
 Monitor a player for disconnection and call a handler when they go offline.
 
@@ -189,7 +189,7 @@ Monitor a player for disconnection and call a handler when they go offline.
 watch_for_dropout(player, handler, tolerance=30.0)
 ```
 
-### mark_dropout
+### `mark_dropout`
 
 Add a player to the manual dropout set used by the dropout watcher.
 
@@ -199,7 +199,7 @@ mark_dropout(player_pid)
 
 ## Group functions
 
-### create_group
+### `create_group`
 
 Create a group from a list of players.
 
@@ -207,7 +207,7 @@ Create a group from a list of players.
 gid = create_group(session, [player1, player2], gname="custom_name", overwrite=False)
 ```
 
-### create_groups
+### `create_groups`
 
 Create multiple groups at once.
 
@@ -215,7 +215,7 @@ Create multiple groups at once.
 gids = create_groups(session, [[p1, p2], [p3, p4]])
 ```
 
-### add_to_group
+### `add_to_group`
 
 Add players to an existing group.
 
@@ -225,7 +225,7 @@ add_to_group(group, [player1, player2])
 add_to_group(group, player, overwrite=True)  # reassign players already in a group
 ```
 
-## The @live decorator
+## The `@live` decorator
 
 Makes a page method callable from JavaScript via WebSocket.
 
@@ -255,7 +255,7 @@ Apps may expose HTTP endpoints by defining `api(request, session)` or `api2(requ
 
 ## Utility functions
 
-### rng
+### `rng`
 
 Create an independent `random.Random` generator with an OS-random seed. Store it on a player if you need to resume the same stream later.
 
@@ -267,7 +267,7 @@ player.bomb = player.rng.randint(1, 25)
 
 See [Random numbers](../building/data.md#random-numbers).
 
-### uuid
+### `uuid`
 
 Return a UUID (uuid7 if the Python version provides it, otherwise uuid4).
 
@@ -275,7 +275,7 @@ Return a UUID (uuid7 if the Python version provides it, otherwise uuid4).
 player.token = str(uuid())
 ```
 
-### cu
+### `cu`
 
 Create a `Decimal` from a string. Shorthand for `Decimal(value)`.
 
@@ -283,7 +283,7 @@ Create a `Decimal` from a string. Shorthand for `Decimal(value)`.
 endowment = cu("10.00")
 ```
 
-### safe
+### `safe`
 
 Mark a string as HTML-safe (will not be escaped in templates).
 
@@ -291,7 +291,7 @@ Mark a string as HTML-safe (will not be escaped in templates).
 label=StringField(label=safe("Enter a value <b>in euros</b>"))
 ```
 
-### data_uri
+### `data_uri`
 
 Convert binary data to a data URI string for embedding in HTML.
 
