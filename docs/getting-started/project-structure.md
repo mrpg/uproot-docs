@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
 ### Configs
 
-Each `load_config` call registers a **config**—a named experiment configuration that specifies which apps to run and in what order:
+Each `load_config` call registers a **config**: a named experiment configuration that specifies which apps to run and in what order:
 
 ```python
 # A single-app config
@@ -112,7 +112,7 @@ Each app is a Python package (a directory with `__init__.py`). The `__init__.py`
 
 ### Required
 
-- **`page_order`**—list of page classes (and [SmoothOperators](../building/operators.md)) that define the participant flow:
+- **`page_order`:** list of page classes (and [SmoothOperators](../building/operators.md)) that define the participant flow:
 
 ```python
 page_order = [Welcome, Decision, Results]
@@ -138,7 +138,7 @@ page_order = [Welcome, Decision, Results]
 | `pipeline(session)` | Admin-runnable job; return a list of dicts for a downloadable table. May take optional `data=` |
 | `language(player)` | Returns ISO 639 language code for the player |
 | `api(request, session)` | Authenticated HTTP endpoint at `/api/{app}/{sname}/` |
-| `api2(request, session)` | Unauthenticated HTTP endpoint at `/api2/{app}/{sname}/`—treat input as public |
+| `api2(request, session)` | Unauthenticated HTTP endpoint at `/api2/{app}/{sname}/`; treat input as public |
 
 See [Storing and accessing data](../building/data.md) for details on `new_session` and `new_player`.
 
@@ -197,7 +197,7 @@ Available in templates as `player.context.total_earnings`.
 
 uproot uses SQLite by default. The database file `uproot.sqlite3` is created automatically in your project directory when the server starts. No configuration needed.
 
-SQLite works well in production too—uproot is optimized for it. PostgreSQL is available as an alternative but is never required. See [Deployment](../running/deployment.md) for details.
+SQLite works well in production too; uproot is optimized for it. PostgreSQL is available as an alternative but is never required. See [Deployment](../running/deployment.md) for details.
 
 ## Environment variables
 
@@ -216,6 +216,6 @@ Run `uproot deployment` to see the current values.
 
 ## What’s next?
 
-- **[Pages and templates](../building/pages.md)**—How pages work.
-- **[Collecting data with forms](../building/forms.md)**—Available field types.
-- **[The admin interface](../running/admin.md)**—Managing your experiments.
+- **[Pages and templates](../building/pages.md):** How pages work.
+- **[Collecting data with forms](../building/forms.md):** Available field types.
+- **[The admin interface](../running/admin.md):** Managing your experiments.

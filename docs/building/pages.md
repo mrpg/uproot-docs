@@ -1,6 +1,6 @@
 # Pages and templates
 
-Pages are the building blocks of uproot experiments. Each page represents a screen that participants see—instructions, questions, feedback, or results. Pages are defined as Python classes and rendered using HTML or Markdown templates.
+Pages are the building blocks of uproot experiments. Each page represents a screen that participants see, for instance, instructions, questions, feedback, or results. Pages are defined as Python classes and rendered using HTML or Markdown templates.
 
 ## Defining a page
 
@@ -13,7 +13,7 @@ class Welcome(Page):
 
 This minimal page displays the template `Welcome.html` from your app directory. Every page needs a matching template: `Welcome.html`, or `Welcome.md` if you prefer Markdown (see [Markdown pages](#markdown-pages)).
 
-### The page_order list
+### The `page_order` list
 
 The `page_order` list defines which pages participants see and in what sequence:
 
@@ -39,7 +39,7 @@ def page_order(player):
     return pages
 ```
 
-Nested lists are flattened automatically, so you can compose page sequences from reusable building blocks—including SmoothOperators:
+Nested lists are flattened automatically, so you can compose page sequences from reusable building blocks, including SmoothOperators:
 
 ```python
 def page_order(player):
@@ -95,7 +95,7 @@ Available blocks:
 | `head` | Extra content in `<head>` (CSS, meta tags) |
 | `pre_main` | Before the main content, outside the Bootstrap container |
 | `main` | Main page content (inside the container) |
-| `main_full_width` | After `main`, full viewport width—use for banners or charts that should break out of the container |
+| `main_full_width` | After `main`, full viewport width; use this for banners or charts that should break out of the container |
 | `main2` | A second container section after `main_full_width` |
 | `late` | Extra content at the end of `<body>` (scripts) |
 
@@ -281,7 +281,9 @@ To inject HTML into every page, add `ProjectHead.html` (inside `<head>`) or `Pro
 
 ## Markdown pages
 
-If `Welcome.html` is missing, uproot looks for `Welcome.md` instead. Put exactly one level-one heading (`#`) in the file; uproot uses it as the page title and removes it from the main content. You can still use Jinja—fields, `player`, `C`, and the rest work as usual:
+If `Welcome.html` is missing, uproot looks for `Welcome.md` instead. Put exactly one level-one heading (`#`) in the file; uproot uses it as the page title and removes it from the main content.
+
+You can still use Jinja. That is, fields, `player`, `C`, and the rest work as usual:
 
 ```markdown
 # Welcome
@@ -365,13 +367,13 @@ class Survey(Page):
 
 This adds a “Back” button that lets participants revisit and change previous answers.
 
-Set `keep_values = True` to pre-fill the form from values already stored on the player—useful when someone returns to a page and should see their previous answers.
+Set `keep_values = True` to pre-fill the form from values already stored on the player. This is useful when someone returns to a page and should see their previous answers.
 
 !!! note
     Going back re-displays the page but does not undo any data that was
     already saved. Submission hooks like `after_once` do not run again.
 
-## NoshowPage for logic-only pages
+## `NoshowPage` for logic-only pages
 
 Sometimes you need to run code without displaying anything to participants. Use `NoshowPage`:
 
@@ -396,11 +398,11 @@ Pages have several methods that run at different points:
 
 | Method | When it runs |
 |--------|--------------|
-| `show` | Before displaying—return `False` to skip the page |
-| `early` | Earliest hook when entering the page—has the HTTP request |
+| `show` | Before displaying; return `False` to skip the page |
+| `early` | Earliest hook when entering the page; has the HTTP request |
 | `before_always_once` | Once when this page position is reached |
 | `before_once` | Once per player, before first display |
-| `templatevars` | Before rendering—return template variables |
+| `templatevars` | Before rendering; return template variables |
 | `after_once` | Once per player, after first submission |
 | `after_always_once` | Once after this page position is submitted |
 
