@@ -3,6 +3,7 @@
   --md-accent-fg-color: #4e1388;
   --uproot-highlight-color: var(--md-primary-fg-color);
   --md-kbd-bg-color: var(--md-primary-fg-color);
+  --md-code-fg-color: var(--md-typeset-color);  /* same color as body text */
 }
 
 [data-md-color-scheme="slate"] {
