@@ -24,4 +24,5 @@ uproot is provided “as is,” without warranty of any kind, express or implied
 
 ## Contact
 
-[Dr Grossmann](https://max.pm/contact/), [Dr Gerhardt](https://www.econ.uni-bonn.de/iame/en/team/gerhardt).
+[:material-arrow-right-circle: Dr. Max R. P. Grossmann](https://max.pm/contact/) <br>
+[:material-arrow-right-circle: Dr. Holger Gerhardt](https://www.econ.uni-bonn.de/iame/en/team/gerhardt)
