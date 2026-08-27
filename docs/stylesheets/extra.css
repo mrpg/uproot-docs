@@ -173,6 +173,15 @@ details.note {
   }
 }
 
+/* Add bottom rule and padding to .tabbed-content for better demarcation */
+.tabbed-content {
+  padding-bottom: 0.25rem;
+  padding-top: 0.25rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
 /* Copied from Bootstrap */
 .text-nowrap {
   white-space: nowrap !important;
