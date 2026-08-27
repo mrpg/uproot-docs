@@ -230,10 +230,10 @@ The setters (`fill`, `choose`, `check`, `uncheck`, `select`, `oneOf`, and `choos
 
 The status page (`/admin/status/`) shows:
 
-- Database size
-- Installed package versions
-- Environment variables
-- Active authentication sessions
+- database size;
+- installed package versions;
+- environment variables;
+- active authentication sessions.
 
 ## Database dump
 
