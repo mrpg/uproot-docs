@@ -23,7 +23,7 @@ For a forward visit to a page, the lifecycle is:
 
 The `timeout` method configures the deadline while the page is rendered. The browser submits when the deadline is reached. If the server receives a request after the deadline, `timeout_reached` handles that request before normal form processing; validation and `may_proceed` are skipped, and the page advances. A direct visit to the current page can omit `early`, because that hook runs when entering a new page position.
 
-## show
+## `show`
 
 Decides whether the page should be displayed. Return `False` to skip the page entirely.
 
@@ -39,7 +39,7 @@ def show(page, player):
 | `player` | The current player |
 | **Returns** | `bool`—`True` to show (default), `False` to skip |
 
-## early
+## `early`
 
 The earliest hook in the page lifecycle. Runs before `before_always_once`. Receives the HTTP request as an additional keyword argument.
 
@@ -55,7 +55,7 @@ def early(page, player, request):
 | `player` | The current player |
 | `request` | The Starlette `Request` object |
 
-## before_once
+## `before_once`
 
 Runs **once per player**, the first time they see this page. Does not run again if the player navigates back and returns.
 
@@ -70,7 +70,7 @@ def before_once(page, player):
 | `page` | The page class |
 | `player` | The current player |
 
-## before_always_once
+## `before_always_once`
 
 Runs once when this page position is reached. Use this for setup that should also happen for internal or skipped pages.
 
@@ -85,7 +85,7 @@ def before_always_once(page, player):
 | `page` | The page class |
 | `player` | The current player |
 
-## fields
+## `fields`
 
 Returns the form fields for this page. Can be a dictionary (static) or a method (dynamic).
 
@@ -115,7 +115,7 @@ def fields(page, player):
 | `player` | The current player |
 | **Returns** | `dict` mapping field names to field instances |
 
-## templatevars
+## `templatevars`
 
 Returns variables available in the page template.
 
@@ -136,7 +136,7 @@ def templatevars(page, player):
 
 `templatevars` may return `None` instead of a dict—this is treated the same as returning `{}`.
 
-## jsvars
+## `jsvars`
 
 Returns variables available in JavaScript as `uproot.vars`.
 
@@ -161,7 +161,7 @@ const price = uproot.vars.initial_price;
 | `player` | The current player |
 | **Returns** | `dict` of JavaScript variables |
 
-## validate
+## `validate`
 
 Custom validation of submitted form data. Called after built-in field validation passes.
 
@@ -197,7 +197,7 @@ def validate(page, player, data):
 
 :material-github: [See the input_validation example](https://github.com/mrpg/uproot-examples/tree/master/input_validation)
 
-## before_form_save
+## `before_form_save`
 
 Runs after built-in and custom validation passes, immediately before ordinary
 form fields are saved to the player. The submitted `data` mapping is read-only;
@@ -216,7 +216,7 @@ def before_form_save(page, player, data):
 | `player` | The current player |
 | `data` | Read-only mapping of validated form values |
 
-## may_proceed
+## `may_proceed`
 
 Gate that controls whether the player can advance. Return `False` to keep the player on the page.
 
@@ -233,7 +233,7 @@ def may_proceed(page, player):
 | `player` | The current player |
 | **Returns** | `bool`—`True` to allow proceeding (default), `False` to block |
 
-## after_once
+## `after_once`
 
 Runs **once per player**, after the first forward submission. Does not run on back navigation or revisits.
 
@@ -248,7 +248,7 @@ def after_once(page, player):
 | `page` | The page class |
 | `player` | The current player |
 
-## after_always_once
+## `after_always_once`
 
 Runs once after this page position is submitted in the forward direction.
 
@@ -266,7 +266,7 @@ def after_always_once(page, player):
 !!! note
     `after_once` and `after_always_once` are not available on `GroupCreatingWait` or `SynchronizingWait` pages.
 
-## timeout
+## `timeout`
 
 Sets a page timeout in seconds. Can be a static value or a method.
 
@@ -291,7 +291,7 @@ def timeout(page, player):
 | `player` | The current player |
 | **Returns** | `float` seconds until timeout, or `None` to disable |
 
-## timeout_reached
+## `timeout_reached`
 
 Called when the page timeout expires, before the page auto-advances.
 
@@ -307,7 +307,7 @@ def timeout_reached(page, player):
 | `page` | The page class |
 | `player` | The current player |
 
-## stealth_fields
+## `stealth_fields`
 
 Specifies which fields should not be saved automatically. Can be a list or a method.
 
@@ -332,7 +332,7 @@ def stealth_fields(page, player):
 | `player` | The current player |
 | **Returns** | `list[str]` of field names to handle manually |
 
-## handle_stealth_fields
+## `handle_stealth_fields`
 
 Processes stealth fields. Called after validation. Return error strings to reject the submission.
 
@@ -364,14 +364,14 @@ async def handle_stealth_fields(page, player, data):
 
 ## Wait page methods
 
-### GroupCreatingWait
+### `GroupCreatingWait`
 
 | Attribute/Method | Description |
 |------------------|-------------|
 | `group_size` | Required. Number of players per group |
 | `after_grouping(page, group)` | Called once when the group forms |
 
-### SynchronizingWait
+### `SynchronizingWait`
 
 | Attribute/Method | Description |
 |------------------|-------------|
