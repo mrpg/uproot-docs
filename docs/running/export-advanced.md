@@ -33,7 +33,7 @@ curl -OJ -H "Authorization: Bearer YOUR_TOKEN" \
 ```
 
 !!! note
-    The `uproot api` CLI command prints responses as text, so it is not suited to binary downloads like the briefcase—use `curl` (or any HTTP client) for this endpoint.
+    The `uproot api` CLI command prints responses as text, so it is not suited to binary downloads like the briefcase. Use `curl` (or any HTTP client) for this endpoint.
 
 ### Streaming JSONL
 
@@ -152,7 +152,7 @@ print(snap.as_dict())      # single dict with all four tables
 | `db.close()` | Close the database |
 
 !!! note
-    `uproot.read` gives you the same Storage objects used at runtime—you can access `player.group`, `player.session`, `group.players`, and all virtual fields. Remember to use `with player:` (or `with session:`, etc.) before reading attributes. The plain-row helpers handle context management internally.
+    `uproot.read` gives you the same Storage objects used at runtime. You can access `player.group`, `player.session`, `group.players`, and all virtual fields. Remember to use `with player:` (or `with session:`, etc.) before reading attributes. The plain-row helpers handle context management internally.
 
 ## Summary
 

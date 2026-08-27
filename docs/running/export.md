@@ -1,6 +1,6 @@
 # Exporting data
 
-uproot stores every piece of data your experiment collects in an [append-only log](../building/data.md)—nothing is ever overwritten or lost. When you download your data, you do not have to pick and choose: you always get a single ZIP archive (the *data briefcase*) that contains your session’s complete data in all key formats, ready for Excel, R, or Python.
+uproot stores every piece of data your experiment collects in an [append-only log](../building/data.md). Nothing is ever overwritten or lost. When you download your data, you do not have to pick and choose: you always get a single ZIP archive (the *data briefcase*) that contains your session’s complete data in all key formats, ready for Excel, R, or Python.
 
 This page shows you how to download that ZIP and how to analyze its contents. If you want to automate exports, work with the REST API, or analyze the database directly in Python, see [Advanced data access](export-advanced.md).
 
@@ -8,9 +8,9 @@ This page shows you how to download that ZIP and how to analyze its contents. If
 
 On a session’s page in the admin interface, click **Download data**. You will see a short form:
 
-- **Latest × Field(s)** *(optional)*—adds an extra format with one row per player per grouping you specify (for example, one row per player per `round`). Leave it unchecked if you are not sure; you can always download again.
-- **File type**—**CSV** (opens in Excel and every stats package) or **JSONL** (preserves data types; see [CSV or JSONL?](#csv-or-jsonl) below).
-- **Apply reasonable filters**—checked by default; cleans up uproot-internal fields so your data focuses on what your experiment actually collected.
+- **Latest × Field(s)** *(optional):* This adds an extra format with one row per player per grouping you specify (for example, one row per player per `round`). Leave it unchecked if you are not sure; you can always download again.
+- **File type:** **CSV** (opens in Excel and every stats package) or **JSONL** (preserves data types; see [CSV or JSONL?](#csv-or-jsonl) below).
+- **Apply reasonable filters:** This is checked by default. It cleans up uproot-internal fields so your data focuses on what your experiment actually collected.
 
 Click **Download** and you will receive one ZIP file named after the session and the current date, for example `mysession_2026-07-04_1412.zip`.
 
@@ -42,7 +42,7 @@ Each subfolder contains the same data in a different *format* (explained below).
 
 | File | Contains |
 |------|----------|
-| `player.csv` | Data stored on players—usually what you want |
+| `player.csv` | Data stored on players; usually what you want |
 | `group.csv` | Data stored on groups (only if your session has groups) |
 | `session.csv` | Session-level data |
 | `model.csv` | [Custom data models](../advanced/models.md) (only if your apps use them) |
@@ -52,28 +52,28 @@ Each file only has columns for fields that actually occur in that kind of storag
 !!! tip "In a hurry?"
     **`latest/player.csv`** is the file most people want: one row per participant, one column per field, showing each field’s final value.
 
-If you checked **Latest × Field(s)**, there is one more folder, named after your grouping variables—for example `latest_by_round/` if you grouped by `round`.
+If you checked **Latest × Field(s)**, there is one more folder, named after your grouping variables, for example, `latest_by_round/` if you grouped by `round`.
 
 ## The three formats
 
 Every briefcase contains the same underlying data at three levels of detail:
 
-### “latest”—one row per player
+### “latest”: one row per player
 
 One row per storage (e.g., per player), showing the most recent value of every field. This is the most compact format and what you will typically use for analysis.
 
 If you enabled **Latest × Field(s)**, the extra `latest_by_…/` folder contains one row per player *per combination of your grouping variables*—for example, each participant’s state at the end of each round. This is ideal for panel-style analyses.
 
 !!! note
-    Grouped snapshots include every field known at that point in time—the grouping variables determine *when* snapshots are taken, not which columns they carry. Fields set before the grouping variable appear in the output as expected.
+    Grouped snapshots include every field known at that point in time. The grouping variables determine *when* snapshots are taken, not which columns they carry. Fields set before the grouping variable appear in the output as expected.
 
-### “sparse”—one row per change, one column per field
+### “sparse”: one row per change, one column per field
 
 Each row represents a single change. Every field has its own column, and only the field that changed at that moment is filled in. This produces a wide but mostly empty table. Useful when you want to reconstruct *how* values evolved but still prefer one column per field.
 
-### “ultralong”—the raw event log
+### “ultralong”: the raw event log
 
-One row per field change, in full detail. Every time a field’s value was set, there is a row recording what changed, when, and where in the code. This is the most detailed format and preserves the complete history—use it for temporal analyses, audits, or debugging.
+One row per field change, in full detail. Every time a field’s value was set, there is a row recording what changed, when, and where in the code. This is the most detailed format and preserves the complete history. Use it for temporal analyses, audits, or debugging.
 
 ## Understanding the columns
 
@@ -93,30 +93,30 @@ Columns that start with `!` come from uproot itself; they sort to the front and 
 
 The full machine-readable definitions live in `DATA_DICTIONARY.json` inside the briefcase.
 
-The last part of `!storage` is the participant’s uproot name—`player/mysession/9wpsj` is participant `9wpsj` in session `mysession`.
+The last part of `!storage` is the participant’s uproot name. For instance, `player/mysession/9wpsj` is participant `9wpsj` in session `mysession`.
 
 ## Reasonable filters
 
 The **Apply reasonable filters** option (on by default) cleans up uproot-internal fields:
 
-- Renames `_uproot_group` to `group` (with values like `group/mysession/g1`, matching the `!storage` column of `group.csv`—handy for merging, see below)
-- Renames `_uproot_session` to `session`
-- Keeps `_uproot_dropout` and `_uproot_settings`
-- Removes all other internal `_uproot_*` fields
+- It renames `_uproot_group` to `group` (with values like `group/mysession/g1`, matching the `!storage` column of `group.csv`; this is handy for merging, see below).
+- It renames `_uproot_session` to `session`.
+- It keeps `_uproot_dropout` and `_uproot_settings`.
+- It removes all other internal `_uproot_*` fields.
 
 Turn filters off only if you need to inspect uproot’s internal bookkeeping.
 
 ## CSV or JSONL?
 
-**CSV** is the safe default: it opens directly in Excel, R, Python, Stata, and everything else. Booleans are written as `TRUE`/`FALSE`, missing values as empty cells, and lists or dictionaries as JSON text within the cell.
+**CSV** is the safe default: It opens directly in Excel, R, Python, Stata, and everything else. Booleans are written as `TRUE`/`FALSE`, missing values as empty cells, and lists or dictionaries as JSON text within the cell.
 
-**JSONL** ([JSON Lines](https://jsonlines.org/)—one JSON object per line) is worth choosing when your data contains lists, dictionaries, or mixed types. Unlike CSV, it keeps the distinction between numbers, strings, booleans, and nested structures—no more guessing whether `"1"` is a number or a string. Both pandas and R read it with one line of code.
+**JSONL** ([JSON Lines](https://jsonlines.org/): one JSON object per line) is worth choosing when your data contains lists, dictionaries, or mixed types. Unlike CSV, it keeps the distinction between numbers, strings, Booleans, and nested structures. That is, no more guessing whether `"1"` is a number or a string. Both pandas and R read it with one line of code.
 
 Whichever you choose, the briefcase has the same structure—just with `.jsonl` files instead of `.csv` files.
 
 ## Analyzing your data
 
-You do not even have to unpack the ZIP: both R and Python can read individual files straight out of the archive, entirely in memory. The examples below assume you downloaded `mysession_2026-07-04_1412.zip` and that the session is called `mysession`—adjust the names accordingly. (Of course, if you prefer, you can also unpack the ZIP and read the files from disk; the reading code is the same, minus the ZIP part.)
+You do not even have to unpack the ZIP: Both R and Python can read individual files straight out of the archive, entirely in memory. The examples below assume you downloaded `mysession_2026-07-04_1412.zip` and that the session is called `mysession`. (Adjust the names accordingly. Of course, if you prefer, you can also unpack the ZIP and read the files from disk; the reading code is the same, minus the ZIP part.)
 
 === "R"
 
@@ -147,7 +147,7 @@ You do not even have to unpack the ZIP: both R and Python can read individual fi
     players <- fread(cmd = paste("unzip -p", zipfile, "mysession/latest/player.csv"))
     ```
 
-    Column names starting with `!` are perfectly legal in R—just wrap them in backticks:
+    Column names starting with `!` are perfectly legal in R; just wrap them in backticks:
 
     ```r
     library(dplyr)
@@ -188,7 +188,7 @@ You do not even have to unpack the ZIP: both R and Python can read individual fi
 
 === "Python"
 
-    Python’s built-in `zipfile` module opens a single file inside a ZIP—no extraction needed—and **pandas** reads directly from it:
+    Python’s built-in `zipfile` module opens a single file inside a ZIP (no extraction needed), and **pandas** reads directly from it:
 
     ```python
     import zipfile
@@ -240,7 +240,7 @@ sha256sum -c SHA256SUMS
 
 ## Page times
 
-Every briefcase includes a `page_times.csv` (or `.jsonl`) file tracking when each player entered and left each page—useful for measuring response times. Its columns are:
+Every briefcase includes a `page_times.csv` (or `.jsonl`) file tracking when each player entered and left each page. This is useful for measuring response times. Its columns are:
 
 | Column | Description |
 |--------|-------------|

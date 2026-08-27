@@ -123,7 +123,7 @@ Via the API, use [`PATCH /admin/api/v1/rooms/{roomname}/open/`](../reference/adm
 
 Closing a room and setting a capacity are two different mechanisms:
 
-- **Capacity** limits how many players can join. Once the limit is reached, new participants see a “Room full” page—but the room remains open and will accept participants again if capacity is freed up or increased.
+- **Capacity** limits how many players can join. Once the limit is reached, new participants see a “Room full” page. The room remains open and will accept participants again if capacity is freed up or increased.
 - **Closing** shuts the door entirely. No new participants can join regardless of available capacity. Participants who visit a closed room see a “Please wait” page.
 
 Use capacity when you want a fixed maximum group size. Use closing when you want manual control over *when* participants can enter, independent of how many have already joined.
@@ -205,11 +205,11 @@ upd.DEFAULT_ROOMS.append(
 
 A participant can join a room’s session if any of the following conditions are true:
 
-1. **The room is freejoin**: `labels` is `None` or `[]`, and no capacity is set, so participants can join without limit.
-2. **The session has room**: the current number of players is below the capacity.
-3. **A free slot exists**: a pre-created player slot that has not been claimed yet. Free slots bypass the capacity check, so pre-created players can always be claimed.
+1. **The room is freejoin:** `labels` is `None` or `[]`, and no capacity is set, so participants can join without limit.
+2. **The session has room:** The current number of players is below the capacity.
+3. **A free slot exists:**: A pre-created player slot that has not been claimed yet. Free slots bypass the capacity check, so pre-created players can always be claimed.
 
-This means capacity primarily controls *growth*—it prevents new player slots from being created beyond the limit. It does not prevent participants from claiming pre-created slots, even if the number of pre-created slots exceeds the capacity.
+This means capacity primarily controls *growth*: It prevents new player slots from being created beyond the limit. It does not prevent participants from claiming pre-created slots, even if the number of pre-created slots exceeds the capacity.
 
 ### Capacity and manual session creation
 

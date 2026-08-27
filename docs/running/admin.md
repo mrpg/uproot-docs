@@ -43,12 +43,12 @@ The dashboard (`/admin/dashboard/`) shows an overview of active sessions and roo
 
 Navigate to **Sessions** → **New session** to create a session:
 
-1. **Config**—Select which experiment config to run.
-2. **Number of players**—How many player slots to create.
-3. **Settings (JSON)**—Optional JSON object for session settings (accessible via `session.settings`); apps can replace this JSON editor with a [custom settings form](../advanced/settings-forms.md).
-4. **Custom session name**—Optional (auto-generated if omitted).
-5. **Custom player names**—Optional (auto-generated if omitted).
-6. **Simulate responses**—If enabled, the app’s `simulate.js` file runs on every player page load (see [App testing](#app-testing) below).
+1. **Config:** Select which experiment config to run.
+2. **Number of players:** How many player slots to create.
+3. **Settings (JSON):** Optional JSON object for session settings (accessible via `session.settings`); apps can replace this JSON editor with a [custom settings form](../advanced/settings-forms.md).
+4. **Custom session name:** Optional (auto-generated if omitted).
+5. **Custom player names:** Optional (auto-generated if omitted).
+6. **Simulate responses:** If enabled, the app’s `simulate.js` file runs on every player page load (see [App testing](#app-testing) below).
 
 After creation, each player gets a unique URL:
 
@@ -64,9 +64,9 @@ The session detail page (`/admin/session/{sname}/`) is your control center durin
 
 The session page shows all players with their current status:
 
-- **Current page**—which page each player is on;
-- **Online status**—whether the player is currently connected;
-- **Progress**—how far through the experiment each player is.
+- **current page:** which page each player is on;
+- **online status:** whether the player is currently connected;
+- **progress:** how far through the experiment each player is.
 
 ### Player actions
 
@@ -154,15 +154,15 @@ Navigate to **Rooms** to see all rooms, separated into open and closed sections.
 
 From a room’s admin page you can:
 
-- See which participants are waiting in the room (with live label tracking)
-- Create a session with pre-assigned player slots
-- Edit room settings (config, labels, capacity) when no session is associated
+- see which participants are waiting in the room (with live label tracking);
+- create a session with pre-assigned player slots;
+- edit room settings (config, labels, capacity) when no session is associated.
 
 When a session is associated, the room’s admin page shows:
 
-- **Room status**—Open/closed, capacity, and join mode (free join or restricted);
-- **Close room**/**Reopen room**—Stop or resume accepting new participants without affecting the running session (see [Closing and reopening a room](rooms.md#closing-and-reopening-a-room)).
-- **Disassociate**—Unlink the session so the room can be reused.
+- **room status:** open/closed, capacity, and join mode (free join or restricted);
+- **close room**/**Reopen room:** stop or resume accepting new participants without affecting the running session (see [Closing and reopening a room](rooms.md#closing-and-reopening-a-room));
+- **disassociate:** unlink the session, so the room can be reused.
 
 ## Admin chat
 
@@ -170,10 +170,10 @@ The admin chat lets experimenters communicate directly with individual participa
 
 Features:
 
-- **Per-player channels**—Each participant gets a private conversation with the experimenter.
-- **Enable/disable replies**—Control whether the participant can write back or only receive messages.
-- **Participant-side widget**—A floating chat button appears on the participant’s screen when the admin sends a message.
-- **Real-time updates**—Messages appear instantly on both sides via WebSocket.
+- **Per-player channels:** Each participant gets a private conversation with the experimenter.
+- **Enable/disable replies:** Control whether the participant can write back or only receive messages.
+- **Participant-side widget:** A floating chat button appears on the participant’s screen when the admin sends a message.
+- **Real-time updates:** Messages appear instantly on both sides via WebSocket.
 
 Participants see a small button in the bottom-right corner. Messages from the experimenter appear in a pop-up chat window. Whether the participant can reply is controlled by the toggle in the admin view.
 
@@ -222,7 +222,7 @@ The page key passed to `uproot.simulate.on()` is `"app_name/PageClassName"`.
 The setters (`fill`, `choose`, `check`, `uncheck`, `select`, `oneOf`, and `chooseAnyRadio`) and `submit` return `sim`, so you can chain them. Lookup helpers such as `value`, `element`, and `field` return the requested value or DOM element instead. Pages with no fields can just call `sim.submit()`.
 
 !!! warning
-    Simulation is session-level and permanent—once a session is created with simulation enabled, it cannot be disabled for that session. Create a new session without the option to run without simulation.
+    Simulation is session-level and permanent. Once a session is created with simulation enabled, it cannot be disabled for that session. Create a new session without the option to run without simulation.
 
 :material-github: [See simulate.js in the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma)
 
