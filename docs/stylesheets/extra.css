@@ -67,6 +67,7 @@ samp,
   font-family: "Cascadia Mono", monospace !important;
   font-size: 95% !important;
 }
+
 kbd {
   padding: 0.0em 0.5em !important;
   background-color: var(--md-default-bg-color) !important;
@@ -110,11 +111,18 @@ h1 code,
 h2 code {
   color: var(--uproot-highlight-color) !important;
   font-size: 95% !important;
+  padding: 0.15em 0.25em !important;
 }
 h3 code {
   color: var(--md-typeset-color) !important;
   font-size: 95% !important;
+  padding: 0.15em 0.25em !important;
 }
+td code,
+p code {
+  padding: 0.15em 0.25em !important;
+}
+
 
 /* Slightly increase font size for admonitions and notes */
 .admonition,
