@@ -59,7 +59,7 @@ Both callbacks are **lazy**: they run when the first participant initializes, no
 
 ## Random numbers
 
-Use `rng()` whenever you need randomness—treatment assignment, shuffling, or draws from a distribution. It returns an independent `random.Random` object seeded from the operating system. If later draws must continue the same random sequence, store the generator on the player; the data layer saves its state.
+Use `rng()` whenever you need randomness—whether for assigning treatments, shuffling, or drawing from a distribution. It returns an independent `random.Random` object seeded from the operating system. If later draws must continue the same random sequence, store the generator on the player; the data layer saves its state.
 
 ```python
 def new_player(player):

@@ -20,19 +20,19 @@ Field names become attributes on the player object. After submission, access the
 
 ### Text fields
 
-**StringField**—Single-line text input:
+**`StringField`:** Single-line text input
 
 ```python
 participant_name=StringField(label="Your name")
 ```
 
-**TextAreaField**—Multi-line text input:
+**`TextAreaField`:** Multi-line text input
 
 ```python
 comments=TextAreaField(label="Additional comments", optional=True)
 ```
 
-**EmailField**—HTML email input:
+**`EmailField`:** HTML email input
 
 ```python
 email=EmailField(label="Email address")
@@ -40,19 +40,19 @@ email=EmailField(label="Email address")
 
 ### Numeric fields
 
-**IntegerField**—Whole numbers:
+**`IntegerField`:** Whole numbers
 
 ```python
 age=IntegerField(label="Age", min=0, max=120)
 ```
 
-**DecimalField**—Decimal numbers (use this for money):
+**`DecimalField`:** Decimal numbers (use this for money)
 
 ```python
 amount=DecimalField(label="Amount to contribute", min=0.0, max=100.0)
 ```
 
-**FloatField**—Floating-point numbers (same options as `DecimalField`, stored as `float`):
+**`FloatField`:** Floating-point numbers (same options as `DecimalField`, stored as `float`)
 
 ```python
 reaction_time=FloatField(label="Reaction time (seconds)", min=0.0)
@@ -60,7 +60,7 @@ reaction_time=FloatField(label="Reaction time (seconds)", min=0.0)
 
 ### Selection fields
 
-**RadioField**—Choose one option with radio buttons:
+**`RadioField`:** Choose one option with radio buttons
 
 ```python
 choice=RadioField(
@@ -69,7 +69,7 @@ choice=RadioField(
 )
 ```
 
-**SelectField**—Dropdown selection:
+**`SelectField`:** Dropdown selection
 
 ```python
 country=SelectField(
@@ -82,13 +82,13 @@ country=SelectField(
 )
 ```
 
-**BooleanField**—Checkbox:
+**`BooleanField`:** Checkbox
 
 ```python
 consent=BooleanField(label="I agree to participate")
 ```
 
-**BoundedChoiceField**—Multi-select checkboxes with optional min/max counts:
+**`BoundedChoiceField`:** Multi-select checkboxes with optional min/max counts
 
 ```python
 topics=BoundedChoiceField(
@@ -101,7 +101,7 @@ topics=BoundedChoiceField(
 
 ### Scales and sliders
 
-**LikertField**—Rating scale with labeled endpoints:
+**`LikertField`:** Rating scale with labeled endpoints
 
 ```python
 satisfaction=LikertField(
@@ -113,7 +113,7 @@ satisfaction=LikertField(
 )
 ```
 
-**DecimalRangeField**—Slider input:
+**`DecimalRangeField`:** Slider input
 
 ```python
 confidence=DecimalRangeField(
@@ -124,7 +124,7 @@ confidence=DecimalRangeField(
 )
 ```
 
-To render several Likert items as one matrix (shared scale, one row per question):
+To render several Likert items as one matrix (shared scale, one row per question)
 
 ```html+jinja
 {{ likert_matrix(form.item1, form.item2, form.item3) }}
@@ -139,19 +139,19 @@ Unlike `field()`, these two macros do not show validation errors themselves. Add
 
 ### Other fields
 
-**DateField**—Date picker:
+**`DateField`:** Date picker
 
 ```python
 birthdate=DateField(label="Date of birth")
 ```
 
-**FileField**—File upload (see [File uploads](../advanced/uploads.md)):
+**`FileField`:** File upload (see [File uploads](../advanced/uploads.md))
 
 ```python
 document=FileField(label="Upload your document")
 ```
 
-**IBANField** / **BICField**—Bank identifiers (require the optional `iban` extra, installed with `uv add 'uproot-science[iban]<1'`). See [Form fields](../reference/fields.md).
+**`IBANField**` and `**BICField`:** Bank identifiers (require the optional `iban` extra, installed with `uv add 'uproot-science[iban]<1'`); see [Form fields](../reference/fields.md)
 
 ## Field options
 
@@ -395,7 +395,7 @@ class Results(Page):
         )
 ```
 
-Values are stored with their proper types—integers stay integers, booleans stay booleans.
+Values are stored with their proper types: integers stay integers, Booleans stay Booleans.
 
 ## Complete example
 
