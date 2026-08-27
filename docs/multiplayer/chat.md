@@ -150,9 +150,10 @@ def new_player(player):
 ```
 
 The callback receives:
-- `chat`—the `ModelIdentifier` of the chat;
-- `player`—the player who sent the message, or `None` if sent programmatically;
-- `message`—the message text.
+
+- `chat`: the `ModelIdentifier` of the chat;
+- `player`: the player who sent the message, or `None` if sent programmatically;
+- `message`: the message text.
 
 The callback is persistent: it is automatically restored when the server restarts.
 

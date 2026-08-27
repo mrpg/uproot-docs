@@ -37,7 +37,7 @@ def show(page, player):
 |-----------|-------------|
 | `page` | The page class |
 | `player` | The current player |
-| **Returns** | `bool`—`True` to show (default), `False` to skip |
+| **Returns** | `bool`: `True` to show (default), `False` to skip |
 
 ## `early`
 
@@ -134,7 +134,7 @@ def templatevars(page, player):
 | `player` | The current player |
 | **Returns** | `dict` of template variables, or `None` |
 
-`templatevars` may return `None` instead of a dict—this is treated the same as returning `{}`.
+`templatevars` may return `None` instead of a dict. This is treated the same as returning `{}`.
 
 ## `jsvars`
 
@@ -179,11 +179,11 @@ def validate(page, player, data):
 | `data` | `dict` of submitted values |
 | **Returns** | Error message(s), or nothing if valid |
 
-Return types:
+Return types are:
 
-- `str`—Single error displayed at the top of the form.
-- `list[str]`—Multiple errors displayed at the top.
-- `dict[str, str | list[str]]`—Per-field errors displayed next to each field.
+- `str`: single error displayed at the top of the form;
+- `list[str]`: multiple errors displayed at the top;
+- `dict[str, str | list[str]]`: per-field errors displayed next to each field.
 
 ```python
 @classmethod
@@ -231,7 +231,7 @@ def may_proceed(page, player):
 |-----------|-------------|
 | `page` | The page class |
 | `player` | The current player |
-| **Returns** | `bool`—`True` to allow proceeding (default), `False` to block |
+| **Returns** | `bool`: `True` to allow proceeding (default), `False` to block |
 
 ## `after_once`
 

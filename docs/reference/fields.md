@@ -51,7 +51,7 @@ topics=BoundedChoiceField(
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `choices` | list or dict |—| Available options |
+| `choices` | list or dict | — | Available options |
 | `min` | `int` | `0` | Minimum number of selections |
 | `max` | `int` | `None` | Maximum selections (`None` = unlimited) |
 | `layout` | `str` | `"vertical"` | `"vertical"` or `"horizontal"` |
@@ -186,7 +186,7 @@ email=EmailField(label="Your email address")
 
 ## FileField
 
-File upload. Always treated as a stealth field—process in `handle_stealth_fields`.
+File upload. Always treated as a stealth field. Process in `handle_stealth_fields`.
 
 ```python
 document=FileField(label="Upload your document")
@@ -325,9 +325,9 @@ choice=RadioField(
 
 Choices can be:
 
-- `list[tuple[value, label]]`—e.g., `[(1, "Option A"), (2, "Option B")]`.
-- `dict[value, label]`—e.g., `{"a": "Option A", "b": "Option B"}`.
-- `list[value]`—e.g., `[1, 2, 3]` (value and label are the same).
+- `list[tuple[value, label]]`, for example, `[(1, "Option A"), (2, "Option B")]`;
+- `dict[value, label]`, for example, `{"a": "Option A", "b": "Option B"}`;
+- `list[value]`, for example, `[1, 2, 3]` (value and label are the same).
 
 ## SelectField
 

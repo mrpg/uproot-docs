@@ -281,7 +281,7 @@ page_order = [
 
 ## What’s next?
 
-- **[Project structure](project-structure.md)**—Understand the files in your project.
-- **[Pages and templates](../building/pages.md)**—Learn about page lifecycle methods.
-- **[Collecting data with forms](../building/forms.md)**—Explore all available field types.
-- **[Grouping participants](../multiplayer/groups.md)**—More on multiplayer experiments.
+- **[Project structure](project-structure.md):** Understand the files in your project.
+- **[Pages and templates](../building/pages.md):** Learn about page lifecycle methods.
+- **[Collecting data with forms](../building/forms.md):** Explore all available field types.
+- **[Grouping participants](../multiplayer/groups.md):** More on multiplayer experiments.
