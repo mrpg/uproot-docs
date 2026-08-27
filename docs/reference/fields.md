@@ -18,7 +18,7 @@ These parameters are available on most fields:
 
 For several Likert items sharing one scale, use the `likert_matrix()` or `likert_grid()` template macros. See [Collecting data with forms](../building/forms.md#scales-and-sliders).
 
-## BooleanField
+## `BooleanField`
 
 A single checkbox.
 
@@ -36,7 +36,7 @@ consent=BooleanField(label="I agree to participate")
 | `class_wrapper` | `str` | `None` |
 | `validators` | list | — |
 
-## BoundedChoiceField
+## `BoundedChoiceField`
 
 Multi-select checkboxes with min/max selection limits.
 
@@ -51,7 +51,7 @@ topics=BoundedChoiceField(
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `choices` | list or dict |—| Available options |
+| `choices` | list or dict | — | Available options |
 | `min` | `int` | `0` | Minimum number of selections |
 | `max` | `int` | `None` | Maximum selections (`None` = unlimited) |
 | `layout` | `str` | `"vertical"` | `"vertical"` or `"horizontal"` |
@@ -66,7 +66,7 @@ Returns a list of selected values.
 
 :material-github: [See the bounded_choice example](https://github.com/mrpg/uproot-examples/tree/master/bounded_choice)
 
-## DateField
+## `DateField`
 
 A date picker.
 
@@ -84,7 +84,7 @@ birthdate=DateField(label="Date of birth")
 | `default` | any | `None` |
 | `class_wrapper` | `str` | `None` |
 
-## DecimalField
+## `DecimalField`
 
 Decimal number input with optional addons and min/max bounds.
 
@@ -115,7 +115,7 @@ amount=DecimalField(
 | `default` | any | `None` | |
 | `class_wrapper` | `str` | `None` | |
 
-## FloatField
+## `FloatField`
 
 Like `DecimalField`, but stores a Python `float`. Prefer `DecimalField` for money.
 
@@ -125,7 +125,7 @@ reaction_time=FloatField(label="Reaction time (seconds)", min=0.0, step=0.001)
 
 It accepts the same `min`, `max`, `step`, addon, label, optional, rendering, and wrapper parameters as `DecimalField`.
 
-## DecimalRangeField
+## `DecimalRangeField`
 
 A slider input.
 
@@ -161,11 +161,11 @@ confidence=DecimalRangeField(
 
 :material-github: [See the input_elements example](https://github.com/mrpg/uproot-examples/tree/master/input_elements)
 
-## FloatRangeField
+## `FloatRangeField`
 
 Like `DecimalRangeField`, but stores a Python `float`. It accepts the same slider parameters (`min`, `max`, `step`, `label_min`, `label_max`, `breakpoint`, `hide_popover`, `anchoring`, and the rest).
 
-## EmailField
+## `EmailField`
 
 HTML email input. It checks required/optional status like other fields; add a page `validate` method if you need stricter server-side email validation.
 
@@ -184,9 +184,9 @@ email=EmailField(label="Your email address")
 | `default` | any | `None` | |
 | `class_wrapper` | `str` | `None` | |
 
-## FileField
+## `FileField`
 
-File upload. Always treated as a stealth field—process in `handle_stealth_fields`.
+File upload. Always treated as a stealth field. Process in `handle_stealth_fields`.
 
 ```python
 document=FileField(label="Upload your document")
@@ -204,7 +204,7 @@ See [File uploads](../advanced/uploads.md) for details.
 | `default` | any | `None` |
 | `class_wrapper` | `str` | `None` |
 
-## IBANField
+## `IBANField`
 
 IBAN input with format validation. Install the optional `iban` extra first with `uv add 'uproot-science[iban]<1'`; it provides the `schwifty` library used for validation.
 
@@ -229,7 +229,7 @@ iban=IBANField(label="Your IBAN")
 
 :material-github: [See the payment_data example](https://github.com/mrpg/uproot-examples/tree/master/payment_data)
 
-## IntegerField
+## `IntegerField`
 
 Whole number input with optional addons and min/max bounds.
 
@@ -253,7 +253,7 @@ age=IntegerField(label="How old are you?", min=18, max=100)
 | `default` | any | `None` | |
 | `class_wrapper` | `str` | `None` | |
 
-## BICField
+## `BICField`
 
 BIC/SWIFT code input with format validation (requires the optional `iban` extra described under [IBANField](#ibanfield)).
 
@@ -264,7 +264,7 @@ bic=BICField(label="Your bank’s BIC")
 It accepts the same addon, label, optional, rendering, and wrapper parameters as
 `IBANField`. See [the payment data example](https://github.com/mrpg/uproot-examples/tree/master/payment_data).
 
-## LikertField
+## `LikertField`
 
 Rating scale rendered as radio buttons with labeled endpoints.
 
@@ -296,11 +296,11 @@ satisfaction=LikertField(
 
 Auto-generates integer choices from `min` to `max`.
 
-## LikertFieldClassic
+## `LikertFieldClassic`
 
 The same scale as `LikertField`, always rendered as a table. Use this when you do not want the responsive layout. It accepts `min`, `max`, `label_min`, `label_max`, `choices`, and the usual label/optional/rendering parameters, but not `breakpoint`.
 
-## RadioField
+## `RadioField`
 
 Choose one option with radio buttons.
 
@@ -325,11 +325,11 @@ choice=RadioField(
 
 Choices can be:
 
-- `list[tuple[value, label]]`—e.g., `[(1, "Option A"), (2, "Option B")]`.
-- `dict[value, label]`—e.g., `{"a": "Option A", "b": "Option B"}`.
-- `list[value]`—e.g., `[1, 2, 3]` (value and label are the same).
+- `list[tuple[value, label]]`, for example, `[(1, "Option A"), (2, "Option B")]`;
+- `dict[value, label]`, for example, `{"a": "Option A", "b": "Option B"}`;
+- `list[value]`, for example, `[1, 2, 3]` (value and label are the same).
 
-## SelectField
+## `SelectField`
 
 Dropdown selection.
 
@@ -353,7 +353,7 @@ country=SelectField(
 
 Accepts the same choice formats as `RadioField`.
 
-## StringField
+## `StringField`
 
 Single-line text input.
 
@@ -376,7 +376,7 @@ participant_name=StringField(label="Your name")
 | `default` | any | `None` | |
 | `class_wrapper` | `str` | `None` | |
 
-## TextAreaField
+## `TextAreaField`
 
 Multi-line text input.
 

@@ -1,10 +1,10 @@
 # VPS setup guide
 
-Step-by-step instructions for deploying uproot on a fresh VPS. This guide assumes no prior server administration experience and produces a minimal, production-ready setup.
+Step-by-step instructions for deploying uproot on a fresh virtual private server (VPS). This guide assumes no prior server administration experience and produces a minimal, production-ready setup.
 
 ## 1. Get a VPS
 
-Rent a virtual private server from any major provider—[Hetzner](https://www.hetzner.com/), [DigitalOcean](https://www.digitalocean.com/), or [AWS Lightsail](https://aws.amazon.com/lightsail/) are all good options. uproot is lightweight; the smallest available tier (1 vCPU, 512 MB–1 GB RAM) is sufficient for most experiments.
+Rent a virtual private server from any major provider. [Hetzner](https://www.hetzner.com/), [DigitalOcean](https://www.digitalocean.com/), and [AWS Lightsail](https://aws.amazon.com/lightsail/) are all good options. uproot is lightweight; the smallest available tier (1 vCPU, 512 MB to 1 GB RAM) is sufficient for most experiments.
 
 Choose **Debian** (latest stable) as the operating system. We recommend Debian for reasons we need not elaborate here.
 
@@ -89,7 +89,7 @@ root@server:~# systemctl restart ssh
     you@local:~$ ssh uproot@YOUR_SERVER_IP
     ```
 
-    Both must succeed. If either fails, fix it before closing your root session—otherwise you may lock yourself out.
+    Both must succeed. If either fails, fix it before closing your root session. Otherwise you may lock yourself out.
 
 From now on, use `root@server` for system administration and `uproot@server` for managing your experiment.
 
@@ -175,7 +175,7 @@ The script reinstalls your project on every start (picking up any dependency cha
 
 ### Start uproot on boot
 
-There are two ways to keep uproot running: a systemd user service (automatic, survives reboots) or tmux (manual, simpler to understand). We recommend systemd, but tmux is a perfectly reasonable alternative—see the [deployment page](deployment.md#running-uproot) for the tmux approach.
+There are two ways to keep uproot running: a systemd user service (automatic, survives reboots) or tmux (manual, simpler to understand). We recommend systemd, but tmux is a perfectly reasonable alternative. See the [deployment page](deployment.md#running-uproot) for the tmux approach.
 
 #### systemd (recommended)
 
@@ -230,13 +230,13 @@ Useful commands:
 
 ### Choose a hostname
 
-You need a domain name for HTTPS. A custom domain is not required—there are easier options:
+You need a domain name for HTTPS. A custom domain is not required; there are easier options:
 
-- **Provider-assigned hostname**—Some VPS providers let you assign a hostname through their control panel. If your provider offers this and the hostname already resolves to your server’s IP, you can use it directly and skip the DNS step below.
-- **University subdomain**—Many universities allow researchers to create subdomains (e.g., `experiment.econ.uni-example.de`). Ask your IT department—this is often the easiest and most professional-looking option.
-- **Your own domain**—Register one from any registrar if you prefer full control.
+- **Provider-assigned hostname:** Some VPS providers let you assign a hostname through their control panel. If your provider offers this and the hostname already resolves to your server’s IP, you can use it directly and skip the DNS step below.
+- **University subdomain:** Many universities allow researchers to create subdomains (such as `experiment.econ.uni-example.de`). Ask your IT department. This is often the easiest and most professional-looking option.
+- **Your own domain:** Register one from any registrar if you prefer full control.
 
-If you are using a university subdomain or your own domain, create a DNS **A record** pointing it to your server’s IP address. Wait for it to propagate (usually a few minutes, sometimes up to an hour). You can verify with:
+If you are using a university subdomain or your own domain, create a **DNS A record** pointing it to your server’s IP address. Wait for it to propagate (usually a few minutes, sometimes up to an hour). You can verify with:
 
 ```console
 uproot@server:~$ dig +short example.com
