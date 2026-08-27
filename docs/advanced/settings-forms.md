@@ -91,4 +91,4 @@ If a fragment raises an error while rendering, or a config’s default settings 
 
 The double auction example ships a settings form covering eight settings, including comma-separated integer lists and values that may be either a scalar or one entry per round:
 
-:material-github: [See AdminSettings.html in the double_auction example](https://github.com/mrpg/uproot-examples/blob/master/double_auction/AdminSettings.html)
+[:material-github: See AdminSettings.html in the double_auction example](https://github.com/mrpg/uproot-examples/blob/master/double_auction/AdminSettings.html)

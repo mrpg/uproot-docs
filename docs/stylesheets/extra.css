@@ -30,6 +30,15 @@
         var(--fvn-alt,);
 }
 
+.fw-500 {
+  font-weight: 500 !important;
+}
+
+.md-button {
+  font-size: 95%;
+  padding: 0.25rem 0.55rem !important;
+}
+
 .md-typeset a:hover{
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
@@ -122,6 +131,24 @@ details.note {
   border-radius: 0px !important;
   margin-left: 1px !important;  /* With 0px, border looks as if it were protruding into the left margin */
   margin-right: 1px !important;  /* To compensate for the shadow */
+}
+
+/* Copied from Bootstrap */
+.mb-2 {
+  margin-bottom: 0.5rem !important;
+}
+.mt-2 {
+  margin-top: .5rem !important;
+}
+.mt-3 {
+  margin-top: 1rem !important;
+}
+.mt-4 {
+  margin-top: 1.5rem !important;
+}
+.my-2 {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
 }
 
 /* Harmonize border-width across elements */

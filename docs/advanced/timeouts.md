@@ -97,7 +97,7 @@ page_order = [
 
 All three task pages share the same 60-second deadline. If time runs out on any page, `player.failed` is set.
 
-:material-github: [See the timeout_multipage example](https://github.com/mrpg/uproot-examples/tree/master/timeout_multipage)
+[:material-github: See the timeout_multipage example](https://github.com/mrpg/uproot-examples/tree/master/timeout_multipage)
 
 ## Timeouts with live methods
 
@@ -117,7 +117,7 @@ class Sumhunt(Page):
 
 The participant interacts via live methods until the timeout advances them.
 
-:material-github: [See the sumhunt example](https://github.com/mrpg/uproot-examples/tree/master/sumhunt) · [encryption_task example](https://github.com/mrpg/uproot-examples/tree/master/encryption_task)
+[:material-github: See the sumhunt example](https://github.com/mrpg/uproot-examples/tree/master/sumhunt) · [encryption_task example](https://github.com/mrpg/uproot-examples/tree/master/encryption_task)
 
 ## Repositioning the countdown display
 

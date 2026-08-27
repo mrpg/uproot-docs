@@ -135,7 +135,7 @@ To render several Likert items as one matrix (shared scale, one row per question
 
 Unlike `field()`, these two macros do not show validation errors themselves. Add `{{ errors() }}` as in the example so participants can see why a required response was rejected.
 
-:material-github: [See likert_matrix in the input_elements example](https://github.com/mrpg/uproot-examples/tree/master/input_elements)
+[:material-github: See likert_matrix in the input_elements example](https://github.com/mrpg/uproot-examples/tree/master/input_elements)
 
 ### Other fields
 
@@ -300,7 +300,7 @@ This is useful for:
 - Building adaptive surveys
 - Setting field constraints based on other players’ choices (in multiplayer games)
 
-:material-github: [See dynamic fields in the trust_game example](https://github.com/mrpg/uproot-examples/tree/master/trust_game)
+[:material-github: See dynamic fields in the trust_game example](https://github.com/mrpg/uproot-examples/tree/master/trust_game)
 
 ## Stealth fields
 
@@ -379,7 +379,7 @@ class PaymentForm(Page):
         print(f"Payment data for {player}: {iban}")
 ```
 
-:material-github: [See the payment_data example](https://github.com/mrpg/uproot-examples/tree/master/payment_data)
+[:material-github: See the payment_data example](https://github.com/mrpg/uproot-examples/tree/master/payment_data)
 
 ## Accessing submitted data
 
@@ -440,4 +440,4 @@ class Questionnaire(Page):
             return "You must be at least 18 to participate"
 ```
 
-:material-github: [See forms in the quiz example](https://github.com/mrpg/uproot-examples/tree/master/quiz)
+[:material-github: See forms in the quiz example](https://github.com/mrpg/uproot-examples/tree/master/quiz)

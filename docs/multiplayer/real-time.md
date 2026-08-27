@@ -111,7 +111,7 @@ uproot.receive = (text) => {
 };
 ```
 
-:material-github: [See the observed_diary example](https://github.com/mrpg/uproot-examples/tree/master/observed_diary)
+[:material-github: See the observed_diary example](https://github.com/mrpg/uproot-examples/tree/master/observed_diary)
 
 ## Example: collaborative drawing
 
@@ -134,7 +134,7 @@ uproot.onCustomEvent("NewStroke", (event) => {
 });
 ```
 
-:material-github: [See the drawing_board example](https://github.com/mrpg/uproot-examples/tree/master/drawing_board)
+[:material-github: See the drawing_board example](https://github.com/mrpg/uproot-examples/tree/master/drawing_board)
 
 ## Example: real-time market
 
@@ -177,7 +177,7 @@ uproot.onCustomEvent("OfferAccepted", (event) => {
 });
 ```
 
-:material-github: [See the double_auction example](https://github.com/mrpg/uproot-examples/tree/master/double_auction)
+[:material-github: See the double_auction example](https://github.com/mrpg/uproot-examples/tree/master/double_auction)
 
 ## Background tasks with `spawn`
 
@@ -219,7 +219,7 @@ async def restart():
 !!! warning
     Because spawned tasks run outside a page method, uproot does not auto-track mutations to lists and dicts. Wrap writes in a context manager: `with player as p:` or `with session as s:`.
 
-:material-github: [See the continuous example](https://github.com/mrpg/uproot-examples/tree/master/continuous) · [chat_with_claude example](https://github.com/mrpg/uproot-examples/tree/master/chat_with_claude)
+[:material-github: See the continuous example](https://github.com/mrpg/uproot-examples/tree/master/continuous) · [chat_with_claude example](https://github.com/mrpg/uproot-examples/tree/master/chat_with_claude)
 
 ## Summary
 

@@ -16,7 +16,7 @@ AI coding agents like [Claude Code](https://claude.ai/code), [Codex](https://ope
 
 If your coding agent supports skills (Claude Code, Codex, and others do), install the **uproot skill** for best results:
 
-:material-github: [mrpg/uproot-skill](https://github.com/mrpg/uproot-skill)
+[:material-github: mrpg/uproot-skill](https://github.com/mrpg/uproot-skill)
 
 This skill gives the agent deep knowledge of uproot’s API, page lifecycle, fields, SmoothOperators, and multiplayer features. See the [installation guide](getting-started/installation.md#set-up-ai-assisted-development) for setup instructions.
 

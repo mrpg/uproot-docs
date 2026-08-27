@@ -20,7 +20,7 @@ page_order = [
 
 Each participant sees `Instructions` first, then the three tasks in a randomized order, then `Results`.
 
-:material-github: [See the randomize_pages example](https://github.com/mrpg/uproot-examples/tree/master/randomize_pages)
+[:material-github: See the randomize_pages example](https://github.com/mrpg/uproot-examples/tree/master/randomize_pages)
 
 ### Keeping pages together with Bracket
 
@@ -54,7 +54,7 @@ page_order = [
 ]
 ```
 
-:material-github: [See the randomize_apps example](https://github.com/mrpg/uproot-examples/tree/master/randomize_apps)
+[:material-github: See the randomize_apps example](https://github.com/mrpg/uproot-examples/tree/master/randomize_apps)
 
 ## Rounds
 
@@ -113,7 +113,7 @@ page_order = [
 ]
 ```
 
-:material-github: [See the rounds example](https://github.com/mrpg/uproot-examples/tree/master/rounds)
+[:material-github: See the rounds example](https://github.com/mrpg/uproot-examples/tree/master/rounds)
 
 ### Rounds with groups
 
@@ -131,7 +131,7 @@ page_order = [
 ]
 ```
 
-:material-github: [See the prisoners_dilemma_repeated example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma_repeated)
+[:material-github: See the prisoners_dilemma_repeated example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma_repeated)
 
 ## Repeat
 

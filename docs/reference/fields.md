@@ -64,7 +64,7 @@ topics=BoundedChoiceField(
 
 Returns a list of selected values.
 
-:material-github: [See the bounded_choice example](https://github.com/mrpg/uproot-examples/tree/master/bounded_choice)
+[:material-github: See the bounded_choice example](https://github.com/mrpg/uproot-examples/tree/master/bounded_choice)
 
 ## `DateField`
 
@@ -159,7 +159,7 @@ confidence=DecimalRangeField(
 | `default` | any | `None` | |
 | `class_wrapper` | `str` | `None` | |
 
-:material-github: [See the input_elements example](https://github.com/mrpg/uproot-examples/tree/master/input_elements)
+[:material-github: See the input_elements example](https://github.com/mrpg/uproot-examples/tree/master/input_elements)
 
 ## `FloatRangeField`
 
@@ -227,7 +227,7 @@ iban=IBANField(label="Your IBAN")
 | `default` | any | `None` | |
 | `class_wrapper` | `str` | `None` | |
 
-:material-github: [See the payment_data example](https://github.com/mrpg/uproot-examples/tree/master/payment_data)
+[:material-github: See the payment_data example](https://github.com/mrpg/uproot-examples/tree/master/payment_data)
 
 ## `IntegerField`
 
@@ -399,4 +399,4 @@ comments=TextAreaField(label="Additional comments", optional=True)
 | `default` | any | `None` | |
 | `class_wrapper` | `str` | `None` | |
 
-:material-github: [See all field types in the input_elements example](https://github.com/mrpg/uproot-examples/tree/master/input_elements)
+[:material-github: See all field types in the input_elements example](https://github.com/mrpg/uproot-examples/tree/master/input_elements)

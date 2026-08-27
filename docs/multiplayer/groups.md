@@ -25,7 +25,7 @@ page_order = [
 ]
 ```
 
-:material-github: [See the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma)
+[:material-github: See the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma)
 
 ## Assigning roles with after_grouping
 
@@ -43,7 +43,7 @@ class GroupPlease(GroupCreatingWait):
 
 The callback receives the `group` object and runs exactly once when the group is created. All players in the group can then access their assigned attributes.
 
-:material-github: [See the dictator_game example](https://github.com/mrpg/uproot-examples/tree/master/dictator_game) · [trust_game example](https://github.com/mrpg/uproot-examples/tree/master/trust_game) · [ultimatum_game example](https://github.com/mrpg/uproot-examples/tree/master/ultimatum_game) · [gift_exchange_game example](https://github.com/mrpg/uproot-examples/tree/master/gift_exchange_game)
+[:material-github: See the dictator_game example](https://github.com/mrpg/uproot-examples/tree/master/dictator_game) · [trust_game example](https://github.com/mrpg/uproot-examples/tree/master/trust_game) · [ultimatum_game example](https://github.com/mrpg/uproot-examples/tree/master/ultimatum_game) · [gift_exchange_game example](https://github.com/mrpg/uproot-examples/tree/master/gift_exchange_game)
 
 ### Using class attributes for role values
 
@@ -60,7 +60,7 @@ class GroupPlease(GroupCreatingWait):
             player.watched = watched
 ```
 
-:material-github: [See the observed_diary example](https://github.com/mrpg/uproot-examples/tree/master/observed_diary)
+[:material-github: See the observed_diary example](https://github.com/mrpg/uproot-examples/tree/master/observed_diary)
 
 ## Accessing group members
 
@@ -159,7 +159,7 @@ if player.cooperate and other.cooperate:
 
 Raises an error if the group does not have exactly two members.
 
-:material-github: [See the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma) · [twobytwo example](https://github.com/mrpg/uproot-examples/tree/master/twobytwo)
+[:material-github: See the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma) · [twobytwo example](https://github.com/mrpg/uproot-examples/tree/master/twobytwo)
 
 ### player.others_in_group
 
@@ -216,7 +216,7 @@ class Sync(SynchronizingWait):
             player.payoff = ENDOWMENT - player.contribution + MPCR * total
 ```
 
-:material-github: [See the public_goods_game example](https://github.com/mrpg/uproot-examples/tree/master/public_goods_game) · [beauty_contest example](https://github.com/mrpg/uproot-examples/tree/master/beauty_contest) · [minimum_effort_game example](https://github.com/mrpg/uproot-examples/tree/master/minimum_effort_game)
+[:material-github: See the public_goods_game example](https://github.com/mrpg/uproot-examples/tree/master/public_goods_game) · [beauty_contest example](https://github.com/mrpg/uproot-examples/tree/master/beauty_contest) · [minimum_effort_game example](https://github.com/mrpg/uproot-examples/tree/master/minimum_effort_game)
 
 ## Manual group creation
 
@@ -267,7 +267,7 @@ page_order = [
 ]
 ```
 
-:material-github: [See the grouping example](https://github.com/mrpg/uproot-examples/tree/master/grouping) · [grouping_arbitrary_size example](https://github.com/mrpg/uproot-examples/tree/master/grouping_arbitrary_size) · [grouping_one_spare example](https://github.com/mrpg/uproot-examples/tree/master/grouping_one_spare) · [group_with_dropout example](https://github.com/mrpg/uproot-examples/tree/master/group_with_dropout)
+[:material-github: See the grouping example](https://github.com/mrpg/uproot-examples/tree/master/grouping) · [grouping_arbitrary_size example](https://github.com/mrpg/uproot-examples/tree/master/grouping_arbitrary_size) · [grouping_one_spare example](https://github.com/mrpg/uproot-examples/tree/master/grouping_one_spare) · [group_with_dropout example](https://github.com/mrpg/uproot-examples/tree/master/group_with_dropout)
 
 ### create_group()
 
@@ -386,7 +386,7 @@ page_order = [
 ]
 ```
 
-:material-github: [See the full prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma)
+[:material-github: See the full prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma)
 
 ## Summary
 

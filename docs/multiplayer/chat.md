@@ -13,7 +13,7 @@ def new_session(session):
 
 The `chat.create()` function returns a chat identifier that you store on the session for later use.
 
-:material-github: [See the chat example](https://github.com/mrpg/uproot-examples/tree/master/chat)
+[:material-github: See the chat example](https://github.com/mrpg/uproot-examples/tree/master/chat)
 
 ## Adding players to a chat
 
@@ -88,7 +88,7 @@ page_order = [
 ]
 ```
 
-:material-github: [See the chat example](https://github.com/mrpg/uproot-examples/tree/master/chat)
+[:material-github: See the chat example](https://github.com/mrpg/uproot-examples/tree/master/chat)
 
 ## Group-level chat
 
@@ -157,7 +157,7 @@ The callback receives:
 
 The callback is persistent: it is automatically restored when the server restarts.
 
-:material-github: [See the chat example with callback](https://github.com/mrpg/uproot-examples/tree/master/chat) · [chat_with_claude example](https://github.com/mrpg/uproot-examples/tree/master/chat_with_claude)
+[:material-github: See the chat example with callback](https://github.com/mrpg/uproot-examples/tree/master/chat) · [chat_with_claude example](https://github.com/mrpg/uproot-examples/tree/master/chat_with_claude)
 
 ## Chat API reference
 
@@ -266,7 +266,7 @@ Chat
 {% endblock main %}
 ```
 
-:material-github: [See the full chat example](https://github.com/mrpg/uproot-examples/tree/master/chat) · [prisoners_dilemma_chat example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma_chat)
+[:material-github: See the full chat example](https://github.com/mrpg/uproot-examples/tree/master/chat) · [prisoners_dilemma_chat example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma_chat)
 
 ## Summary
 
