@@ -161,7 +161,7 @@ The callback is persistent: it is automatically restored when the server restart
 
 ## Chat API reference
 
-### chat.create(session)
+### `chat.create(session)`
 
 Creates a new chat channel.
 
@@ -171,7 +171,7 @@ chat_id = chat.create(session)
 
 Returns a `ModelIdentifier` that you store on the session or group.
 
-### chat.add_player(chat, player, pseudonym=None)
+### `chat.add_player(chat, player, pseudonym=None)`
 
 Adds a participant to the chat.
 
@@ -180,7 +180,7 @@ chat.add_player(session.chat, player)
 chat.add_player(session.chat, player, pseudonym="Alice")
 ```
 
-### chat.messages(chat)
+### `chat.messages(chat)`
 
 Returns all messages in the chat.
 
@@ -188,7 +188,7 @@ Returns all messages in the chat.
 all_messages = chat.messages(session.chat)
 ```
 
-### chat.players(chat)
+### `chat.players(chat)`
 
 Returns the list of players in the chat.
 
@@ -196,7 +196,7 @@ Returns the list of players in the chat.
 participants = chat.players(session.chat)
 ```
 
-### chat.exists(chat)
+### `chat.exists(chat)`
 
 Checks if a chat exists.
 
@@ -209,9 +209,9 @@ if chat.exists(session.chat):
 
 The chat uses Bootstrap classes and can be customized with CSS. The main elements are:
 
-- `.uproot-chat` - Container for the entire chat widget
-- `.messages-container` - The scrollable message area
-- `.list-unstyled` - The message list
+- `.uproot-chat`: Container for the entire chat widget;
+- `.messages-container`: the scrollable message area;
+- `.list-unstyled`: the message list.
 
 Example custom styling:
 
