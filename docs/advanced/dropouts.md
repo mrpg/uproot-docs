@@ -337,7 +337,7 @@ watch_for_dropout(player, handle_dropout, tolerance=120.0)
 !!! note "Optional—for readers comfortable with Python classes"
     This section shows a convenience pattern for experiments with many decision pages. It is not required. If you only have one or two decision pages, adding the methods directly (as shown above) is simpler and perfectly fine.
 
-In the group dropout pattern above, every decision page needs the same three methods: `timeout`, `timeout_reached`, and `before_once`. If your experiment has several decision pages, repeating those methods on each one gets tedious. Python lets you factor them out into a **[mixin class](https://docs.python.org/3/tutorial/classes.html#multiple-inheritance)**—a small class that bundles reusable methods and can be combined with `Page` (or any other page type) via [multiple inheritance](https://realpython.com/inheritance-composition-python/#mixing-features-with-mixin-classes).
+In the group dropout pattern above, every decision page needs the same three methods: `timeout`, `timeout_reached`, and `before_once`. If your experiment has several decision pages, repeating those methods on each one gets tedious. Python lets you factor them out into a **[mixin class](https://docs.python.org/3/tutorial/classes.html#multiple-inheritance)**. This is a small class that bundles reusable methods and can be combined with `Page` (or any other page type) via [multiple inheritance](https://realpython.com/inheritance-composition-python/#mixing-features-with-mixin-classes).
 
 ### Defining the mixin
 

@@ -96,15 +96,15 @@ Follow the instructions in the repository to set it up. Once installed, the agen
 
 !!! tip
 
-    Even without the skill, agentic coding tools work well if you clone the [uproot-examples](https://github.com/mrpg/uproot-examples) and [uproot-docs](https://github.com/mrpg/uproot-docs) repositories alongside your project—this gives the agent direct access to a lot of important information. Just tell your agent to “kindly inhale the examples and the docs.”
+    Even without the skill, agentic coding tools work well if you clone the [uproot-examples](https://github.com/mrpg/uproot-examples) and [uproot-docs](https://github.com/mrpg/uproot-docs) repositories alongside your project. This gives the agent direct access to a lot of important information. Just tell your agent to “kindly inhale the examples and the docs.”
 
 ## What’s next?
 
-Now that uproot is running, you can:
+Now that uproot is running, you can
 
-- **[Follow the tutorial](tutorial.md)**—Build a complete experiment step by step.
-- **[Explore the project structure](project-structure.md)**—Understand the generated files.
-- **[Browse example apps](https://github.com/mrpg/uproot-examples)**—See complete experiments you can learn from.
+- **[follow the tutorial](tutorial.md):** build a complete experiment step by step;
+- **[explore the project structure](project-structure.md):** understand the generated files;
+- **[browse example apps](https://github.com/mrpg/uproot-examples):** see complete experiments you can learn from.
 
 ## Troubleshooting
 

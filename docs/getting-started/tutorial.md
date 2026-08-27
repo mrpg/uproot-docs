@@ -1,4 +1,4 @@
-# Your first experiment
+# Tutorial: A complete experiment
 
 This tutorial walks you through building a complete prisoner’s dilemma experiment from scratch. By the end, you will understand how uproot pages, forms, groups, and synchronization work together.
 

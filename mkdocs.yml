@@ -85,7 +85,7 @@ nav:
   - Public Review: public-review.md
   - Getting started:
     - Installation: getting-started/installation.md
-    - Your first experiment: getting-started/tutorial.md
+    - "Tutorial: A complete experiment": getting-started/tutorial.md
     - Project structure: getting-started/project-structure.md
   - Building experiments:
     - Pages and templates: building/pages.md
