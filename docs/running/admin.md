@@ -109,9 +109,38 @@ Download a CSV of page visit times showing when each player entered and left eac
 
 ### Digest
 
-If your app defines a `digest(session)` function, the digest view shows its output. Use this for experiment-specific summaries.
+If your app defines `digest(session)`, the digest view shows its output. Return any JSON-serializable value—a list of rows is typical. Pair it with `AdminDigest.html` in the app directory: that file must contain **only** a `main` block (do not extend `Base.html`). The return value is available as `data`:
+
+```html+jinja
+{% block main %}
+<p>{{ data | length }} groups so far.</p>
+{% endblock main %}
+```
 
 :material-github: [See the prisoners_dilemma_repeated example for a digest implementation](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma_repeated)
+
+### Pipeline
+
+If your app defines `pipeline(session)`, the admin can run it from the session page. Return a list of dictionaries to get a downloadable table (one row per dict):
+
+```python
+def pipeline(session):
+    rows = []
+    for group in session.groups(app=__name__):
+        p1, p2 = group.players
+        rows.append(dict(
+            group=group.name,
+            p1=p1.name,
+            p1_cooperate=p1.cooperate,
+            p2=p2.name,
+            p2_cooperate=p2.cooperate,
+        ))
+    return rows
+```
+
+If `pipeline` declares a `data` parameter, the admin (or [REST API](../reference/admin-api.md)) can post JSON that is passed through as `data`. Pair a custom admin form with `AdminPipeline.html` (again, a `main` block only).
+
+:material-github: [See pipeline in the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma) · [prediction_market example](https://github.com/mrpg/uproot-examples/tree/master/prediction_market)
 
 ## Managing rooms
 
@@ -170,8 +199,21 @@ uproot.simulate.on("my_app/Decision", (sim) => {
 ```
 
 The page key passed to `uproot.simulate.on()` is `"app_name/PageClassName"`.
-The simulation object provides helpers such as `choose()`, `fill()`,
-`random()`, and `submit()`.
+
+| Helper | What it does |
+|--------|----------------|
+| `sim.fill(name, value)` or `sim.fill({name: value, ...})` | Set input values |
+| `sim.choose(name, value)` | Select a radio button or dropdown option |
+| `sim.check(name)` / `sim.uncheck(name)` | Toggle a checkbox |
+| `sim.oneOf(name, values)` | Choose a random value from an array |
+| `sim.chooseAnyRadio()` | Pick a random radio button on the page |
+| `sim.random(array)` | Return a random element |
+| `sim.integer(min, max)` | Return a random integer in `[min, max]` |
+| `sim.submit()` | Submit the page |
+| `sim.value(name)` | Read the current value |
+| `sim.element(name)` / `sim.field(name)` | Find a DOM element |
+
+All methods except `random` and `integer` return `sim`, so you can chain them. Pages with no fields can just call `sim.submit()`.
 
 !!! warning
     Simulation is session-level and permanent—once a session is created with simulation enabled, it cannot be disabled for that session. Create a new session without the option to run without simulation.

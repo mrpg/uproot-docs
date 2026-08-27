@@ -46,10 +46,16 @@ email=EmailField(label="Email address")
 age=IntegerField(label="Age", min=0, max=120)
 ```
 
-**DecimalField**—Decimal numbers:
+**DecimalField**—Decimal numbers (use this for money):
 
 ```python
 amount=DecimalField(label="Amount to contribute", min=0.0, max=100.0)
+```
+
+**FloatField**—Floating-point numbers (same options as `DecimalField`, stored as `float`):
+
+```python
+reaction_time=FloatField(label="Reaction time (seconds)", min=0.0)
 ```
 
 ### Selection fields
@@ -82,6 +88,17 @@ country=SelectField(
 consent=BooleanField(label="I agree to participate")
 ```
 
+**BoundedChoiceField**—Multi-select checkboxes with optional min/max counts:
+
+```python
+topics=BoundedChoiceField(
+    label="Select your preferred topics",
+    choices=["Economics", "Psychology", "Sociology"],
+    min=1,
+    max=3,
+)
+```
+
 ### Scales and sliders
 
 **LikertField**—Rating scale with labeled endpoints:
@@ -107,6 +124,16 @@ confidence=DecimalRangeField(
 )
 ```
 
+To render several Likert items as one matrix (shared scale, one row per question):
+
+```html+jinja
+{{ likert_matrix(form.item1, form.item2, form.item3) }}
+```
+
+`likert_grid()` is the responsive version: below a width threshold (default 992px, or pass `breakpoint=`), each row becomes its own column of radio buttons.
+
+:material-github: [See likert_matrix in the input_elements example](https://github.com/mrpg/uproot-examples/tree/master/input_elements)
+
 ### Other fields
 
 **DateField**—Date picker:
@@ -120,6 +147,8 @@ birthdate=DateField(label="Date of birth")
 ```python
 document=FileField(label="Upload your document")
 ```
+
+**IBANField** / **BICField**—Bank identifiers (require the optional `schwifty` extra). See [Form fields](../reference/fields.md).
 
 ## Field options
 
@@ -199,6 +228,8 @@ To render fields individually with custom layout:
 {{ field(form.comments) }}
 {% endblock %}
 ```
+
+`field()` already shows that field’s validation errors. Use `{{ errors() }}` only if you render inputs yourself and still need the error messages.
 
 ## Form validation
 

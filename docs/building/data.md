@@ -57,6 +57,20 @@ Both callbacks are **lazy**: they run when the first participant initializes, no
 
 :material-github: [See new_player and new_session in the chat example](https://github.com/mrpg/uproot-examples/tree/master/chat) · [conjoint example](https://github.com/mrpg/uproot-examples/tree/master/conjoint)
 
+## Random numbers
+
+Use `rng()` whenever you need randomness—treatment assignment, shuffling, draws from a distribution. It returns a `random.Random` object seeded from the operating system. You can store it on a player and call it later; the data layer resumes it.
+
+```python
+def new_player(player):
+    player.rng = rng()
+    player.treatment = player.rng.choice(["A", "B"])
+```
+
+Do not use the `random` module for experiment outcomes. `rng()` gives each call an independent generator you can inspect in the data.
+
+:material-github: [See the treatments example](https://github.com/mrpg/uproot-examples/tree/master/treatments)
+
 ## Player data
 
 Store data on individual participants using simple attribute assignment:
@@ -243,6 +257,10 @@ for p in player.session.players:
 
 # All groups in a session
 for g in player.session.groups:
+    print(g.name)
+
+# Only groups created in this app (needed in multi-app configs)
+for g in player.session.groups(app=__name__):
     print(g.name)
 ```
 

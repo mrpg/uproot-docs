@@ -11,7 +11,7 @@ class Welcome(Page):
     pass
 ```
 
-This minimal page displays the template `Welcome.html` from your app’s templates folder. Every page needs a corresponding template file.
+This minimal page displays the template `Welcome.html` from your app directory. Every page needs a matching template: `Welcome.html`, or `Welcome.md` if you prefer Markdown (see [Markdown pages](#markdown-pages)).
 
 ### The page_order list
 
@@ -50,7 +50,7 @@ def page_order(player):
 
 ## Templates
 
-Templates are HTML files that define what participants see. uproot uses [Jinja2](https://jinja.palletsprojects.com/) for templating.
+Templates define what participants see. Most are HTML files; you can also write [Markdown pages](#markdown-pages). uproot uses [Jinja2](https://jinja.palletsprojects.com/) for templating.
 
 ### Template naming and location
 
@@ -59,7 +59,7 @@ By default, uproot looks for a template matching the page class name:
 ```
 my_app/
 ├── __init__.py      # Contains class Welcome(Page)
-└── Welcome.html     # Template for Welcome page
+└── Welcome.html     # Template for Welcome page (or Welcome.md)
 ```
 
 To use a custom template path:
@@ -89,11 +89,15 @@ Available blocks:
 
 | Block | Position |
 |-------|----------|
-| `title` | Page title (shown in browser tab and as heading) |
+| `title` | Page title (shown in the browser tab and as the heading) |
 | `head` | Extra content in `<head>` (CSS, meta tags) |
-| `pre_container` | Just before the main container—useful for full-width banners or custom layouts outside the Bootstrap container |
+| `pre_main` | Before the main content, outside the Bootstrap container |
 | `main` | Main page content (inside the container) |
+| `main_full_width` | After `main`, full viewport width—use for banners or charts that should break out of the container |
+| `main2` | A second container section after `main_full_width` |
 | `late` | Extra content at the end of `<body>` (scripts) |
+
+There are also `main2_full_width`, `main3`, `late2`, `footer`, `header_start`, and `header_end` if you need more slots.
 
 ### Base template switches
 
@@ -228,17 +232,30 @@ Use them in templates:
 <p>Each point is worth ${{ C.EXCHANGE_RATE }}.</p>
 ```
 
+To also use constants in JavaScript (and [Alpine.js](alpinejs.md)), list their names on `C.__export__`:
+
+```python
+class C:
+    WORD_LENGTH = 5
+    DURATION = 120
+    __export__ = ["WORD_LENGTH", "DURATION"]
+```
+
+uproot copies those values to `window.C`, so `C.WORD_LENGTH` works in scripts. Set `__export__ = ...` (Ellipsis) to export every non-dunder attribute.
+
+:material-github: [See C.__export__ in the encryption_task example](https://github.com/mrpg/uproot-examples/tree/master/encryption_task) · [emoji_sort example](https://github.com/mrpg/uproot-examples/tree/master/emoji_sort)
+
 ## Static files
 
 ### App-specific static files
 
-Place static files (images, CSS, JavaScript) in a `static/` folder within your app:
+Place static files (images, CSS, JavaScript) in an `_static/` folder within your app:
 
 ```
 my_app/
 ├── __init__.py
 ├── Welcome.html
-└── static/
+└── _static/
     ├── diagram.png
     └── custom.css
 ```
@@ -252,7 +269,54 @@ Reference them using `appstatic()`:
 
 ### Project-wide static files
 
-For files shared across apps, use a project-level static folder and `projectstatic()`.
+For files shared across apps, put them in `_static/` at the project root and use `projectstatic()`:
+
+```html+jinja
+<script src="{{ projectstatic('shared.js') }}"></script>
+```
+
+To inject HTML into every page, add `ProjectHead.html` (inside `<head>`) or `ProjectBody.html` (inside `<body>`) at the project root.
+
+## Markdown pages
+
+If `Welcome.html` is missing, uproot looks for `Welcome.md` instead. The first heading becomes the page title. You can still use Jinja—fields, `player`, `C`, and the rest work as usual:
+
+```markdown
+# Welcome
+
+Thank you for participating. You start with {{ C.ENDOWMENT }} points.
+
+{{ field(form.consent) }}
+```
+
+Set `template = "Instructions.md"` if the Markdown file name does not match the page class.
+
+:material-github: [See the anchoring_markdown example](https://github.com/mrpg/uproot-examples/tree/master/anchoring_markdown)
+
+## Translations
+
+uproot’s built-in interface strings ship in English (`en`), German (`de`), Spanish (`es`), and Japanese (`ja`). Set the default in `main.py`:
+
+```python
+upd.LANGUAGE = "de"
+```
+
+To choose a language per participant, define `language(player)` in the app. It should return an ISO 639 code:
+
+```python
+def language(player):
+    return player.session.settings.get("language", "en")
+```
+
+In templates, `_("text")` looks up a translation for the current language. Wrap phrases in `{% translate %}...{% endtranslate %}` when you want the same lookup with whitespace collapsed.
+
+To add your own phrases, put YAML files in a directory (one file per language, or one file with all languages) and load them at startup:
+
+```python
+import uproot.i18n as i18n
+
+i18n.load("locales/")
+```
 
 ## Conditional page display
 
@@ -294,6 +358,8 @@ class Survey(Page):
 
 This adds a “Back” button that lets participants revisit and change previous answers.
 
+Set `keep_values = True` to pre-fill the form from values already stored on the player—useful when someone returns to a page and should see their previous answers.
+
 !!! note
     Going back re-displays the page but does not undo any data that was
     already saved. Submission hooks like `after_once` do not run again.
@@ -324,9 +390,10 @@ Pages have several methods that run at different points:
 | Method | When it runs |
 |--------|--------------|
 | `show` | Before displaying—return `False` to skip the page |
-| `templatevars` | Before rendering—return template variables |
-| `before_once` | Once per player, before first display |
+| `early` | Earliest hook when entering the page—has the HTTP request |
 | `before_always_once` | Once when this page position is reached |
+| `before_once` | Once per player, before first display |
+| `templatevars` | Before rendering—return template variables |
 | `after_once` | Once per player, after first submission |
 | `after_always_once` | Once after this page position is submitted |
 

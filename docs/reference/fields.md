@@ -16,6 +16,8 @@ These parameters are available on most fields:
 | `widget` | any | `None` | Custom WTForms widget |
 | `class_wrapper` | `str` | `None` | CSS class for the wrapper div |
 
+For several Likert items sharing one scale, use the `likert_matrix()` or `likert_grid()` template macros. See [Collecting data with forms](../building/forms.md#scales-and-sliders).
+
 ## BooleanField
 
 A single checkbox.
@@ -113,6 +115,16 @@ amount=DecimalField(
 | `default` | any | `None` | |
 | `class_wrapper` | `str` | `None` | |
 
+## FloatField
+
+Like `DecimalField`, but stores a Python `float`. Prefer `DecimalField` for money.
+
+```python
+reaction_time=FloatField(label="Reaction time (seconds)", min=0.0, step=0.001)
+```
+
+It accepts the same `min`, `max`, `step`, addon, label, optional, rendering, and wrapper parameters as `DecimalField`.
+
 ## DecimalRangeField
 
 A slider input.
@@ -148,6 +160,10 @@ confidence=DecimalRangeField(
 | `class_wrapper` | `str` | `None` | |
 
 :material-github: [See the input_elements example](https://github.com/mrpg/uproot-examples/tree/master/input_elements)
+
+## FloatRangeField
+
+Like `DecimalRangeField`, but stores a Python `float`. It accepts the same slider parameters (`min`, `max`, `step`, `label_min`, `label_max`, `breakpoint`, `hide_popover`, `anchoring`, and the rest).
 
 ## EmailField
 
@@ -268,6 +284,8 @@ satisfaction=LikertField(
 | `max` | `int` | `7` | Highest value |
 | `label_min` | `str` | `""` | Label below the lowest value |
 | `label_max` | `str` | `""` | Label below the highest value |
+| `breakpoint` | `int` | `992` | Viewport width in pixels at or above which the scale stays horizontal |
+| `choices` | list or dict | auto | Override the auto-generated integer choices |
 | `label` | `str` | `""` | |
 | `optional` | `bool` | `False` | |
 | `render_kw` | `dict` | `None` | |
@@ -277,6 +295,10 @@ satisfaction=LikertField(
 | `class_wrapper` | `str` | `None` | |
 
 Auto-generates integer choices from `min` to `max`.
+
+## LikertFieldClassic
+
+The same scale as `LikertField`, always rendered as a table. Use this when you do not want the responsive layout. It accepts `min`, `max`, `label_min`, `label_max`, `choices`, and the usual label/optional/rendering parameters, but not `breakpoint`.
 
 ## RadioField
 

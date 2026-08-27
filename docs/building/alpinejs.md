@@ -59,6 +59,10 @@ document.addEventListener("alpine:init", () => {
 </div>
 ```
 
+## Constants in JavaScript
+
+If your app’s `C` class sets `__export__`, those constants are available as `C` in scripts and Alpine expressions (`window.C`). See [Using constants](pages.md#using-constants).
+
 ## With live methods
 
 Combine Alpine stores with `uproot.invoke()` for reactive server communication:

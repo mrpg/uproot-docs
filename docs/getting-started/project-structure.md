@@ -18,7 +18,7 @@ my_project/
 │   ├── Decision.html        # Template for Decision page
 │   ├── Results.html         # Template for Results page
 │   ├── simulate.js          # Automated page interactions for testing (optional)
-│   └── static/              # App-specific static files (optional)
+│   └── _static/             # App-specific static files (optional)
 │       └── diagram.png
 └── another_app/
     ├── __init__.py
@@ -40,7 +40,7 @@ load_config(uproot_server, config="my_experiment", apps=["my_app"])
 
 upd.ADMINS["admin"] = upd.auto_login()  # Token login locally; password in production
 
-upd.LANGUAGE = "en"  # Available: "de", "en", "es"
+upd.LANGUAGE = "en"  # Built-in: "de", "en", "es", "ja"
 
 if __name__ == "__main__":
     cli()
@@ -123,8 +123,8 @@ page_order = [Welcome, Decision, Results]
 |-----------|---------|
 | `DESCRIPTION` | Human-readable description shown in admin |
 | `SUGGESTED_MULTIPLE` | Hint for session creation (e.g., `2` for pair experiments) |
-| `LANDING_PAGE` | If `True`, shows a landing page before the app starts |
-| `C` | Constants class, available in templates as `C` |
+| `LANDING_PAGE` | If `True`, inserts a landing page before the app’s pages. Override it with `LandingPage.html` in the app directory, or add extra text with `LandingPageInfo.html` |
+| `C` | Constants class, available in templates as `C`. Set `C.__export__` to a list of names (or `...`) to copy those constants into JavaScript as `window.C` |
 
 ### Optional callbacks
 
@@ -133,8 +133,11 @@ page_order = [Welcome, Decision, Results]
 | `new_session(session)` | Once when session initializes |
 | `new_player(player)` | Once per player when they join |
 | `restart()` | On server restart (can be async) |
-| `digest(session)` | Returns data for admin digest view |
+| `digest(session)` | Returns data for the admin digest view (pair with `AdminDigest.html`) |
+| `pipeline(session)` | Admin-runnable job; return a list of dicts for a downloadable table. May take optional `data=` |
 | `language(player)` | Returns ISO 639 language code for the player |
+| `api(request, session)` | Authenticated HTTP endpoint at `/api/{app}/{sname}/` |
+| `api2(request, session)` | Unauthenticated HTTP endpoint at `/api2/{app}/{sname}/`—treat input as public |
 
 See [Storing and accessing data](../building/data.md) for details on `new_session` and `new_player`.
 
@@ -206,6 +209,7 @@ SQLite works well in production too—uproot is optimized for it. PostgreSQL is 
 | `UPROOT_SUBDIRECTORY` | — | Subdirectory prefix for all routes |
 | `UPROOT_API_KEY` | — | Bearer token used by the `uproot api` client |
 | `UPROOT_ADMIN_PASSWORD` | — | Password used by `upd.auto_login()` when set |
+| `UPROOT_ALLOW_ENTER` | off | If `1`/`true`/`yes`/`on`, the Enter key submits participant forms |
 
 Run `uproot deployment` to see the current values.
 

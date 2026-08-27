@@ -36,6 +36,7 @@ Key structural decisions:
 - Sessions and rooms are a single page (`running/rooms.md`), not two — sessions was too thin to stand alone
 - Data export is split in two: `running/export.md` targets the median user (download the ZIP briefcase, analyze in R/Python), while `running/export-advanced.md` holds REST API/CLI export, database dumps, and `uproot.read`
 - Alpine.js lives in Building (not Advanced) — it is a building tool like live methods
+- App static files live in `_static/` (not `static/`); project-wide files live in `_static/` at the project root
 - Rounds/randomization do not have their own pages — they are covered by SmoothOperators (`building/operators.md`)
 - Results follows Data in the Building section (natural collect → display arc)
 
@@ -95,7 +96,7 @@ The typical reader is a behavioral researcher — an economist, psychologist, or
 - `session` — Session-level data
 - `group.players` — All players in a group (returns `StorageBunch`)
 - `session.players` — All players in a session (returns `StorageBunch`)
-- `session.groups` — All groups in a session
+- `session.groups` — All groups in a session; `session.groups(app="myapp")` keeps only groups created in that app
 - `player.other_in_group` — The other player (2-person groups; `other_in_group(player)` still works)
 - `player.others_in_group` — All other players in the group
 - `player.other_in_session` — The other player in a 2-person session
@@ -148,11 +149,11 @@ class Context(PlayerContext):
 ### Form fields
 Defined in `fields` dict or async `fields()` method (all from `uproot.fields`):
 - `StringField`, `TextAreaField`, `EmailField`, `IBANField` — Text inputs
-- `IntegerField`, `DecimalField` — Numeric inputs (support `min`, `max`, `addon_start`, `addon_end`)
+- `IntegerField`, `DecimalField`, `FloatField` — Numeric inputs (support `min`, `max`, `addon_start`, `addon_end`)
 - `RadioField`, `SelectField` — Single selection (`choices` param; RadioField supports `layout="horizontal"`)
 - `BooleanField` — Checkbox
-- `LikertField` — Rating scale (`min`, `max`, `label_min`, `label_max`)
-- `DecimalRangeField` — Slider (`min`, `max`, `step`, `label_min`, `label_max`, `hide_popover`, `anchoring`)
+- `LikertField` — Rating scale (`min`, `max`, `label_min`, `label_max`, `breakpoint`); `LikertFieldClassic` is the non-responsive table layout
+- `DecimalRangeField`, `FloatRangeField` — Slider (`min`, `max`, `step`, `label_min`, `label_max`, `hide_popover`, `anchoring`)
 - `BoundedChoiceField` — Multi-select checkboxes (`choices`, `min`, `max` selections)
 - `DateField` — Date picker
 - `FileField` — File upload (always a stealth field, handled via `handle_stealth_fields`)
@@ -206,16 +207,19 @@ Using a context manager is always safe, even when not strictly required.
 - `DESCRIPTION` — shown in admin
 - `SUGGESTED_MULTIPLE` — hint for session player count (admin shows this when creating sessions)
 - `LANDING_PAGE` — if True, shows landing page before app
-- `C` — constants class, available in templates
+- `C` — constants class, available in templates; `C.__export__` copies named constants to `window.C`
 - `new_session(session)` — once per session init (lazy: runs when first player arrives)
 - `new_player(player)` — once per player init
 - `restart()` — on server restart (can be async)
-- `digest(session)` — data for admin digest view
+- `digest(session)` — data for admin digest view (pair with `AdminDigest.html`, `main` block only)
+- `pipeline(session)` — admin-runnable job; return `list[dict]` for a downloadable table; optional `data=`
+- `rng()` — OS-seeded `random.Random`; storable on player; prefer over `random`
+- `language(player)` — per-player ISO 639 code; default `upd.LANGUAGE`
 - `page_order` — can be a list or a callable taking `player=` (nested lists are flattened, so SmoothOperators work inside sublists)
 
 ### Templates
 - Extend `"Base.html"` (participant-facing) or `"_uproot/Page.html"`
-- Blocks: `{% block title %}`, `{% block head %}`, `{% block pre_container %}`, `{% block main %}`, `{% block late %}`
+- Blocks: `{% block title %}`, `{% block head %}`, `{% block pre_main %}`, `{% block main %}`, `{% block main_full_width %}`, `{% block main2 %}`, `{% block late %}`
 - `{{ fields() }}` renders all form fields; `{{ field(form.name) }}` renders one
 - `{{ chat(session.chat) }}` renders chat widget
 - Built-in filters: `| to(n)` (decimal places), `| fmtnum(pre=, post=, places=, sep=, decsep=)`
@@ -242,8 +246,8 @@ Using a context manager is always safe, even when not strictly required.
 - SQLite by default (`uproot.sqlite3`), works well in production — PostgreSQL is available but never required
 - Environment vars: `UPROOT_DATABASE`, `UPROOT_SQLITE3`, `UPROOT_POSTGRESQL`, `UPROOT_ORIGIN`, `UPROOT_SUBDIRECTORY`, `UPROOT_API_KEY`
 - `upd.ADMINS["admin"] = ...` (Ellipsis = auto-login on localhost)
-- `upd.LANGUAGE` — `"de"`, `"en"`, `"es"`
-- Rooms: `upd.DEFAULT_ROOMS.append(room(name, config=, labels=, capacity=, open=))`
+- `upd.LANGUAGE` — `"de"`, `"en"`, `"es"`, `"ja"`
+- Rooms: `upd.DEFAULT_ROOMS.append(room(name, config=, labels=, capacity=, open=))`; `from_file("labels.txt")` loads labels (one per line, `#` comments); `labels=[]` accepts any non-empty code
 
 ### Data export
 - Every download is a ZIP “briefcase”: one top-level folder named after the session, containing `README.txt`, `DATA_DICTIONARY.json`, `page_times.csv` (or `.jsonl`), `SHA256SUMS`, and one folder per format (`ultralong/`, `sparse/`, `latest/`, optionally `latest_by_<gvar>/`), each split into one file per storage kind (`player.csv`, `group.csv`, `session.csv`, `model.csv`)

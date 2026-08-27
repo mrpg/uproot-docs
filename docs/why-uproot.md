@@ -60,7 +60,7 @@ happiness = LikertField(
 
 On a desktop, this appears as a neat horizontal scale. On a phone, the same scale automatically rearranges itself into a vertical layout that fits the screen. You never design two versions. The same is true for every page uproot produces: the interface is fully responsive, meaning it adapts itself to any screen size.
 
-Harder things stay just as short. A whole Likert *matrix*—several questions sharing one scale, a layout that is notoriously painful elsewhere—is a single line. So are [file uploads](advanced/uploads.md), [sliders, and validated bank-account fields](reference/fields.md). You can see all of them live in the [input elements example](https://github.com/mrpg/uproot-examples/tree/master/input_elements).
+Harder things stay just as short. A whole Likert *matrix*—several questions sharing one scale, a layout that is notoriously painful elsewhere—is a [single template line](building/forms.md#scales-and-sliders). So are [file uploads](advanced/uploads.md), [sliders, and validated bank-account fields](reference/fields.md). You can see all of them live in the [input elements example](https://github.com/mrpg/uproot-examples/tree/master/input_elements).
 
 And the pages work for *everyone*, because accessibility is built in rather than left as homework:
 

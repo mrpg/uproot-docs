@@ -155,6 +155,18 @@ When labels are set:
 - Invalid labels are rejected with an error message.
 - Labels must use only the characters `A-Za-z0-9-._` and be at most 128 characters long.
 
+Pass `labels=[]` (an empty list) to accept **any** non-empty access code, without listing codes in advance.
+
+To load codes from a text file (one label per line; `#` starts a comment), use `from_file`:
+
+```python
+from uproot.rooms import room, from_file
+
+upd.DEFAULT_ROOMS.append(
+    room("lab", config="my_experiment", labels=from_file("labels.txt"))
+)
+```
+
 After entering a valid label, participants wait for the room to open (if it is not already open). Once the room opens, they are automatically redirected.
 
 If a participant enters a label that has already been used by another player in the session, they are redirected to that existing player’s URL. This means a participant can rejoin using the same label if they lose their connection.

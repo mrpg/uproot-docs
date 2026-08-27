@@ -188,6 +188,13 @@ In templates, access group data:
 <p>Your group contributed {{ player.group.total_contribution }} in total.</p>
 ```
 
+`session.groups` lists every group in the session. In a multi-app config, pass `app=` to keep only groups created in that app:
+
+```python
+for group in session.groups(app=__name__):
+    print(group.name, len(group.players))
+```
+
 ## Larger groups
 
 For experiments with more than two players per group, simply increase `group_size`:

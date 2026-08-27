@@ -255,6 +255,26 @@ Apps may expose HTTP endpoints by defining `api(request, session)` or `api2(requ
 
 ## Utility functions
 
+### rng
+
+Create an independent `random.Random` generator with an OS-random seed. Store it on a player if you need to resume the same stream later.
+
+```python
+player.treatment = rng().choice(["A", "B"])
+player.rng = rng()
+player.bomb = player.rng.randint(1, 25)
+```
+
+See [Random numbers](../building/data.md#random-numbers).
+
+### uuid
+
+Return a UUID (uuid7 if the Python version provides it, otherwise uuid4).
+
+```python
+player.token = str(uuid())
+```
+
 ### cu
 
 Create a `Decimal` from a string. Shorthand for `Decimal(value)`.
