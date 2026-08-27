@@ -195,7 +195,7 @@ def validate(page, player, data):
     return errors or None
 ```
 
-:material-github: [See the input_validation example](https://github.com/mrpg/uproot-examples/tree/master/input_validation)
+[:material-github: See the input_validation example](https://github.com/mrpg/uproot-examples/tree/master/input_validation)
 
 ## `before_form_save`
 
@@ -352,7 +352,7 @@ async def handle_stealth_fields(page, player, data):
 | `data` | `dict` of stealth field values |
 | **Returns** | Error string or list of error strings, or nothing if valid |
 
-:material-github: [See the payment_data example](https://github.com/mrpg/uproot-examples/tree/master/payment_data) · [input_validation example](https://github.com/mrpg/uproot-examples/tree/master/input_validation)
+[:material-github: See the payment_data example](https://github.com/mrpg/uproot-examples/tree/master/payment_data) · [input_validation example](https://github.com/mrpg/uproot-examples/tree/master/input_validation)
 
 ## Page class attributes
 

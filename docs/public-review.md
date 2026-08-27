@@ -1,4 +1,4 @@
-# Public Review
+# Public review
 
 !!! info "The public review runs until September 25, 2026."
 
@@ -22,12 +22,12 @@ Substantial contributions during the public review will be gratefully acknowledg
 
 1. **Install uproot** by following the [installation instructions](getting-started/installation.md).
 2. **Try the demo** at [demo.uproot.science](https://demo.uproot.science/) to see what uproot can do before writing any code.
-3. **Build something.** Work through the [tutorial](getting-started/tutorial.md) or start a project of your own. The [:material-github: examples repository](https://github.com/mrpg/uproot-examples/tree/master) has complete working experiments you can study or adapt.
-4. **Tell us what you find.** Open an issue or start a discussion on [:material-github: GitHub](https://github.com/mrpg/uproot). You can also reach us via the [contact details on the legal page](legal.md#contact).
+3. **Build something.** Work through the [tutorial](getting-started/tutorial.md) or start a project of your own. The [:material-github: examples repository](https://github.com/mrpg/uproot-examples/tree/master){.text-nowrap} has complete working experiments you can study or adapt.
+4. **Tell us what you find.** Open an issue or start a discussion on [:material-github: GitHub](https://github.com/mrpg/uproot){.text-nowrap}. You can also reach us via the [contact details on the legal page](legal.md#contact).
 
 ## Using AI assistants
 
 Large language models are already very capable of helping you write experiments in uproot and convert code from other frameworks. To get the best results, point your LLM to:
 
-- The [:material-github: examples repository](https://github.com/mrpg/uproot-examples/tree/master), which contains a large and growing number of complete experiments.
-- The [:material-github: uproot skill](https://github.com/mrpg/uproot-skill), which gives Claude Code and other agentic tools detailed knowledge of uproot’s API.
+- The [:material-github: examples repository](https://github.com/mrpg/uproot-examples/tree/master){.text-nowrap}, which contains a large and growing number of complete experiments.
+- The [:material-github: uproot skill](https://github.com/mrpg/uproot-skill){.text-nowrap}, which gives Claude Code and other agentic tools detailed knowledge of uproot’s API.

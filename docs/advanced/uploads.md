@@ -22,7 +22,7 @@ class Upload(Page):
 
 `FileField` is always treated as a stealth field. The uploaded file is passed to `handle_stealth_fields` as a [Starlette UploadFile](https://www.starlette.io/requests/#request-files) object.
 
-:material-github: [See the upload example](https://github.com/mrpg/uproot-examples/tree/master/upload)
+[:material-github: See the upload example](https://github.com/mrpg/uproot-examples/tree/master/upload)
 
 ## The UploadFile object
 

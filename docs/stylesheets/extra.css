@@ -1,12 +1,15 @@
 :root > * {
+  --md-default-fg-color: #000000;  /* rather than #000000de;*/
   --md-primary-fg-color: #4e1388;
   --md-accent-fg-color: #4e1388;
   --uproot-highlight-color: var(--md-primary-fg-color);
   --md-kbd-bg-color: var(--md-primary-fg-color);
+  --md-code-fg-color: var(--md-typeset-color);  /* same color as body text */
 }
 
 [data-md-color-scheme="slate"] {
   --md-accent-fg-color: #c598f1;
+  --md-default-fg-color: hsla(var(--md-hue), 15%, 90%, 0.9);
   --md-typeset-a-color: #c598f1;
   --uproot-highlight-color: #c598f1;
 }
@@ -25,6 +28,15 @@
         var(--fvn-fractions,)
         var(--fvn-zero,)
         var(--fvn-alt,);
+}
+
+.fw-500 {
+  font-weight: 500 !important;
+}
+
+.md-button {
+  font-size: 95%;
+  padding: 0.25rem 0.55rem !important;
 }
 
 .md-typeset a:hover{
@@ -55,6 +67,7 @@ samp,
   font-family: "Cascadia Mono", monospace !important;
   font-size: 95% !important;
 }
+
 kbd {
   padding: 0.0em 0.5em !important;
   background-color: var(--md-default-bg-color) !important;
@@ -98,11 +111,18 @@ h1 code,
 h2 code {
   color: var(--uproot-highlight-color) !important;
   font-size: 95% !important;
+  padding: 0.15em 0.25em !important;
 }
 h3 code {
   color: var(--md-typeset-color) !important;
   font-size: 95% !important;
+  padding: 0.15em 0.25em !important;
 }
+td code,
+p code {
+  padding: 0.15em 0.25em !important;
+}
+
 
 /* Slightly increase font size for admonitions and notes */
 .admonition,
@@ -119,6 +139,24 @@ details.note {
   border-radius: 0px !important;
   margin-left: 1px !important;  /* With 0px, border looks as if it were protruding into the left margin */
   margin-right: 1px !important;  /* To compensate for the shadow */
+}
+
+/* Copied from Bootstrap */
+.mb-2 {
+  margin-bottom: 0.5rem !important;
+}
+.mt-2 {
+  margin-top: .5rem !important;
+}
+.mt-3 {
+  margin-top: 1rem !important;
+}
+.mt-4 {
+  margin-top: 1.5rem !important;
+}
+.my-2 {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
 }
 
 /* Harmonize border-width across elements */
@@ -171,6 +209,15 @@ details.note {
   .md-typeset {
     font-size: 0.7333rem !important;
   }
+}
+
+/* Add bottom rule and padding to .tabbed-content for better demarcation */
+.tabbed-content {
+  padding-bottom: 0.25rem;
+  padding-top: 0.25rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
 }
 
 /* Copied from Bootstrap */

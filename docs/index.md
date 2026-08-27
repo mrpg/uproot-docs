@@ -2,13 +2,13 @@
 
 **uproot** is a modern, open-source framework for developing and conducting browser-based behavioral experiments. Build studies with hundreds of participants, from simple surveys to complex real-time multiplayer games.
 
-[:material-play-circle: **Try the live demo**](https://demo.uproot.science){ .md-button .md-button--primary }
+[:material-play-circle:  **Try the live demo**](https://demo.uproot.science){ .fw-500 .my-2 .md-button .md-button--primary .smaller }
 
 !!! warning "Work in progress"
 
     uproot is in initial development. Breaking changes may occur between releases. The announcements shown in the admin interface will tell you when action is needed.
 
-<div class="grid cards" markdown>
+<div class="grid cards mt-4" markdown>
 
 -   :material-download:{ .card-title-icon .lg .middle } __Get started in minutes__
 
@@ -16,7 +16,7 @@
 
     Install uproot with a single command and create your first experiment.
 
-    [:octicons-arrow-right-24: Installation](getting-started/installation.md)
+    [:material-arrow-right-circle: Installation](getting-started/installation.md)
 
 -   :material-book-open-variant:{ .card-title-icon .lg .middle } __Learn by doing__
 
@@ -24,7 +24,7 @@
 
     Follow the tutorial to build a complete prisoner’s dilemma experiment.
 
-    [:octicons-arrow-right-24: Tutorial](getting-started/tutorial.md)
+    [:material-arrow-right-circle: Tutorial](getting-started/tutorial.md)
 
 -   :material-account-group:{ .card-title-icon .lg .middle } __Built for multiplayer__
 
@@ -32,7 +32,7 @@
 
     Group participants, synchronize progress, and enable real-time interaction.
 
-    [:octicons-arrow-right-24: Multiplayer experiments](multiplayer/groups.md)
+    [:material-arrow-right-circle: Multiplayer experiments](multiplayer/groups.md)
 
 -   :material-folder-open:{ .card-title-icon .lg .middle } __Explore examples__
 
@@ -40,7 +40,7 @@
 
     Ready-to-use experiments covering common paradigms and techniques.
 
-    [:octicons-arrow-right-24: Example apps](https://github.com/mrpg/uproot-examples)
+    [:material-arrow-right-circle: Example apps](https://github.com/mrpg/uproot-examples)
 
 -   :material-robot-outline:{ .card-title-icon .lg .middle } __AI-assisted development__
 
@@ -48,7 +48,7 @@
 
     Build experiments faster with Claude Code, Codex, and other agentic coding tools.
 
-    [:octicons-arrow-right-24: Set up AI tooling](getting-started/installation.md#set-up-ai-assisted-development)
+    [:material-arrow-right-circle: Set up AI tooling](getting-started/installation.md#set-up-ai-assisted-development)
 
 </div>
 
@@ -60,7 +60,7 @@
 - **Modern stack:** Built on [FastAPI](https://fastapi.tiangolo.com/) for performance and reliability.
 - **100% open source:** LGPL-licensed with no vendor lock-in.
 
-[:octicons-arrow-right-24: **The full case for uproot**](why-uproot.md)
+[:material-arrow-right-circle: **The full case for uproot**](why-uproot.md)
 
 ## Quick example
 
@@ -99,11 +99,11 @@ class Results(Page):
 page_order = [GroupPlease, Dilemma, Sync, Results]
 ```
 
-:material-github: [Browse the complete example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma) including HTML templates
+[:material-github: Browse the complete example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma) including HTML templates
 
 ## Getting in touch
 
 uproot is developed by **[Max Grossmann](https://max.pm/)** and **[Holger Gerhardt](https://www.econ.uni-bonn.de/iame/gerhardt)**. Click [here](legal.md) for more information.
 
-- **Source code**: [github.com/mrpg/uproot](https://github.com/mrpg/uproot)
-- **Examples**: [github.com/mrpg/uproot-examples](https://github.com/mrpg/uproot-examples)
+:material-github: **Source code:** [github.com/mrpg/uproot](https://github.com/mrpg/uproot) <br>
+:material-github: **Examples:** [github.com/mrpg/uproot-examples](https://github.com/mrpg/uproot-examples)

@@ -94,7 +94,7 @@ function submit() {
 </div>
 ```
 
-:material-github: [counter_alpine example](https://github.com/mrpg/uproot-examples/tree/master/counter_alpine) · [sumhunt example](https://github.com/mrpg/uproot-examples/tree/master/sumhunt) · [encryption_task example](https://github.com/mrpg/uproot-examples/tree/master/encryption_task)
+[:material-github: counter_alpine example](https://github.com/mrpg/uproot-examples/tree/master/counter_alpine) · [sumhunt example](https://github.com/mrpg/uproot-examples/tree/master/sumhunt) · [encryption_task example](https://github.com/mrpg/uproot-examples/tree/master/encryption_task)
 
 ## Quick reference
 
@@ -113,4 +113,4 @@ function submit() {
 
 ## Learn more
 
-[Alpine.js documentation](https://alpinejs.dev/start-here)
+[:material-arrow-top-right-thin-circle-outline: Alpine.js documentation](https://alpinejs.dev/start-here)

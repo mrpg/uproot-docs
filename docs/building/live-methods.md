@@ -21,7 +21,7 @@ Live methods:
 - Can return data back to the caller
 - Can be sync or async
 
-:material-github: [See the counter example](https://github.com/mrpg/uproot-examples/tree/master/counter)
+[:material-github: See the counter example](https://github.com/mrpg/uproot-examples/tree/master/counter)
 
 ## Calling from JavaScript
 
@@ -162,7 +162,7 @@ function reset() {
 {% endblock main %}
 ```
 
-:material-github: [See the counter example](https://github.com/mrpg/uproot-examples/tree/master/counter) · [counter_alpine example](https://github.com/mrpg/uproot-examples/tree/master/counter_alpine) (with Alpine.js)
+[:material-github: See the counter example](https://github.com/mrpg/uproot-examples/tree/master/counter) · [counter_alpine example](https://github.com/mrpg/uproot-examples/tree/master/counter_alpine) (with Alpine.js)
 
 ## Example: live form validation
 
@@ -319,7 +319,7 @@ uproot.invoke("propose_solution", selectedNumbers).then(correct => {
 });
 ```
 
-:material-github: [See the sumhunt example](https://github.com/mrpg/uproot-examples/tree/master/sumhunt)
+[:material-github: See the sumhunt example](https://github.com/mrpg/uproot-examples/tree/master/sumhunt)
 
 ## Summary
 

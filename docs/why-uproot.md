@@ -21,7 +21,7 @@ Two practical consequences experimenters will appreciate:
 - Repeated rounds do not create dozens of duplicate columns, so you no longer write reshaping scripts before analysis.
 - You can reconstruct any participant’s complete state at any moment of the study, after the fact.
 
-[:octicons-arrow-right-24: Storing and accessing data](building/data.md)
+[:material-arrow-right-circle: Storing and accessing data](building/data.md)
 
 ## Your experiment can be rerun, exactly, years later
 
@@ -72,7 +72,7 @@ And the pages work for *everyone*, because accessibility is built in rather than
 
 This matters scientifically as well as ethically: participants who use screen readers, keyboards, or five-year-old phones belong in your sample. The visual foundation is [Bootstrap 5](https://getbootstrap.com/), bundled with uproot itself, so pages look consistent and professional out of the box.
 
-[:octicons-arrow-right-24: Form fields](reference/fields.md)
+[:material-arrow-right-circle: Form fields](reference/fields.md)
 
 ## Obvious things work without workarounds
 
@@ -88,7 +88,7 @@ A concrete example. On other platforms, a common pattern is to add a €5 bonus 
 
 The same philosophy runs through everything else on this page: back buttons, randomized blocks, repeated rounds, dropout handling are things that a researcher obviously needs, so they are built in, not bolted on with tricks.
 
-[:octicons-arrow-right-24: Page methods](reference/page-methods.md)
+[:material-arrow-right-circle: Page methods](reference/page-methods.md)
 
 ## Participants cannot tamper with your study
 
@@ -106,7 +106,7 @@ async def bid(page, player, price: float):
 
 This says: the `bid` action accepts one thing, a number. Anything else, such as text, malformed data, manipulated requests, is rejected before your study logic ever sees it. You get this protection by writing ordinary Python; no security expertise required.
 
-[:octicons-arrow-right-24: Live methods](building/live-methods.md)
+[:material-arrow-right-circle: Live methods](building/live-methods.md)
 
 ## Real interaction between participants, built in
 
@@ -116,7 +116,7 @@ Updates appear on participants’ screens instantly, without page reloads. This 
 
 uproot also notices when a participant disconnects and lets you [decide what happens next](advanced/dropouts.md). Moreover, groups are formed based on who actually shows up, not who signed up.
 
-[:octicons-arrow-right-24: Multiplayer experiments](multiplayer/groups.md)
+[:material-arrow-right-circle: Multiplayer experiments](multiplayer/groups.md)
 
 ## Your design is not forced into a fixed pipeline
 
@@ -130,7 +130,7 @@ page_order = [Hello, Random(Page1, Page2), Rounds(Task, Feedback, n=4), Bye]
 
 This line shows two pages in random order, then repeats a task-and-feedback block four times. Randomized blocks, between-subjects treatments, and indefinite repetition (for random stopping rules without deception!) are all built in.
 
-[:octicons-arrow-right-24: SmoothOperators](building/operators.md)
+[:material-arrow-right-circle: SmoothOperators](building/operators.md)
 
 ## Full control on the day of your study
 
@@ -142,7 +142,7 @@ Even if you do need to make live changes to your code, uproot will reload them i
 
 When the study is done, your data exports in [four formats](running/export.md) matched to different analyses: from “one row per participant” to the complete event-by-event history.
 
-[:octicons-arrow-right-24: The admin interface](running/admin.md)
+[:material-arrow-right-circle: The admin interface](running/admin.md)
 
 ## Built for the AI age
 
@@ -152,7 +152,7 @@ Studies are written in [Python](https://www.python.org/) and HTML. These are the
 
 The dozens of examples are also yours in the fullest sense: licensed under [0BSD](https://opensource.org/license/0bsd), meaning you may copy, modify, and use them without restriction or attribution.
 
-:material-github: [Browse the examples](https://github.com/mrpg/uproot-examples)
+[:material-github: Browse the examples](https://github.com/mrpg/uproot-examples)
 
 ## High performance
 
@@ -160,7 +160,7 @@ uproot is seriously fast. On simple pages, uproot can easily handle more than 60
 
 Even complex data structures or custom database entries are stored rapidly if you use the user-friendly default deployment. No special software or hardware needed.
 
-[:octicons-arrow-right-24: Deploying uproot experiments](running/deployment.md)
+[:material-arrow-right-circle: Deploying uproot experiments](running/deployment.md)
 
 ## Free, open, and yours
 
@@ -174,4 +174,4 @@ To protect uproot and its community, our software is 100% [Free/Libre Open Sourc
 
 Three commands and you have a running study on your own machine:
 
-[:octicons-arrow-right-24: Installation](getting-started/installation.md)
+[:material-arrow-right-circle: Installation](getting-started/installation.md)

@@ -55,7 +55,7 @@ Both callbacks are **lazy**: they run when the first participant initializes, no
 !!! note
     Both `new_session` and `new_player` can be manually re-triggered from the admin session dashboard. This is useful for resetting state or re-running initialization after fixing a bug mid-experiment.
 
-:material-github: [See new_player and new_session in the chat example](https://github.com/mrpg/uproot-examples/tree/master/chat) · [conjoint example](https://github.com/mrpg/uproot-examples/tree/master/conjoint)
+[:material-github: See new_player and new_session in the chat example](https://github.com/mrpg/uproot-examples/tree/master/chat) · [conjoint example](https://github.com/mrpg/uproot-examples/tree/master/conjoint)
 
 ## Random numbers
 
@@ -70,7 +70,7 @@ def new_player(player):
 
 Do not use the module-level functions in `random` for experiment outcomes. A generator returned by `rng()` can be saved and resumed, which makes a sequence of draws reproducible from its stored state.
 
-:material-github: [See the treatments example](https://github.com/mrpg/uproot-examples/tree/master/treatments)
+[:material-github: See the treatments example](https://github.com/mrpg/uproot-examples/tree/master/treatments)
 
 ## Player data
 
@@ -156,7 +156,7 @@ In templates:
 
 Apps can replace the admin’s raw JSON settings editor with their own form, see [Custom settings forms](../advanced/settings-forms.md).
 
-:material-github: [See the read_settings example](https://github.com/mrpg/uproot-examples/tree/master/read_settings) · [conjoint example](https://github.com/mrpg/uproot-examples/tree/master/conjoint)
+[:material-github: See the read_settings example](https://github.com/mrpg/uproot-examples/tree/master/read_settings) · [conjoint example](https://github.com/mrpg/uproot-examples/tree/master/conjoint)
 
 ## Group data
 
@@ -307,4 +307,4 @@ field_names = player.fields()
 | `player.fields()` | Listing the currently available fields |
 | `player.history()` | Accessing the complete audit trail |
 
-:material-github: [See data patterns in the examples](https://github.com/mrpg/uproot-examples)
+[:material-github: See data patterns in the examples](https://github.com/mrpg/uproot-examples)

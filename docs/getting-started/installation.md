@@ -90,7 +90,7 @@ We recommend developing uproot experiments with an agentic coding tool such as [
 
 If your coding agent supports skills (Claude Code, Codex, and others do), install the **uproot skill** to give it deep knowledge of uproot’s API:
 
-:material-github: [mrpg/uproot-skill](https://github.com/mrpg/uproot-skill)
+[:material-github: mrpg/uproot-skill](https://github.com/mrpg/uproot-skill)
 
 Follow the instructions in the repository to set it up. Once installed, the agent can work with uproot’s page lifecycle, fields, SmoothOperators, data model, and multiplayer features out of the box.
 

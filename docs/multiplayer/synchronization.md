@@ -38,7 +38,7 @@ class Sync(SynchronizingWait):
 
 The callback receives the `group` object and has access to all players’ data.
 
-:material-github: [See the public_goods_game example](https://github.com/mrpg/uproot-examples/tree/master/public_goods_game) · [beauty_contest example](https://github.com/mrpg/uproot-examples/tree/master/beauty_contest) · [minimum_effort_game example](https://github.com/mrpg/uproot-examples/tree/master/minimum_effort_game)
+[:material-github: See the public_goods_game example](https://github.com/mrpg/uproot-examples/tree/master/public_goods_game) · [beauty_contest example](https://github.com/mrpg/uproot-examples/tree/master/beauty_contest) · [minimum_effort_game example](https://github.com/mrpg/uproot-examples/tree/master/minimum_effort_game)
 
 ## Calculating payoffs
 
@@ -66,7 +66,7 @@ class Sync(SynchronizingWait):
             set_payoff(player)
 ```
 
-:material-github: [See the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma)
+[:material-github: See the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma)
 
 ### Using apply for bulk operations
 
@@ -86,7 +86,7 @@ class Sync(SynchronizingWait):
         group.players.apply(page.set_payoff)
 ```
 
-:material-github: [See the focal_point example](https://github.com/mrpg/uproot-examples/tree/master/focal_point)
+[:material-github: See the focal_point example](https://github.com/mrpg/uproot-examples/tree/master/focal_point)
 
 ## Finding specific players
 
@@ -103,7 +103,7 @@ class Sync(SynchronizingWait):
         recipient.payoff = dictator.give
 ```
 
-:material-github: [See the dictator_game example](https://github.com/mrpg/uproot-examples/tree/master/dictator_game) · [trust_game example](https://github.com/mrpg/uproot-examples/tree/master/trust_game) · [ultimatum_game example](https://github.com/mrpg/uproot-examples/tree/master/ultimatum_game)
+[:material-github: See the dictator_game example](https://github.com/mrpg/uproot-examples/tree/master/dictator_game) · [trust_game example](https://github.com/mrpg/uproot-examples/tree/master/trust_game) · [ultimatum_game example](https://github.com/mrpg/uproot-examples/tree/master/ultimatum_game)
 
 ## Session-level synchronization
 
@@ -167,7 +167,7 @@ In templates, you can access the current round number:
 <h2>Round {{ player.round }} results</h2>
 ```
 
-:material-github: [See the prisoners_dilemma_repeated example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma_repeated)
+[:material-github: See the prisoners_dilemma_repeated example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma_repeated)
 
 ## Accessing historical data in repeated games
 
@@ -183,7 +183,7 @@ def digest(session):
             choice = player1.within(round=round).get("cooperate")
 ```
 
-:material-github: [See the prisoners_dilemma_repeated example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma_repeated)
+[:material-github: See the prisoners_dilemma_repeated example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma_repeated)
 
 ## Complete example: public goods game
 
@@ -243,7 +243,7 @@ page_order = [
 ]
 ```
 
-:material-github: [See the full public_goods_game example](https://github.com/mrpg/uproot-examples/tree/master/public_goods_game)
+[:material-github: See the full public_goods_game example](https://github.com/mrpg/uproot-examples/tree/master/public_goods_game)
 
 ## Detecting presence
 
@@ -278,7 +278,7 @@ class RaiseHands(Page):
 
 After the page completes, `player.present` tells you whether each participant signalled their presence. You can then use this in `show()`, `all_here()`, or when forming groups.
 
-:material-github: [See the full detect_presence example](https://github.com/mrpg/uproot-examples/tree/master/detect_presence)
+[:material-github: See the full detect_presence example](https://github.com/mrpg/uproot-examples/tree/master/detect_presence)
 
 ## Summary
 

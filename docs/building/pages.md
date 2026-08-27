@@ -195,7 +195,7 @@ Access these in templates:
 
 `PlayerContext` is particularly useful for computed values you want to reuse across multiple pages without writing `templatevars` on each one. The `self.player` attribute gives you access to the current player.
 
-:material-github: [See PlayerContext in the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma) · [bertrand example](https://github.com/mrpg/uproot-examples/tree/master/bertrand)
+[:material-github: See PlayerContext in the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma) · [bertrand example](https://github.com/mrpg/uproot-examples/tree/master/bertrand)
 
 ## Built-in template variables
 
@@ -245,7 +245,7 @@ class C:
 
 uproot copies those values to `window.C`, so `C.WORD_LENGTH` works in scripts. Set `__export__ = ...` (Ellipsis) to export every non-dunder attribute.
 
-:material-github: [See C.__export__ in the encryption_task example](https://github.com/mrpg/uproot-examples/tree/master/encryption_task) · [emoji_sort example](https://github.com/mrpg/uproot-examples/tree/master/emoji_sort)
+[:material-github: See C.__export__ in the encryption_task example](https://github.com/mrpg/uproot-examples/tree/master/encryption_task) · [emoji_sort example](https://github.com/mrpg/uproot-examples/tree/master/emoji_sort)
 
 ## Static files
 
@@ -300,7 +300,7 @@ class Welcome(Page):
     template = f"{__name__}/Instructions.md"
 ```
 
-:material-github: [See the anchoring_markdown example](https://github.com/mrpg/uproot-examples/tree/master/anchoring_markdown)
+[:material-github: See the anchoring_markdown example](https://github.com/mrpg/uproot-examples/tree/master/anchoring_markdown)
 
 ## Translations
 
@@ -390,7 +390,7 @@ class CalculatePayoffs(NoshowPage):
 - Initializing player data
 - Setting up randomization
 
-:material-github: [See NoshowPage in the big5 example](https://github.com/mrpg/uproot-examples/tree/master/big5)
+[:material-github: See NoshowPage in the big5 example](https://github.com/mrpg/uproot-examples/tree/master/big5)
 
 ## Page lifecycle methods
 
@@ -497,4 +497,4 @@ class Offer(Page):
 {% endblock %}
 ```
 
-:material-github: [See complete examples in uproot-examples](https://github.com/mrpg/uproot-examples)
+[:material-github: See complete examples in uproot-examples](https://github.com/mrpg/uproot-examples)

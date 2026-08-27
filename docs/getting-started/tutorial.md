@@ -277,7 +277,7 @@ page_order = [
 ]
 ```
 
-:material-github: [See the full prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma)
+[:material-github: See the full prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma)
 
 ## What’s next?
 

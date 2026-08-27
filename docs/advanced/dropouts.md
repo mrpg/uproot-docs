@@ -19,7 +19,7 @@ async def handle_dropout(player):
 
 The watcher checks every few seconds whether the player’s browser is still connected. If the player has been offline for longer than the tolerance period (default: 30 seconds), the handler fires.
 
-:material-github: [See the dropouts example](https://github.com/mrpg/uproot-examples/tree/master/dropouts)
+[:material-github: See the dropouts example](https://github.com/mrpg/uproot-examples/tree/master/dropouts)
 
 ## watch_for_dropout
 
