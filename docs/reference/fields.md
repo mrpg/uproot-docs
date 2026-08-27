@@ -148,7 +148,7 @@ confidence=DecimalRangeField(
 | `label_min` | `str` | `None` | Label below left end (defaults to `str(min)`) |
 | `label_max` | `str` | `None` | Label below right end (defaults to `str(max)`) |
 | `breakpoint` | `int` | `992` | Viewport width in pixels at or above which endpoint labels no longer wrap |
-| `label_max_min_class_suffix` | `str` | `"-custom"` | CSS class suffix for endpoint labels |
+| `label_max_min_class_suffix`{ .text-nowrap } | `str` | `"-custom"` | CSS class suffix for endpoint labels |
 | `hide_popover` | `bool` | `False` | Hide the current value popover |
 | `anchoring` | `bool` | `True` | Show initial slider position |
 | `label` | `str` | `""` | |
@@ -292,7 +292,7 @@ satisfaction=LikertField(
 | `description` | `str` | `""` | |
 | `widget` | any | `None` | |
 | `default` | any | `None` | |
-| `class_wrapper` | `str` | `None` | |
+| `class_wrapper`{ .text-nowrap } | `str` | `None` | |
 
 Auto-generates integer choices from `min` to `max`.
 
@@ -321,7 +321,7 @@ choice=RadioField(
 | `description` | `str` | `""` | |
 | `widget` | any | `None` | |
 | `default` | any | `None` | |
-| `class_wrapper` | `str` | `None` | |
+| `class_wrapper`{ .text-nowrap } | `str` | `None` | |
 
 Choices can be:
 

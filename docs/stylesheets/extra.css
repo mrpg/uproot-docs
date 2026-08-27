@@ -172,3 +172,11 @@ details.note {
     font-size: 0.7333rem !important;
   }
 }
+
+/* Copied from Bootstrap */
+.text-nowrap {
+  white-space: nowrap !important;
+}
+.text-wrap {
+  white-space: normal !important;
+}
