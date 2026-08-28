@@ -2,7 +2,7 @@
 
 **uproot** is a modern, open-source framework for developing and conducting browser-based behavioral experiments. Build studies with hundreds of participants, from simple surveys to complex real-time multiplayer games.
 
-[:material-play-circle:  **Try the live demo**](https://demo.uproot.science){ .fw-500 .my-2 .md-button .md-button--primary .smaller }
+[:material-play-circle: **Try the live demo**](https://demo.uproot.science){ .fw-500 .my-2 .md-button .md-button--primary }
 
 !!! warning "Work in progress"
 
