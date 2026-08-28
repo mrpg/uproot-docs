@@ -4,11 +4,11 @@ uproot is © Max R. P. Grossmann, Holger Gerhardt, et al., 2026.
 
 ## What is uproot?
 
-uproot is an open-source framework for developing and conducting browser-based behavioral experiments. It is designed for researchers who need to run studies with human participants, from simple surveys to complex real-time multiplayer interactions.
+uproot is an open-source framework for developing and conducting browser-based behavioral experiments. It is designed for researchers who need to run studies with human participants, from simple surveys to complex real-time multiplayer interactions, in the lab or online.
 
 ## Who created uproot?
 
-uproot was originally developed by [Dr Max Grossmann](https://max.pm/) and [Dr Holger Gerhardt](https://www.econ.uni-bonn.de/iame/en/team/gerhardt). We are academic researchers who were frustrated by existing solutions for running behavioral experiments and decided to build something better.
+uproot was originally developed by [Dr Max Grossmann](https://max.pm/) and [Dr Holger Gerhardt](https://www.econ.uni-bonn.de/iame/en/team/gerhardt). We are academic researchers who were not satisfied with existing solutions for running behavioral experiments and set out to build something better.
 
 We do not sell anything. We do not have big funders. uproot is Free/Libre Open Source Software under licenses approved by both the OSF and the FSF and will always remain so. uproot is [open to contributions](https://github.com/mrpg/uproot).
 
