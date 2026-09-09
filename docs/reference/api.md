@@ -246,12 +246,73 @@ uproot.invoke("my_method", "hello").then(data => console.log(data.result));
 
 Apps may expose HTTP endpoints by defining `api(request, session)` or `api2(request, session)`.
 
+### Operator APIs
+
 `api` is served at `/api/{appname}/{sname}/` and requires an `Authorization: Bearer ...` header matching one of the server API keys in `upd.API_KEYS`. Use it for programmatic access that should be limited to trusted operators or scripts.
 
-`api2` is served at `/api2/{appname}/{sname}/` and is intentionally unauthenticated. It is for participant-browser assets and callbacks, such as loading a captcha image. Anyone who knows the app name and session name can call it.
+### Participant APIs
+
+`api2` is served at `/api2/{appname}/{sname}/`. It is for participant-browser assets and callbacks, such as loading a captcha image. Direct requests remain public: anyone who knows the app name and session name can call the endpoint without participant credentials.
 
 !!! warning "Trust boundary"
-    Treat every `api2` request as public, untrusted input. Do not expose secrets, admin-only data, participant answers from other players, or state-changing operations that should require an API key. If a route needs authentication, implement it with `api`, not `api2`.
+    Treat an `api2` request as public unless the callback receives an authenticated `player`. Participant authentication identifies one participant; it does not grant operator privileges. Do not expose admin-only data or actions through `api2`. Use `api` for those.
+
+#### Identifying the calling participant
+
+This is an advanced feature. Use it when browser code must call an HTTP endpoint as the participant who is viewing the current page—for example, to upload data with `fetch()` while saving the result on that participant.
+
+Define `player` as an optional callback argument and reject public calls explicitly:
+
+```python
+from fastapi import HTTPException
+
+
+async def api2(request, session, player=None):
+    if player is None:
+        raise HTTPException(status_code=403, detail="Participant required")
+
+    data = await request.json()
+    player.last_action = data["action"]
+    return {"saved": True}
+```
+
+Call the endpoint from a participant template with `uproot.api2()`:
+
+```html
+<script>
+async function saveAction(action) {
+    const response = await uproot.api2("my_app", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({action}),
+    });
+
+    if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    return response.json();
+}
+</script>
+```
+
+`uproot.api2(appname, options)` accepts the usual [`fetch()` options](https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch#parameters) and returns its `Promise<Response>`. It builds the URL for the current session and adds the current participant’s name and CSRF proof as request headers. It also defaults `credentials` to `"same-origin"`. Do not construct or copy these authentication headers yourself.
+
+The server handles the three credential states differently:
+
+| Credential state | Result |
+|------------------|--------|
+| Both headers absent | The public callback runs with `request` and `session`; the `player` keyword is omitted |
+| Both headers present and valid | The callback also receives the authenticated `player` |
+| One header missing, either header invalid, or the CSRF proof non-ASCII | The server returns 403 without running the callback |
+
+For an authenticated call, `request.state.uproot_player` refers to the same object as `player`. For a public call, it is `None`. The `session` and authenticated `player` remain inside their storage contexts while the callback runs, so assignments such as `player.last_action = ...` are saved normally.
+
+!!! warning "Keep the optional default"
+    The server omits the `player` keyword entirely for a public call. Write `player=None` if a callback may receive either kind of request. Merely adding a `player` parameter does not protect the endpoint—check for `None` and return an error as shown above.
+
+!!! warning "Use only the authenticated player"
+    Do not identify a participant from a username in the query string or request body. Those values are controlled by the caller. Read and modify only the authenticated `player` supplied by uproot.
 
 ## Utility functions
 

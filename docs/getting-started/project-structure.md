@@ -138,9 +138,9 @@ page_order = [Welcome, Decision, Results]
 | `pipeline(session)` | Admin-runnable job; return a list of dicts for a downloadable table. May take optional `data=` |
 | `language(player)` | Returns ISO 639 language code for the player |
 | `api(request, session)` | Authenticated HTTP endpoint at `/api/{app}/{sname}/` |
-| `api2(request, session)` | Unauthenticated HTTP endpoint at `/api2/{app}/{sname}/`; treat input as public |
+| `api2(request, session, player=None)` | Participant HTTP endpoint at `/api2/{app}/{sname}/`; public by default, with optional participant authentication |
 
-See [Storing and accessing data](../building/data.md) for details on `new_session` and `new_player`.
+See [Storing and accessing data](../building/data.md) for details on `new_session` and `new_player`. See [App HTTP APIs](../reference/api.md#app-http-apis) for the advanced `api2` authentication behavior.
 
 ### Page classes
 
