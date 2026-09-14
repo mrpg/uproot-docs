@@ -1250,18 +1250,6 @@ Fetch announcements from upstream.
 
 ---
 
-### `GET /admin/api/v1/auth/challenge/`
-
-Issue the same login proof-of-work challenge used by the admin UI.
-
-**Responses**:
-
-| Status | Content | Description |
-|--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
-
----
-
 ### `POST /admin/api/v1/auth/login/`
 
 Create the same browser admin session token as submitting /admin/login/.
@@ -1273,8 +1261,6 @@ Create the same browser admin session token as submitting /admin/login/.
 | `user` | string | No | Admin username (default: `admin`) |
 | `pw` | string | No | Admin password (default: ``) |
 | `token` | string | No | Auto-login token (default: ``) |
-| `pow_challenge` | string | No | Proof-of-work challenge (default: ``) |
-| `pow_solution` | string | No | Proof-of-work solution (default: ``) |
 
 **Responses**:
 
