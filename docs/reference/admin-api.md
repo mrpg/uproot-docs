@@ -1267,6 +1267,10 @@ Create the same browser admin session token as submitting /admin/login/.
 | Status | Content | Description |
 |--------|---------|-------------|
 | `201` | `application/json` | Successful Response |
+| `429` | `application/json` | Too many failed login attempts |
+
+!!! note
+    Login attempts are rate-limited per IP address. After 50 failed attempts within one hour, the IP is blocked for six hours. Requests from localhost are exempt.
 
 ---
 
