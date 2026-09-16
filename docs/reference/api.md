@@ -102,7 +102,7 @@ page_order = [Between(Treatment, Control)]
 
 ## `PlayerContext`
 
-Base class for computed properties available in templates as `player.context.*`.
+Base class for reusable computed properties. During page execution, properties on the current app’s `Context` class are available in Python and templates as `player.context.*`.
 
 ```python
 class Context(PlayerContext):
@@ -110,6 +110,13 @@ class Context(PlayerContext):
     def earnings(self):
         return self.player.payoff * C.EXCHANGE_RATE
 ```
+
+| Access | How the class is selected | Use it when |
+|--------|---------------------------|-------------|
+| `player.context` | uproot reads `player.app` and uses that app’s `Context` class | A page method or template is running inside the app |
+| `Context(player)` | Python resolves the `Context` name directly in the app module | Code is outside page execution, such as a callable `page_order(player=)` or `digest(session)` |
+
+`player.context` is `None` when the participant has no active app or the active app defines no `Context` class. See [The PlayerContext class](../building/pages.md#the-playercontext-class) for the lifecycle details and examples.
 
 ## Real-time functions
 

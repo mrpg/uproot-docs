@@ -126,7 +126,7 @@ class Context(PlayerContext):
         ]
 ```
 
-This makes `player.context.payoff` available in templates.
+This makes `player.context.payoff` available in templates. See [The PlayerContext class](../building/pages.md#the-playercontext-class) for details.
 
 ### Page order
 

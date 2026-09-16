@@ -173,7 +173,7 @@ The `templatevars` method receives `page` (the page class) and `player` (the cur
 
 ### The PlayerContext class
 
-An alternative, more Pythonic approach is to define a `Context` class in your app that inherits from `PlayerContext`. Its properties become accessible in templates as `player.context.<property>`:
+Use `PlayerContext` when you want to compute the same value on several pages. Define a `Context` class in your app, then add a property for each value:
 
 ```python
 class Context(PlayerContext):
@@ -193,7 +193,41 @@ Access these in templates:
 <p>Your partner chose: {{ player.context.partner_choice }}</p>
 ```
 
-`PlayerContext` is particularly useful for computed values you want to reuse across multiple pages without writing `templatevars` on each one. The `self.player` attribute gives you access to the current player.
+You can use the same properties in Python page methods:
+
+```python
+class Results(Page):
+    @classmethod
+    def show(page, player):
+        return player.context.earnings > 0
+```
+
+The `self.player` attribute gives the `Context` object access to the current participant. Store lasting data on `self.player`, `self.player.group`, or `self.player.session`—not on the `Context` object itself. Each access to `player.context` creates a lightweight `Context` object.
+
+#### How uproot selects the Context class
+
+`player.context` refers to the `Context` class of the app that the participant is currently using. uproot reads `player.app`, finds that app’s `Context` class, and constructs it with the player. If the current app does not define a `Context` class, `player.context` is `None`.
+
+While the participant is inside an app that defines `Context`, these two expressions therefore produce the same result:
+
+```python
+player.context.earnings
+Context(player).earnings
+```
+
+The second expression does not need to discover an app. `Context` is an ordinary Python name that refers directly to the class defined in the current app module. The constructor inherited from `PlayerContext` stores `player` as `self.player`.
+
+Usually, prefer `player.context`: it is concise and automatically follows the participant’s current app. Use `Context(player)` when you are outside page execution (see the warning below) or when code must target a specific app’s `Context` class.
+
+!!! warning "Do not use `player.context` outside page execution"
+    `player.context` relies on `player.app`, which tracks whichever app the participant is currently in. Outside page methods and templates, that value is unreliable: it may be `None` (before the first app), or it may point to a different app entirely.
+
+    Do not use `player.context` in `page_order(player)`, `new_player(player)`, `digest(session)`, `pipeline(session)`, or any other app-level function. In those places, construct the context explicitly:
+
+    ```python
+    context = Context(player)
+    value = context.earnings
+    ```
 
 [:material-github: See PlayerContext in the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma) · [bertrand example](https://github.com/mrpg/uproot-examples/tree/master/bertrand)
 

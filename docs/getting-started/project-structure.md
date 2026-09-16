@@ -191,7 +191,7 @@ class Context(PlayerContext):
         return self.player.payoff * C.EXCHANGE_RATE
 ```
 
-Available in templates as `player.context.total_earnings`.
+Available in templates as `player.context.total_earnings`. See [The PlayerContext class](../building/pages.md#the-playercontext-class) for Python access and app lifecycle details.
 
 ## Database
 
