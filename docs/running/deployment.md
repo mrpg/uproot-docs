@@ -52,6 +52,7 @@ server {
 
     location / {
         proxy_pass http://127.0.0.1:8000;  # Maybe adjust this
+        proxy_read_timeout 600s;
 
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -88,6 +89,7 @@ Then adjust your nginx config to match. Here is a complete example; the only dif
 ```nginx
 location /my-study/ {
     proxy_pass http://127.0.0.1:8000;
+    proxy_read_timeout 600s;
 
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
