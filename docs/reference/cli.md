@@ -115,25 +115,29 @@ uproot reset
 Dump the entire database to a file.
 
 ```bash
-uproot dump --file backup.bin
+uproot dump --file backup.msgpack.gz
 ```
 
 | Option | Description |
 |--------|-------------|
 | `--file` | Path to the output file (required) |
 
+The output is gzip-compressed automatically.
+
 ### uproot restore
 
 Restore a database from a dump file.
 
 ```bash
-uproot restore --file backup.bin
+uproot restore --file backup.msgpack.gz
 ```
 
 | Option | Description |
 |--------|-------------|
 | `--file` | Path to the dump file (required) |
 | `--yes` | Skip the confirmation prompt |
+
+`uproot restore` accepts both gzip-compressed and uncompressed dump files.
 
 ### uproot new
 
@@ -184,5 +188,5 @@ If you are using uv (recommended), prefix commands with `uv run`:
 ```bash
 uv run uproot run
 uv run uproot new my_app
-uv run uproot dump --file backup.bin
+uv run uproot dump --file backup.msgpack.gz
 ```

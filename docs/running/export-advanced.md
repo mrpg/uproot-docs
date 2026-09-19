@@ -62,10 +62,10 @@ For a complete backup of all data, use the dump/restore commands:
 
 ```bash
 # Dump the entire database to a file
-uproot dump --file backup.bin
+uproot dump --file backup.msgpack.gz
 
 # Restore from a dump
-uproot restore --file backup.bin
+uproot restore --file backup.msgpack.gz
 ```
 
 You can also download a dump from the admin interface at `/admin/dump/`.

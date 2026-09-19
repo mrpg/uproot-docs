@@ -1348,13 +1348,13 @@ Revoke one browser admin session token, matching /admin/logout/.
 Download a complete machine-readable database dump.
 
 !!! note
-    The response is a binary MessagePack dump intended for `uproot restore`, not JSON.
+    The response is a gzip-compressed MessagePack dump intended for `uproot restore`, not JSON.
 
 **Responses**:
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/gzip` | Gzip-compressed database dump |
 
 ---
 
