@@ -62,19 +62,19 @@ a.headerlink {
   opacity: 0.5 !important;
 }
 
-.text-opacity-50 {
+.opacity-50 {
   opacity: 0.50;
 }
-.text-opacity-55 {
+.opacity-55 {
   opacity: 0.55;
 }
-.text-opacity-60 {
+.opacity-60 {
   opacity: 0.60;
 }
-.text-opacity-67 {
+.opacity-67 {
   opacity: 0.67;
 }
-.text-opacity-75 {
+.opacity-75 {
   opacity: 0.75;
 }
 .cards li:hover p {

@@ -18,7 +18,7 @@
     ---
 
     Install uproot with a single command and create your first experiment.
-    {: .fs-95 .text-opacity-55}
+    {: .fs-95 .opacity-55}
 
     [:material-arrow-right-circle: Installation](getting-started/installation.md)
     {: .fs-95}
@@ -28,7 +28,7 @@
     ---
 
     Follow the tutorial to build a complete prisoner’s dilemma experiment.
-    {: .fs-95 .text-opacity-55}
+    {: .fs-95 .opacity-55}
 
     [:material-arrow-right-circle: Tutorial](getting-started/tutorial.md)
     {: .fs-95}
@@ -38,7 +38,7 @@
     ---
 
     Group participants, synchronize progress, and enable real-time interaction.
-    {: .fs-95 .text-opacity-55}
+    {: .fs-95 .opacity-55}
 
     [:material-arrow-right-circle: Multiplayer experiments](multiplayer/groups.md)
     {: .fs-95}
@@ -48,7 +48,7 @@
     ---
 
     Ready-to-use experiments covering common paradigms and techniques.
-    {: .fs-95 .text-opacity-55}
+    {: .fs-95 .opacity-55}
 
     [:material-arrow-right-circle: Example apps](https://github.com/mrpg/uproot-examples)
     {: .fs-95}
@@ -58,7 +58,7 @@
     ---
 
     Build experiments faster with Claude Code, Codex, and other agentic coding tools.
-    {: .fs-95 .text-opacity-55}
+    {: .fs-95 .opacity-55}
 
     [:material-arrow-right-circle: Set up AI tooling](getting-started/installation.md#set-up-ai-assisted-development)
     {: .fs-95}
