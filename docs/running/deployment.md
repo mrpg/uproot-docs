@@ -1,16 +1,71 @@
 # Deployment
 
-This page covers deploying uproot experiments for production use.
+This page explains how to make your experiment accessible over the internet. It assumes you have [installed uproot and created a project](../getting-started/installation.md).
 
-## Self-hosted with nginx (recommended)
+Choose the option that suits you:
 
-The recommended way to run uproot in production is behind an nginx reverse proxy. This setup gives you full control and works well on any VPS or dedicated server. **We strongly recommend that you use a VPS with Debian 13+.** (While uproot itself works flawlessly on Ubuntu, using Ubuntu is in general considered bad practice. uproot also works on OpenBSD.)
+1. **[Use Cloudflare](#option-1-use-cloudflare).** If you have a computer with a stable, high-bandwidth internet connection, run uproot there and let Cloudflare connect participants to it. The same approach also works on a VPS.
+2. **[Self-host on your own VPS](#option-2-self-host-on-your-own-vps).** A virtual private server (VPS) is a rented computer that you manage remotely. Use nginx and Let’s Encrypt for full control over your web server and HTTPS setup—no third-party service touches participant traffic.
+3. **[Use a hosting service](#option-3-use-a-hosting-service).** Deploy to Fly.io, Railway, Render, or Heroku using the instructions below.
+
+## Option 1: Use Cloudflare
+
+[Cloudflare Tunnel](https://developers.cloudflare.com/tunnel/) connects your computer to Cloudflare, which forwards participants’ requests to uproot. Your experiment and database stay on your computer. Cloudflare provides the public [HTTPS](https://developer.mozilla.org/en-US/docs/Glossary/HTTPS) address, which encrypts the browser connection, without requiring you to configure nginx, certificates, or port forwarding on your router.
+
+### Try it for free
+
+[TryCloudflare](https://try.cloudflare.com/) gives you a temporary public address for free, without a Cloudflare account or your own domain name.
+
+First, :material-github: [install `cloudflared` for your operating system](https://github.com/cloudflare/cloudflared#installing-cloudflared) and set an [admin password](admin.md#authentication). In your project directory, [start uproot](../reference/cli.md#uproot-run):
+
+```bash
+uv run uproot run
+```
+
+In a second terminal on the same computer, run:
+
+```bash
+cloudflared tunnel --url http://localhost:8000
+```
+
+The command prints a public address such as `https://random-words.trycloudflare.com`. Leave the tunnel running. In your project’s [`.env` file](../getting-started/project-structure.md), add or update this line, replacing the example with the address you received:
+
+```text
+UPROOT_ORIGIN=https://random-words.trycloudflare.com
+```
+
+This tells uproot which public address to use for links. uproot reads `.env` at startup, so stop it with ++ctrl+c++ in its terminal, then run `uv run uproot run` again to pick up the change. Open the public address followed by `/admin/`, sign in, and create a [session or room](rooms.md). Share the participant links from the admin interface.
+
+Keep both terminals running and prevent the computer from sleeping while anyone is using the experiment. Its internet connection needs sufficient **upload bandwidth**, since your computer sends the experiment’s pages and files to participants. If you restart the Quick Tunnel, update `UPROOT_ORIGIN` with its new address and restart uproot before sharing new links.
+
+!!! note "For testing"
+    Cloudflare’s [Quick Tunnels](https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/do-more-with-tunnels/trycloudflare/) are intended for testing and development. They have no uptime guarantee and a limit of 200 simultaneous requests. For collecting research data, use a permanent tunnel as described below.
+
+### Use a permanent address for production
+
+For a stable address such as `https://study.example.com`, follow Cloudflare’s [tunnel setup guide](https://developers.cloudflare.com/tunnel/get-started/). You need a Cloudflare account and a domain name added to it. Give the tunnel a name, choose your public hostname, and point it to `http://localhost:8000`. Update `UPROOT_ORIGIN` to the public HTTPS address and restart uproot.
+
+Permanent tunnels and custom hostnames are available on the free plan. For production use, we recommend a [paid Cloudflare plan](https://www.cloudflare.com/plans/pro/) for additional security features. See [current plans and pricing](https://www.cloudflare.com/plans/) before choosing. Payment is not required simply to name a tunnel or use your own domain.
+
+Cloudflare publishes [GDPR safeguards and a data processing addendum](https://www.cloudflare.com/trust-hub/gdpr/). Because participant traffic passes through Cloudflare, your institution should assess whether the setup meets your study’s data-protection requirements.
+
+!!! tip "Use the same setup on a VPS"
+    You can also install uproot and `cloudflared` on a VPS and point a permanent tunnel to `http://localhost:8000` there. Cloudflare handles public HTTPS, saving you the nginx and Let’s Encrypt setup, and your experiment and database live on the VPS so your personal computer can be switched off.
+
+    1. Follow the [VPS setup guide](vps-setup.md) to prepare the server.
+    2. [Start uproot on boot](vps-setup.md#start-uproot-on-boot) with a systemd service.
+    3. Use Cloudflare’s tunnel setup in place of the nginx and certificate steps.
+    4. [Run `cloudflared` as a service](https://developers.cloudflare.com/tunnel/get-started/#create-a-tunnel) so it starts automatically.
+
+## Option 2: Self-host on your own VPS
+
+For full control over your deployment, run uproot behind [nginx](https://nginx.org/en/docs/beginners_guide.html), a web server that forwards requests to uproot as a *reverse proxy*. You manage the server, certificates, and software yourself. This is the most sovereign option: participants connect directly to your VPS, and you choose who provides the infrastructure. **We strongly recommend that you use a VPS with Debian 13+.** (While uproot itself works flawlessly on Ubuntu, using Ubuntu is in general considered bad practice. uproot also works on OpenBSD.)
 
 !!! tip "New to VPS deployment?"
     If you are setting up a server from scratch, follow the [complete VPS setup guide](vps-setup.md). It covers everything from getting a VPS to a working HTTPS setup, step by step.
 
 !!! warning "HTTPS required"
-    uproot requires HTTPS in production. Many browser features (like the secure cookies needed for accessing the admin area) only work over HTTPS. Use [Let’s Encrypt](https://letsencrypt.org/) with `certbot` to get free TLS certificates.
+    uproot requires HTTPS in production. Many browser features (like the secure cookies needed for accessing the admin area) only work over HTTPS. Use [Let’s Encrypt](https://letsencrypt.org/) with [Certbot](https://certbot.eff.org/instructions) to get free TLS certificates—the credentials your web server uses to provide HTTPS.
 
 ### Running uproot
 
@@ -29,7 +84,7 @@ uproot listens on port 8000 by default. Use `--port` to change it if needed.
 
 ### nginx configuration
 
-Configure nginx as a reverse proxy. The WebSocket upgrade headers are required for real-time features. The following example config (to be added within an existing `http` block) is battle-tested and has been proven to work reliably:
+Configure nginx as a reverse proxy. [WebSockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) keep a connection open between the browser and server; the upgrade headers below are required for uproot’s [real-time features](../multiplayer/real-time.md). The following example config (to be added within an existing `http` block) is battle-tested and has been proven to work reliably:
 
 ```nginx
 map $http_upgrade $connection_upgrade {
@@ -112,7 +167,11 @@ The admin interface will be at `https://example.com/my-study/admin/`.
 !!! tip "Persistent configuration"
     If you run uproot via a systemd service, set the variable in an environment file or in the service unit’s `Environment=` directive so it persists across restarts.
 
-## Fly.io with SQLite
+## Option 3: Use a hosting service
+
+These services run uproot on infrastructure they manage. Choose [Fly.io](#flyio-with-sqlite), [Railway](#railway-with-sqlite), or [Render](#render-with-sqlite) to keep the default SQLite database, or [Heroku](#heroku) with PostgreSQL. Follow the storage instructions for your chosen service so that saved experiment data survives restarts.
+
+### Fly.io with SQLite
 
 [Fly.io](https://fly.io/) supports long-running WebSocket connections and persistent volumes, so you can run uproot with its default SQLite database. Fly charges for the Machines, volumes, and network traffic that you use; check its [current pricing](https://fly.io/docs/about/pricing/) before you deploy.
 
@@ -122,7 +181,7 @@ The admin interface will be at `https://example.com/my-study/admin/`.
     - Regional deployment for lower latency
     - Native support for persistent volumes
 
-### Prerequisites
+#### Prerequisites
 
 1. Create a [Fly.io account](https://fly.io/app/sign-up)
 2. Install the [Fly CLI](https://fly.io/docs/flyctl/install/):
@@ -143,7 +202,7 @@ The admin interface will be at `https://example.com/my-study/admin/`.
 fly auth login
 ```
 
-### Deploy your experiment
+#### Deploy your experiment
 
 Navigate to your uproot project directory and run:
 
@@ -187,7 +246,7 @@ primary_region = "iad"  # or your chosen region
 Replace `your-app-name` and `iad` with the app name and region selected by `fly launch`.
 If you later add a custom domain, update `UPROOT_ORIGIN` to that domain.
 
-### Adding persistent storage for SQLite
+#### Adding persistent storage for SQLite
 
 Create a persistent volume to ensure your SQLite database survives app restarts:
 
@@ -208,7 +267,7 @@ The `UPROOT_SQLITE3` setting above points uproot at the mounted volume.
 !!! warning "Use one Machine"
     A Fly volume is attached to one Machine and is not automatically replicated. Keep this SQLite deployment at one Machine; do not clone the Machine or scale it horizontally.
 
-### Set the admin password
+#### Set the admin password
 
 New uproot projects use `upd.auto_login()` in `main.py`. Set the production password as a Fly secret so that it is not committed to Git:
 
@@ -222,7 +281,7 @@ If your project does not already contain this line, add it to `main.py`:
 upd.ADMINS["admin"] = upd.auto_login()
 ```
 
-### Deploy
+#### Deploy
 
 Deploy your application:
 
@@ -236,7 +295,7 @@ After deployment completes, Fly will show your app’s URL. Open it in your brow
 fly open
 ```
 
-### Monitoring and logs
+#### Monitoring and logs
 
 View your app’s logs:
 
@@ -252,11 +311,11 @@ fly status
 
 Access the admin interface at `https://your-app-name.fly.dev/admin/`.
 
-## Railway with SQLite
+### Railway with SQLite
 
 [Railway](https://railway.com/) can deploy an uproot project directly from GitHub. Its WebSocket connections are [exempt from inactivity timeouts](https://docs.railway.com/networking/public-networking/specs-and-limits), but its ordinary container disk is temporary. You must attach a [volume](https://docs.railway.com/volumes) for the SQLite database.
 
-### Quick start
+#### Quick start
 
 1. Sign up at [railway.com](https://railway.com/) and create a project from your GitHub repository.
 2. Open the uproot service’s **Settings** tab. Under **Deploy**, set the start command to `uproot run -h 0.0.0.0 -p $PORT`. This is the same command as the generated `Procfile`, but setting it explicitly avoids relying on [deprecated Procfile detection](https://railpack.com/config/procfile/).
@@ -276,11 +335,11 @@ The password variable assumes that `main.py` contains `upd.ADMINS["admin"] = upd
 
 Railway services with a volume [cannot use replicas and have a short period of downtime during a redeploy](https://docs.railway.com/volumes/reference). Do not redeploy while an experiment is running.
 
-## Render with SQLite
+### Render with SQLite
 
 [Render](https://render.com/) supports WebSockets without a fixed connection timeout and can attach a persistent disk to a paid web service. Do not use a free web service for a real experiment: free services cannot attach a disk, and their local SQLite files are [lost when the service restarts, redeploys, or spins down](https://render.com/docs/free#local-files-lost-on-redeploy).
 
-### Quick start
+#### Quick start
 
 1. Sign up at [render.com](https://render.com/) and select **New > Web Service**.
 2. Connect the Git repository that contains your uproot project and choose the **Python 3** runtime.
@@ -302,7 +361,7 @@ The password variable assumes that `main.py` contains `upd.ADMINS["admin"] = upd
 !!! warning "Persistent-disk limitations"
     A Render persistent disk is available to only one service instance and [disables zero-downtime deploys](https://render.com/docs/disks#disk-limitations-and-considerations). This matches uproot’s single-process live state, but it means each deploy briefly stops the experiment. Keep one instance and do not deploy while participants are active. Render can also replace an instance during platform maintenance, which closes its [WebSocket connections](https://render.com/docs/websocket#faq).
 
-## Heroku
+### Heroku
 
 Heroku can run uproot with PostgreSQL. A Heroku dyno’s local disk is temporary, so the default SQLite database is not suitable for production there.
 
@@ -312,7 +371,7 @@ Heroku can run uproot with PostgreSQL. A Heroku dyno’s local disk is temporary
 !!! warning "Dyno restarts"
     Heroku [restarts dynos at least daily](https://devcenter.heroku.com/articles/dyno-restarts), as well as after deploys and configuration changes. PostgreSQL keeps the saved data, but a restart interrupts active connections and in-process background tasks. Restart or deploy shortly before a scheduled experiment, and do not change the app while participants are active.
 
-### Prerequisites
+#### Prerequisites
 
 1. Create a [Heroku account](https://signup.heroku.com/)
 2. Install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
@@ -322,7 +381,7 @@ Heroku can run uproot with PostgreSQL. A Heroku dyno’s local disk is temporary
 heroku login
 ```
 
-### Deploy your experiment
+#### Deploy your experiment
 
 First, add PostgreSQL support to the project’s main dependencies:
 
