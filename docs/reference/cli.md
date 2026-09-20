@@ -16,7 +16,7 @@ uproot setup my_project
 |--------|-------------|
 | `--force` | Overwrite existing files |
 | `--minimal` | Create a minimal project without the example app |
-| `--no-example` | Skip the example app |
+| `--no-example`{ .text-nowrap } | Skip the example app |
 
 ### uproot api
 
@@ -68,7 +68,7 @@ uproot run
 | `-h`, `--host` | `127.0.0.1` | Host to bind to |
 | `-p`, `--port` | `8000` | Port to listen on |
 | `--unsafe` | — | Disable HTTPS requirement (for development behind certain proxies) |
-| `--public-demo` | — | Run in public demo mode (restricted admin) |
+| `--public-demo`{ .text-nowrap } | — | Run in public demo mode (restricted admin) |
 
 ### uproot start
 
@@ -92,8 +92,8 @@ options as `uproot run`, plus:
 
 | Option | Description |
 |--------|-------------|
-| `CONFIG` or `--config` | Config to use (optional if the project has exactly one config) |
-| `--simulate` | Enable the app’s `simulate.js` responses for the quick room’s session (see [App testing](../running/admin.md#app-testing)) |
+| `CONFIG` or `--config`{ .text-nowrap } | Config to use (optional if the project has exactly one config) |
+| `--simulate`{ .text-nowrap } | Enable the app’s `simulate.js` responses for the quick room’s session (see [App testing](../running/admin.md#app-testing)) |
 
 ### uproot reset
 
@@ -149,7 +149,7 @@ uproot new my_app
 
 | Option | Description |
 |--------|-------------|
-| `--minimal` | Create a minimal app without example code |
+| `--minimal`{ .text-nowrap } | Create a minimal app without example code |
 
 This creates a new directory with `__init__.py` and starter template files. You still need to register the app in `main.py` using `load_config`.
 

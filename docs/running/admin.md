@@ -83,7 +83,7 @@ Select one or more players and use these actions:
 | **Redirect** | Send selected players to an external URL |
 | **Set fields** | Set arbitrary field values on selected players |
 | **Group/ungroup** | Manually create or dissolve groups |
-| **Run new_player** | Re-run the `new_player` callback for selected players |
+| **Run `new_player`** | Re-run the `new_player` callback for selected players |
 
 ### Session controls
 
@@ -93,7 +93,7 @@ Select one or more players and use these actions:
 | **Toggle testing** | Mark the session as a test run (useful for filtering data later) |
 | **Update description** | Add a note about the session |
 | **Update settings** | Modify session settings (JSON) |
-| **Run new_session** | Re-run the `new_session` callback |
+| **Run `new_session`** | Re-run the `new_session` callback |
 
 ### Data browser
 
@@ -248,7 +248,7 @@ Download a complete database dump from `/admin/dump/`. This is equivalent to run
 | New session | `/admin/sessions/new/` | Create a session |
 | Session detail | `/admin/session/{sname}/` | Monitor and control a session |
 | Admin chat | `/admin/session/{sname}/chat/` | Chat with individual participants |
-| Data browser | `/admin/session/{sname}/viewdata/` | Browse session data |
+| Data browser | `/admin/session/{sname}/viewdata/`{ .text-nowrap } | Browse session data |
 | Data download | `/admin/session/{sname}/data/` | Download session data as a ZIP archive |
 | Rooms | `/admin/rooms/` | List all rooms |
 | Status | `/admin/status/` | Server information |

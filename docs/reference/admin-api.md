@@ -103,7 +103,7 @@ Create a new session with the specified configuration and players.
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `config` | string | Yes | Configuration name |
-| `n_players` | integer | Yes | Number of players to create (min: `0.0`) |
+| `n_players`{ .text-nowrap } | integer | Yes | Number of players to create (min: `0.0`) |
 | `sname` | string or null | No | Custom session name (auto-generated if omitted) |
 | `unames` | array[string] or null | No | Custom usernames for players |
 | `settings` | object or null | No | Session settings |
@@ -167,13 +167,13 @@ Update the description of a session.
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `description` | string | No | New description (empty to clear) (default: ``) |
+| `description`{ .text-nowrap } | string | No | New description (empty to clear) (default: ``) |
 
 **Responses**:
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -191,7 +191,7 @@ Run new_session callbacks for a session that has not been initialized.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -215,7 +215,7 @@ Update the settings of a session.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -233,7 +233,7 @@ Toggle the testing mode of a session.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -253,7 +253,7 @@ Get player metadata needed to reproduce the admin multiview.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -277,7 +277,7 @@ Get specified fields for all players in a session.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -301,7 +301,7 @@ Advance specified players by one page.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -325,7 +325,7 @@ Mark specified players as manually dropped out.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -349,7 +349,7 @@ Move specified players to the end of the experiment.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -395,7 +395,7 @@ Manage group assignments for selected players.
 |-------|------|----------|-------------|
 | `unames` | array[string] | Yes | List of usernames (min items: `1`) |
 | `action` | string | Yes | Grouping action: same_group, reset, or by_size |
-| `group_size` | integer | No | Group size for by_size (min: `1.0`; default: `1`) |
+| `group_size`{ .text-nowrap } | integer | No | Group size for by_size (min: `1.0`; default: `1`) |
 | `shuffle` | boolean | No | Shuffle players before grouping (default: `False`) |
 | `reload` | boolean | No | Whether to trigger page reload (default: `False`) |
 
@@ -403,7 +403,7 @@ Manage group assignments for selected players.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -427,7 +427,7 @@ Run new_player callbacks for players that have not been initialized.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -452,7 +452,7 @@ Send an admin message to specified players.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -470,7 +470,7 @@ Get online status and info for all players in a session.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -495,7 +495,7 @@ Redirect specified players to an external URL.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -519,7 +519,7 @@ Force page reload for specified players.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -543,7 +543,7 @@ Revert specified players by one page.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -568,7 +568,7 @@ Adjust the page timeout for specified players.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -588,7 +588,7 @@ Summarize admin chat state for each player in a session.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -608,13 +608,13 @@ Send an admin chat message to multiple players at once.
 |-------|------|----------|-------------|
 | `unames` | array[string] | Yes | List of usernames (min items: `1`) |
 | `message` | string | Yes | Message to send |
-| `enable_replies` | boolean or null | No | Optionally update whether all recipients may reply |
+| `enable_replies`{ .text-nowrap } | boolean or null | No | Optionally update whether all recipients may reply |
 
 **Responses**:
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -639,7 +639,7 @@ Enable or disable admin chat replies for multiple players.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -678,13 +678,13 @@ Send an admin chat message to one player.
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `message` | string | Yes | Message to send |
-| `enable_replies` | boolean or null | No | Optionally update whether the player may reply |
+| `enable_replies`{ .text-nowrap } | boolean or null | No | Optionally update whether the player may reply |
 
 **Responses**:
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -709,7 +709,7 @@ Enable or disable a player’s ability to reply in admin chat.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -735,7 +735,7 @@ Get all session data in display format, optionally filtered by timestamp.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -753,7 +753,7 @@ Download a ZIP briefcase of session data, as in the admin UI. The briefcase alwa
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `filetype` | string | No | Export file type: csv or jsonl |
+| `filetype`{ .text-nowrap } | string | No | Export file type: csv or jsonl |
 | `gvar` | array[string] | No | Group-by variables for the optional grouped latest format |
 | `filters` | boolean | No | Apply reasonable filters |
 
@@ -761,7 +761,7 @@ Download a ZIP briefcase of session data, as in the admin UI. The briefcase alwa
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -787,7 +787,7 @@ Download session data as JSONL (streaming).
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -805,7 +805,7 @@ Download page visit times as CSV.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -825,7 +825,7 @@ Run all available app digests for a session.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -843,7 +843,7 @@ Render the app-authored AdminDigest.html fragments shown by the admin UI.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -881,7 +881,7 @@ Render one app-authored AdminDigest.html fragment.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -899,7 +899,7 @@ List apps that provide a pipeline for a session.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -917,7 +917,7 @@ Render app-authored AdminPipeline.html fragments shown by the admin UI.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -936,7 +936,7 @@ Render one app-authored AdminPipeline.html fragment.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -964,7 +964,7 @@ Run an app pipeline without custom JSON data, matching the admin UI button.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -992,7 +992,7 @@ Run an app pipeline, optionally passing a JSON request body.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -1006,7 +1006,7 @@ List all rooms with their configuration.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -1021,7 +1021,7 @@ Create a new room.
 | `name` | string | Yes | Room name (min length: `1`) |
 | `config` | string or null | No | Default configuration for sessions |
 | `labels` | array[string] or null | No | Allowed labels for participants |
-| `capacity` | integer or null | No | Maximum capacity |
+| `capacity`{ .text-nowrap } | integer or null | No | Maximum capacity |
 | `open` | boolean or null | No | Whether the room is open for joining (defaults to true if sname is given, false otherwise) |
 | `sname` | string or null | No | Associated session name |
 
@@ -1041,7 +1041,7 @@ Get detailed information about a specific room.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `roomname` | string | Yes |  |
+| `roomname`{ .text-nowrap } | string | Yes |  |
 
 **Responses**:
 
@@ -1059,7 +1059,7 @@ Update room settings, optionally associating an existing session (only when no s
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `roomname` | string | Yes |  |
+| `roomname`{ .text-nowrap } | string | Yes |  |
 
 **Request body** (`RoomUpdate`):
 
@@ -1067,7 +1067,7 @@ Update room settings, optionally associating an existing session (only when no s
 |-------|------|----------|-------------|
 | `config` | string or null | No | Default configuration |
 | `labels` | array[string] or null | No | Allowed labels |
-| `capacity` | integer or null | No | Maximum capacity |
+| `capacity`{ .text-nowrap } | integer or null | No | Maximum capacity |
 | `open` | boolean or null | No | Whether the room is open (defaults to true if sname is given, otherwise unchanged) |
 | `sname` | string or null | No | Existing session to associate with the room |
 
@@ -1075,7 +1075,7 @@ Update room settings, optionally associating an existing session (only when no s
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -1087,13 +1087,13 @@ Delete a room (only when no session is associated).
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `roomname` | string | Yes |  |
+| `roomname`{ .text-nowrap } | string | Yes |  |
 
 **Responses**:
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -1105,7 +1105,7 @@ Set a room’s capacity, even while a session is associated.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `roomname` | string | Yes |  |
+| `roomname`{ .text-nowrap } | string | Yes |  |
 
 **Request body** (`RoomCapacity`):
 
@@ -1117,7 +1117,7 @@ Set a room’s capacity, even while a session is associated.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -1135,13 +1135,13 @@ Close a room, optionally disassociating its session first.
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `disassociate` | boolean | No | If true, disassociate the session before closing (default: `False`) |
+| `disassociate`{ .text-nowrap } | boolean | No | If true, disassociate the session before closing (default: `False`) |
 
 **Responses**:
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -1153,13 +1153,13 @@ Get online status for a room’s waiting area.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `roomname` | string | Yes |  |
+| `roomname`{ .text-nowrap } | string | Yes |  |
 
 **Responses**:
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -1171,7 +1171,7 @@ Set a room’s open status without requiring disassociation.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `roomname` | string | Yes |  |
+| `roomname`{ .text-nowrap } | string | Yes |  |
 
 **Request body** (`RoomOpen`):
 
@@ -1183,7 +1183,7 @@ Set a room’s open status without requiring disassociation.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -1202,7 +1202,7 @@ Create a new session within a room.
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `config` | string | Yes | Configuration name |
-| `n_players` | integer | Yes | Number of players (min: `0.0`) |
+| `n_players`{ .text-nowrap } | integer | Yes | Number of players (min: `0.0`) |
 | `assignees` | array[string] or null | No | Labels to assign to players |
 | `settings` | object or null | No | Session settings |
 | `sname` | string or null | No | Custom session name |
@@ -1214,7 +1214,7 @@ Create a new session within a room.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `201` | `application/json` | Successful Response |
+| `201` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -1226,13 +1226,13 @@ Disassociate a room from its current session.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `roomname` | string | Yes |  |
+| `roomname`{ .text-nowrap } | string | Yes |  |
 
 **Responses**:
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -1246,7 +1246,7 @@ Fetch announcements from upstream.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -1266,7 +1266,7 @@ Create the same browser admin session token as submitting /admin/login/.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `201` | `application/json` | Successful Response |
+| `201` | `application/json`{ .text-nowrap } | Successful Response |
 | `429` | `application/json` | Too many failed login attempts |
 
 !!! note
@@ -1282,7 +1282,7 @@ Get information about active authentication sessions.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -1303,7 +1303,7 @@ Revoke all browser admin sessions for one user.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -1315,13 +1315,13 @@ Revoke all browser admin sessions for the user named by one token.
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `auth_token` | string | Yes | Value of the uauth browser cookie |
+| `auth_token`{ .text-nowrap } | string | Yes | Value of the uauth browser cookie |
 
 **Responses**:
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -1333,13 +1333,13 @@ Revoke one browser admin session token, matching /admin/logout/.
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `auth_token` | string | Yes | Value of the uauth browser cookie |
+| `auth_token`{ .text-nowrap } | string | Yes | Value of the uauth browser cookie |
 
 **Responses**:
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -1354,7 +1354,7 @@ Download a complete machine-readable database dump.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/gzip` | Gzip-compressed database dump |
+| `200` | `application/gzip`{ .text-nowrap } | Gzip-compressed database dump |
 
 ---
 
@@ -1366,7 +1366,7 @@ Fetch the same praise text shown by the admin UI.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---
 
@@ -1378,6 +1378,6 @@ Get status information.
 
 | Status | Content | Description |
 |--------|---------|-------------|
-| `200` | `application/json` | Successful Response |
+| `200` | `application/json`{ .text-nowrap } | Successful Response |
 
 ---

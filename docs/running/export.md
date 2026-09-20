@@ -90,7 +90,7 @@ Columns that start with `!` come from uproot itself; they sort to the front and 
 | `!time` | Unix timestamp of the change |
 | `!seq` | Sequence number of the change (for exact ordering) |
 | `!context` | Code location that made the change |
-| `!unavailable` | Whether this row marks a deletion (a tombstone) |
+| `!unavailable`{ .text-nowrap } | Whether this row marks a deletion (a tombstone) |
 | `!data` | The value |
 
 `latest` files just have `!storage`, `!time`, and `!seq` (the time and sequence of the most recent change reflected in the row), followed by one column per field.
@@ -250,7 +250,7 @@ Every briefcase includes a `page_times.csv` (or `.jsonl`) file tracking when eac
 |--------|-------------|
 | `sname` | Session name |
 | `uname` | Player name |
-| `show_page` | Page index |
+| `show_page`{ .text-nowrap } | Page index |
 | `page_name` | Page class name |
 | `entered` | Unix timestamp when the player entered the page |
 | `left` | Unix timestamp when the player left the page |

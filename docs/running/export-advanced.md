@@ -114,7 +114,7 @@ with read("uproot.sqlite3") as db:
 
 | Method | Identifier columns | Extra fields |
 |--------|--------------------|--------------|
-| `db.session_rows(fields)` | `session` | Yes |
+| `db.session_rows(fields)`{ .text-nowrap } | `session` | Yes |
 | `db.group_rows(fields)` | `session`, `group` | Yes |
 | `db.player_rows(fields)` | `session`, `uname` | Yes |
 | `db.membership_rows()` | `session`, `group`, `uname`, `position` | No |
@@ -144,7 +144,7 @@ print(snap.as_dict())      # single dict with all four tables
 | `db.session(sname)` | Get a session by name |
 | `db.group(sname, gname)` | Get a group by session and group name |
 | `db.player(sname, uname)` | Get a player by session and username |
-| `db.session_rows(fields)` | Plain dictionaries, one per session |
+| `db.session_rows(fields)`{ .text-nowrap } | Plain dictionaries, one per session |
 | `db.group_rows(fields)` | Plain dictionaries, one per group |
 | `db.player_rows(fields)` | Plain dictionaries, one per player |
 | `db.membership_rows()` | Plain dictionaries, one per group membership |

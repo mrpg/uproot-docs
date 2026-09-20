@@ -114,7 +114,7 @@ class Context(PlayerContext):
 | Access | How the class is selected | Use it when |
 |--------|---------------------------|-------------|
 | `player.context` | uproot reads `player.app` and uses that app’s `Context` class | A page method or template is running inside the app |
-| `Context(player)` | Python resolves the `Context` name directly in the app module | Code is outside page execution, such as a callable `page_order(player=)` or `digest(session)` |
+| `Context(player)`{ .text-nowrap } | Python resolves the `Context` name directly in the app module | Code is outside page execution, such as a callable `page_order(player=)` or `digest(session)` |
 
 `player.context` is `None` when the participant has no active app or the active app defines no `Context` class. See [The PlayerContext class](../building/pages.md#the-playercontext-class) for the lifecycle details and examples.
 
@@ -389,7 +389,7 @@ A collection of storage objects (players, groups) with query methods.
 | `len(bunch)` | Number of items |
 | `bunch[i]` | Get by index |
 | `item in bunch` | Membership test |
-| `bunch.filter(*.comparisons)` | Filter by field values using `_` |
+| `bunch.filter(*.comparisons)`{ .text-nowrap } | Filter by field values using `_` |
 | `bunch.find_one(**kwargs)` | Find exactly one match |
 | `bunch.assign(key, values)` | Set a field on all items |
 | `bunch.each(*keys)` | Extract fields from all items |
