@@ -296,7 +296,7 @@ field_names = player.fields()
 | Storage level | Access | Use for |
 |---------------|--------|---------|
 | `player.field` | Individual | Participant responses, computed values |
-| `player.session.field` | Shared | Session config, aggregate statistics |
+| `player.session.field`{ .text-nowrap } | Shared | Session config, aggregate statistics |
 | `player.group.field` | Group only | Group state, shared resources |
 
 | Pattern | When to use |
@@ -305,6 +305,6 @@ field_names = player.fields()
 | `with player as p:` | Mutating lists or dicts outside page methods |
 | `hasattr(player, "x")` | Checking if a field exists |
 | `player.fields()` | Listing the currently available fields |
-| `player.history()` | Accessing the complete audit trail |
+| `player.history()`{ .text-nowrap } | Accessing the complete audit trail |
 
 [:material-github: See data patterns in the examples](https://github.com/mrpg/uproot-examples)
