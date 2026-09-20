@@ -27,7 +27,7 @@ page_order = [
 
 [:material-github: See the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma)
 
-## Assigning roles with after_grouping
+## Assigning roles with `after_grouping`
 
 Use the `after_grouping` callback to assign roles or initialize group members when the group forms:
 
@@ -64,7 +64,7 @@ class GroupPlease(GroupCreatingWait):
 
 ## Accessing group members
 
-### group.players
+### `group.players`
 
 Get all players in a group as a `StorageBunch` using the virtual field:
 
@@ -146,7 +146,7 @@ group.players.apply(set_payoff)
 
 See [Synchronizing progress](synchronization.md#using-apply-for-bulk-operations) for a full example.
 
-### player.other_in_group
+### `player.other_in_group`
 
 For two-person groups, access the other player via the virtual field:
 
@@ -161,7 +161,7 @@ Raises an error if the group does not have exactly two members.
 
 [:material-github: See the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma) · [twobytwo example](https://github.com/mrpg/uproot-examples/tree/master/twobytwo)
 
-### player.others_in_group
+### `player.others_in_group`
 
 For groups of any size, get all other members (excluding the current player):
 
@@ -269,7 +269,7 @@ page_order = [
 
 [:material-github: See the grouping example](https://github.com/mrpg/uproot-examples/tree/master/grouping) · [grouping_arbitrary_size example](https://github.com/mrpg/uproot-examples/tree/master/grouping_arbitrary_size) · [grouping_one_spare example](https://github.com/mrpg/uproot-examples/tree/master/grouping_one_spare) · [group_with_dropout example](https://github.com/mrpg/uproot-examples/tree/master/group_with_dropout)
 
-### create_group()
+### `create_group()`
 
 Creates a single group from a list of players:
 
@@ -284,7 +284,7 @@ gid = create_group(session, members, gname="custom_name")
 gid = create_group(session, members, overwrite=True)
 ```
 
-### create_groups()
+### `create_groups()`
 
 Creates multiple groups at once:
 
@@ -295,7 +295,7 @@ pairs = [[all_players[i], all_players[i+1]] for i in range(0, len(all_players), 
 gids = create_groups(session, pairs)
 ```
 
-### add_to_group()
+### `add_to_group()`
 
 Adds players to an existing group. This is useful when latecomers need to join a group that has already been created:
 
