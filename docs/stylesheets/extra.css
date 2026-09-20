@@ -30,6 +30,13 @@
         var(--fvn-alt,);
 }
 
+.fs-90 {
+  font-size: 90% !important;
+}
+.fs-95 {
+  font-size: 95% !important;
+}
+
 .fw-500 {
   font-weight: 500 !important;
 }
@@ -53,6 +60,25 @@ a.headerlink {
 /* Dial back salience of targeted headerlinks (pilcrow) */
 .md-typeset :target>.headerlink {
   opacity: 0.5 !important;
+}
+
+.text-opacity-50 {
+  opacity: 0.50;
+}
+.text-opacity-55 {
+  opacity: 0.55;
+}
+.text-opacity-60 {
+  opacity: 0.60;
+}
+.text-opacity-67 {
+  opacity: 0.67;
+}
+.text-opacity-75 {
+  opacity: 0.75;
+}
+.cards li:hover p {
+  opacity: 1 !important;
 }
 
 body {
@@ -127,7 +153,7 @@ p code {
 /* Slightly increase font size for admonitions and notes */
 .admonition,
 .note {
-  font-size: 0.7rem !important;
+  font-size: 95% !important;
 }
 /* Style admonitions and notes like callouts */
 .admonition,
@@ -154,9 +180,17 @@ details.note {
 .mt-4 {
   margin-top: 1.5rem !important;
 }
+.my-1 {
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+}
 .my-2 {
   margin-top: 0.5rem !important;
   margin-bottom: 0.5rem !important;
+}
+.my-3 {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
 }
 
 /* Harmonize border-width across elements */
