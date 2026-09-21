@@ -12,28 +12,45 @@ http://127.0.0.1:8000/admin/
 
 ### Authentication
 
-On localhost with the default config (`upd.ADMINS["admin"] = ...`), uproot prints an auto-login URL when the server starts:
+uproot lets you sign in with a secret login link or a password. The default setup in [`main.py`](../getting-started/project-structure.md#the-mainpy-file) supports both:
+
+```python
+upd.ADMINS["admin"] = upd.auto_login()
+```
+
+When `UPROOT_ADMIN_PASSWORD` is unset or empty and `admin` is the only admin account, uproot prints an auto-login URL when the server starts:
 
 ```
 Auto login:
      http://127.0.0.1:8000/admin/login/#aBcDeFgHiJkL...
 ```
 
-For production, set a password in `main.py`:
+The link authenticates you as `admin` using a cryptographically random secret token. You can use it locally or in production. Keep the link and server logs private, and use HTTPS for [public deployments](deployment.md).
 
-```python
-upd.ADMINS["admin"] = "your-secure-password"
+#### Password login
+
+For password login, set `UPROOT_ADMIN_PASSWORD`, an **environment variable** (a named startup setting). Use your hosting provider’s secret settings or a `.env` file in the project directory:
+
+```dotenv
+UPROOT_ADMIN_PASSWORD='replace-with-a-long-random-password'
 ```
 
-You can define multiple admin accounts:
+Replace the example value with a long, unique password. uproot rejects passwords shorter than five characters at startup. Keep `.env` out of Git and restrict access to it. uproot loads it automatically using [python-dotenv](https://bbc2.github.io/python-dotenv/#getting-started); existing environment variables take precedence.
+
+Restart the server, then sign in at `/admin/` as `admin`. A non-empty password replaces the login link; `main.py` stays unchanged.
+
+#### Multiple admin accounts
+
+Adding or renaming accounts disables the printed login link. Give each account its own password by replacing the single-account assignment in `main.py`:
 
 ```python
-upd.ADMINS["admin"] = "password1"
-upd.ADMINS["researcher"] = "password2"
+import os
+
+upd.ADMINS["admin"] = os.environ["UPROOT_ADMIN_PASSWORD"]
+upd.ADMINS["researcher"] = os.environ["UPROOT_RESEARCHER_PASSWORD"]
 ```
 
-!!! warning
-    Auto-login with `...` (Ellipsis) should only be used during local development. Always set a real password for production deployments.
+[`os.environ`](https://docs.python.org/3/library/os.html#os.environ) reads environment variables. Set both variables to different, long passwords as above. A missing variable stops startup with a `KeyError`; set it and restart. Use the first assignment alone to require password login for a single account.
 
 ## Dashboard
 

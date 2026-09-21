@@ -39,7 +39,7 @@ upd.project_metadata(created="1970-01-01", uproot="*.*.*")
 
 load_config(uproot_server, config="my_experiment", apps=["my_app"])
 
-upd.ADMINS["admin"] = upd.auto_login()  # Token login locally; password in production
+upd.ADMINS["admin"] = upd.auto_login()  # Secret login link, or password from the environment
 
 upd.LANGUAGE = "en"  # Built-in: "de", "en", "es", "ja"
 
@@ -76,13 +76,13 @@ load_config(
 
 ### Admin accounts
 
-```python
-# Auto-login on localhost (development only)
-upd.ADMINS["admin"] = ...
+Keep the default setup to sign in with a secret login link or a password:
 
-# Password-protected (required for production)
-upd.ADMINS["admin"] = "your-secure-password"
+```python
+upd.ADMINS["admin"] = upd.auto_login()
 ```
+
+When `UPROOT_ADMIN_PASSWORD` is unset or empty and `admin` is the only admin account, uproot prints a login link containing a cryptographically random secret token. You can use this locally or in production; keep the link private and use HTTPS on public servers. For password login, set `UPROOT_ADMIN_PASSWORD` through your hosting provider’s secret settings or a `.env` file kept out of Git. See [Admin authentication](../running/admin.md#authentication) for setup instructions and multiple accounts.
 
 ### API keys
 
@@ -209,7 +209,7 @@ SQLite works well in production too; uproot is optimized for it. PostgreSQL is a
 | `UPROOT_ORIGIN` | — | Public server URL |
 | `UPROOT_SUBDIRECTORY` | — | Subdirectory prefix for all routes |
 | `UPROOT_API_KEY` | — | Bearer token used by the `uproot api` client |
-| `UPROOT_ADMIN_PASSWORD`{ .text-nowrap } | — | Password used by `upd.auto_login()` when set |
+| `UPROOT_ADMIN_PASSWORD`{ .text-nowrap } | — | Password used by `upd.auto_login()`; unset or empty enables auto-login for a sole `admin` account |
 | `UPROOT_ALLOW_ENTER` | off | If `1`/`true`/`yes`/`on`, the Enter key submits participant forms |
 
 Run `uproot deployment` to see the current values.
