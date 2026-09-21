@@ -95,7 +95,7 @@ Available blocks:
 | `head` | Extra content in `<head>` (CSS, meta tags) |
 | `pre_main` | Before the main content, outside the Bootstrap container |
 | `main` | Main page content (inside the container) |
-| `main_full_width` | After `main`, full viewport width; use this for banners or charts that should break out of the container |
+| `main_full_width`{ .text-nowrap } | After `main`, full viewport width; use this for banners or charts that should break out of the container |
 | `main2` | A second container section after `main_full_width` |
 | `late` | Extra content at the end of `<body>` (scripts) |
 
@@ -119,7 +119,7 @@ The built-in templates also read a few optional Jinja variables. Set them near t
 | `disable_tabular_numbers` | `False` | Do not load the tabular-number font stylesheet |
 | `disable_terms` | `False` | Do not load the terms script |
 | `disable_auto_start` | `False` | Do not run the default `uproot.init()` and WebSocket startup hook |
-| `disable_connection_lost_modal` | `False` | Do not show or enable the connection-lost modal |
+| `disable_connection_lost_modal`{ .text-nowrap } | `False` | Do not show or enable the connection-lost modal |
 
 For admin templates that extend the built-in admin layout, `disable_navigation = True` hides the admin navigation bar.
 
@@ -434,7 +434,7 @@ Pages have several methods that run at different points:
 |--------|--------------|
 | `show` | Before displaying; return `False` to skip the page |
 | `early` | Earliest hook when entering the page; has the HTTP request |
-| `before_always_once` | Once when this page position is reached |
+| `before_always_once`{ .text-nowrap } | Once when this page position is reached |
 | `before_once` | Once per player, before first display |
 | `templatevars` | Before rendering; return template variables |
 | `after_once` | Once per player, after first submission |

@@ -65,7 +65,7 @@ Fragments are rendered server-side when the new-session page loads, once per con
 | `apps` | List of app names in that config |
 | `appname` | The app the fragment belongs to (`None` for a project-level fragment) |
 | `settings` | The config’s default settings, as declared via `load_config(..., settings={...})` |
-| `editor_id` | Unique ID for this editor—use it as your root element’s `id` and pass it to `registerSessionSettingsEditor` |
+| `editor_id`{ .text-nowrap } | Unique ID for this editor—use it as your root element’s `id` and pass it to `registerSessionSettingsEditor` |
 | `C` | The app’s constants class (app fragments only) |
 | `appstatic` | URL helper for the app’s static files (app fragments only) |
 

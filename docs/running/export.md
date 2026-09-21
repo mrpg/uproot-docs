@@ -8,7 +8,7 @@ This page shows you how to download that ZIP and how to analyze its contents. If
 
 On a session’s page in the admin interface, click **Download data**. You will see a short form:
 
-- **Latest × Field(s)** *(optional):* This adds an extra format with one row per player per grouping you specify (for example, one row per player per `round`). Leave it unchecked if you are not sure; you can always download again.
+- **Latest × Field(s):** This adds an extra format with one row per player per grouping you specify (for example, one row per player per `round`). You can uncheck this if your study does not make use of multiple apps or rounds. Leave it checked if you are not sure; this format encompasses the “latest” format.
 - **File type:** **CSV** (opens in Excel and every stats package) or **JSONL** (preserves data types; see [CSV or JSONL?](#csv-or-jsonl) below).
 - **Apply reasonable filters:** This is checked by default. It cleans up uproot-internal fields so your data focuses on what your experiment actually collected.
 
@@ -38,7 +38,10 @@ mysession/
     └── session.csv
 ```
 
+If you check **Latest × Field(s)**, there is one more folder, named after your grouping variable(s), for example, `latest_by_round/` if you group by `round`.
+
 Each subfolder contains the same data in a different *format* (explained below). Within each format, the data is split into one file per kind of storage:
+
 
 | File | Contains |
 |------|----------|
@@ -48,30 +51,31 @@ Each subfolder contains the same data in a different *format* (explained below).
 | `model.csv` | [Custom data models](../advanced/models.md) (only if your apps use them) |
 
 Each file only has columns for fields that actually occur in that kind of storage, so player files are not cluttered with session-level columns and vice versa.
+{: .mt-n2 }
 
 !!! tip "In a hurry?"
-    **`latest/player.csv`** is the file most people want: one row per participant, one column per field, showing each field’s final value.
-
-If you checked **Latest × Field(s)**, there is one more folder, named after your grouping variables, for example, `latest_by_round/` if you grouped by `round`.
+    **`latest/player.csv`** or **`latest_by_…/player.csv`** is the file most people want: one row per participant, one column per field, showing each field’s final value (at the end of each round when grouping by `round`).
 
 ## The three formats
 
 Every briefcase contains the same underlying data at three levels of detail:
 
-### “latest”: one row per player
+### “Latest”: one row per player
 
-One row per storage (e.g., per player), showing the most recent value of every field. This is the most compact format and what you will typically use for analysis.
+One row per storage (e.g., per player), showing the most recent value of every field. This is the most compact format and what you will typically use for analysis if your study does not involve multiple apps or multiple rounds.
 
-If you enabled **Latest × Field(s)**, the extra `latest_by_…/` folder contains one row per player *per combination of your grouping variables*—for example, each participant’s state at the end of each round. This is ideal for panel-style analyses.
+#### “Latest × Field(s)”: one row per player per level of your grouping variable(s)
+
+If you enable **Latest × Field(s)**, the `latest_by_…/` folder contains one row per player *per combination of your grouping variable(s)*—for example, each participant’s state at the end of each round. This is ideal for panel-style analyses.
 
 !!! note
     Grouped snapshots include every field known at that point in time. The grouping variables determine *when* snapshots are taken, not which columns they carry. Fields set before the grouping variable appear in the output as expected.
 
-### “sparse”: one row per change, one column per field
+### “Sparse”: one row per change, one column per field
 
 Each row represents a single change. Every field has its own column, and only the field that changed at that moment is filled in. This produces a wide but mostly empty table. Useful when you want to reconstruct *how* values evolved but still prefer one column per field.
 
-### “ultralong”: the raw event log
+### “Ultralong”: the raw event log
 
 One row per field change, in full detail. Every time a field’s value was set, there is a row recording what changed, when, and where in the code. This is the most detailed format and preserves the complete history. Use it for temporal analyses, audits, or debugging.
 
@@ -86,7 +90,7 @@ Columns that start with `!` come from uproot itself; they sort to the front and 
 | `!time` | Unix timestamp of the change |
 | `!seq` | Sequence number of the change (for exact ordering) |
 | `!context` | Code location that made the change |
-| `!unavailable` | Whether this row marks a deletion (a tombstone) |
+| `!unavailable`{ .text-nowrap } | Whether this row marks a deletion (a tombstone) |
 | `!data` | The value |
 
 `latest` files just have `!storage`, `!time`, and `!seq` (the time and sequence of the most recent change reflected in the row), followed by one column per field.
@@ -246,7 +250,7 @@ Every briefcase includes a `page_times.csv` (or `.jsonl`) file tracking when eac
 |--------|-------------|
 | `sname` | Session name |
 | `uname` | Player name |
-| `show_page` | Page index |
+| `show_page`{ .text-nowrap } | Page index |
 | `page_name` | Page class name |
 | `entered` | Unix timestamp when the player entered the page |
 | `left` | Unix timestamp when the player left the page |

@@ -123,7 +123,7 @@ page_order = [Welcome, Decision, Results]
 | Attribute | Purpose |
 |-----------|---------|
 | `DESCRIPTION` | Human-readable description shown in admin |
-| `SUGGESTED_MULTIPLE` | Hint for session creation (e.g., `2` for pair experiments) |
+| `SUGGESTED_MULTIPLE`{ .text-nowrap } | Hint for session creation (e.g., `2` for pair experiments) |
 | `LANDING_PAGE` | If `True`, inserts a landing page before the app’s pages. Override it with `LandingPage.html` in the app directory, or add extra text with `LandingPageInfo.html` |
 | `C` | Constants class, available in templates as `C`. Set `C.__export__` to a list of names (or `...`) to copy those constants into JavaScript as `window.C` |
 
@@ -131,8 +131,8 @@ page_order = [Welcome, Decision, Results]
 
 | Callback | When it runs |
 |----------|-------------|
-| `new_session(session)` | Once when session initializes |
-| `new_player(player)` | Once per player when they join |
+| `new_session(session)`{ .text-nowrap } | Once when session initializes |
+| `new_player(player)`{ .text-nowrap } | Once per player when they join |
 | `restart()` | On server restart (can be async) |
 | `digest(session)` | Returns data for the admin digest view (pair with `AdminDigest.html`) |
 | `pipeline(session)` | Admin-runnable job; return a list of dicts for a downloadable table. May take optional `data=` |
@@ -204,12 +204,12 @@ SQLite works well in production too; uproot is optimized for it. PostgreSQL is a
 | Variable | Default | Purpose |
 |----------|---------|---------|
 | `UPROOT_DATABASE` | `sqlite3` | Database driver (`sqlite3`, `memory`, `postgresql`) |
-| `UPROOT_SQLITE3` | `uproot.sqlite3` | SQLite file path |
+| `UPROOT_SQLITE3` | `uproot.sqlite3`{ .text-nowrap } | SQLite file path |
 | `UPROOT_POSTGRESQL` | — | PostgreSQL connection URL |
 | `UPROOT_ORIGIN` | — | Public server URL |
 | `UPROOT_SUBDIRECTORY` | — | Subdirectory prefix for all routes |
 | `UPROOT_API_KEY` | — | Bearer token used by the `uproot api` client |
-| `UPROOT_ADMIN_PASSWORD` | — | Password used by `upd.auto_login()` when set |
+| `UPROOT_ADMIN_PASSWORD`{ .text-nowrap } | — | Password used by `upd.auto_login()` when set |
 | `UPROOT_ALLOW_ENTER` | off | If `1`/`true`/`yes`/`on`, the Enter key submits participant forms |
 
 Run `uproot deployment` to see the current values.

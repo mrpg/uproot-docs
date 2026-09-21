@@ -21,7 +21,7 @@ The watcher checks every few seconds whether the player’s browser is still con
 
 [:material-github: See the dropouts example](https://github.com/mrpg/uproot-examples/tree/master/dropouts)
 
-## watch_for_dropout
+## `watch_for_dropout`
 
 ```python
 watch_for_dropout(player, handler, tolerance=30.0)
@@ -100,7 +100,7 @@ def drop_group(group, culprit):
 !!! warning "Guard against double-dropping"
     Multiple dropout vectors can fire for the same group (e.g., a browser disconnect triggers `watch_for_dropout` at the same moment a page timeout fires). Always check `if not group.get("dropped")` before calling `drop_group`.
 
-### Registering watchers in after_grouping
+### Registering watchers in `after_grouping`
 
 Register `watch_for_dropout` in `after_grouping`, not `new_player`, because the handler needs access to the group. When iterating `group.players` inside `after_grouping`, wrap each player in a context manager:
 

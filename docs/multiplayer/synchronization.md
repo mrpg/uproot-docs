@@ -22,7 +22,7 @@ page_order = [
 ]
 ```
 
-## Processing data with all_here
+## Processing data with `all_here`
 
 The `all_here` callback runs exactly once when all group members have arrived. This is where you calculate outcomes based on everyone’s choices:
 
@@ -121,7 +121,7 @@ class WaitForSession(SynchronizingWait):
 
 Note that when `synchronize = "session"`, the callback receives the `session` object instead of `group`.
 
-## Custom synchronization with wait_for
+## Custom synchronization with `wait_for`
 
 Override the `wait_for` method for custom synchronization logic:
 

@@ -14,7 +14,7 @@ These parameters are available on most fields:
 | `default` | any | `None` | Pre-filled value |
 | `render_kw` | `dict` | `None` | HTML attributes for the input element |
 | `widget` | any | `None` | Custom WTForms widget |
-| `class_wrapper` | `str` | `None` | CSS class for the wrapper div |
+| `class_wrapper`{ .text-nowrap } | `str` | `None` | CSS class for the wrapper div |
 
 For several Likert items sharing one scale, use the `likert_matrix()` or `likert_grid()` template macros. See [Collecting data with forms](../building/forms.md#scales-and-sliders).
 
@@ -33,7 +33,7 @@ consent=BooleanField(label="I agree to participate")
 | `description` | `str` | `""` |
 | `widget` | any | `None` |
 | `default` | any | `None` |
-| `class_wrapper` | `str` | `None` |
+| `class_wrapper`{ .text-nowrap } | `str` | `None` |
 | `validators` | list | — |
 
 ## `BoundedChoiceField`
@@ -60,7 +60,7 @@ topics=BoundedChoiceField(
 | `render_kw` | `dict` | `None` | |
 | `widget` | any | `None` | |
 | `default` | any | `None` | |
-| `class_wrapper` | `str` | `None` | |
+| `class_wrapper`{ .text-nowrap } | `str` | `None` | |
 
 Returns a list of selected values.
 
@@ -82,7 +82,7 @@ birthdate=DateField(label="Date of birth")
 | `description` | `str` | `""` |
 | `widget` | any | `None` |
 | `default` | any | `None` |
-| `class_wrapper` | `str` | `None` |
+| `class_wrapper`{ .text-nowrap } | `str` | `None` |
 
 ## `DecimalField`
 
@@ -105,7 +105,7 @@ amount=DecimalField(
 | `step` | number | — | Step increment |
 | `addon_start` | `str` | — | Text before the input (e.g., `"$"`) |
 | `addon_end` | `str` | — | Text after the input (e.g., `"EUR"`) |
-| `class_addon_start` | `str` | `""` | CSS class for start addon |
+| `class_addon_start`{ .text-nowrap } | `str` | `""` | CSS class for start addon |
 | `class_addon_end` | `str` | `""` | CSS class for end addon |
 | `label` | `str` | `""` | |
 | `optional` | `bool` | `False` | |
@@ -175,7 +175,7 @@ email=EmailField(label="Your email address")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `label_floating` | `str` | `None` | Floating label inside the input |
+| `label_floating`{ .text-nowrap } | `str` | `None` | Floating label inside the input |
 | `label` | `str` | `""` | |
 | `optional` | `bool` | `False` | |
 | `render_kw` | `dict` | `None` | |
@@ -202,7 +202,7 @@ See [File uploads](../advanced/uploads.md) for details.
 | `description` | `str` | `""` |
 | `widget` | any | `None` |
 | `default` | any | `None` |
-| `class_wrapper` | `str` | `None` |
+| `class_wrapper`{ .text-nowrap } | `str` | `None` |
 
 ## `IBANField`
 
@@ -216,7 +216,7 @@ iban=IBANField(label="Your IBAN")
 |-----------|------|---------|-------------|
 | `addon_start` | `str` | — | Text before the input |
 | `addon_end` | `str` | — | Text after the input |
-| `class_addon_start` | `str` | `""` | CSS class for start addon |
+| `class_addon_start`{ .text-nowrap } | `str` | `""` | CSS class for start addon |
 | `class_addon_end` | `str` | `""` | CSS class for end addon |
 | `label_floating` | `str` | `None` | Floating label inside the input |
 | `label` | `str` | `""` | |
@@ -243,7 +243,7 @@ age=IntegerField(label="How old are you?", min=18, max=100)
 | `max` | `int` | — | Maximum value |
 | `addon_start` | `str` | — | Text before the input |
 | `addon_end` | `str` | — | Text after the input |
-| `class_addon_start` | `str` | `""` | CSS class for start addon |
+| `class_addon_start`{ .text-nowrap } | `str` | `""` | CSS class for start addon |
 | `class_addon_end` | `str` | `""` | CSS class for end addon |
 | `label` | `str` | `""` | |
 | `optional` | `bool` | `False` | |
@@ -349,7 +349,7 @@ country=SelectField(
 | `description` | `str` | `""` | |
 | `widget` | any | `None` | |
 | `default` | any | `None` | |
-| `class_wrapper` | `str` | `None` | |
+| `class_wrapper`{ .text-nowrap } | `str` | `None` | |
 
 Accepts the same choice formats as `RadioField`.
 
@@ -365,7 +365,7 @@ participant_name=StringField(label="Your name")
 |-----------|------|---------|-------------|
 | `addon_start` | `str` | — | Text before the input |
 | `addon_end` | `str` | — | Text after the input |
-| `class_addon_start` | `str` | `""` | CSS class for start addon |
+| `class_addon_start`{ .text-nowrap } | `str` | `""` | CSS class for start addon |
 | `class_addon_end` | `str` | `""` | CSS class for end addon |
 | `label_floating` | `str` | `None` | Floating label inside the input |
 | `label` | `str` | `""` | |
@@ -388,7 +388,7 @@ comments=TextAreaField(label="Additional comments", optional=True)
 |-----------|------|---------|-------------|
 | `addon_start` | `str` | — | Text before the input |
 | `addon_end` | `str` | — | Text after the input |
-| `class_addon_start` | `str` | `""` | CSS class for start addon |
+| `class_addon_start`{ .text-nowrap } | `str` | `""` | CSS class for start addon |
 | `class_addon_end` | `str` | `""` | CSS class for end addon |
 | `label_floating` | `str` | `None` | Floating label inside the input |
 | `label` | `str` | `""` | |
