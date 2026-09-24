@@ -199,6 +199,10 @@ uproot uses SQLite by default. The database file `uproot.sqlite3` is created aut
 
 SQLite works well in production too; uproot is optimized for it. PostgreSQL is available as an alternative but is never required. See [Deployment](../running/deployment.md) for details.
 
+### Why uproot loves SQLite
+
+SQLite is fast, exceptionally well tested, and stable. It needs no separate database server to install or manage, so you can run a real experiment with the same simple setup you used to build it. It just works, even if you have massive experiments that are highly simultaneous. For a look at the care behind that reliability, watch SQLite creator _Dr_ D. Richard Hipp’s talk, [“Reliability Lessons From SQLite”](https://www.youtube.com/watch?v=V_qzqY1bb7I).
+
 ## Environment variables
 
 | Variable | Default | Purpose |
