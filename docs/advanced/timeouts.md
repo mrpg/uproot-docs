@@ -140,6 +140,26 @@ The participant interacts via live methods until the timeout advances them.
 
 [:material-github: See the sumhunt example](https://github.com/mrpg/uproot-examples/tree/master/sumhunt) · [encryption_task example](https://github.com/mrpg/uproot-examples/tree/master/encryption_task)
 
+## Hiding the countdown display
+
+Sometimes participants should not see how much time is left, for example when time pressure is part of your design. To hide the countdown, override the `timeoutbox` block with an empty one in your page’s template:
+
+```html+jinja
+{% extends "Base.html" %}
+
+{% block timeoutbox %}{% endblock timeoutbox %}
+
+{% block title %}
+Negotiation
+{% endblock title %}
+
+{% block main %}
+<p>Make your offer.</p>
+{% endblock main %}
+```
+
+The timeout still applies. Only the display is gone.
+
 ## Repositioning the countdown display
 
 uproot automatically shows a countdown timer in `#uproot-timeout`. To move it elsewhere on your page, relocate the `#uproot-time-remaining` element with JavaScript:
@@ -229,11 +249,10 @@ window.addEventListener("UprootInternalPageTimeout", () => {
     document.getElementById("my-timer").innerText =
         `${mins}:${remainder.toString().padStart(2, "0")}`;
 });
-
-// Hide default display
-document.getElementById("uproot-timeout")?.remove();
 </script>
 ```
+
+To hide the default display, override the `timeoutbox` block as shown in [Hiding the countdown display](#hiding-the-countdown-display).
 
 ## Summary
 
@@ -243,6 +262,7 @@ document.getElementById("uproot-timeout")?.remove();
 | `def timeout(page, player)` | Dynamic timeout calculation |
 | `def timeout_reached(page, player)` | Callback when timeout expires |
 | Return `None` from timeout | Disable timeout for that player |
+| `{% block timeoutbox %}{% endblock timeoutbox %}` | Hide the countdown display |
 | `Alpine.store("uproot").timeout` | JavaScript: current timeout state |
 | `UprootInternalPageTimeoutSet` | JavaScript: event when timeout starts |
 | `UprootInternalPageTimeout` | JavaScript: event every second |
