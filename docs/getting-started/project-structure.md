@@ -74,6 +74,8 @@ load_config(
 )
 ```
 
+In addition, uproot registers every app on its own, under the app’s name with a tilde (such as `~my_app`). The admin lists these under “Apps.” They are handy for testing one app in isolation, but they have **no settings**. If your app reads `session.settings`, give defaults, as in `session.settings.get("n_rounds", 5)`, or fail with a clear message in `new_session` when a required setting is missing.
+
 ### Admin accounts
 
 Keep the default setup to sign in with a secret login link or a password:
