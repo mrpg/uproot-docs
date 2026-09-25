@@ -250,7 +250,7 @@ Using a context manager is always safe, even when not strictly required.
 - Rooms: `upd.DEFAULT_ROOMS.append(room(name, config=, labels=, capacity=, open=))`; `from_file("labels.txt")` loads labels (one per line, `#` comments); `labels=[]` accepts any non-empty code
 
 ### Data export
-- Every download is a ZIP “briefcase”: one top-level folder named after the session, containing `README.txt`, `DATA_DICTIONARY.json`, `page_times.csv` (or `.jsonl`), `SHA3-256SUMS`, and one folder per format (`ultralong/`, `sparse/`, `latest/`, optionally `latest_by_<gvar>/`), each split into one file per storage kind (`player.csv`, `group.csv`, `session.csv`, `model.csv`)
+- Every download is a ZIP “briefcase”: one top-level folder named after the session, containing `README.txt`, `DATA_DICTIONARY.json`, `page_times.csv` (or `.jsonl`), `SHA256SUMS`, and one folder per format (`ultralong/`, `sparse/`, `latest/`, optionally `latest_by_<gvar>/`), each split into one file per storage kind (`player.csv`, `group.csv`, `session.csv`, `model.csv`)
 - Formats: `ultralong` (one row per field change), `sparse` (wide event log), `latest` (one row per storage with final values); file type CSV or JSONL applies to the whole briefcase
 - `filters=true` cleans up internal `_uproot_*` fields (renames `_uproot_group` → `group`, `_uproot_session` → `session`)
 - REST: `GET /sessions/{sname}/data/export/` returns the ZIP briefcase; `GET /sessions/{sname}/data/jsonl/` streams a single format

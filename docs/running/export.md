@@ -23,7 +23,7 @@ mysession/
 ├── README.txt            ← explains the contents, right inside the ZIP
 ├── DATA_DICTIONARY.json  ← defines the !-prefixed columns
 ├── page_times.csv        ← when each player entered/left each page
-├── SHA3-256SUMS          ← checksums for verifying all other files
+├── SHA256SUMS            ← checksums for verifying all other files
 ├── latest/
 │   ├── player.csv
 │   ├── group.csv
@@ -233,14 +233,14 @@ You do not even have to unpack the ZIP: Both R and Python can read individual fi
 
 ## Verifying your download
 
-Every briefcase includes a `SHA3-256SUMS` file listing the checksum of every other file in the archive. To confirm that nothing was corrupted or modified—for instance, before archiving data for publication—run this inside the unpacked folder:
+Every briefcase includes a `SHA256SUMS` file listing the checksum of every other file in the archive. To confirm that nothing was corrupted or modified—for instance, before archiving data for publication—run this inside the unpacked folder:
 
 ```bash
 cd mysession
-sha3sum -a 256 -c SHA3-256SUMS
+sha256sum -c SHA256SUMS
 ```
 
-(On macOS, install it with `brew install sha3sum`.)
+(On macOS, use `shasum -a 256 -c SHA256SUMS`.)
 
 ## Page times
 
