@@ -199,7 +199,7 @@ Available in templates as `player.context.total_earnings`. See [The PlayerContex
 
 uproot uses SQLite by default. The database file `uproot.sqlite3` is created automatically in your project directory when the server starts. No configuration needed.
 
-SQLite works well in production too; uproot is optimized for it. PostgreSQL is available as an alternative but is never required. See [Deployment](../running/deployment.md) for details.
+SQLite works well in production too; uproot is optimized for it. PostgreSQL is available as an alternative but is never required. To use it, add PostgreSQL support to your project with `uv add 'uproot-science[pg]<1'`. See [Deployment](../running/deployment.md) for details.
 
 ### Why uproot loves SQLite
 
