@@ -41,7 +41,7 @@ load_config(uproot_server, config="my_experiment", apps=["my_app"])
 
 upd.ADMINS["admin"] = upd.auto_login()  # Secret login link, or password from the environment
 
-upd.LANGUAGE = "en"  # Built-in: "de", "en", "es", "ja"
+upd.LANGUAGE = "en"  # Built-in: "de", "en", "es", "fr", "ja"
 
 if __name__ == "__main__":
     cli()

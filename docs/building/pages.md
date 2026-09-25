@@ -338,7 +338,7 @@ class Welcome(Page):
 
 ## Translations
 
-uproot’s built-in interface strings ship in English (`en`), German (`de`), Spanish (`es`), and Japanese (`ja`). Set the default in `main.py`:
+uproot’s built-in interface strings ship in English (`en`), French (`fr`), German (`de`), Spanish (`es`), and Japanese (`ja`). This includes buttons, wait pages, and error messages of forms. Set the default in `main.py`:
 
 ```python
 upd.LANGUAGE = "de"
@@ -351,7 +351,7 @@ def language(player):
     return player.session.settings.get("language", "en")
 ```
 
-In templates, `_("text")` looks up a translation for the current language. Wrap phrases in `{% translate %}...{% endtranslate %}` when you want the same lookup with whitespace collapsed.
+In templates, `_("text")` looks up a translation for the current language. Wrap phrases in `{% translate %}...{% endtranslate %}` when you want the same lookup with whitespace collapsed. In JavaScript, `_("text")` works the same way.
 
 To add your own phrases, put YAML files in a directory (one file per language, or one file with all languages) and load them at startup:
 
@@ -360,6 +360,29 @@ import uproot.i18n as i18n
 
 i18n.load("locales/")
 ```
+
+A file per language is named after its language code, such as `locales/fr.yml`. Each entry maps the phrase as written in your template to its translation:
+
+```yaml
+? "Please answer the following questions:"
+: "Veuillez répondre aux questions suivantes :"
+
+? "Click “Next” when you are ready."
+: "Cliquez sur « Suivant » lorsque vous êtes prêt(e)."
+```
+
+Your files can also translate uproot’s built-in strings, such as `Next` or `Please wait`. This lets you run studies in a language that uproot does not ship. The built-in strings are listed in [uproot’s `en.yml`](https://github.com/mrpg/uproot/blob/main/src/uproot/default/locales/en.yml).
+
+!!! warning "Keys must match exactly"
+    uproot finds a translation only if the key matches the phrase in your template exactly, apart from whitespace. Straight quotes (`"Next"`) and typographical quotes (`“Next”`) are different keys. If no translation matches, uproot silently shows the phrase itself, usually in English.
+
+    To find such problems, download [`check_translations.py`](https://github.com/mrpg/uproot/blob/main/check_translations.py) and run it on your project:
+
+    ```console
+    python check_translations.py --project .
+    ```
+
+    It lists every phrase that is missing for a language that has a YAML file in your project. It also points out keys that differ only in quotes or spacing.
 
 ## Conditional page display
 

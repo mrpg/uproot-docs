@@ -246,7 +246,7 @@ Using a context manager is always safe, even when not strictly required.
 - SQLite by default (`uproot.sqlite3`), works well in production — PostgreSQL is available but never required
 - Environment vars: `UPROOT_DATABASE`, `UPROOT_SQLITE3`, `UPROOT_POSTGRESQL`, `UPROOT_ORIGIN`, `UPROOT_SUBDIRECTORY`, `UPROOT_API_KEY`
 - `upd.ADMINS["admin"] = ...` (Ellipsis = auto-login on localhost)
-- `upd.LANGUAGE` — `"de"`, `"en"`, `"es"`, `"ja"`
+- `upd.LANGUAGE` — `"de"`, `"en"`, `"es"`, `"fr"`, `"ja"`
 - Rooms: `upd.DEFAULT_ROOMS.append(room(name, config=, labels=, capacity=, open=))`; `from_file("labels.txt")` loads labels (one per line, `#` comments); `labels=[]` accepts any non-empty code
 
 ### Data export
