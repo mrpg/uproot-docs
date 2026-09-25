@@ -21,7 +21,7 @@ For a forward visit to a page, the lifecycle is:
 13. **`after_once`:** Run once per player, on first successful submission only.
 14. **`after_always_once`:** Run once after this page position is submitted.
 
-The `timeout` method configures the deadline while the page is rendered. The browser submits when the deadline is reached. If the server receives a request after the deadline, `timeout_reached` handles that request before normal form processing; validation and `may_proceed` are skipped, and the page advances. A direct visit to the current page can omit `early`, because that hook runs when entering a new page position.
+The `timeout` method configures the deadline while the page is rendered. The browser submits when the deadline is reached. If the server receives a request after the deadline, `timeout_reached` handles that request before normal form processing, `may_proceed` is skipped, and the page advances. Valid form data is saved; invalid data is discarded without an error message. uproot counts a request up to `upd.TIMEOUT_TOLERANCE` seconds (default: 1) before the deadline as timed out, too, but only if `may_proceed` allows the page to advance. See [Timeouts and `may_proceed`](../advanced/timeouts.md#timeouts-and-may_proceed). A direct visit to the current page can omit `early`, because that hook runs when entering a new page position.
 
 ## `show`
 
@@ -232,6 +232,9 @@ def may_proceed(page, player):
 | `page` | The page class |
 | `player` | The current player |
 | **Returns** | `bool`: `True` to allow proceeding (default), `False` to block |
+
+!!! note
+    A page [timeout](#timeout) overrides `may_proceed` once the deadline has passed. See [Timeouts and `may_proceed`](../advanced/timeouts.md#timeouts-and-may_proceed).
 
 ## `after_once`
 

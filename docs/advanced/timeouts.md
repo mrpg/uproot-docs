@@ -49,6 +49,27 @@ This callback runs before the page advances. Use it to:
 - Apply penalties or default values
 - Set flags for conditional logic later
 
+## Timeouts and `may_proceed`
+
+A page with a [`may_proceed`](../reference/page-methods.md#may_proceed) method keeps participants on the page until a condition holds. A timeout overrides this: once the deadline has passed, the page advances even if `may_proceed` returns `False`. This keeps [wait pages](../multiplayer/synchronization.md) from hanging forever when time runs out.
+
+uproot counts a timeout as reached up to one second before the deadline. In that last second, the page only advances if `may_proceed` allows it. So if the next page relies on the deadline having passed, check the deadline in `may_proceed`:
+
+```python
+class Negotiate(Page):
+    @classmethod
+    def timeout(page, player):
+        from time import time
+        return max(0, player.group.deadline - time())
+
+    @classmethod
+    def may_proceed(page, player):
+        from time import time
+        return player.group.agreed or time() >= player.group.deadline
+```
+
+Without `may_proceed`, a participant can reach the next page up to one second before the deadline. To change this tolerance, set `upd.TIMEOUT_TOLERANCE` (in seconds) in `main.py`.
+
 ## Timeout spanning multiple pages
 
 For a shared timeout across several pages, store the deadline and calculate remaining time dynamically:
