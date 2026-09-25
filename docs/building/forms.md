@@ -82,6 +82,8 @@ country=SelectField(
 )
 ```
 
+The dropdown starts with an empty option (“—”). So a participant who skips the question does not submit the first country by accident. If the field is required, the empty option is rejected with an error message. If it is optional, the field is saved as `None`.
+
 **`BooleanField`:** Checkbox
 
 ```python

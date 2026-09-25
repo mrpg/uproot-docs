@@ -353,6 +353,17 @@ country=SelectField(
 
 Accepts the same choice formats as `RadioField`.
 
+The dropdown starts with an empty option (“—”), which is selected until the participant picks a choice. For required fields, submitting the empty option fails validation. For optional fields, it saves `None`. If your choices already include an empty value (`""`), no extra option is added, so you can label it yourself:
+
+```python
+country=SelectField(
+    label="Country",
+    choices=[("", "Please choose"), ("us", "United States"), ("de", "Germany")],
+)
+```
+
+With your own empty choice, an optional field saves `""` instead of `None`.
+
 ## `StringField`
 
 Single-line text input.
