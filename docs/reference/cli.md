@@ -43,6 +43,24 @@ uproot api -u https://example.com/ sessions
 | `--method`, `-X` | `GET` | HTTP method |
 | `--data`, `-d` | — | JSON request body |
 
+### uproot check-translations
+
+Check the [translations](../building/pages.md#translations) of a project. For each language that has a YAML file in the project, it lists every phrase that has no translation, either in the project or among uproot’s built-in translations.
+
+```bash
+# Check the project in the current directory
+uproot check-translations
+
+# Check another directory, such as a single app
+uproot check-translations my_project/my_app
+```
+
+It finds phrases in `{% translate %}` blocks, in `_("...")` calls in templates and JavaScript, in `lookup("...")` calls, and in the labels, descriptions, and choices of form fields. It also points out phrases that differ from a translated one only in quotes or spacing. uproot translates all form field texts, even those not meant to be translated, such as the names of languages in a language selector. So a field text only counts as missing if it is translated for some languages but not for others. The command exits with status 1 if phrases are missing.
+
+| Option | Description |
+|--------|-------------|
+| `--untranslated` | List form field texts that have no translation in any language |
+
 ### uproot --version
 
 Show the installed uproot version.

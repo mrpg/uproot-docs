@@ -376,13 +376,13 @@ Your files can also translate uproot’s built-in strings, such as `Next` or `Pl
 !!! warning "Keys must match exactly"
     uproot finds a translation only if the key matches the phrase in your template exactly, apart from whitespace. Straight quotes (`"Next"`) and typographical quotes (`“Next”`) are different keys. If no translation matches, uproot silently shows the phrase itself, usually in English.
 
-    To find such problems, download [`check_translations.py`](https://github.com/mrpg/uproot/blob/main/check_translations.py) and run it on your project:
+    To find such problems, run [`uproot check-translations`](../reference/cli.md#uproot-check-translations) in your project directory:
 
     ```console
-    python check_translations.py --project .
+    uproot check-translations
     ```
 
-    It lists every phrase that is missing for a language that has a YAML file in your project. It also points out keys that differ only in quotes or spacing.
+    It lists every phrase that is missing for a language that has a YAML file in your project, including the labels and choices of form fields. It also points out keys that differ only in quotes or spacing.
 
 ## Conditional page display
 

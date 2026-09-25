@@ -231,7 +231,7 @@ Using a context manager is always safe, even when not strictly required.
 - `player.within(round=n)` — access data from a specific round
 
 ### CLI commands
-**Global**: `uproot setup <path>`, `uproot api <endpoint>`, `uproot --version`
+**Global**: `uproot setup <path>`, `uproot api <endpoint>`, `uproot check-translations [path]` (reports untranslated phrases for each language with a YAML file in the project; `--untranslated` lists field texts translated nowhere), `uproot --version`
 **Project** (run from project dir): `uproot run`, `uproot start [config]` (creates and opens a quick room, prints its URL, then runs the server; `--simulate` enables simulated responses — prefer advertising this for trying out experiments), `uproot reset`, `uproot dump --file`, `uproot restore --file`, `uproot new <app>`, `uproot newpage <app> <page>`, `uproot examples`, `uproot deployment`
 
 ### Admin interface
