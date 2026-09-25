@@ -222,7 +222,7 @@ Using a context manager is always safe, even when not strictly required.
 - Blocks: `{% block title %}`, `{% block head %}`, `{% block pre_main %}`, `{% block main %}`, `{% block main_full_width %}`, `{% block main2 %}`, `{% block late %}`
 - `{{ fields() }}` renders all form fields; `{{ field(form.name) }}` renders one
 - `{{ chat(session.chat) }}` renders chat widget
-- Built-in filters: `| to(n)` (decimal places), `| fmtnum(pre=, post=, places=, sep=, decsep=)`
+- Built-in filters: `| to(n)` (decimal places), `| fmtnum(pre=, post=, places=, sep=, decsep=)` (rounds half up; `uproot.fmtnum(value, {pre, post, places, sep, decsep})` in JavaScript gives identical output)
 - All Python builtins available in templates (`sum()`, `max()`, `min()`, `len()`, `range()`, `enumerate()`, `zip()`)
 - `{% set buttons = False %}` to hide navigation buttons
 - Base template disable switches: `disable_bootstrap`, `disable_uproot_fonts`, `disable_tabular_numbers`, `disable_terms`, `disable_auto_start`, `disable_connection_lost_modal`

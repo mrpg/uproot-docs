@@ -103,6 +103,19 @@ the thousands separator:
 {{ player.payoff | fmtnum(sep="", places=2) }}                   <!-- 1234.50 -->
 ```
 
+`fmtnum` rounds half up, as on paper: 2.345 becomes 2.35 and 2.5 becomes 3 with `places=0`. It uses the number as written in decimal, so values such as 1.005 also round up.
+
+The same function is available in JavaScript, for amounts that change while the page is open. It takes the same options and gives the same result:
+
+```html+jinja
+<p>Current bonus: <span id="bonus"></span></p>
+
+<script>
+document.getElementById("bonus").innerText =
+    uproot.fmtnum(1234.5, { pre: "$", places: 2 });  // $1,234.50
+</script>
+```
+
 ## Calculations in templates
 
 uproot passes all Python builtins to templates. Perform calculations directly:
