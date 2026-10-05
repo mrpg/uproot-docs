@@ -179,7 +179,7 @@ If a participant enters a label that has already been used by another player in 
 https://your-server.com/room/{room_name}/?label=MY_LABEL
 ```
 
-This is useful for physical labs (where `MY_LABEL` may be `01` to `32`, the number of cubicles), and online Platforms, such as [Prolific](https://prolific.com/) IDs.
+This is useful for physical labs (where `MY_LABEL` may be `01` to `32`, the number of cubicles), and online platforms, such as [Prolific](https://prolific.com/) IDs. For Prolific, a room with `labels=[]` works even better. See [Running on Prolific](prolific.md).
 
 ### Labels and capacity
 

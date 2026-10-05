@@ -109,6 +109,7 @@ nav:
   - Running experiments:
     - The admin interface: running/admin.md
     - Sessions and rooms: running/rooms.md
+    - Running on Prolific: running/prolific.md
     - Exporting data: running/export.md
     - Advanced data access: running/export-advanced.md
     - Deployment: running/deployment.md
