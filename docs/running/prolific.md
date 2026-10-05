@@ -23,7 +23,7 @@ You can create the room in the admin interface or in your project’s `main.py`.
 
     - **Room name:** for example, `my_study`.
     - **Associate with a particular config:** check this and select your config.
-    - **Start this config immediately:** leave this unchecked (see below).
+    - **Start this config immediately:** uncheck this. It is checked by default (see below for why).
     - **Use labels/Access Codes:** check this, but leave the **Labels** box **empty**.
     - **Limit capacity of resulting session:** leave this unchecked.
 
@@ -64,20 +64,21 @@ It is tempting to set `capacity` to the number of places in your Prolific study.
 On the room’s admin page, use the “Create session” form:
 
 - **Number of players:** `0`. Player slots are created as participants arrive, so you do not need any in advance.
-- **Settings (JSON):** your completion code, which you copy from your study’s page on Prolific:
+- **Keep default settings:** uncheck this. It is checked by default, and the **Settings** box appears only once you uncheck it.
+- **Settings:** your completion code, which you copy from your study’s page on Prolific:
 
     ```json
     {"completion_code": "C1ABC2DE"}
     ```
 
-- **“Set room capacity to number of players”:** leave this **unchecked**.
+- **“Set room capacity to number of players”:** **uncheck** this. It is checked by default.
 
 Creating the session opens the room, so participants can join from now on.
 
 !!! warning "Do not check “Set room capacity to number of players”"
     With 0 players, this option sets the room’s capacity to 0. Every participant then sees a “Room full” page, and nobody can join. If this has already happened, go to the room’s admin page, open **Actions**, uncheck **Limit capacity**, and click **Set**. This removes the limit while the session keeps running. You can do the same via the [admin REST API](../reference/admin-api.md#patch-adminapiv1roomsroomnamecapacity).
 
-Why create the session by hand instead of letting the room create one automatically? Because the admin form lets you enter [session settings](../building/data.md#session-settings). Keeping the completion code in the session settings, rather than in your code, has two advantages: the code never ends up in a public Git repository, and you can run several Prolific studies (each with its own code) from the same project. If you mistype the code, fix it on the session page with **Update settings**.
+Why create the session by hand instead of letting the room create one automatically? Because the admin form lets you enter [session settings](../building/data.md#session-settings). Keeping the completion code in the session settings, rather than in your code, has two advantages: the code never ends up in a public Git repository, and you can run several Prolific studies (each with its own code) from the same project. If you mistype the code, fix it on the session page with **Change settings**.
 
 If you prefer, you can instead give the code as a default via [`load_config(..., settings={"completion_code": "C1ABC2DE"})`](../getting-started/project-structure.md) and let the room create the session automatically when the first participant arrives.
 
@@ -89,7 +90,7 @@ In your Prolific study, enter the room URL as the study URL, and choose the opti
 https://your-server.com/room/my_study/?label={{%PROLIFIC_PID%}}&STUDY_ID={{%STUDY_ID%}}&SESSION_ID={{%SESSION_ID%}}
 ```
 
-Prolific replaces `{{%PROLIFIC_PID%}}` with each participant’s ID. uproot reads only `label`. The `STUDY_ID` and `SESSION_ID` parameters are harmless, but uproot does not store them, so you can also drop them. For [bonus payments](#bonus-payments), you can find the corresponding submission ID in Prolific’s demographic export.
+Prolific replaces `{{%PROLIFIC_PID%}}` with each participant’s ID. uproot reads only `label`. The `STUDY_ID` and `SESSION_ID` parameters are harmless, but uproot does not store them, so you can also drop them.
 
 Open the URL yourself with a made-up label, such as `?label=TEST1`, to check that everything works before you publish the study. Your test player appears in the session like any other player.
 
@@ -130,7 +131,7 @@ The two recipes below need a bit more code. They are good tasks for a coding age
 
 ### Bonus payments
 
-[Prolific’s bulk bonus form](https://researcher-help.prolific.com/en/articles/445233-how-do-i-send-bonus-payments) takes one line per submission: its submission ID and bonus amount, separated by a comma. uproot stores the participant ID as `player.label`. You can match it to the submission ID in [Prolific’s demographic export](https://researcher-help.prolific.com/en/articles/445209-exporting-prolific-demographic-data). Suppose your app saves each participant’s bonus as `player.bonus`. A [pipeline](admin.md#pipeline) exports the participant IDs and amounts:
+[Prolific’s bulk bonus form](https://researcher-help.prolific.com/en/articles/445233-how-do-i-send-bonus-payments) takes one line per participant: their Prolific ID and bonus amount, separated by a comma. uproot stores the Prolific ID as `player.label`, so you do not need anything from Prolific to build these lines. Suppose your app saves each participant’s bonus as `player.bonus`. A [pipeline](admin.md#pipeline) exports the participant IDs and amounts:
 
 ```python
 def pipeline(session):
@@ -145,7 +146,7 @@ def pipeline(session):
     return rows
 ```
 
-Run the pipeline from the session page in the admin and download its table. On Prolific, click **Download demographic data** for your study. Match each `prolific_id` in the pipeline output to the **Participant ID** in that download, then take the corresponding **Session ID** (the submission ID). In Prolific’s **Bulk actions** → **Bulk bonus payment**, paste one line per bonus as `<submission ID>,<amount>`, without a header row. Amounts are in your study’s currency.
+Run the pipeline from the session page in the admin and download its table. In Prolific’s **Bulk actions** → **Bulk bonus payment**, paste one line per bonus as `<prolific_id>,<amount>`, without a header row. Amounts are in your study’s currency.
 
 ### Screen-outs
 
