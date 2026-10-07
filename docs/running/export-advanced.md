@@ -4,7 +4,7 @@ This page covers programmatic and low-level ways to get at your data: automated 
 
 ## Export via the REST API
 
-Use the [Admin REST API](../reference/admin-api.md) for programmatic access. All endpoints require Bearer token authentication.
+Use the [Admin REST API](../reference/admin-api.md) for programmatic access. All endpoints used on this page require Bearer token authentication.
 
 ### Downloading the briefcase
 
@@ -15,7 +15,7 @@ curl -OJ -H "Authorization: Bearer YOUR_TOKEN" \
   "https://your-server.com/admin/api/v1/sessions/mysession/data/export/"
 ```
 
-(`-OJ` saves the file under the name suggested by the server, e.g. `mysession_2026-07-04_1412.zip`.)
+(`-OJ` saves the file under the name suggested by the server, e.g. `mysession.zip`.)
 
 Query parameters:
 
@@ -68,7 +68,12 @@ uproot dump --file backup.msgpack.gz
 uproot restore --file backup.msgpack.gz
 ```
 
-You can also download a dump from the admin interface at `/admin/dump/`.
+You can also download a dump from the admin interface at `/admin/dump/`, or via the REST API:
+
+```bash
+curl -o backup.msgpack.gz -H "Authorization: Bearer YOUR_TOKEN" \
+  "https://your-server.com/admin/api/v1/database/dump/"
+```
 
 !!! note
     Database dumps contain all sessions and all data. Use the briefcase or JSONL endpoints for per-session exports.

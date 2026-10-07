@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Generate Markdown documentation from FastAPI’s OpenAPI schema."""
 
 from __future__ import annotations
@@ -13,7 +12,7 @@ DOCS_REPO = Path(__file__).resolve().parents[1]
 UPROOT_SRC = DOCS_REPO.parent / "uproot" / "src"
 sys.path.insert(0, str(UPROOT_SRC))
 
-from uproot.server4 import router  # noqa: E402
+from uproot.server4 import router
 
 APP = FastAPI(title="uproot Admin API", version="1.0.0")
 APP.include_router(router)
@@ -21,21 +20,81 @@ SCHEMA = APP.openapi()
 SCHEMAS = SCHEMA.get("components", {}).get("schemas", {})
 
 SECTION_NAMES = (
-    "Dashboard and Configurations",
+    "Dashboard and configurations",
     "Sessions",
     "Players",
-    "Admin Chat",
-    "Data Export",
-    "Digests and Pipelines",
+    "Admin chat",
+    "Data export",
+    "Digests and pipelines",
     "Rooms",
     "System",
 )
 
 METHOD_ORDER = {"get": 0, "post": 1, "patch": 2, "delete": 3, "put": 4}
 
+PREFIX = "/admin/api/v1"
+NOWRAP = "{ .text-nowrap }"
+
+# FastAPI documents every route as returning JSON. These are the routes that
+# actually return something else or have errors specific to them.
+RESPONSE_OVERRIDES: dict[tuple[str, str], list[tuple[str, str, str]]] = {
+    ("GET", "/sessions/{sname}/data/export/"): [
+        ("200", "application/zip", "ZIP briefcase"),
+    ],
+    ("GET", "/sessions/{sname}/data/jsonl/"): [
+        ("200", "application/jsonl", "JSONL stream"),
+    ],
+    ("GET", "/sessions/{sname}/digests/{appname}/html/"): [
+        ("200", "text/html", "Rendered fragment"),
+    ],
+    ("GET", "/sessions/{sname}/pipelines/{appname}/html/"): [
+        ("200", "text/html", "Rendered fragment"),
+    ],
+    ("GET", "/sessions/{sname}/pipelines/{appname}/runs/"): [
+        ("200", "text/plain", "Pipeline result"),
+        ("200", "text/csv", "Custom data export with `filetype=csv`"),
+        ("200", "application/jsonl", "Custom data export with `filetype=jsonl`"),
+    ],
+    ("POST", "/sessions/{sname}/pipelines/{appname}/runs/"): [
+        ("200", "text/plain", "Pipeline result"),
+        ("200", "text/csv", "Custom data export with `filetype=csv`"),
+        ("200", "application/jsonl", "Custom data export with `filetype=jsonl`"),
+    ],
+    ("GET", "/praise/"): [
+        ("200", "text/plain", "Praise text"),
+        ("502", "application/json", "Praise could not be fetched from upstream"),
+    ],
+    ("POST", "/auth/login/"): [
+        ("201", "application/json", "Successful response"),
+        ("401", "application/json", "Invalid admin credentials"),
+        ("429", "application/json", "Too many failed login attempts"),
+    ],
+    ("GET", "/database/dump/"): [
+        ("200", "application/gzip", "Gzip-compressed database dump"),
+    ],
+}
+
+
+def typographic(text: str) -> str:
+    parts = text.split("`")
+    for i in range(0, len(parts), 2):
+        parts[i] = parts[i].replace("'", "’")
+    return "`".join(parts)
+
 
 def clean_text(value: str) -> str:
-    return " ".join(str(value).strip().split())
+    return typographic(" ".join(str(value).strip().split()))
+
+
+def code_cell(value: str) -> str:
+    return f"`{value}`{NOWRAP}"
+
+
+def requires_bearer(endpoint: dict[str, Any]) -> bool:
+    return any(
+        param.get("in") == "header" and param.get("name", "").lower() == "authorization"
+        for param in endpoint["parameters"]
+    )
 
 
 def table_text(value: str) -> str:
@@ -112,7 +171,7 @@ def format_params(params: list[dict[str, Any]], where: str) -> str:
         if constraints:
             desc = f"{desc} ({constraints})" if desc else constraints
         lines.append(
-            f"| `{param['name']}` | {schema_type(pschema)} | "
+            f"| {code_cell(param['name'])} | {schema_type(pschema)} | "
             f"{'Yes' if param.get('required') else 'No'} | {desc} |"
         )
 
@@ -172,15 +231,35 @@ def format_request_body(request_body: dict[str, Any] | None) -> str:
         if constraints:
             desc = f"{desc} ({constraints})" if desc else constraints
         lines.append(
-            f"| `{name}` | {schema_type(prop)} | "
+            f"| {code_cell(name)} | {schema_type(prop)} | "
             f"{'Yes' if name in required else 'No'} | {desc} |"
         )
 
     return "\n".join(lines)
 
 
-def format_responses(responses: dict[str, Any]) -> str:
-    if not responses:
+def response_rows(endpoint: dict[str, Any]) -> list[tuple[str, str, str]]:
+    key = (endpoint["method"], endpoint["path"].removeprefix(PREFIX))
+    if key in RESPONSE_OVERRIDES:
+        return RESPONSE_OVERRIDES[key]
+
+    rows = []
+    for status, response in endpoint["responses"].items():
+        if status == "422":
+            continue
+        content = response.get("content", {})
+        media_types = ", ".join(content) or "-"
+        desc = response.get("description", "")
+        if desc == "Successful Response":
+            desc = "Successful response"
+        rows.append((status, media_types, desc))
+
+    return rows
+
+
+def format_responses(endpoint: dict[str, Any]) -> str:
+    rows = response_rows(endpoint)
+    if not rows:
         return ""
 
     lines = [
@@ -190,13 +269,9 @@ def format_responses(responses: dict[str, Any]) -> str:
         "|--------|---------|-------------|",
     ]
 
-    for status, response in responses.items():
-        if status == "422":
-            continue
-        content = response.get("content", {})
-        media_types = ", ".join(f"`{name}`" for name in content) or "-"
-        desc = table_text(response.get("description", ""))
-        lines.append(f"| `{status}` | {media_types} | {desc} |")
+    for status, media_type, desc in rows:
+        content = code_cell(media_type) if media_type != "-" else "-"
+        lines.append(f"| `{status}` | {content} | {table_text(desc)} |")
 
     return "\n".join(lines)
 
@@ -211,17 +286,17 @@ def section_for(path: str) -> str:
     ):
         return "System"
     if "/admin-chat" in path:
-        return "Admin Chat"
-    if "/data/" in path or "/page-times/" in path:
-        return "Data Export"
+        return "Admin chat"
+    if "/data/" in path:
+        return "Data export"
     if "/digests/" in path or "/pipelines/" in path:
-        return "Digests and Pipelines"
-    if "/players/" in path or "/multiview/" in path:
+        return "Digests and pipelines"
+    if "/players/" in path or "/online-players/" in path or "/multiview/" in path:
         return "Players"
     if "/rooms/" in path:
         return "Rooms"
     if "/dashboard/" in path or "/configs" in path:
-        return "Dashboard and Configurations"
+        return "Dashboard and configurations"
     if "/sessions" in path:
         return "Sessions"
     return "System"
@@ -255,16 +330,76 @@ def collect_endpoints() -> dict[str, list[dict[str, Any]]]:
 
 def endpoint_notes(endpoint: dict[str, Any]) -> list[str]:
     path = endpoint["path"]
+    method = endpoint["method"]
     notes = []
 
-    if path.endswith("/pipelines/{appname}/runs/"):
+    if not requires_bearer(endpoint):
+        notes.append("This endpoint does not require a Bearer token.")
+    if path.endswith("/pipelines/{appname}/runs/") and method == "GET":
+        notes.append(
+            "This endpoint never passes data to the pipeline, even if you send a request "
+            "body. Use `POST` to pass data."
+        )
+    if path.endswith("/pipelines/{appname}/runs/") and method == "POST":
         notes.append(
             "This endpoint accepts an optional JSON request body. If the app’s `pipeline()` "
-            "callable declares a `data` parameter, the decoded body is passed as `data`."
+            "callable declares a `data` parameter, the decoded body is passed as `data`. "
+            "A body that is not valid JSON fails with `400`."
+        )
+    if path.endswith("/pipelines/{appname}/runs/"):
+        notes.append(
+            "If the pipeline returns a custom data export, it is downloaded as CSV or JSONL, "
+            "depending on `filetype`. Any other result is returned as plain text. `filetype` "
+            "must be `csv` or `jsonl`; any other value fails with `400` before the pipeline "
+            "runs."
         )
     if path.endswith("/database/dump/"):
         notes.append(
-            "The response is a binary MessagePack dump intended for `uproot restore`, not JSON."
+            "The response is a gzip-compressed MessagePack dump intended for "
+            "`uproot restore`, not JSON."
+        )
+    if path.endswith("/auth/login/"):
+        notes.append(
+            "Login attempts are rate-limited per IP address. After 50 failed attempts "
+            "within one hour, the IP is blocked for six hours. Requests from localhost "
+            "are exempt."
+        )
+    if path.endswith("/announcements/dismiss/"):
+        notes.append(
+            "The nudge stays silent for ten years. The dashboard’s `nudge_announcements` "
+            "reflects this."
+        )
+    if path.endswith("/dashboard/"):
+        notes.append(
+            "The response contains `uproot_version`, `nudge_announcements` (whether the "
+            "admin UI currently nudges you to check announcements), `configs`, `rooms`, "
+            "and `active_sessions`."
+        )
+    if path.endswith("/players/fields/"):
+        notes.append(
+            "Field names must be valid Python identifiers (letters, digits, and "
+            "underscores, not starting with a digit). They are checked before anything "
+            "is written: if any name is invalid, the request fails with `400` and no "
+            "player is changed."
+        )
+    if path.endswith("/players/{uname}/") and endpoint["method"] == "GET":
+        notes.append(
+            "Pass `fields` repeatedly to choose fields, e.g. `?fields=id&fields=page_order`. "
+            "Omitting it returns the same default fields as the all-players endpoint."
+        )
+    if path.endswith("/digests/html/"):
+        notes.append(
+            "`apps` lists every app with a digest. `html` only contains entries for apps "
+            "that provide an `AdminDigest.html` template."
+        )
+    if path.endswith("/rooms/{roomname}/sessions/") and endpoint["method"] == "POST":
+        notes.append(
+            "If `config` is omitted, the room’s default configuration is used. If the room "
+            "has none either, the request fails with `400`."
+        )
+    if path.endswith(("/auth/logout/", "/auth/logout-all/")):
+        notes.append(
+            "This revokes browser admin-login sessions. It does not revoke API keys."
         )
     if path.endswith("/auth/sessions/{user}/"):
         notes.append(
@@ -283,7 +418,7 @@ def render() -> str:
             "# Admin API reference",
             "",
             "The Admin REST API provides programmatic access to manage uproot experiments.",
-            "All endpoints are located under `/admin/api/v1/` and require Bearer token authentication.",
+            "All endpoints are located under `/admin/api/v1/` and require Bearer token authentication, except where noted.",
             "",
             '!!! note "Generated from FastAPI OpenAPI"',
             "    This page is generated by `scripts/generate_admin_api_docs.py` from FastAPI’s OpenAPI schema. A running uproot server also exposes FastAPI’s live schema at `/openapi.json` and interactive documentation at `/docs` and `/redoc`.",
@@ -302,6 +437,25 @@ def render() -> str:
             'upd.API_KEYS.add("YOUR_API_TOKEN")',
             "```",
             "",
+            "## Errors",
+            "",
+            "Errors are returned as JSON with a `detail` field:",
+            "",
+            "```json",
+            '{"detail": "Session not found"}',
+            "```",
+            "",
+            "These status codes are shared by many endpoints and are not repeated below:",
+            "",
+            "| Status | Meaning |",
+            "|--------|---------|",
+            "| `400` | The request is invalid, e.g. an unknown configuration or a duplicate name |",
+            "| `401` | The Bearer token is missing or invalid |",
+            "| `404` | A session, player, room, configuration, digest, or pipeline named in the request does not exist |",
+            "| `422` | Parameters or request body do not match the expected types; `detail` is a list of problems |",
+            "",
+            "The **Responses** tables below list successful responses and errors specific to one endpoint.",
+            "",
             "## CLI access",
             "",
             "The `uproot api` command calls these endpoints from the command line:",
@@ -312,9 +466,10 @@ def render() -> str:
             "uproot api sessions/mysession",
             "uproot api rooms",
             "uproot api rooms/waiting-room",
-            "uproot api sessions/mysession/players/online",
+            "uproot api sessions/mysession/online-players",
+            "uproot api sessions/mysession/players/ABC",
             'uproot api -X POST sessions -d \'{"config": "myconfig", "n_players": 4}\'',
-            "uproot api -X PATCH sessions/mysession/active",
+            "uproot api -X PATCH sessions/mysession/active -d '{\"active\": false}'",
             'uproot api -X POST sessions/mysession/players/advance -d \'{"unames": ["ABC"]}\'',
             "```",
             "",
@@ -362,7 +517,7 @@ def render() -> str:
                 output.append(request_body)
                 output.append("")
 
-            responses = format_responses(endpoint.get("responses", {}))
+            responses = format_responses(endpoint)
             if responses:
                 output.append(responses)
                 output.append("")
