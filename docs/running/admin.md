@@ -252,6 +252,20 @@ The status page (`/admin/status/`) shows:
 - environment variables;
 - active authentication sessions.
 
+### Announcements
+
+The status page also has a button that checks whether the uproot developers have posted important announcements, such as security fixes, for your version. Check regularly while you run studies. Once the server has been running for a minute, the dashboard and status page remind you if you have never checked or your last check was over a week ago. Click “Dismiss nudge” on the status page to silence the reminder for ten years.
+
+uproot never contacts uproot.science on its own—only when you click this button, click “Submit praise” in the footer, or run [`uproot announcements`](../reference/cli.md#uproot-announcements). Participants’ browsers never contact it at all (see [Why uproot?](../why-uproot.md#your-participants-talk-only-to-your-server)).
+
+If your server must never make outside connections, for example in an isolated lab network, switch these features off in `main.py`:
+
+```python
+upd.UPSTREAM = False
+```
+
+The server then never contacts uproot.science, and the announcement and praise buttons and reminders disappear from the admin interface. You then need to check for announcements some other way, for instance by visiting [uproot.science](https://uproot.science/) now and then.
+
 ## Database dump
 
 Download a complete database dump from `/admin/dump/`. This is equivalent to running `uproot dump` from the CLI.

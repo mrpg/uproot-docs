@@ -191,6 +191,16 @@ uproot examples
 
 Downloads and extracts all example apps into the current directory. Useful for learning and reference.
 
+### uproot announcements
+
+Check whether the uproot developers have posted important announcements for your version.
+
+```bash
+uproot announcements
+```
+
+This is the only command that contacts uproot.science, and only when you run it. It respects `upd.UPSTREAM = False` in `main.py` (see [Announcements](../running/admin.md#announcements)).
+
 ### uproot deployment
 
 Print the currently set `UPROOT_*` environment variables.

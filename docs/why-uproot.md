@@ -35,7 +35,7 @@ With uproot, reproducibility is not an extra chore. It falls out of the normal w
 2. **A file in that folder, `uv.lock`, lists the exact version of every piece of software your project uses.** This includes uproot itself and everything underneath it. Think of it as a receipt for your software environment. It is written automatically; you never edit it.
 3. **One command, `uv sync`, reinstalls exactly what is on that receipt.** Not “the current version,” but *your* version—on your laptop, on a lab server, or on a replicator’s machine in 2031.
 4. **Nothing updates behind your back.** Your environment changes only when you explicitly ask for an upgrade. Mid-study, it stays frozen.
-5. **No hidden moving parts.** uproot ships all browser assets (fonts, styling, JavaScript libraries) inside the package itself, so your study does not silently depend on external servers that may change or vanish.
+5. **No hidden moving parts.** uproot ships all browser assets (fonts, styling, JavaScript libraries) inside the package itself, so your study does not silently depend on external servers that may change or vanish (or learn who your participants are; see [below](#your-participants-talk-only-to-your-server)).
 
 Together with the permanent data log above, this covers both halves of a replicable experiment: the *software* that produced your data, and the *complete history* of the data itself.
 
@@ -107,6 +107,24 @@ async def bid(page, player, price: float):
 This says: the `bid` action accepts one thing, a number. Anything else, such as text, malformed data, manipulated requests, is rejected before your study logic ever sees it. You get this protection by writing ordinary Python; no security expertise required.
 
 [:material-arrow-right-circle: Live methods](building/live-methods.md)
+
+## Your participants talk only to your server
+
+**The advantage in one sentence: uproot never makes a participant’s browser contact anyone but you—no font services, no content delivery networks, no trackers.**
+
+Most websites, including most survey platforms, quietly load pieces of themselves from other companies’ servers: fonts from Google, styling and scripts from content delivery networks (CDNs), icons from somewhere else again. These requests disclose the participant’s IP address to a third party. They can also reveal browser details and which website the participant is visiting. Under the GDPR, this is a transfer of personal data.
+
+uproot avoids the problem entirely. Every font, stylesheet, icon, and script that uproot uses ships inside the uproot package and is served by your own uproot server. A participant’s browser connects to your server and to nothing else. This has three practical consequences:
+
+- **Simpler data-protection paperwork.** The answer to “Which third parties receive participant data?” is “None,” unless you add some yourself.
+- **Labs without internet access work.** A lab network that only connects participant computers to your server is enough; nothing breaks because a CDN is unreachable.
+- **No silent changes.** A file that someone else hosts can change or disappear at any time. Files inside the package change only when you upgrade (see [reproducibility](#your-experiment-can-be-rerun-exactly-years-later)).
+
+This guarantee covers uproot itself. Your own pages may of course embed a YouTube video or load an external library if your study needs it; that is your decision, not the framework’s.
+
+The uproot server itself is equally discreet. It contacts uproot.science only when an admin explicitly asks it to check for announcements (or submits praise), never on its own. To rule out even that, set `upd.UPSTREAM = False` in `main.py`.
+
+[:material-arrow-right-circle: The admin interface](running/admin.md#announcements)
 
 ## Real interaction between participants, built in
 
