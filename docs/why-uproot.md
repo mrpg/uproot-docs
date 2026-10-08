@@ -82,7 +82,7 @@ This matters scientifically as well as ethically: participants who use screen re
 
     uproot follows the principle that **if something is hard, it’s a bug.**
 
-We call this the principle of *verisimilitude*. The the bug is not yours, it is uproot’s. If an ordinary research need is hard to express, the framework is what gets fixed.
+We call this the principle of *verisimilitude*. The bug is not yours; it is uproot’s. If an ordinary research need is hard to express, the framework is what gets fixed.
 
 A concrete example. On other platforms, a common pattern is to add a €5 bonus when the results page is shown. The hidden flaw: Every time the participant refreshes the page, the code runs again, and the participant receives another €5. Bugs like this have gone undetected for entire studies, and the standard fix is manual bookkeeping that every researcher must remember to write, every time. In uproot, no workaround is needed: Its page lifecycle includes methods that are **guaranteed to run exactly once** per participant, no matter how often a page is reloaded. You write the natural code; the framework makes it correct.
 
