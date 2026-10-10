@@ -125,7 +125,7 @@ server {
 
         # Optional but recommended: do not log participant WebSockets (avoids log spam)
         location /ws/ {
-            proxy_pass http://127.0.0.1:8000;
+            proxy_pass http://127.0.0.1:8000;  # Maybe adjust this
             access_log off;
         }
     }
