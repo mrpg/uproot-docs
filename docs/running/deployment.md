@@ -122,6 +122,12 @@ server {
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection $connection_upgrade;
+
+        # Optional but recommended: do not log participant WebSockets (avoids log spam)
+        location /ws/ {
+            proxy_pass http://127.0.0.1:8000;
+            access_log off;
+        }
     }
 }
 ```
@@ -159,6 +165,12 @@ location /my-study/ {
     proxy_http_version 1.1;
     proxy_set_header Upgrade $http_upgrade;
     proxy_set_header Connection $connection_upgrade;
+
+    # Optional but recommended: do not log participant WebSockets (avoids log spam)
+    location /my-study/ws/ {
+        proxy_pass http://127.0.0.1:8000;
+        access_log off;
+    }
 }
 ```
 
