@@ -38,7 +38,7 @@ mysession/
     └── session.csv
 ```
 
-If you check **Latest × Field(s)**, there is one more folder, named after your grouping variable(s), for example, `latest_by_round/` if you group by `round`.
+If you check **Latest × Field(s)**, there is one more folder, named after your grouping variable(s). With the default grouping variables (`app`, `block`, and `round`), it is `latest_by_app_block_round/`.
 
 Each subfolder contains the same data in a different *format* (explained below). Within each format, the data is split into one file per kind of storage:
 
@@ -67,6 +67,8 @@ One row per storage (e.g., per player), showing the most recent value of every f
 #### “Latest × Field(s)”: one row per player per level of your grouping variable(s)
 
 If you enable **Latest × Field(s)**, the `latest_by_…/` folder contains one row per player *per combination of your grouping variable(s)*—for example, each participant’s state at the end of each round. This is ideal for panel-style analyses.
+
+By default, uproot groups by `app`, `block`, and `round`. This gives you one row per participant for every round of every app and [block](../building/operators.md#blocks). Apps without rounds get one row each, showing the participant’s state at the end of that app.
 
 !!! note
     Grouped snapshots include every field known at that point in time. The grouping variables determine *when* snapshots are taken, not which columns they carry. Fields set before the grouping variable appear in the output as expected.

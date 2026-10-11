@@ -227,6 +227,13 @@ for round_number, round_data in player.within(app=__name__).along("round"):
     print(round_number, round_data.choice)
 ```
 
+If your app has several [blocks](operators.md#blocks), each block has its own round 1, 2, …, so narrow by block as well. Otherwise, the rounds of all blocks get mixed together:
+
+```python
+for round_number, round_data in player.within(app=__name__, block="main").along("round"):
+    print(round_number, round_data.choice)
+```
+
 [:material-github: See the rounds example](https://github.com/mrpg/uproot-examples/tree/master/rounds)
 
 ### Using `player.within()`

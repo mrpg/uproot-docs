@@ -42,7 +42,6 @@ def new_session(session):
 
 ```python
 def new_player(player):
-    player.round = 0
     player.payoff = 0
     player.my_chat = chat.create(player.session)
     chat.add_player(player.my_chat, player)

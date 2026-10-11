@@ -78,19 +78,28 @@ page_order = [Random(Bracket(Intro1, Task1), Bracket(Intro2, Task2))]
 
 ### `Rounds`
 
-Repeats pages a fixed number of times. Sets `player.round` (1-indexed).
+Repeats pages a fixed number of times. Sets `player.round` (1-indexed), `player.block`, and `player.round_nested`.
 
 ```python
 page_order = [Rounds(Decision, Feedback, n=5)]
 ```
 
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `n` | `int` | — | Number of rounds |
+| `block` | `str` or `None` | `None` | [Block](../building/operators.md#blocks) name (a valid Python identifier); required if an app can run several loops |
+
 ### `Repeat`
 
-Repeats pages indefinitely until `player.add_round = False`.
+Repeats pages indefinitely until `player.add_round = False`. Sets the same fields as `Rounds`.
 
 ```python
 page_order = [Repeat(Trial, Check), Done]
 ```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `block` | `str` or `None` | `None` | [Block](../building/operators.md#blocks) name (a valid Python identifier); required if an app can run several loops |
 
 ### `Between`
 

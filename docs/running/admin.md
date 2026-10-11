@@ -114,7 +114,7 @@ Select one or more players and use these actions:
 
 ### Data browser
 
-Click **View data** on the session page to browse all stored data in a table view. Each player’s fields are shown with their current values, timestamps, and the code location that set each value.
+Click **View data** on the session page to browse all stored data in a table view. Each player’s fields are shown with their current values, timestamps, and the code location that set each value. You can filter the table by app, by [block](../building/operators.md#blocks), and by round.
 
 ### Downloading data
 
