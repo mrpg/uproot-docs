@@ -1,18 +1,6 @@
 # AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## Commands
-
-```bash
-uv run mkdocs build    # Build static HTML to site/
-uv run mkdocs serve    # Local preview server at http://127.0.0.1:8000
-```
-
-Deploy to production:
-```bash
-uv run mkdocs build && rsync --delete -PaczL site mg.sb:/srv/http/uproot.science/
-```
+Do not build the documentation unless specifically instructed to do so; focus on content only.
 
 ## Documentation structure
 
