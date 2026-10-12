@@ -220,7 +220,7 @@ player.trial_data = {
 }
 ```
 
-Several other types are also supported, such as `set` and `random.Random`. A full list of permitted types is available [here](https://github.com/mrpg/uproot/blob/main/src/uproot/stable.py#L21).
+Several other types are also supported, such as `set` and `random.Random`. A full list of permitted types is available [here](https://github.com/mrpg/appendmuch/blob/master/src/appendmuch/codec.py).
 
 ## Accessing other players
 
