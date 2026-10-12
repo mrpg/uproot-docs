@@ -60,20 +60,20 @@ Set `synchronize = "session"` to synchronize across the entire session.
 
 ## SmoothOperators
 
-### `Random`
+### `RandomOrder`
 
 Shuffles pages into a random order per participant.
 
 ```python
-page_order = [Random(TaskA, TaskB, TaskC)]
+page_order = [RandomOrder(TaskA, TaskB, TaskC)]
 ```
 
 ### `Bracket`
 
-Groups pages as an atomic unit within `Random`.
+Groups pages as an atomic unit within `RandomOrder`.
 
 ```python
-page_order = [Random(Bracket(Intro1, Task1), Bracket(Intro2, Task2))]
+page_order = [RandomOrder(Bracket(Intro1, Task1), Bracket(Intro2, Task2))]
 ```
 
 ### `Rounds`

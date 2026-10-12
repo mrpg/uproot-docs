@@ -72,8 +72,8 @@ The typical reader is a behavioral researcher — an economist, psychologist, or
 - `SynchronizingWait` — Waits for all group members to arrive
 
 ### SmoothOperators (control page_order flow)
-- `Random` — Shuffles pages into random order
-- `Bracket` — Groups pages as an atomic unit (use with Random)
+- `RandomOrder` — Shuffles pages into random order
+- `Bracket` — Groups pages as an atomic unit (use with RandomOrder)
 - `Rounds` — Repeats pages n times (fixed count via `n=` parameter)
 - `Repeat` — Repeats indefinitely until `player.add_round = False`
 - `Between` — Randomly selects one option (for between-subjects designs)

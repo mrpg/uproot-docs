@@ -2,14 +2,14 @@
 
 SmoothOperators let you define dynamic page sequences that adapt at runtime. Instead of a fixed list of pages, you can randomize order, repeat sections, or select between alternatives—all declaratively in your `page_order`.
 
-## Random
+## RandomOrder
 
-`Random` shuffles pages into a random order for each participant. This is essential for counterbalancing in within-subjects designs.
+`RandomOrder` shuffles pages into a random order for each participant. This is essential for counterbalancing in within-subjects designs.
 
 ```python
 page_order = [
     Instructions,
-    Random(
+    RandomOrder(
         TaskA,
         TaskB,
         TaskC,
@@ -28,7 +28,7 @@ Sometimes you want to randomize the order of *groups* of pages while keeping eac
 
 ```python
 page_order = [
-    Random(
+    RandomOrder(
         Bracket(Intro1, Task1, Debrief1),  # These three stay together
         Bracket(Intro2, Task2, Debrief2),  # These three stay together
         Bracket(Intro3, Task3, Debrief3),  # These three stay together
@@ -46,7 +46,7 @@ You can randomize the order of entire sub-experiments by unpacking their `page_o
 from . import app1, app2, app3
 
 page_order = [
-    Random(
+    RandomOrder(
         Bracket(*app1.page_order),
         Bracket(*app2.page_order),
         Bracket(*app3.page_order),
@@ -235,7 +235,7 @@ page_order = [
         Bracket(TreatmentIntro, Treatment),  # Treatment condition
         Bracket(ControlIntro, Control),      # Control condition
     ),
-    Random(
+    RandomOrder(
         Task1,
         Task2,
         Task3,
@@ -249,7 +249,7 @@ page_order = [
 ```python
 page_order = [
     Rounds(
-        Random(
+        RandomOrder(
             StimulusA,
             StimulusB,
         ),
@@ -266,7 +266,7 @@ You can nest operators to create more complex designs:
 ```python
 page_order = [
     Instructions,
-    Random(
+    RandomOrder(
         Between(VersionA, VersionB),  # Randomly select one version
         Bracket(Control1, Control2),  # Keep these two together
         StandaloneTask,
@@ -330,7 +330,7 @@ The fix is to add `block=` to every outermost `Rounds` and `Repeat` in that app.
 - Loops inside `Between` count once, since each participant sees only one alternative. `Between(Rounds(A, n=3), Rounds(B, n=5))` needs no blocks.
 - `Rounds` with `n=0` never runs and is ignored.
 
-`Random(Rounds(A, n=3), Rounds(B, n=3))`, on the other hand, runs both loops and therefore needs a block for each.
+`RandomOrder(Rounds(A, n=3), Rounds(B, n=3))`, on the other hand, runs both loops and therefore needs a block for each.
 
 ### Nested loops
 
@@ -344,7 +344,7 @@ When a participant moves on to the next app or reaches the end, uproot removes `
 
 | Operator | Purpose | Key parameter |
 |----------|---------|---------------|
-| `Random` | Shuffle pages randomly | Pages as arguments |
+| `RandomOrder` | Shuffle pages randomly | Pages as arguments |
 | `Bracket` | Group pages as a unit | Pages as arguments |
 | `Rounds` | Repeat pages n times | `n` for count; optional [`block`](#blocks) |
 | `Repeat` | Repeat until stopped | `player.add_round` to control; optional [`block`](#blocks) |

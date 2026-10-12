@@ -143,7 +143,7 @@ uproot also notices when a participant disconnects and lets you [decide what hap
 On most platforms, participants march through a fixed sequence of pages, forward only. In uproot, the [page order](building/pages.md) can change at runtime: participants can [go back and revise answers](https://github.com/mrpg/uproot-examples/tree/master/revise), pages can appear or disappear based on earlier choices, and common designs are one line:
 
 ```python
-page_order = [Hello, Random(Page1, Page2), Rounds(Task, Feedback, n=4), Bye]
+page_order = [Hello, RandomOrder(Page1, Page2), Rounds(Task, Feedback, n=4), Bye]
 ```
 
 This line shows two pages in random order, then repeats a task-and-feedback block four times. Randomized blocks, between-subjects treatments, and indefinite repetition (for random stopping rules without deception!) are all built in.

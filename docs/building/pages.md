@@ -43,7 +43,7 @@ Nested lists are flattened automatically, so you can compose page sequences from
 
 ```python
 def page_order(player):
-    warmup = [Instructions, Random(PracticeA, PracticeB)]
+    warmup = [Instructions, RandomOrder(PracticeA, PracticeB)]
     main_task = [Rounds(Decision, Feedback, n=5)]
     return [warmup, main_task, Results]
 ```
