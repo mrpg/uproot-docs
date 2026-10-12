@@ -54,7 +54,7 @@ Query parameters:
 |-----------|--------|---------|-------------|
 | `format` | `ultralong`, `sparse`, `latest` | `ultralong` | Export format |
 | `gvar` | field names (repeatable) | — | Group-by variables (for `latest`) |
-| `filters` | `true`, `false` | `false` | Apply reasonable filters |
+| `filters` | `true`, `false` | `false` | Apply [reasonable filters](export.md#reasonable-filters) (with `gvar`, this also leaves out `page_order`) |
 
 ## Database dumps
 

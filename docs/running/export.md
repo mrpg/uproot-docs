@@ -71,7 +71,7 @@ If you enable **Latest × Field(s)**, the `latest_by_…/` folder contains one r
 By default, uproot groups by `app`, `block`, and `round`. This gives you one row per participant for every round of every app and [block](../building/operators.md#blocks). Apps without rounds get one row each, showing the participant’s state at the end of that app.
 
 !!! note
-    Grouped snapshots include every field known at that point in time. The grouping variables determine *when* snapshots are taken, not which columns they carry. Fields set before the grouping variable appear in the output as expected.
+    Grouped snapshots include every field known at that point in time (except `page_order` with [reasonable filters](#reasonable-filters)). The grouping variables determine *when* snapshots are taken, not which columns they carry. Fields set before the grouping variable appear in the output as expected.
 
 ### “Sparse”: one row per change, one column per field
 
@@ -109,6 +109,7 @@ The **Apply reasonable filters** option (on by default) cleans up uproot-interna
 - It renames `_uproot_session` to `session`.
 - It keeps `_uproot_dropout` and `_uproot_settings`.
 - It removes all other internal `_uproot_*` fields.
+- It leaves `page_order` out of `latest_by_…/`, where it would repeat every page in every row. It stays in the other formats, and `page_times` tells you which page each participant saw when.
 
 Turn filters off only if you need to inspect uproot’s internal bookkeeping.
 

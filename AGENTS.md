@@ -240,7 +240,7 @@ Using a context manager is always safe, even when not strictly required.
 ### Data export
 - Every download is a ZIP “briefcase”: one top-level folder named after the session, containing `README.txt`, `DATA_DICTIONARY.json`, `page_times.csv` (or `.jsonl`), `SHA256SUMS`, and one folder per format (`ultralong/`, `sparse/`, `latest/`, optionally `latest_by_<gvar>/`), each split into one file per storage kind (`player.csv`, `group.csv`, `session.csv`, `model.csv`)
 - Formats: `ultralong` (one row per field change), `sparse` (wide event log), `latest` (one row per storage with final values); file type CSV or JSONL applies to the whole briefcase
-- `filters=true` cleans up internal `_uproot_*` fields (renames `_uproot_group` → `group`, `_uproot_session` → `session`)
+- `filters=true` cleans up internal `_uproot_*` fields (renames `_uproot_group` → `group`, `_uproot_session` → `session`) and leaves `page_order` out of grouped latest output (`latest_by_<gvar>/`, JSONL `format=latest` with `gvar`)
 - REST: `GET /sessions/{sname}/data/export/` returns the ZIP briefcase; `GET /sessions/{sname}/data/jsonl/` streams a single format
 - `uproot dump`/`uproot restore` for full database backup
 - `uproot.read`: offline analysis in Python — `from uproot.read import read; db = read("uproot.sqlite3")`
