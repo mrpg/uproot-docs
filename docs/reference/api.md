@@ -70,7 +70,7 @@ page_order = [RandomOrder(TaskA, TaskB, TaskC)]
 
 ### `Bracket`
 
-Groups pages as an atomic unit within `RandomOrder`.
+Groups pages as an atomic unit within `RandomOrder` or `Between`. SmoothOperators take only pages and other SmoothOperators, so use `Bracket` instead of a list.
 
 ```python
 page_order = [RandomOrder(Bracket(Intro1, Task1), Bracket(Intro2, Task2))]
@@ -86,7 +86,7 @@ page_order = [Rounds(Decision, Feedback, n=5)]
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `n` | `int` | — | Number of rounds |
+| `n` | `int` | — | Number of rounds (0 or more) |
 | `block` | `str` or `None` | `None` | [Block](../building/operators.md#blocks) name (a valid Python identifier); required if an app can run several loops |
 
 ### `Repeat`
@@ -103,7 +103,7 @@ page_order = [Repeat(Trial, Check), Done]
 
 ### `Between`
 
-Randomly selects one option per participant. Records selection in `player.between_showed`.
+Randomly selects one option per participant. Appends the pages of the selected option to `player.between_showed`, one list per `Between` (see [Tracking which condition was shown](../building/operators.md#tracking-which-condition-was-shown)).
 
 ```python
 page_order = [Between(Treatment, Control)]
@@ -171,11 +171,15 @@ reload(player)
 
 ### `move_to_page`
 
-Move a player to a specific page.
+Move a player forward to the next occurrence of a page in their page order, skipping the pages in between.
 
 ```python
 move_to_page(player, TargetPage, reload_=True)
 ```
+
+- If the target lies inside [SmoothOperators](../building/operators.md), uproot sets them up on the way, as if the player had arrived normally: the target’s round starts, a `RandomOrder` is shuffled (pages that end up before the target are skipped), and a `Between` makes its selection. Moving into a later app starts that app.
+- SmoothOperators that the move skips entirely are left out. For example, moving from round 2 to a page after the `Rounds` keeps `player.round == 2`.
+- It raises a `ValueError` if the target is not ahead of the player, or if a `Between` on the way does not select the target. The player then stays where they are.
 
 ### `move_to_end`
 

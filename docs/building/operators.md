@@ -38,6 +38,15 @@ page_order = [
 
 Participants see all three blocks, but in random order. Within each block, pages appear in their defined sequence.
 
+!!! warning "Use Bracket, not a list"
+    SmoothOperators take only pages and other SmoothOperators. If you write a list such as `RandomOrder([Intro1, Task1], [Intro2, Task2])`, uproot stops with an error like this:
+
+    ```
+    TypeError: Constraint violation: RandomOrder() takes pages and SmoothOperators, not [<class 'myapp.Intro1'>, <class 'myapp.Task1'>]. Use Bracket() to keep several pages together.
+    ```
+
+    Write `Bracket(Intro1, Task1)` instead.
+
 ### Randomizing entire apps
 
 You can randomize the order of entire sub-experiments by unpacking their `page_order` into brackets:
@@ -128,6 +137,8 @@ page_order = [
 ]
 ```
 
+`n` must be a whole number (an `int`) of 0 or more. A calculation that results in a decimal number, such as `n=len(C.ITEMS) / 2`, stops uproot with `ValueError: Constraint violation: n must be a non-negative integer`. Use `//` to divide without a remainder (`n=len(C.ITEMS) // 2`), or wrap the result in `int(...)`.
+
 [:material-github: See the rounds example](https://github.com/mrpg/uproot-examples/tree/master/rounds)
 
 ### Rounds with groups
@@ -213,14 +224,29 @@ Each participant experiences either the full treatment sequence or the full cont
 
 ### Tracking which condition was shown
 
-The selection is recorded in `player.between_showed`, which you can use for analysis:
+uproot records each selection in `player.between_showed`, which you can use in your pages and in your analysis. It is a list with one entry for each `Between` the participant went through. Each entry lists the pages of the selected option as `"app/PageName"`. In an app called `myapp`, a participant who gets the treatment sequence from the example above has:
+
+```python
+player.between_showed == [
+    ["myapp/TreatmentIntro", "myapp/TreatmentTask", "myapp/TreatmentDebrief"],
+]
+```
+
+To use the condition on a later page, look at the last entry:
 
 ```python
 class Results(Page):
     @classmethod
     def templatevars(page, player):
-        return dict(condition=player.between_showed)
+        treated = "myapp/TreatmentTask" in player.between_showed[-1]
+
+        return dict(treated=treated)
 ```
+
+Two details matter when you nest operators:
+
+- If the selected option contains another `Between`, that inner `Between` adds its own entry, and the outer entry leaves out the inner one’s pages. With `Between(Between(A, B), C)`, a participant who sees `B` has `[[], ["myapp/B"]]`.
+- An option without pages, such as `Rounds(A, n=0)`, gets an empty entry (`[]`), so that every `Between` a participant went through has an entry.
 
 ## Combining operators
 
