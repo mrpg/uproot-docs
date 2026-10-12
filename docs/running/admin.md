@@ -92,7 +92,7 @@ Select one or more players and use these actions:
 | Action | What it does |
 |--------|-------------|
 | **Advance** | Move selected players forward one page |
-| **Revert** | Move selected players back one page |
+| **Revert** | Move selected players back one page, but not into an earlier round or app (see below) |
 | **Move to end** | Skip selected players to the end of the experiment |
 | **Reload** | Force a page reload in selected players’ browsers |
 | **Send message** | Display a message on selected players’ screens |
@@ -101,6 +101,9 @@ Select one or more players and use these actions:
 | **Set fields** | Set arbitrary field values on selected players |
 | **Group/ungroup** | Manually create or dissolve groups |
 | **Run `new_player`** | Re-run the `new_player` callback for selected players |
+
+!!! note "Reverting stops at the start of rounds and apps"
+    **Revert** cannot take players back into an earlier round of [`Rounds` or `Repeat`](../building/operators.md#rounds), into an earlier app, or out of the end of the experiment. uproot does not count `player.round` back down or switch `player.app` back, so anything players entered after such a revert would be saved under the wrong round or app. If any selected player would cross such a boundary, uproot shows “The action failed” and moves none of the selected players. The server log names the player and the boundary.
 
 ### Session controls
 

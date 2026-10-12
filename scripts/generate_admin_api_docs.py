@@ -72,6 +72,9 @@ RESPONSE_OVERRIDES: dict[tuple[str, str], list[tuple[str, str, str]]] = {
     ("GET", "/database/dump/"): [
         ("200", "application/gzip", "Gzip-compressed database dump"),
     ],
+    ("GET", "/project/archive/"): [
+        ("200", "application/gzip", "Gzip-compressed tar archive of the project"),
+    ],
 }
 
 
@@ -381,6 +384,14 @@ def endpoint_notes(endpoint: dict[str, Any]) -> list[str]:
             "underscores, not starting with a digit). They are checked before anything "
             "is written: if any name is invalid, the request fails with `400` and no "
             "player is changed."
+        )
+    if path.endswith("/players/revert/"):
+        notes.append(
+            "Players cannot be reverted past the start of a round (`Rounds` or "
+            "`Repeat`) or of an app, or from the end of the experiment, because "
+            "`player.round` and `player.app` would not go back with them. All players "
+            "are checked first: if any of them cannot be reverted, the request fails "
+            "with `400` and no player is moved."
         )
     if path.endswith("/players/{uname}/") and endpoint["method"] == "GET":
         notes.append(

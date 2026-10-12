@@ -179,7 +179,7 @@ move_to_page(player, TargetPage, reload_=True)
 
 - If the target lies inside [SmoothOperators](../building/operators.md), uproot sets them up on the way, as if the player had arrived normally: the target’s round starts, a `RandomOrder` is shuffled (pages that end up before the target are skipped), and a `Between` makes its selection. Moving into a later app starts that app.
 - SmoothOperators that the move skips entirely are left out. For example, moving from round 2 to a page after the `Rounds` keeps `player.round == 2`.
-- It raises a `ValueError` if the target is not ahead of the player, or if a `Between` on the way does not select the target. The player then stays where they are.
+- It raises a `ValueError` if the target is not ahead of the player, or if a `Between` on the way does not select the target. The player then stays where they are, and nothing about them changes, not even in the data.
 
 ### `move_to_end`
 

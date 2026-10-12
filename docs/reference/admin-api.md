@@ -565,6 +565,9 @@ Force page reload for specified players.
 
 Revert specified players by one page.
 
+!!! note
+    Players cannot be reverted past the start of a round (`Rounds` or `Repeat`) or of an app, or from the end of the experiment, because `player.round` and `player.app` would not go back with them. All players are checked first: if any of them cannot be reverted, the request fails with `400` and no player is moved.
+
 **Path parameters**:
 
 | Parameter | Type | Required | Description |
@@ -1457,6 +1460,18 @@ Fetch the same praise text shown by the admin UI.
 |--------|---------|-------------|
 | `200` | `text/plain`{ .text-nowrap } | Praise text |
 | `502` | `application/json`{ .text-nowrap } | Praise could not be fetched from upstream |
+
+---
+
+### `GET /admin/api/v1/project/archive/`
+
+Download a reproducible .tar.gz archive of the project code, excluding files ignored by .gitignore.
+
+**Responses**:
+
+| Status | Content | Description |
+|--------|---------|-------------|
+| `200` | `application/gzip`{ .text-nowrap } | Gzip-compressed tar archive of the project |
 
 ---
 
