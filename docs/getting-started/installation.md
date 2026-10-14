@@ -2,6 +2,15 @@
 
 This guide uses [uv](https://docs.astral.sh/uv/), a fast Python package manager that handles Python installation automatically. If you prefer traditional tools, see the [pip installation guide](https://github.com/mrpg/uproot/blob/main/INSTALLATION-PIP.md).
 
+!!! warning "Windows users (temporary issue)"
+    uproot generally recommends the use of macOS or Linux. If you must use Windows, then installing uproot with uv may currently fail with this error:
+
+    ```
+    error: Microsoft Visual C++ 14.0 or greater is required. Get it with "Microsoft C++ Build Tools": …
+    ```
+
+    To fix it, download the [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/). In the Visual Studio Installer, select the “Desktop development with C++” package and install it. This is a large download. Then try again.
+
 ## 1. Install uv
 
 === "macOS / Linux"
