@@ -143,10 +143,10 @@ If `digest()` returns a dictionary, its keys become template variables instead. 
 
 ### Pipeline
 
-If your app defines `pipeline(session)`, the admin can run it from the session page. Return a list of dictionaries to get a downloadable table (one row per dict):
+If your app defines `pipeline(session, data)`, the admin can run it from the session page. Return a list of dictionaries to get a downloadable table (one row per dict):
 
 ```python
-def pipeline(session):
+def pipeline(session, data=None):
     rows = []
     for group in session.groups(app=__name__):
         p1, p2 = group.players
@@ -164,7 +164,7 @@ def pipeline(session):
 
 [`player.within()`](../building/results.md#using-playerwithin) selects values recorded in this app. Using `.get()` keeps the pipeline usable before every participant has submitted a decision.
 
-If `pipeline` declares a `data` parameter, the admin (or [REST API](../reference/admin-api.md)) can post JSON that is passed through as `data`. The admin provides a built-in JSON input for this. To show app-specific instructions or status above the pipeline buttons, add `AdminPipeline.html` with a `main` block only.
+uproot always calls `pipeline(session=session, data=data)`. The admin (or [REST API](../reference/admin-api.md)) can post JSON that is passed through as `data`; without a JSON body, `data` is `None`. The admin provides a built-in JSON input for this. To show app-specific instructions or status above the pipeline buttons, add `AdminPipeline.html` with a `main` block only.
 
 [:material-github: See pipeline in the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma) · [prediction_market example](https://github.com/mrpg/uproot-examples/tree/master/prediction_market)
 

@@ -134,7 +134,7 @@ The two recipes below need a bit more code. They are good tasks for a coding age
 [Prolific’s bulk bonus form](https://researcher-help.prolific.com/en/articles/445233-how-do-i-send-bonus-payments) takes one line per participant: their Prolific ID and bonus amount, separated by a comma. uproot stores the Prolific ID as `player.label`, so you do not need anything from Prolific to build these lines. Suppose your app saves each participant’s bonus as `player.bonus`. A [pipeline](admin.md#pipeline) exports the participant IDs and amounts:
 
 ```python
-def pipeline(session):
+def pipeline(session, data=None):
     rows = []
 
     for player in session.players:

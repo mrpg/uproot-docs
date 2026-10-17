@@ -222,7 +222,7 @@ Usually, prefer `player.context`: it is concise and automatically follows the pa
 !!! warning "Do not use `player.context` outside page execution"
     `player.context` relies on `player.app`, which tracks whichever app the participant is currently in. Outside page methods and templates, that value is unreliable: it may be `None` (before the first app), or it may point to a different app entirely.
 
-    Do not use `player.context` in `page_order(player)`, `new_player(player)`, `digest(session)`, `pipeline(session)`, or any other app-level function. In those places, construct the context explicitly:
+    Do not use `player.context` in `page_order(player)`, `new_player(player)`, `digest(session)`, `pipeline(session, data)`, or any other app-level function. In those places, construct the context explicitly:
 
     ```python
     context = Context(player)

@@ -268,7 +268,7 @@ def digest(session):
 If your experiment uses a `pipeline` function, include `timed_out` and `dropped` so you can filter in downstream analysis:
 
 ```python
-def pipeline(session):
+def pipeline(session, data=None):
     rows = []
     for group in session.groups(app=__name__):
         for player in group.players:

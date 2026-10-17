@@ -1032,7 +1032,7 @@ Run an app pipeline without custom JSON data, matching the admin UI button.
 Run an app pipeline, optionally passing a JSON request body.
 
 !!! note
-    This endpoint accepts an optional JSON request body. If the app’s `pipeline()` callable declares a `data` parameter, the decoded body is passed as `data`. A body that is not valid JSON fails with `400`.
+    This endpoint accepts an optional JSON request body. The decoded body is passed to the app’s `pipeline()` as `data` (`None` if the body is empty). A body that is not valid JSON fails with `400`.
 
 !!! note
     If the pipeline returns a custom data export, it is downloaded as CSV or JSONL, depending on `filetype`. Any other result is returned as plain text. `filetype` must be `csv` or `jsonl`; any other value fails with `400` before the pipeline runs.

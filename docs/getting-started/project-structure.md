@@ -137,7 +137,7 @@ page_order = [Welcome, Decision, Results]
 | `new_player(player)`{ .text-nowrap } | Once per player when they join |
 | `restart()` | On server restart (can be async) |
 | `digest(session)` | Returns data for the admin digest view (pair with `AdminDigest.html`) |
-| `pipeline(session)` | Admin-runnable job; return a list of dicts for a downloadable table. May take optional `data=` |
+| `pipeline(session, data)` | Admin-runnable job; return a list of dicts for a downloadable table. `data` is the posted JSON or `None` |
 | `language(player)` | Returns ISO 639 language code for the player |
 | `api(request, session)` | Authenticated HTTP endpoint at `/api/{app}/{sname}/` |
 | `api2(request, session, player=None)` | Participant HTTP endpoint at `/api2/{app}/{sname}/`; public by default, with optional participant authentication |
