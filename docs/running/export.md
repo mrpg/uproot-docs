@@ -105,8 +105,10 @@ The last part of `!storage` is the participant’s uproot name. For instance, `p
 
 The **Apply reasonable filters** option (on by default) cleans up uproot-internal fields:
 
-- It renames `_uproot_group` to `group` (with values like `group/mysession/g1`, matching the `!storage` column of `group.csv`; this is handy for merging, see below).
+- It renames `_uproot_group` to `group` (with values like `group/mysession/g1`, matching the `!storage` column of `group.csv`; this is handy for merging, see below). When a participant leaves a group—for example, when they reach the next app’s `GroupCreatingWait` page—`group` becomes empty until they join a new one.
 - It renames `_uproot_session` to `session`.
+- In `group.csv` and `session.csv`, it renames `_uproot_players` to `players`: a list of the members, with values like `player/mysession/9wpsj`.
+- In `session.csv`, it renames `_uproot_groups` to `groups`: a list of the session’s groups, with values like `group/mysession/g1`.
 - It keeps `_uproot_dropout` and `_uproot_settings`.
 - It removes all other internal `_uproot_*` fields.
 - It leaves `page_order` out of `latest_by_…/`, where it would repeat every page in every row. It stays in the other formats, and `page_times` tells you which page each participant saw when.

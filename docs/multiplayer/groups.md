@@ -17,6 +17,8 @@ class WaitForPartner(GroupCreatingWait):
 
 When participants reach this page, they wait until enough others arrive to form a group. Once a group forms, all members advance to the next page together.
 
+A wait page only groups participants who have actually opened it. For example, if you advance participants to the wait page from the [admin interface](../running/admin.md) while their browser is closed, they join a group once they come back and the page loads. Participants are also only grouped with others on the same page: if [`Between`](../building/operators.md#between) gives participants different page orders, a wait page never groups them with someone who is on a different page at the same position.
+
 ```python
 page_order = [
     WaitForPartner,
@@ -42,6 +44,8 @@ class GroupPlease(GroupCreatingWait):
 ```
 
 The callback receives the `group` object and runs exactly once when the group is created. All players in the group can then access their assigned attributes.
+
+A participant only joins a group after the wait page’s own [`early`](../reference/page-methods.md#early) and [`before_always_once`](../reference/page-methods.md#before_always_once) methods have finished for them. So anything these methods save on `player` is already there when `after_grouping` runs.
 
 [:material-github: See the dictator_game example](https://github.com/mrpg/uproot-examples/tree/master/dictator_game) · [trust_game example](https://github.com/mrpg/uproot-examples/tree/master/trust_game) · [ultimatum_game example](https://github.com/mrpg/uproot-examples/tree/master/ultimatum_game) · [gift_exchange_game example](https://github.com/mrpg/uproot-examples/tree/master/gift_exchange_game)
 
