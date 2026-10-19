@@ -35,8 +35,6 @@ import uproot.deployment as upd
 from uproot.cli import cli
 from uproot.server import load_config, uproot_server
 
-upd.project_metadata(created="1970-01-01", uproot="*.*.*")
-
 load_config(uproot_server, config="my_experiment", apps=["my_app"])
 
 upd.ADMINS["admin"] = upd.auto_login()  # Secret login link, or password from the environment
