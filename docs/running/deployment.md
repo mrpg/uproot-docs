@@ -6,7 +6,7 @@ Choose the option that suits you:
 
 1. **[Use Cloudflare](#option-1-use-cloudflare).** If you have a computer with a stable, high-bandwidth internet connection, run uproot there and let Cloudflare connect participants to it. The same approach also works on a VPS.
 2. **[Self-host on your own VPS](#option-2-self-host-on-your-own-vps).** A virtual private server (VPS) is a rented computer that you manage remotely. Use nginx and Let’s Encrypt for full control over your web server and HTTPS setup—no third-party service touches participant traffic.
-3. **[Use a hosting service](#option-3-use-a-hosting-service).** Deploy to Fly.io, Railway, Render, or Heroku using the instructions below.
+3. **[Use a hosting service](#option-3-use-a-hosting-service).** Deploy to Fly.io, Render, or Heroku using the instructions below.
 
 ## Option 1: Use Cloudflare
 
@@ -181,7 +181,7 @@ The admin interface will be at `https://example.com/my-study/admin/`.
 
 ## Option 3: Use a hosting service
 
-These services run uproot on infrastructure they manage. Choose [Fly.io](#flyio-with-sqlite), [Railway](#railway-with-sqlite), or [Render](#render-with-sqlite) to keep the default SQLite database, or [Heroku](#heroku) with PostgreSQL. Follow the storage instructions for your chosen service so that saved experiment data survives restarts.
+These services run uproot on infrastructure they manage. Choose [Fly.io](#flyio-with-sqlite) or [Render](#render-with-sqlite) to keep the default SQLite database, or [Heroku](#heroku) with PostgreSQL. Follow the storage instructions for your chosen service so that saved experiment data survives restarts.
 
 ### Fly.io with SQLite
 
@@ -322,30 +322,6 @@ fly status
 ```
 
 Access the admin interface at `https://your-app-name.fly.dev/admin/`.
-
-### Railway with SQLite
-
-[Railway](https://railway.com/) can deploy an uproot project directly from GitHub. Its WebSocket connections are [exempt from inactivity timeouts](https://docs.railway.com/networking/public-networking/specs-and-limits), but its ordinary container disk is temporary. You must attach a [volume](https://docs.railway.com/volumes) for the SQLite database.
-
-#### Quick start
-
-1. Sign up at [railway.com](https://railway.com/) and create a project from your GitHub repository.
-2. Open the uproot service’s **Settings** tab. Under **Deploy**, set the start command to `uproot run -h 0.0.0.0 -p $PORT`. This is the same command as the generated `Procfile`, but setting it explicitly avoids relying on [deprecated Procfile detection](https://railpack.com/config/procfile/).
-3. Add a Railway volume to the service and set its mount path to `/data`.
-4. Under **Networking**, select **Generate Domain**.
-5. Under **Variables**, add the following values, replacing the example domain and password:
-
-    ```text
-    UPROOT_SQLITE3=/data/uproot.sqlite3
-    UPROOT_ORIGIN=https://your-service.up.railway.app
-    UPROOT_ADMIN_PASSWORD=choose-a-long-random-password
-    ```
-
-6. Deploy the staged changes, then open `https://your-service.up.railway.app/admin/`.
-
-The password variable assumes that `main.py` contains `upd.ADMINS["admin"] = upd.auto_login()`, as current uproot projects do. Add that line if you have an older project.
-
-Railway services with a volume [cannot use replicas and have a short period of downtime during a redeploy](https://docs.railway.com/volumes/reference). Do not redeploy while an experiment is running.
 
 ### Render with SQLite
 

@@ -10,7 +10,7 @@ my_project/
 ├── pyproject.toml           # Python dependencies
 ├── requirements.txt         # Alternative dependency file
 ├── .env                     # Local environment settings
-├── Procfile                 # For cloud deployment (Heroku, Railway)
+├── Procfile                 # For cloud deployment (Heroku)
 ├── uproot_license.txt       # uproot’s LGPL license
 ├── _static/                 # Static files shared by all apps (optional)
 ├── my_app/
