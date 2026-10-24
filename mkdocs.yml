@@ -86,6 +86,7 @@ nav:
     - Installation: getting-started/installation.md
     - "Tutorial: A complete experiment": getting-started/tutorial.md
     - Project structure: getting-started/project-structure.md
+    - Upgrading: upgrade.md
   - Building experiments:
     - Pages and templates: building/pages.md
     - Collecting data with forms: building/forms.md
