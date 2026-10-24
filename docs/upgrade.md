@@ -15,10 +15,10 @@ This page assumes you have an existing project set up with [uv](getting-started/
 
 Check [uproot-science on PyPI](https://pypi.org/project/uproot-science/) for the latest release. Stop your running server with ++ctrl+c++ in its terminal.
 
-In your project directory—the folder containing `main.py` and `pyproject.toml`—run these commands. **Replace `0.7.0` with the release you want to use**; it is an example version here.
+In your project directory—the folder containing `main.py` and `pyproject.toml`—run these commands. **Replace `X.Y.Z` with the release you want to use**; it is an example version here.
 
 ```console
-uv add "uproot-science==0.7.0"
+uv add "uproot-science==X.Y.Z"
 uv run uproot --version
 ```
 
