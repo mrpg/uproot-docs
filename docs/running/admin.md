@@ -139,7 +139,7 @@ If your app defines `digest(session)`, the digest view shows its output. A list 
 
 If `digest()` returns a dictionary, its keys become template variables instead. For example, `return {"groups": rows}` makes the rows available as `groups`.
 
-[:material-github: See the prisoners_dilemma_repeated example for a digest implementation](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma_repeated)
+[:material-github: See the prisoners_dilemma_repeated example for a digest implementation](https://github.com/mrpg/uproot-examples/tree/main/prisoners_dilemma_repeated)
 
 ### Pipeline
 
@@ -166,7 +166,7 @@ def pipeline(session, data=None):
 
 uproot always calls `pipeline(session=session, data=data)`. The admin (or [REST API](../reference/admin-api.md)) can post JSON that is passed through as `data`; without a JSON body, `data` is `None`. The admin provides a built-in JSON input for this. To show app-specific instructions or status above the pipeline buttons, add `AdminPipeline.html` with a `main` block only.
 
-[:material-github: See pipeline in the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma) · [prediction_market example](https://github.com/mrpg/uproot-examples/tree/master/prediction_market)
+[:material-github: See pipeline in the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/main/prisoners_dilemma) · [prediction_market example](https://github.com/mrpg/uproot-examples/tree/main/prediction_market)
 
 ## Managing rooms
 
@@ -244,7 +244,7 @@ The setters (`fill`, `choose`, `check`, `uncheck`, `select`, `oneOf`, and `choos
 !!! warning
     Simulation is session-level and permanent. Once a session is created with simulation enabled, it cannot be disabled for that session. Create a new session without the option to run without simulation.
 
-[:material-github: See simulate.js in the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma)
+[:material-github: See simulate.js in the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/main/prisoners_dilemma)
 
 ## Server status
 

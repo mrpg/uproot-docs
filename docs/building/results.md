@@ -27,7 +27,7 @@ In the template, access player data and context variables:
 {% endblock main %}
 ```
 
-[:material-github: See the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma)
+[:material-github: See the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/main/prisoners_dilemma)
 
 ## Accessing other players’ data
 
@@ -46,7 +46,7 @@ class Results(Page):
 <p>Your partner sent {{ other.amount }}.</p>
 ```
 
-[:material-github: See the trust_game example](https://github.com/mrpg/uproot-examples/tree/master/trust_game) · [ultimatum_game example](https://github.com/mrpg/uproot-examples/tree/master/ultimatum_game)
+[:material-github: See the trust_game example](https://github.com/mrpg/uproot-examples/tree/main/trust_game) · [ultimatum_game example](https://github.com/mrpg/uproot-examples/tree/main/ultimatum_game)
 
 ### Larger groups
 
@@ -67,7 +67,7 @@ class Results(Page):
 </p>
 ```
 
-[:material-github: See the beauty_contest example](https://github.com/mrpg/uproot-examples/tree/master/beauty_contest) · [minimum_effort_game example](https://github.com/mrpg/uproot-examples/tree/master/minimum_effort_game)
+[:material-github: See the beauty_contest example](https://github.com/mrpg/uproot-examples/tree/main/beauty_contest) · [minimum_effort_game example](https://github.com/mrpg/uproot-examples/tree/main/minimum_effort_game)
 
 ## Formatting numbers
 
@@ -81,7 +81,7 @@ Format decimal places with the `| to(n)` filter:
 <p>Percentage: {{ player.pct | to(0) }}%</p>       <!-- 85% -->
 ```
 
-[:material-github: See the big5 example](https://github.com/mrpg/uproot-examples/tree/master/big5) · [focal_point example](https://github.com/mrpg/uproot-examples/tree/master/focal_point)
+[:material-github: See the big5 example](https://github.com/mrpg/uproot-examples/tree/main/big5) · [focal_point example](https://github.com/mrpg/uproot-examples/tree/main/focal_point)
 
 ### The `fmtnum` filter
 
@@ -134,7 +134,7 @@ uproot passes all Python builtins to templates. Perform calculations directly:
 {% endif %}
 ```
 
-[:material-github: See the focal_point example](https://github.com/mrpg/uproot-examples/tree/master/focal_point)
+[:material-github: See the focal_point example](https://github.com/mrpg/uproot-examples/tree/main/focal_point)
 
 ### Using Python builtins
 
@@ -161,7 +161,7 @@ Call `sum()`, `max()`, `min()`, `len()`, `range()`, `enumerate()`, `zip()`, and 
 {% endfor %}
 ```
 
-[:material-github: See the mpl example](https://github.com/mrpg/uproot-examples/tree/master/mpl)
+[:material-github: See the mpl example](https://github.com/mrpg/uproot-examples/tree/main/mpl)
 
 ## Conditional display
 
@@ -179,7 +179,7 @@ Show different content based on player role:
 {% endif %}
 ```
 
-[:material-github: See the trust_game example](https://github.com/mrpg/uproot-examples/tree/master/trust_game) · [dictator_game example](https://github.com/mrpg/uproot-examples/tree/master/dictator_game)
+[:material-github: See the trust_game example](https://github.com/mrpg/uproot-examples/tree/main/trust_game) · [dictator_game example](https://github.com/mrpg/uproot-examples/tree/main/dictator_game)
 
 ### Outcome-based messages
 
@@ -191,7 +191,7 @@ Show different content based on player role:
 {% endif %}
 ```
 
-[:material-github: See the beauty_contest example](https://github.com/mrpg/uproot-examples/tree/master/beauty_contest)
+[:material-github: See the beauty_contest example](https://github.com/mrpg/uproot-examples/tree/main/beauty_contest)
 
 ## History tables
 
@@ -234,7 +234,7 @@ for round_number, round_data in player.within(app=__name__, block="main").along(
     print(round_number, round_data.choice)
 ```
 
-[:material-github: See the rounds example](https://github.com/mrpg/uproot-examples/tree/master/rounds)
+[:material-github: See the rounds example](https://github.com/mrpg/uproot-examples/tree/main/rounds)
 
 ### Using `player.within()`
 
@@ -285,7 +285,7 @@ class Decision(Page):
         )
 ```
 
-[:material-github: See the prisoners_dilemma_repeated example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma_repeated)
+[:material-github: See the prisoners_dilemma_repeated example](https://github.com/mrpg/uproot-examples/tree/main/prisoners_dilemma_repeated)
 
 By default, a view may carry forward a value that was stored before the requested context began. Pass `strict=True` when you only want fields written while that context held:
 

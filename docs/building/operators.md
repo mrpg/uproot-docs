@@ -20,7 +20,7 @@ page_order = [
 
 Each participant sees `Instructions` first, then the three tasks in a randomized order, then `Results`.
 
-[:material-github: See the randomize_pages example](https://github.com/mrpg/uproot-examples/tree/master/randomize_pages)
+[:material-github: See the randomize_pages example](https://github.com/mrpg/uproot-examples/tree/main/randomize_pages)
 
 ### Keeping pages together with Bracket
 
@@ -63,7 +63,7 @@ page_order = [
 ]
 ```
 
-[:material-github: See the randomize_apps example](https://github.com/mrpg/uproot-examples/tree/master/randomize_apps)
+[:material-github: See the randomize_apps example](https://github.com/mrpg/uproot-examples/tree/main/randomize_apps)
 
 ## Rounds
 
@@ -139,7 +139,7 @@ page_order = [
 
 `n` must be a whole number (an `int`) of 0 or more. A calculation that results in a decimal number, such as `n=len(C.ITEMS) / 2`, stops uproot with `ValueError: Constraint violation: n must be a non-negative integer`. Use `//` to divide without a remainder (`n=len(C.ITEMS) // 2`), or wrap the result in `int(...)`.
 
-[:material-github: See the rounds example](https://github.com/mrpg/uproot-examples/tree/master/rounds)
+[:material-github: See the rounds example](https://github.com/mrpg/uproot-examples/tree/main/rounds)
 
 ### Rounds with groups
 
@@ -157,7 +157,7 @@ page_order = [
 ]
 ```
 
-[:material-github: See the prisoners_dilemma_repeated example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma_repeated)
+[:material-github: See the prisoners_dilemma_repeated example](https://github.com/mrpg/uproot-examples/tree/main/prisoners_dilemma_repeated)
 
 ## Repeat
 
@@ -338,7 +338,7 @@ page_order = [
 
 Counters start afresh in every app, so different apps can reuse the same block names.
 
-[:material-github: See the blocks example](https://github.com/mrpg/uproot-examples/tree/master/blocks)
+[:material-github: See the blocks example](https://github.com/mrpg/uproot-examples/tree/main/blocks)
 
 ### When uproot asks for blocks
 

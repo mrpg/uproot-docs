@@ -60,7 +60,7 @@ happiness = LikertField(
 
 On a desktop, this appears as a neat horizontal scale. On a phone, the same scale automatically rearranges itself into a vertical layout that fits the screen. You never design two versions. The same is true for every page uproot produces: the interface is fully responsive, meaning it adapts itself to any screen size.
 
-Harder things stay just as short. A whole Likert *matrix*—several questions sharing one scale, a layout that is notoriously painful elsewhere—is a [single template line](building/forms.md#scales-and-sliders). So are [file uploads](advanced/uploads.md), [sliders, and validated bank-account fields](reference/fields.md). You can see all of them live in the [input elements example](https://github.com/mrpg/uproot-examples/tree/master/input_elements).
+Harder things stay just as short. A whole Likert *matrix*—several questions sharing one scale, a layout that is notoriously painful elsewhere—is a [single template line](building/forms.md#scales-and-sliders). So are [file uploads](advanced/uploads.md), [sliders, and validated bank-account fields](reference/fields.md). You can see all of them live in the [input elements example](https://github.com/mrpg/uproot-examples/tree/main/input_elements).
 
 And the pages work for *everyone*, because accessibility is built in rather than left as homework:
 
@@ -130,7 +130,7 @@ The uproot server itself is equally discreet. It contacts uproot.science only wh
 
 **The advantage in one sentence: Participants can interact live—chatting, trading, drawing, negotiating—because uproot keeps a permanent connection to every participant’s browser.**
 
-Updates appear on participants’ screens instantly, without page reloads. This is not a bolted-on extra; it is the foundation the framework is built on. Working examples you can run today include a [double auction](https://github.com/mrpg/uproot-examples/tree/master/double_auction) with live order books, a [collaborative drawing board](https://github.com/mrpg/uproot-examples/tree/master/drawing_board), and [built-in chat](multiplayer/chat.md) with pseudonyms for anonymity.
+Updates appear on participants’ screens instantly, without page reloads. This is not a bolted-on extra; it is the foundation the framework is built on. Working examples you can run today include a [double auction](https://github.com/mrpg/uproot-examples/tree/main/double_auction) with live order books, a [collaborative drawing board](https://github.com/mrpg/uproot-examples/tree/main/drawing_board), and [built-in chat](multiplayer/chat.md) with pseudonyms for anonymity.
 
 uproot also notices when a participant disconnects and lets you [decide what happens next](advanced/dropouts.md). Moreover, groups are formed based on who actually shows up, not who signed up.
 
@@ -140,7 +140,7 @@ uproot also notices when a participant disconnects and lets you [decide what hap
 
 **The advantage in one sentence: The order of pages is a list your code can change while the study runs; so back buttons, adaptive designs, and randomized blocks are normal, not workarounds.**
 
-On most platforms, participants march through a fixed sequence of pages, forward only. In uproot, the [page order](building/pages.md) can change at runtime: participants can [go back and revise answers](https://github.com/mrpg/uproot-examples/tree/master/revise), pages can appear or disappear based on earlier choices, and common designs are one line:
+On most platforms, participants march through a fixed sequence of pages, forward only. In uproot, the [page order](building/pages.md) can change at runtime: participants can [go back and revise answers](https://github.com/mrpg/uproot-examples/tree/main/revise), pages can appear or disappear based on earlier choices, and common designs are one line:
 
 ```python
 page_order = [Hello, RandomOrder(Page1, Page2), Rounds(Task, Feedback, n=4), Bye]
@@ -166,7 +166,7 @@ When the study is done, your data exports in [four formats](running/export.md) m
 
 **The advantage in one sentence: you can describe a study in plain language and have an AI coding assistant generate a working uproot version of it.**
 
-Studies are written in [Python](https://www.python.org/) and HTML. These are the two languages with the broadest ecosystem support, and the ones that AI coding assistants handle best. The [uproot skill](https://github.com/mrpg/uproot-skill) gives assistants such as [Claude Code](https://claude.com/claude-code) and [Codex](https://openai.com/codex/) access to the full documentation and all examples, so “build a [public goods game with punishment](https://github.com/mrpg/uproot-examples/tree/master/pgg_punishment) for 4 players” produces a working study you then review and refine. The same mechanism can convert existing Qualtrics, z-Tree, or oTree studies.
+Studies are written in [Python](https://www.python.org/) and HTML. These are the two languages with the broadest ecosystem support, and the ones that AI coding assistants handle best. The [uproot skill](https://github.com/mrpg/uproot-skill) gives assistants such as [Claude Code](https://claude.com/claude-code) and [Codex](https://openai.com/codex/) access to the full documentation and all examples, so “build a [public goods game with punishment](https://github.com/mrpg/uproot-examples/tree/main/pgg_punishment) for 4 players” produces a working study you then review and refine. The same mechanism can convert existing Qualtrics, z-Tree, or oTree studies.
 
 The dozens of examples are also yours in the fullest sense: licensed under [0BSD](https://opensource.org/license/0bsd), meaning you may copy, modify, and use them without restriction or attribution.
 

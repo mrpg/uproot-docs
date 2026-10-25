@@ -6,7 +6,7 @@ Relax and move slowly. Most problems with experiments turn out to be small thing
 
 Start here. This documentation covers almost all of uproot’s features with explanations and code examples. Use the search function and navigate by topic—chances are your question is already answered. Pay particular attention to the [reference section](reference/fields.md) for detailed specifications.
 
-For complete, runnable examples, browse the [:material-github: uproot-examples](https://github.com/mrpg/uproot-examples/tree/master) repository.
+For complete, runnable examples, browse the [:material-github: uproot-examples](https://github.com/mrpg/uproot-examples) repository.
 
 Advanced users can also browse the [:material-github: uproot source code](https://github.com/mrpg/uproot) directly and search through it for particular keywords. Sometimes reading the implementation is the fastest way to understand a behavior.
 

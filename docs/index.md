@@ -112,7 +112,7 @@ class Results(Page):
 page_order = [GroupPlease, Dilemma, Sync, Results]
 ```
 
-[:material-github: Browse the complete example](https://github.com/mrpg/uproot-examples/tree/master/prisoners_dilemma) including HTML templates
+[:material-github: Browse the complete example](https://github.com/mrpg/uproot-examples/tree/main/prisoners_dilemma) including HTML templates
 
 ## Getting in touch
 

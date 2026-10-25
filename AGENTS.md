@@ -53,7 +53,7 @@ The typical reader is a behavioral researcher — an economist, psychologist, or
 - Link to [uproot-examples](https://github.com/mrpg/uproot-examples) for complete working code.
 - Use admonitions (`!!! note`, `!!! warning`) for callouts.
 - Use tabbed content (`=== "Tab"`) for platform-specific instructions.
-- uproot-examples uses the `master` branch (not `main`), so links should be e.g. `https://github.com/mrpg/uproot-examples/tree/master/...`.
+- uproot-examples uses the `main` branch, so links should be e.g. `https://github.com/mrpg/uproot-examples/tree/main/...`.
 - Use `:material-github:` prefix for GitHub links in docs.
 - No manual imports needed in code examples—uproot projects have everything available automatically via `from uproot.smithereens import *`.
 - Avoid guide pages that are just thin wrappers pointing to another page — either cover the topic properly or do not give it its own page.

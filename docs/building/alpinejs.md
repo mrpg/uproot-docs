@@ -94,7 +94,7 @@ function submit() {
 </div>
 ```
 
-[:material-github: counter_alpine example](https://github.com/mrpg/uproot-examples/tree/master/counter_alpine) · [sumhunt example](https://github.com/mrpg/uproot-examples/tree/master/sumhunt) · [encryption_task example](https://github.com/mrpg/uproot-examples/tree/master/encryption_task)
+[:material-github: counter_alpine example](https://github.com/mrpg/uproot-examples/tree/main/counter_alpine) · [sumhunt example](https://github.com/mrpg/uproot-examples/tree/main/sumhunt) · [encryption_task example](https://github.com/mrpg/uproot-examples/tree/main/encryption_task)
 
 ## Quick reference
 
