@@ -173,7 +173,7 @@ uproot new my_app
 |--------|-------------|
 | `--minimal`{ .text-nowrap } | Create a minimal app without example code |
 
-This creates a new directory with `__init__.py` and starter template files. You still need to register the app in `main.py` using `load_config`.
+This creates a new directory with `__init__.py`, the page templates, and `simulate.js`. Without `--minimal`, the new app is the two-player prisoner’s dilemma from the [tutorial](../getting-started/tutorial.md), ready to run. With `--minimal`, it has a single placeholder page. You still need to register the app in `main.py` using `load_config`.
 
 ### uproot newpage
 

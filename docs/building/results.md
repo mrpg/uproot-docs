@@ -8,28 +8,43 @@ Results pages show participants their outcomes, payoffs, and other players’ ch
 
 ## Basic results display
 
-Create a Results page and pass data via the `templatevars` method:
+A results page usually needs no Python code of its own:
 
 ```python
 class Results(Page):
-    @classmethod
-    def templatevars(page, player):
-        return dict(
-            other=player.other_in_group,
-        )
+    pass
 ```
 
-In the template, access player data and context variables:
+Its template reads everything it needs from `player`, which every template can access. In a two-player game, `player.other_in_group` is the other member of the group:
 
 ```html+jinja
 {% extends "Base.html" %}
 
+{% block title %}
+Results
+{% endblock title %}
+
+
 {% block main %}
-<p>You chose to {{ "cooperate" if player.cooperate else "defect" }}.</p>
-<p>Your partner chose to {{ "cooperate" if other.cooperate else "defect" }}.</p>
-<p>Your payoff is <b>{{ player.payoff }}</b>.</p>
+
+{% if player.cooperate %}
+<p>You cooperated.</p>
+{% else %}
+<p>You did not cooperate.</p>
+{% endif %}
+
+{% if player.other_in_group.cooperate %}
+<p>The other participant cooperated.</p>
+{% else %}
+<p>The other participant did not cooperate.</p>
+{% endif %}
+
+<p>Your payoff is <b>{{ player.payoff | fmtnum(pre="$", places=2) }}</b>.</p>
+
 {% endblock main %}
 ```
+
+The `fmtnum` filter prints the payoff as dollars with two decimal places (see [Formatting numbers](#formatting-numbers)).
 
 [:material-github: See the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/main/prisoners_dilemma)
 

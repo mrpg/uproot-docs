@@ -233,7 +233,7 @@ Usually, prefer `player.context`: it is concise and automatically follows the pa
     value = context.earnings
     ```
 
-[:material-github: See PlayerContext in the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/main/prisoners_dilemma) · [bertrand example](https://github.com/mrpg/uproot-examples/tree/main/bertrand)
+[:material-github: See PlayerContext in the public_goods_game example](https://github.com/mrpg/uproot-examples/tree/main/public_goods_game) · [trust_game example](https://github.com/mrpg/uproot-examples/tree/main/trust_game) · [bertrand example](https://github.com/mrpg/uproot-examples/tree/main/bertrand)
 
 ## Built-in template variables
 

@@ -46,29 +46,30 @@ The callback receives the `group` object and has access to all players’ data.
 
 ## Calculating payoffs
 
-A common pattern is to calculate payoffs for all players in `all_here`. Here is a complete example using the prisoner’s dilemma payoff matrix:
+A common pattern is to calculate payoffs for all players in `all_here`. Here is how the prisoner’s dilemma looks up each player’s payoff in a payoff matrix:
 
 ```python
-def set_payoff(player):
-    other = player.other_in_group
-
-    match player.cooperate, other.cooperate:
-        case True, True:
-            player.payoff = 10
-        case True, False:
-            player.payoff = 0
-        case False, True:
-            player.payoff = 15
-        case False, False:
-            player.payoff = 3
+class C:
+    PAYOFF_MATRIX = {
+        # (you cooperate, other cooperates): your payoff
+        (True, True): 10,
+        (True, False): 0,
+        (False, True): 15,
+        (False, False): 3,
+    }
 
 
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         for player in group.players:
-            set_payoff(player)
+            player.payoff = C.PAYOFF_MATRIX[
+                player.cooperate,
+                player.other_in_group.cooperate,
+            ]
 ```
+
+Each key of `PAYOFF_MATRIX` is a pair of decisions: first that of the player who receives the payoff, then that of the other player. Saving the result as `player.payoff` puts it in your data export.
 
 [:material-github: See the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/main/prisoners_dilemma)
 
@@ -90,7 +91,7 @@ class Sync(SynchronizingWait):
         group.players.apply(page.set_payoff)
 ```
 
-[:material-github: See the focal_point example](https://github.com/mrpg/uproot-examples/tree/main/focal_point)
+[:material-github: See the focal_point example](https://github.com/mrpg/uproot-examples/tree/main/focal_point) · [prisoners_dilemma_fancy example](https://github.com/mrpg/uproot-examples/tree/main/prisoners_dilemma_fancy)
 
 ## Finding specific players
 

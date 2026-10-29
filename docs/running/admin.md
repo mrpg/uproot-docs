@@ -170,7 +170,7 @@ def pipeline(session, data=None):
 
 uproot always calls `pipeline(session=session, data=data)`. The admin (or [REST API](../reference/admin-api.md)) can post JSON that is passed through as `data`; without a JSON body, `data` is `None`. The admin provides a built-in JSON input for this. To show app-specific instructions or status above the pipeline buttons, add `AdminPipeline.html` with a `main` block only.
 
-[:material-github: See pipeline in the prisoners_dilemma example](https://github.com/mrpg/uproot-examples/tree/main/prisoners_dilemma) · [prediction_market example](https://github.com/mrpg/uproot-examples/tree/main/prediction_market)
+[:material-github: See pipeline in the prisoners_dilemma_fancy example](https://github.com/mrpg/uproot-examples/tree/main/prisoners_dilemma_fancy) · [prediction_market example](https://github.com/mrpg/uproot-examples/tree/main/prediction_market)
 
 ## Managing rooms
 

@@ -81,14 +81,33 @@ description: Overview of uproot, an open-source Python framework for browser-bas
 
 ## Quick example
 
-Here is the core logic of a prisoner’s dilemma experiment:
+Here is the complete Python code of a two-player prisoner’s dilemma:
 
 ```python
 from uproot.fields import *
 from uproot.smithereens import *
 
+DESCRIPTION = "Prisoner's dilemma"
+SUGGESTED_MULTIPLE = 2
+
+
+class C:
+    PAYOFF_MATRIX = {
+        # (you cooperate, other cooperates): your payoff
+        (True, True): 10,
+        (True, False): 0,
+        (False, True): 15,
+        (False, False): 3,
+    }
+
+
+class Instructions(Page):
+    pass
+
+
 class GroupPlease(GroupCreatingWait):
     group_size = 2
+
 
 class Dilemma(Page):
     fields = dict(
@@ -98,22 +117,28 @@ class Dilemma(Page):
         ),
     )
 
+
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         for player in group.players:
-            other = player.other_in_group
+            player.payoff = C.PAYOFF_MATRIX[
+                player.cooperate,
+                player.other_in_group.cooperate,
+            ]
 
-            match player.cooperate, other.cooperate:
-                case True, True: player.payoff = 10
-                case True, False: player.payoff = 0
-                case False, True: player.payoff = 15
-                case False, False: player.payoff = 3
 
 class Results(Page):
     pass
 
-page_order = [GroupPlease, Dilemma, Sync, Results]
+
+page_order = [
+    Instructions,
+    GroupPlease,
+    Dilemma,
+    Sync,
+    Results,
+]
 ```
 
 [:material-github: Browse the complete example](https://github.com/mrpg/uproot-examples/tree/main/prisoners_dilemma) including HTML templates

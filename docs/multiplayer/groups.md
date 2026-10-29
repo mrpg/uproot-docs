@@ -348,6 +348,24 @@ When a config contains multiple apps that each use `GroupCreatingWait`, groups f
 Here is a complete two-player game showing group formation, decision collection, and payoff calculation:
 
 ```python
+DESCRIPTION = "Prisoner's dilemma"
+SUGGESTED_MULTIPLE = 2
+
+
+class C:
+    PAYOFF_MATRIX = {
+        # (you cooperate, other cooperates): your payoff
+        (True, True): 10,
+        (True, False): 0,
+        (False, True): 15,
+        (False, False): 3,
+    }
+
+
+class Instructions(Page):
+    pass
+
+
 class GroupPlease(GroupCreatingWait):
     group_size = 2
 
@@ -361,25 +379,14 @@ class Dilemma(Page):
     )
 
 
-def set_payoff(player):
-    other = player.other_in_group
-
-    match player.cooperate, other.cooperate:
-        case True, True:
-            player.payoff = 10
-        case True, False:
-            player.payoff = 0
-        case False, True:
-            player.payoff = 15
-        case False, False:
-            player.payoff = 3
-
-
 class Sync(SynchronizingWait):
     @classmethod
-    def all_here(page, group):
+    def all_here(page, group: GroupType) -> None:
         for player in group.players:
-            set_payoff(player)
+            player.payoff = C.PAYOFF_MATRIX[
+                player.cooperate,
+                player.other_in_group.cooperate,
+            ]
 
 
 class Results(Page):
@@ -387,6 +394,7 @@ class Results(Page):
 
 
 page_order = [
+    Instructions,
     GroupPlease,
     Dilemma,
     Sync,

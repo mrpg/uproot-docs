@@ -84,7 +84,7 @@ Click that URL or copy it to your browser to log in automatically. This auto-log
 
 ## 5. Try the sample experiment
 
-Your new project includes a sample experiment: a two-player prisoner’s dilemma.
+Your new project includes a sample experiment: a two-player prisoner’s dilemma. The [tutorial](tutorial.md) shows you how to build it yourself.
 
 Once logged in, you can start it from the admin interface.
 
