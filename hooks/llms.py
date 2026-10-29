@@ -43,7 +43,9 @@ Documentation source: https://github.com/mrpg/uproot-docs.
 
 FENCE = re.compile(r"^\s*(```|~~~)")
 LINK = re.compile(r"(\]\()([^)\s]+)(\))")
-EMOJI = re.compile(r":(?:material|fontawesome|octicons|simple)-[a-z0-9-]+:(\{[^}]*\})?\s*")
+EMOJI = re.compile(
+    r":(?:material|fontawesome|octicons|simple)-[a-z0-9-]+:(\{[^}]*\})?\s*"
+)
 ATTR_TRAILING = re.compile(r"\s*\{\s*[:.#][^}]*\}\s*$")
 ATTR_LINE = re.compile(r"^\s*\{:[^}]*\}\s*$")
 ENTITY = re.compile(r"&#x202F;|&shy;")
@@ -56,7 +58,7 @@ def _clean(markdown: str, src_uri: str, site_url: str) -> str:
 
     def fix_link(m: re.Match[str]) -> str:
         target = m.group(2)
-        if re.match(r"^[a-z][a-z0-9+.-]*:|^#|^/", target, re.I):
+        if re.match(r"^[a-z][a-z0-9+.-]*:|^#|^/", target, re.IGNORECASE):
             return m.group(0)
         path, _, anchor = target.partition("#")
         resolved = posixpath.normpath(posixpath.join(base, path))
@@ -143,13 +145,17 @@ def on_post_build(config):
     lines += [
         "## Optional",
         "",
-        f"- [Full documentation in one file]({site_url}llms-full.txt): "
-        "every page above, concatenated in navigation order",
+        (
+            f"- [Full documentation in one file]({site_url}llms-full.txt): "
+            "every page above, concatenated in navigation order"
+        ),
         "",
     ]
     (site_dir / "llms.txt").write_text("\n".join(lines), encoding="utf-8")
 
-    full = [f"# {config['site_name']} documentation\n\n> {config['site_description']}\n"]
+    full = [
+        f"# {config['site_name']} documentation\n\n> {config['site_description']}\n"
+    ]
     for uri in ordered:
         info = PAGES[uri]
         full.append(f"\n---\n\nSource: {site_url}{uri}\n\n{info['markdown']}")
