@@ -1,3 +1,7 @@
+---
+description: Add the built-in chat to session- or group-level experiments, display it in templates, react to messages, and style it.
+---
+
 # Built-in chat
 
 uproot provides a built-in chat system for experiments where participants need to communicate. The chat handles message display, pseudonyms, and real-time updates automatically.

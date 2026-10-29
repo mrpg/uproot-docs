@@ -1,3 +1,7 @@
+---
+description: 'Deploy uproot on a fresh VPS step by step: SSH hardening, system packages, project setup, nginx, and HTTPS.'
+---
+
 # VPS setup guide
 
 Step-by-step instructions for deploying uproot on a fresh virtual private server (VPS). This guide assumes no prior server administration experience and produces a minimal, production-ready setup.

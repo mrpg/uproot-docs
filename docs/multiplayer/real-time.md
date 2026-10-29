@@ -1,3 +1,7 @@
+---
+description: Push real-time updates between participants with notify, send_to, and spawn, with examples for live observation, drawing, and markets.
+---
+
 # Real-time interactions
 
 uproot supports real-time communication between participants through WebSockets. This page covers broadcasting updates to multiple participants. For the basics of live methods (the `@live` decorator and `uproot.invoke`), see [Live methods](../building/live-methods.md).

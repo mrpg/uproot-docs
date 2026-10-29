@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://uproot.science/sitemap.xml
+
+# Documentation for AI agents: https://uproot.science/llms.txt

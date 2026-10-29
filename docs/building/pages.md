@@ -1,3 +1,7 @@
+---
+description: Define pages as Python classes, write Jinja2 or Markdown templates, pass variables, show pages conditionally, and use NoshowPage and lifecycle methods.
+---
+
 # Pages and templates
 
 Pages are the building blocks of uproot experiments. Each page represents a screen that participants see, for instance, instructions, questions, feedback, or results. Pages are defined as Python classes and rendered using HTML or Markdown templates.

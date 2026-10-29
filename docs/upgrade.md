@@ -1,3 +1,7 @@
+---
+description: Upgrade uproot to a new release while keeping an exact version pin so your study stays reproducible.
+---
+
 # Upgrading
 
 uproot projects pin a specific version so that a new release does not change the software used in your study. You can keep that reproducibility and still upgrade deliberately when you are ready.

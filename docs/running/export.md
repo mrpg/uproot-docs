@@ -1,3 +1,7 @@
+---
+description: 'Download your data as a ZIP briefcase and analyze it in R or Python: the ultralong, sparse, and latest formats, columns, filters, and page times.'
+---
+
 # Exporting data
 
 uproot stores every piece of data your experiment collects in an [append-only log](../building/data.md). Nothing is ever overwritten or lost. When you download your data, you do not have to pick and choose: you always get a single ZIP archive (the *data briefcase*) that contains your session’s complete data in all key formats, ready for Excel, R, or Python.

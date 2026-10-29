@@ -1,3 +1,7 @@
+---
+description: 'Reference for uproot’s command-line interface: global commands and project commands such as run, start, reset, dump, and new.'
+---
+
 # CLI commands
 
 uproot provides a command-line interface for managing projects and running experiments. Commands are split into two categories: **global commands** that work anywhere, and **project commands** that must be run inside a project directory.

@@ -1,3 +1,7 @@
+---
+description: 'Why researchers choose uproot: append-only data, exact reproducibility, tamper resistance, real-time interaction, and flexible page orders.'
+---
+
 # Why uproot?
 
 If you have ever run a survey or collected data from human participants, you have relied on software to sit between you and your respondents. While doing so, you have probably run into its limitations: fragile JavaScript workarounds, “copy survey” as version control, rigid page sequences, and data-reshaping scripts for every single project.

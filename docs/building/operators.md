@@ -1,3 +1,7 @@
+---
+description: 'SmoothOperators control the page order: RandomOrder, Bracket, Rounds, Repeat, and Between for randomization, repetition, and between-subjects designs.'
+---
+
 # SmoothOperators
 
 SmoothOperators let you define dynamic page sequences that adapt at runtime. Instead of a fixed list of pages, you can randomize order, repeat sections, or select between alternatives—all declaratively in your `page_order`.

@@ -1,3 +1,7 @@
+---
+description: Form groups with GroupCreatingWait, assign roles with after_grouping, access group members, store group data, and create groups manually.
+---
+
 # Grouping participants
 
 Many experiments require participants to interact in pairs or small groups. uproot makes grouping easy with the `GroupCreatingWait` page type, which automatically forms groups as participants arrive.

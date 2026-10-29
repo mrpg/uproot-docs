@@ -1,3 +1,7 @@
+---
+description: 'Show participants their outcomes and payoffs with Jinja2: other players’ data, number formatting, calculations, history tables, and filters.'
+---
+
 # Displaying results
 
 Results pages show participants their outcomes, payoffs, and other players’ choices. uproot uses Jinja2 templates with full access to Python builtins, enabling calculations and logic directly in your templates.

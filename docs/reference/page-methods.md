@@ -1,3 +1,7 @@
+---
+description: Reference for all page methods in lifecycle order, page class attributes, and wait page callbacks.
+---
+
 # Page methods
 
 Page methods are `@classmethod`s that receive `page` (the page class) and usually `player` (the current participant) as arguments. Standard page hooks can be sync or async; wait-page callbacks such as `after_grouping` and `all_here` are sync-only.

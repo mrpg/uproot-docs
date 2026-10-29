@@ -1,3 +1,7 @@
+---
+description: 'How uproot stores data in an append-only log: player, group, and session data, initialization callbacks, random numbers, mutable values, and accessing other players.'
+---
+
 # Storing and accessing data
 
 uproot uses an **append-only log** for all data storage. Every change is permanently recorded with a timestamp, creating a complete audit trail of your experiment. This architecture ensures data integrity, enables temporal analysis, and makes your research fully reproducible.

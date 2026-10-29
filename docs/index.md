@@ -1,3 +1,7 @@
+---
+description: Overview of uproot, an open-source Python framework for browser-based behavioral experiments, with a quick example and links to get started.
+---
+
 # uproot
 
 **uproot** is a modern, open-source framework for developing and conducting browser-based behavioral experiments. Build studies with hundreds of participants, from simple surveys to complex real-time multiplayer games.

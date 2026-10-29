@@ -1,3 +1,7 @@
+---
+description: 'Collect participant responses with form fields: the fields dictionary, field types and options, rendering, validation, dynamic fields, and stealth fields.'
+---
+
 # Collecting data with forms
 
 Forms are how you collect responses from participants. Define form fields on your page, and uproot handles rendering, validation, and storage automatically.

@@ -1,3 +1,7 @@
+---
+description: Detect participants who disconnect with watch_for_dropout, mark dropouts manually, and keep group experiments running.
+---
+
 # Handling dropouts
 
 In multiplayer experiments, participants may close their browser or lose their connection. uproot provides tools to detect dropouts and handle them gracefully.

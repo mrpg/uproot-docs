@@ -1,3 +1,7 @@
+---
+description: Wait for all group members with SynchronizingWait, compute payoffs in all_here, synchronize sessions, and handle repeated games.
+---
+
 # Synchronizing progress
 
 In multiplayer experiments, you often need to wait for all group members to reach a certain point before continuing. The `SynchronizingWait` page type handles this automatically and provides a callback to process all players’ data together.

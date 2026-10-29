@@ -1,3 +1,7 @@
+---
+description: 'Sessions and rooms: how participants join an experiment, room labels and capacity, and configuring default rooms.'
+---
+
 # Sessions and rooms
 
 Sessions and rooms are the two concepts for managing how participants access your experiment.

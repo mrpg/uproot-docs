@@ -1,3 +1,7 @@
+---
+description: Call Python from JavaScript without reloading the page using the @live decorator and uproot.invoke, with examples for validation, counters, and real-effort tasks.
+---
+
 # Live methods
 
 Live methods let JavaScript call Python functions in real-time without page reloads. Use them for dynamic interfaces, live validation, background processing, and any interaction that needs immediate server response.

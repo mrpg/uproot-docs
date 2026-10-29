@@ -1,3 +1,7 @@
+---
+description: 'Layout of an uproot project: main.py, app modules, templates, _static files, the database, and environment variables.'
+---
+
 # Project structure
 
 An uproot project is a Python package with a specific layout. Here is what a typical project looks like.

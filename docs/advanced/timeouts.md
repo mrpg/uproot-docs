@@ -1,3 +1,7 @@
+---
+description: Advance participants automatically with static or dynamic page timeouts, handle expiration, span timeouts across pages, and customize the countdown.
+---
+
 # Page timeouts
 
 Timeouts automatically advance participants to the next page after a specified duration. Use them for timed tasks, real-effort experiments, or to keep participants moving through your study.

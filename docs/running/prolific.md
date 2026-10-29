@@ -1,3 +1,7 @@
+---
+description: 'Run an uproot study on Prolific: create a room, give Prolific the study URL, send completion codes, and handle bonuses and screen-outs.'
+---
+
 # Running on Prolific
 
 [Prolific](https://www.prolific.com/) is a platform for recruiting online participants. Prolific sends each participant to a URL you provide, and when they finish, they come back to Prolific with a *completion code* that tells Prolific to pay them. uproot needs very little setup for this: one room, one URL parameter, and one link at the end of your experiment.

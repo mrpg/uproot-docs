@@ -426,6 +426,10 @@ def render() -> str:
 
     output.extend(
         [
+            "---",
+            "description: 'Reference for the Admin REST API under /admin/api/v1/: authentication, sessions, players, admin chat, data export, rooms, and system endpoints.'",
+            "---",
+            "",
             "# Admin API reference",
             "",
             "The Admin REST API provides programmatic access to manage uproot experiments.",

@@ -1,3 +1,7 @@
+---
+description: 'Add interactivity to templates with the built-in Alpine.js: essentials, global stores, constants in JavaScript, and combining Alpine with live methods.'
+---
+
 # Using Alpine.js
 
 uproot includes [Alpine.js](https://alpinejs.dev/start-here), a lightweight JavaScript framework for adding interactivity to templates. It is already loaded—no setup required.

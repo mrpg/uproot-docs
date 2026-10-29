@@ -1,5 +1,7 @@
 # AGENTS.md
 
+These instructions are for editing the documentation. If you are here to learn uproot or to help someone build an experiment, see “For AI agents” in `README.md` instead; the “Key uproot concepts” section below is also a useful summary.
+
 Do not build the documentation unless specifically instructed to do so; focus on content only.
 
 ## Documentation structure
@@ -9,6 +11,9 @@ This is MkDocs documentation for [uproot](https://github.com/mrpg/uproot), a fra
 - `mkdocs.yml` — Site configuration and navigation structure
 - `docs/` — Markdown source files
 - `docs/assets/` — Logo, favicon, images
+- `hooks/llms.py` — Build hook that publishes `llms.txt`, `llms-full.txt`, and a Markdown copy of every page for AI agents
+
+Every page starts with front matter containing a one-sentence `description:`. It becomes the page’s meta description and its summary in `llms.txt`, so keep it accurate when a page changes, and add one to every new page. `reference/admin-api.md` gets its description from `scripts/generate_admin_api_docs.py`.
 - `requirements.txt` — mkdocs-material dependency
 
 The navigation follows a learning arc: orient → build → connect → harden → operate → look up.

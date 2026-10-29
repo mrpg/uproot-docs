@@ -1,3 +1,7 @@
+---
+description: Use the admin interface to create sessions, monitor and manage participants, chat with them, test apps with simulated responses, and back up the database.
+---
+
 # The admin interface
 
 The admin interface lets you create and manage sessions, monitor participant progress, and intervene during experiments.

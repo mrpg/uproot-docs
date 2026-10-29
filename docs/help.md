@@ -1,3 +1,7 @@
+---
+description: 'Where to get help with uproot: the documentation, coding agents, email, and GitHub issues.'
+---
+
 # Getting help
 
 Relax and move slowly. Most problems with experiments turn out to be small things, such as a missing field, a wrong variable name, a misunderstood page method. Taking a step back and reading carefully will almost always get you further than rushing. The steps below are in order of what to try first.
@@ -22,7 +26,7 @@ This skill gives the agent deep knowledge of uproot’s API, page lifecycle, fie
 
 If your coding agent does not support skills, this prompt provides useful context:
 
-> I’m building a behavioral experiment using the uproot framework (https://github.com/mrpg/uproot). Documentation is at https://uproot.science/ and example experiments are at https://github.com/mrpg/uproot-examples. The documentation source is at https://github.com/mrpg/uproot-docs. You can clone it for full context.
+> I’m building a behavioral experiment using the uproot framework (https://github.com/mrpg/uproot). Documentation is at https://uproot.science/ (an index for AI agents is at https://uproot.science/llms.txt, and every page is available as Markdown by appending `.md` to its path) and example experiments are at https://github.com/mrpg/uproot-examples. The documentation source is at https://github.com/mrpg/uproot-docs. You can clone it for full context.
 >
 > [Describe your problem here.]
 

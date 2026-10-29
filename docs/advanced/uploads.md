@@ -1,3 +1,7 @@
+---
+description: Accept file uploads with FileField, validate them, and store them yourself via stealth fields.
+---
+
 # File uploads
 
 uproot supports file uploads from participants using `FileField`. Uploaded files are handled as stealth fields: They are not stored in the database automatically, giving you full control over how to process them.

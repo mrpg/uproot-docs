@@ -1,3 +1,7 @@
+---
+description: Make your experiment reachable over the internet with Cloudflare, your own VPS, or a hosting service.
+---
+
 # Deployment
 
 This page explains how to make your experiment accessible over the internet. It assumes you have [installed uproot and created a project](../getting-started/installation.md).

@@ -1,3 +1,7 @@
+---
+description: Export data programmatically via the REST API and JSONL streams, back up the database with dumps, and analyze offline with uproot.read.
+---
+
 # Advanced data access
 
 This page covers programmatic and low-level ways to get at your data: automated exports via the REST API, streaming JSONL, full database backups, and offline analysis with `uproot.read`. If you just want to download and analyze your data, start with [Exporting data](export.md).

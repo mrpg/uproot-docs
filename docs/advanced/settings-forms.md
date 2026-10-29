@@ -1,3 +1,7 @@
+---
+description: Replace the raw JSON session settings editor in the admin interface with a custom HTML form for your app.
+---
+
 # Custom settings forms
 
 When an experimenter creates a session, they can adjust the config’s default [session settings](../building/data.md#session-settings) by editing raw JSON in the admin interface. Raw JSON is flexible, but it is also easy to get wrong: a mistyped key or a string where a list is expected, and the session runs with the wrong parameters.

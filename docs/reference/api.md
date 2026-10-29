@@ -1,3 +1,7 @@
+---
+description: 'Reference for uproot’s Python API: page types, SmoothOperators, PlayerContext, real-time, dropout, and group functions, live methods, and StorageBunch.'
+---
+
 # API reference
 
 This page documents the key functions and classes available when building uproot experiments. All of these are available automatically in app modules via `from uproot.smithereens import *` and `from uproot.fields import *`.

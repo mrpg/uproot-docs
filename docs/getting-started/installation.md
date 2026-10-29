@@ -1,3 +1,7 @@
+---
+description: Install uproot with uv, create a project, run the server, open the admin interface, and set up AI-assisted development.
+---
+
 # Installation
 
 This guide uses [uv](https://docs.astral.sh/uv/), a fast Python package manager that handles Python installation automatically. If you prefer traditional tools, see the [pip installation guide](https://github.com/mrpg/uproot/blob/main/INSTALLATION-PIP.md).

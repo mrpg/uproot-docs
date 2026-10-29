@@ -1,3 +1,7 @@
+---
+description: Store ordered, append-only collections such as bids or transaction logs with custom data models and Entry types.
+---
+
 # Custom data models
 
 Models provide structured, append-only data storage beyond the standard player/group/session fields. Use them for ordered collections of entries like transaction logs, auction bids, or any data that accumulates over time.

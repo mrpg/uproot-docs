@@ -1,3 +1,7 @@
+---
+description: Who made uproot, its license, warranty disclaimer, and contact details.
+---
+
 # Legal information
 
 uproot is © Max R. P. Grossmann, Holger Gerhardt, et al., 2026.

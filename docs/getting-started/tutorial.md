@@ -1,3 +1,7 @@
+---
+description: Step-by-step tutorial that builds a complete two-player prisoner’s dilemma with pages, forms, groups, and synchronization.
+---
+
 # Tutorial: A complete experiment
 
 This tutorial walks you through building a complete prisoner’s dilemma experiment from scratch. By the end, you will understand how uproot pages, forms, groups, and synchronization work together.

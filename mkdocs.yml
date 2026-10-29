@@ -66,6 +66,9 @@ markdown_extensions:
 plugins:
   - search
 
+hooks:
+  - hooks/llms.py
+
 extra:
   social:
     - icon: fontawesome/brands/github
