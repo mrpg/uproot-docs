@@ -1,5 +1,5 @@
 ---
-description: Define pages as Python classes, write Jinja2 or Markdown templates, pass variables, show pages conditionally, and use NoshowPage and lifecycle methods.
+description: Define pages as Python classes, write Jinja2 or Markdown templates, pass variables, show pages conditionally, use NoshowPage and lifecycle methods, and change template switches for a whole project.
 ---
 
 # Pages and templates
@@ -119,13 +119,21 @@ The built-in templates also read a few optional Jinja variables. Set them near t
 |----------|---------|---------------------------|
 | `buttons` | `True` | Set to `False` to hide the default Back/Next buttons |
 | `disable_bootstrap` | `False` | Do not load uproot’s bundled Bootstrap CSS and JavaScript |
+| `disable_alpinejs` | `False` | Do not load [Alpine.js](alpinejs.md); uproot’s built-in participant pages work without it |
 | `disable_uproot_fonts` | `False` | Do not load uproot’s bundled web fonts |
-| `disable_tabular_numbers` | `False` | Do not load the tabular-number font stylesheet |
-| `disable_terms` | `False` | Do not load the terms script |
+| `disable_tabular_numbers` | `False` | Do not load the tabular-number stylesheet, which makes all digits the same width |
+| `disable_terms` | `False` | Do not load the [translations](#translations) for JavaScript |
 | `disable_auto_start` | `False` | Do not run the default `uproot.init()` and WebSocket startup hook |
 | `disable_connection_lost_modal`{ .text-nowrap } | `False` | Do not show or enable the connection-lost modal |
 
 For admin templates that extend the built-in admin layout, `disable_navigation = True` hides the admin navigation bar.
+
+To change a switch on every page at once, see [Changing a switch for the whole project](#changing-a-switch-for-the-whole-project).
+
+!!! warning "Two switches can break your study"
+    `disable_auto_start` is for pages outside an experiment, such as uproot’s own “No more spots available” page. Do not use it on experiment pages: **Next** stops working, without an error, and so do [live methods](live-methods.md) and [chat](../multiplayer/chat.md).
+
+    `disable_bootstrap` also removes what uproot itself needs. The text of pop-up windows, such as “Connection lost,” appears on the page, pop-up windows do not open, and [slider fields](forms.md#scales-and-sliders) cause a JavaScript error. Use it only if you load [Bootstrap 5](https://getbootstrap.com/docs/5.3/) yourself.
 
 ### Adding a form
 
@@ -375,7 +383,7 @@ A file per language is named after its language code, such as `locales/fr.yml`. 
 : "Cliquez sur « Suivant » lorsque vous êtes prêt(e)."
 ```
 
-Your files can also translate uproot’s built-in strings, such as `Next` or `Please wait`. This lets you run studies in a language that uproot does not ship. The built-in strings are listed in [uproot’s `en.yml`](https://github.com/mrpg/uproot/blob/main/src/uproot/default/locales/en.yml).
+Your files can also translate uproot’s built-in strings, such as `Next` or `Please wait`. This lets you run studies in a language that uproot does not ship. It also lets you replace uproot’s wording in any language, including English. The built-in strings are listed in [uproot’s `en.yml`](https://github.com/mrpg/uproot/blob/main/src/uproot/default/locales/en.yml).
 
 !!! warning "Keys must match exactly"
     uproot finds a translation only if the key matches the phrase in your template exactly, apart from whitespace. Straight quotes (`"Next"`) and typographical quotes (`“Next”`) are different keys. If no translation matches, uproot silently shows the phrase itself, usually in English.
@@ -511,6 +519,50 @@ const price = uproot.vars.initial_price;
 const maxTrades = uproot.vars.max_trades;
 </script>
 ```
+
+## Changing a switch for the whole project
+
+A [switch](#base-template-switches) set in a template applies to that template only. Sometimes you want the same value everywhere, for example because your study uses its own fonts. Set it once in `main.py` with `upd.TEMPLATE_DEFAULTS`, a [dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) of default values:
+
+```python
+upd.TEMPLATE_DEFAULTS["disable_uproot_fonts"] = True
+upd.TEMPLATE_DEFAULTS["disable_alpinejs"] = True
+```
+
+These defaults apply to every participant page, including built-in pages such as wait pages. Admin pages ignore them, apart from `buddy_sender`. Choose project-wide values with care: with `buttons` set to `False`, for example, every page needs its own way forward.
+
+!!! warning "Take care with two switches"
+    Do not set `disable_auto_start` here. Participants would stay on a blank page and never reach your first page, with no error. If you set `disable_bootstrap` here, load Bootstrap 5 in [`ProjectHead.html`](#project-wide-static-files).
+
+A single page can still differ from the default. uproot uses the first value it finds, in this order:
+
+1. `{% set %}` in the template;
+2. a variable of the same name returned by [`templatevars`](#the-templatevars-method);
+3. `upd.TEMPLATE_DEFAULTS`.
+
+So this template loads Alpine.js even though the example above disables it for the project:
+
+```html+jinja
+{% extends "Base.html" %}
+{% set disable_alpinejs = False %}
+```
+
+`upd.TEMPLATE_DEFAULTS` also has three switches for the admin chat. They hold text rather than `True` or `False`. The default, `None`, keeps uproot’s built-in text or image. See [Changing how the experimenter appears](../running/admin.md#changing-how-the-experimenter-appears) for examples.
+
+| Variable | Default | Effect when set |
+|----------|---------|-----------------|
+| `buddy_label` | `None` | Replaces the text on the chat button and the title of the chat window |
+| `buddy_sender` | `None` | Replaces the name on the experimenter’s chat messages |
+| `buddy_image` | `None` | Replaces the image on the chat button; give the name of a file in `_static/` |
+
+!!! warning "Mistakes stop the server"
+    uproot checks `upd.TEMPLATE_DEFAULTS` when the server starts. It stops with the error `Invalid TEMPLATE_DEFAULTS` and lists the valid names if:
+
+    - a name is wrong, for example `disable_uproot_font`;
+    - a value has the wrong type, for example `"yes"` or `1` instead of `True`;
+    - a switch is missing.
+
+    So change single values, as shown above. Do not assign a new dictionary containing only some of the switches. A typo in a `{% set %}` line is not caught: the switch simply has no effect.
 
 ## Complete example
 

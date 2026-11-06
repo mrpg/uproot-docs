@@ -110,6 +110,14 @@ upd.DEFAULT_ROOMS.append(
 
 Rooms defined this way are created automatically when the server starts.
 
+### Template defaults
+
+```python
+upd.TEMPLATE_DEFAULTS["disable_uproot_fonts"] = True
+```
+
+`upd.TEMPLATE_DEFAULTS` changes the [template switches](../building/pages.md#changing-a-switch-for-the-whole-project) for every participant page in your project. It also controls [how the experimenter appears](../running/admin.md#changing-how-the-experimenter-appears) in the admin chat.
+
 ## App module
 
 Each app is a Python package (a directory with `__init__.py`). The `__init__.py` defines the experiment logic.

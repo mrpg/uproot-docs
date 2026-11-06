@@ -199,10 +199,36 @@ Features:
 - **Participant-side widget:** A floating chat button appears on the participant’s screen when the admin sends a message.
 - **Real-time updates:** Messages appear instantly on both sides via WebSocket.
 
-Participants see a small button in the bottom-right corner. Messages from the experimenter appear in a pop-up chat window. Whether the participant can reply is controlled by the toggle in the admin view.
+Participants see a small button in the bottom-left corner. Messages from the experimenter appear in a pop-up chat window. Whether the participant can reply is controlled by the toggle in the admin view.
 
 !!! note
     Admin chat channels are created automatically the first time the admin sends a message to a participant. No setup is required in your app code.
+
+### Changing how the experimenter appears
+
+By default, the chat button and the title of the chat window say “Chat with Research Coordinator.” Your messages appear under the name “Research Coordinator.” Your lab may use another name, such as “Lab assistants.” To change both, add these lines to `main.py`:
+
+```python
+upd.TEMPLATE_DEFAULTS["buddy_label"] = "Chat with the lab assistants"
+upd.TEMPLATE_DEFAULTS["buddy_sender"] = "Lab assistants"
+```
+
+`buddy_label` replaces the text on the chat button and the title of the chat window. `buddy_sender` replaces the name on your messages, both for participants and in the admin chat. Both are part of [`upd.TEMPLATE_DEFAULTS`](../building/pages.md#changing-a-switch-for-the-whole-project).
+
+!!! warning "Set both"
+    The two switches are independent. If you set only `buddy_sender`, the button still says “Chat with Research Coordinator.”
+
+Set `buddy_sender` in `main.py`, not with `{% set %}` in a template. The admin chat reads only the value from `main.py`, so participants would see a different name from the one you see.
+
+`buddy_label` and `buddy_sender` show the same text to all participants, whatever their language. If your study runs in several languages, leave both unset and [translate](../building/pages.md#translations) uproot’s phrases “Research Coordinator” and “Chat with Research Coordinator” instead. The name on messages is translated in the browser, so keep [`disable_terms`](../building/pages.md#base-template-switches) at `False`.
+
+To replace the image on the chat button, put a file in the [`_static/` folder at your project root](../building/pages.md#project-wide-static-files) and give its name:
+
+```python
+upd.TEMPLATE_DEFAULTS["buddy_image"] = "lab-logo.png"
+```
+
+uproot shows the image at its original size, so use a small one. The built-in image is 80 × 80 pixels. uproot does not check that the file exists: if the name is wrong, participants see a broken image.
 
 ## App testing
 

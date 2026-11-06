@@ -219,7 +219,9 @@ Using a context manager is always safe, even when not strictly required.
 - Built-in filters: `| to(n)` (decimal places), `| fmtnum(pre=, post=, places=, sep=, decsep=)` (rounds half up; `uproot.fmtnum(value, {pre, post, places, sep, decsep})` in JavaScript gives identical output)
 - All Python builtins available in templates (`sum()`, `max()`, `min()`, `len()`, `range()`, `enumerate()`, `zip()`)
 - `{% set buttons = False %}` to hide navigation buttons
-- Base template disable switches: `disable_bootstrap`, `disable_uproot_fonts`, `disable_tabular_numbers`, `disable_terms`, `disable_auto_start`, `disable_connection_lost_modal`
+- Base template disable switches: `disable_bootstrap`, `disable_alpinejs`, `disable_uproot_fonts`, `disable_tabular_numbers`, `disable_terms`, `disable_auto_start`, `disable_connection_lost_modal`
+- `upd.TEMPLATE_DEFAULTS` — project-wide defaults for the template switches; change single values in `main.py`, since invalid or missing entries stop the server at startup
+- `disable_auto_start` and `disable_bootstrap` are effectively internal: warn against them, and do not present them as normal options or document workarounds. `disable_auto_start` is for pages outside an experiment (`RoomFull.html`, `RoomHello.html`, `JustPOST.html`); on experiment pages, **Next** silently fails, and set project-wide, participants never reach the first page. `disable_bootstrap` leaves modal text visible on every page and breaks pop-ups and sliders unless Bootstrap 5 is loaded another way
 - Admin template disable switch: `disable_navigation`
 - `player.along("round")` — iterate all rounds as `(round_number, data)` tuples
 - `player.within(round=n)` — access data from a specific round

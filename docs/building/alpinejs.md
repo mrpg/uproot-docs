@@ -1,5 +1,5 @@
 ---
-description: 'Add interactivity to templates with the built-in Alpine.js: essentials, global stores, constants in JavaScript, and combining Alpine with live methods.'
+description: 'Add interactivity to templates with the built-in Alpine.js: essentials, global stores, constants in JavaScript, combining Alpine with live methods, and disabling it.'
 ---
 
 # Using Alpine.js
@@ -99,6 +99,17 @@ function submit() {
 ```
 
 [:material-github: counter_alpine example](https://github.com/mrpg/uproot-examples/tree/main/counter_alpine) · [sumhunt example](https://github.com/mrpg/uproot-examples/tree/main/sumhunt) · [encryption_task example](https://github.com/mrpg/uproot-examples/tree/main/encryption_task)
+
+## Disabling Alpine.js
+
+If your study does not use Alpine.js, you can stop loading it:
+
+```html+jinja
+{% extends "Base.html" %}
+{% set disable_alpinejs = True %}
+```
+
+uproot’s built-in participant pages work without it. To disable it on every page, see [Changing a switch for the whole project](pages.md#changing-a-switch-for-the-whole-project).
 
 ## Quick reference
 
