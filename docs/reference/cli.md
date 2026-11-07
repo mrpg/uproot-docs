@@ -89,6 +89,7 @@ uproot run
 |--------|---------|-------------|
 | `-h`, `--host` | `127.0.0.1` | Host to bind to |
 | `-p`, `--port` | `8000` | Port to listen on |
+| `--uds PATH`{ .text-nowrap } | — | Listen on a Unix domain socket instead of a host and port; requires `UPROOT_ORIGIN` (see [Deploying with Caddy](../running/caddy.md#advanced-connect-through-a-unix-socket)) |
 | `--unsafe` | — | Disable HTTPS requirement (for development behind certain proxies) |
 | `--public-demo`{ .text-nowrap } | — | Run in public demo mode (restricted admin) |
 

@@ -232,6 +232,9 @@ Useful commands:
 
 ## 5. nginx and HTTPS
 
+!!! tip "Prefer Caddy?"
+    Instead of nginx and Certbot, you can use [Caddy](caddy.md), which obtains and renews certificates itself. If you do, choose a hostname as described below, then follow [Deploying with Caddy](caddy.md) instead of the rest of this step.
+
 ### Choose a hostname
 
 You need a domain name for HTTPS. A custom domain is not required; there are easier options:

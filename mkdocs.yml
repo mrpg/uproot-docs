@@ -80,6 +80,10 @@ extra:
 copyright: |
   The documentation and all code examples are licensed under the <a href="https://opensource.org/licenses/0BSD">0BSD license</a> unless stated otherwise.
 
+# Deep pages: linked from other pages, but not listed in the navigation
+not_in_nav: |
+  /running/caddy.md
+
 nav:
   - Home: index.md
   - Why uproot?: why-uproot.md

@@ -88,6 +88,9 @@ uproot listens on port 8000 by default. Use `--port` to change it if needed.
 
 ### nginx configuration
 
+!!! tip "Prefer Caddy?"
+    [Caddy](https://caddyserver.com/) is an alternative to nginx that obtains and renews its HTTPS certificates itself and supports HTTP/3 without extra settings. Its whole configuration for uproot is three lines. See [Deploying with Caddy](caddy.md).
+
 For a full configuration you can use as `/etc/nginx/nginx.conf`, [download nginx.conf](../assets/nginx.conf){ download="nginx.conf" }. It includes the outer `events` and `http` blocks and redirects HTTP to HTTPS, using the settings below. Follow the `TODO` comments to set your hostname and certificate paths, and change the backend address if needed.
 
 The file assumes Debian 13+ with nginx’s HTTP/2 and [HTTP/3 modules](https://nginx.org/en/docs/http/ngx_http_v3_module.html) available. It uses the default paths for a Let’s Encrypt certificate obtained with Certbot; the [VPS setup guide](vps-setup.md#get-a-tls-certificate) covers obtaining one before starting nginx and setting up renewal. Back up your current configuration before replacing it, then run `sudo nginx -t` before starting or reloading nginx. This full configuration does not load other files from `sites-enabled/` or `conf.d/`.

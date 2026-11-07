@@ -5,7 +5,8 @@ At build time, this hook writes:
 - a Markdown copy of every page next to its HTML (``/building/forms.md`` for
   ``/building/forms/``), with MkDocs-only syntax removed and links made absolute,
 - ``/llms.txt``, an index of all pages following https://llmstxt.org/,
-- ``/llms-full.txt``, all pages concatenated in navigation order,
+- ``/llms-full.txt``, all pages concatenated in navigation order, followed by
+  pages that are not in the navigation,
 
 and adds ``<link rel="alternate" type="text/markdown">`` to every page’s HTML.
 """
@@ -83,6 +84,10 @@ def _clean(markdown: str, src_uri: str, site_url: str) -> str:
 
 
 def on_nav(nav, config, files):
+    # Drop removed pages, but keep unchanged pages for incremental builds.
+    current_pages = {file.src_uri for file in files.documentation_pages()}
+    for src_uri in PAGES.keys() - current_pages:
+        del PAGES[src_uri]
     NAV[:] = nav.items
     return nav
 
@@ -131,6 +136,12 @@ def on_post_build(config):
         ordered.append(src_uri)
         sections.setdefault(section or "Overview", []).append(src_uri)
 
+    # Deep pages are linked from other pages but not listed in the navigation.
+    deep = sorted(uri for uri in PAGES if uri not in ordered)
+    if deep:
+        sections["Additional pages"] = deep
+        ordered += deep
+
     lines = [f"# {config['site_name']}", "", f"> {config['site_description']}", ""]
     lines.append(LLMS_INTRO)
     for section, uris in sections.items():
@@ -147,7 +158,8 @@ def on_post_build(config):
         "",
         (
             f"- [Full documentation in one file]({site_url}llms-full.txt): "
-            "every page above, concatenated in navigation order"
+            "every page above, concatenated in navigation order, followed by "
+            "additional pages sorted by path"
         ),
         "",
     ]

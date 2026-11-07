@@ -32,6 +32,7 @@ Key structural decisions:
 - App static files live in `_static/` (not `static/`); project-wide files live in `_static/` at the project root
 - Rounds/randomization do not have their own pages — they are covered by SmoothOperators (`building/operators.md`)
 - Results follows Data in the Building section (natural collect → display arc)
+- Caddy is a deep page (`running/caddy.md`): listed under `not_in_nav` in `mkdocs.yml`, linked from the nginx sections of Deployment and VPS setup, and listed under “Additional pages” in `llms.txt`
 
 ## Pedagogical principles
 
@@ -226,7 +227,7 @@ Using a context manager is always safe, even when not strictly required.
 
 ### CLI commands
 **Global**: `uproot setup <path>`, `uproot api <endpoint>`, `uproot check-translations [path]` (reports untranslated phrases for each language with a YAML file in the project; `--untranslated` lists field texts translated nowhere), `uproot --version`
-**Project** (run from project dir): `uproot run`, `uproot start [config]` (creates and opens a quick room, prints its URL, then runs the server; `--simulate` enables simulated responses — prefer advertising this for trying out experiments), `uproot reset`, `uproot dump --file`, `uproot restore --file`, `uproot new <app>`, `uproot newpage <app> <page>`, `uproot examples`, `uproot deployment`
+**Project** (run from project dir): `uproot run` (`--uds PATH` listens on a Unix socket; requires `UPROOT_ORIGIN`), `uproot start [config]` (creates and opens a quick room, prints its URL, then runs the server; `--simulate` enables simulated responses — prefer advertising this for trying out experiments), `uproot reset`, `uproot dump --file`, `uproot restore --file`, `uproot new <app>`, `uproot newpage <app> <page>`, `uproot examples`, `uproot deployment`
 
 ### Admin interface
 - Web UI at `/admin/` with session/room management
