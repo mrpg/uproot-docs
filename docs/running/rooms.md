@@ -24,7 +24,7 @@ You can share these URLs with participants individually. This approach works wel
 
 ### Session initialization
 
-A session is initialized the first time a player loads their first page. Initialization runs the `new_session` callback in each app (if defined), followed by `new_player` for that player. If you created the session manually with pre-created players, you can also trigger initialization explicitly via the admin API using the `run_new_session` and `run_new_player` endpoints.
+A session is initialized the first time a player loads their first page. Initialization runs the `new_session` callback in each app (if defined), followed by `new_player` in each app for that player. Each callback runs only once; see [Initialization callbacks](../building/data.md#initialization-callbacks). If you created the session manually with pre-created players, you can also trigger initialization explicitly via the [admin API](../reference/admin-api.md), using `POST /admin/api/v1/sessions/{sname}/initialize/` and `POST /admin/api/v1/sessions/{sname}/players/initialize/`.
 
 ## Rooms
 

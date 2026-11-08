@@ -163,8 +163,8 @@ Common parameters: `label`, `optional`, `description`, `default`, `render_kw`, `
 6. `templatevars(page, player)` / `jsvars(page, player)` → template/JS data
 7. *(page renders)*
 8. `validate(page, player, data)` → return str, list[str], or dict[str, str] for errors
-9. `before_form_save(page, player, data)` → runs after validation, before fields are saved
-10. `stealth_fields` / `handle_stealth_fields(page, player, data)` → manual field handling
+9. `stealth_fields` / `handle_stealth_fields(page, player, data)` → manual field handling; returning errors rejects the submission and saves nothing
+10. `before_form_save(page, player, data)` → runs after validation and stealth handling, before fields are saved
 11. `may_proceed(page, player)` → gate before advancing
 12. `after_once(page, player)` → after first submission only
 13. `after_always_once(page, player)` → after each submission
@@ -204,7 +204,7 @@ Using a context manager is always safe, even when not strictly required.
 - `LANDING_PAGE` — if True, shows landing page before app
 - `C` — constants class, available in templates; `C.__export__` copies named constants to `window.C`
 - `new_session(session)` — once per session init (lazy: runs when first player arrives)
-- `new_player(player)` — once per player init
+- `new_player(player)` — once per player init; runs for every app in the config when the player starts, not when they reach the app
 - `restart()` — on server restart (can be async)
 - `digest(session)` — data for admin digest view (pair with `AdminDigest.html`, `main` block only)
 - `pipeline(session, data)` — admin-runnable job; return `list[dict]` for a downloadable table; `data` is the posted JSON or `None`

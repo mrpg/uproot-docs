@@ -1,5 +1,5 @@
 ---
-description: 'Reference for uproot’s Python API: page types, SmoothOperators, PlayerContext, real-time, dropout, and group functions, live methods, and StorageBunch.'
+description: 'Reference for uproot’s Python API: page types, SmoothOperators, PlayerContext, real-time, dropout, and group functions, live methods, utility functions, and StorageBunch.'
 ---
 
 # API reference
@@ -393,6 +393,19 @@ player.image_uri = data_uri(image_bytes)
 ```
 
 The MIME type is inferred from common file signatures such as JPEG, PNG, GIF, PDF, ZIP, and MP4. Unknown data is emitted as `application/octet-stream`.
+
+### `append_to_csv`
+
+Add one row to a CSV file outside the database. A relative path is relative to your project folder. The file is created if it does not exist, and new keys become new columns.
+
+```python
+append_to_csv("payments.csv", {"player": player.name, "iban": data["iban"]})
+```
+
+The whole file is rewritten for each row and then swapped in at once, so a crash never leaves a half-written file. This makes it slow for very large files. Use it for data that must stay out of the database, such as payment details from [stealth fields](../building/forms.md#sensitive-data).
+
+!!! warning
+    The file lives on your server’s disk, not in the database. It is not part of data exports or `uproot dump`, and hosting platforms with temporary disks delete it when the app restarts. Back it up yourself.
 
 ## Identifier types
 

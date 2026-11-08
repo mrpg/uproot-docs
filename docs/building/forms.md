@@ -310,7 +310,7 @@ This is useful for:
 
 ## Stealth fields
 
-Stealth fields are processed separately instead of being saved automatically. Use them for file uploads or when you need custom handling logic.
+Some submitted values should not be saved as they are: a file upload, a code that unlocks the next page, or bank details that belong in separate payment records. Stealth fields are validated like any other field, but uproot does not save them. Instead, it passes them to your `handle_stealth_fields` method, which decides what to do with them.
 
 ### Defining stealth fields
 
@@ -337,25 +337,38 @@ class UploadPage(Page):
 The `participant_name` field saves automatically to `player.participant_name`.
 `player.name` is reserved for uproot’s generated player name. The `photo` field
 is available in the `data` dictionary passed to `handle_stealth_fields` instead.
+`data` contains all fields of the page, not only the stealth fields.
 
-### Validation in stealth handlers
+### Rejecting a submission
 
-Return error messages to reject the submission:
+Return an error message (or a list of messages) to reject the submission. The participant stays on the page and sees the message:
 
 ```python
-@classmethod
-async def handle_stealth_fields(page, player, data):
-    document = data["document"]
-    if document is None:
-        return "Please upload a document"
+def new_player(player):
+    player.wrong_codes = 0
 
-    content = await document.read()
-    if len(content) > 5_000_000:
-        return "File too large (max 5MB)"
 
-    # Process the file...
-    player.doc_size = len(content)
+class Gate(Page):
+    fields = dict(
+        nickname=StringField(label="Choose a nickname"),
+        code=StringField(label="Enter the code from the experimenter"),
+    )
+
+    stealth_fields = ["code"]
+
+    @classmethod
+    def handle_stealth_fields(page, player, data):
+        if data["code"] != "4711":
+            player.wrong_codes += 1
+            return "This code is not correct. Please ask the experimenter."
 ```
+
+A rejected submission saves nothing, just as when [`validate`](#custom-validation) rejects it: neither the stealth fields nor the page’s other fields. Above, `nickname` is only saved once the code is correct. Changes that your handler makes itself, like counting `wrong_codes`, are kept.
+
+The handler runs after all validation has passed and before uproot saves the page’s other fields. [`before_form_save`](../reference/page-methods.md#before_form_save) only runs if the handler accepts the submission.
+
+!!! note "Stealth fields on pages with a timeout"
+    Once a [page timeout](../advanced/timeouts.md) has expired, a rejection no longer keeps the participant on the page. Nothing is saved, and the participant moves on.
 
 ### Dynamic stealth fields
 
@@ -367,7 +380,9 @@ def stealth_fields(page, player):
     return ["response"] if player.condition == "special" else []
 ```
 
-Stealth fields are ideal for sensitive data like payment information that should not be stored in the main database:
+### Sensitive data
+
+Stealth fields keep sensitive data like payment information out of the main database. This matters because uproot’s database [never forgets a value](data.md#personal-data-stays-in-the-log). Here, the IBAN goes to a separate CSV file that you can handle (and delete) independently of your experimental data:
 
 ```python
 class PaymentForm(Page):
@@ -379,13 +394,19 @@ class PaymentForm(Page):
     stealth_fields = ["iban"]
 
     @classmethod
-    async def handle_stealth_fields(page, player, data):
-        iban = data["iban"]
-        # Write to separate secure storage, send to payment processor, etc.
-        print(f"Payment data for {player}: {iban}")
+    def handle_stealth_fields(page, player, data):
+        append_to_csv(
+            "payments.csv",
+            {"session": player.session.name, "player": player.name, "iban": data["iban"]},
+        )
 ```
 
-[:material-github: See the payment_data example](https://github.com/mrpg/uproot-examples/tree/main/payment_data)
+[`append_to_csv`](../reference/api.md#append_to_csv) adds one row to the file, creating it if necessary.
+
+!!! warning "Stealth fields still reach the server"
+    A stealth field is not saved in the database, but its value is still sent to your server. Whatever your handler does with it is up to you. For example, `print(data["iban"])` writes the IBAN into your server’s log. If the server should never see a value, do not submit it at all; see [Personal data stays in the log](data.md#personal-data-stays-in-the-log).
+
+[:material-github: See the payment_data example](https://github.com/mrpg/uproot-examples/tree/main/payment_data) · [quiz example](https://github.com/mrpg/uproot-examples/tree/main/quiz)
 
 ## Accessing submitted data
 

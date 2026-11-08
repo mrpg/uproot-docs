@@ -19,13 +19,13 @@ For a forward visit to a page, the lifecycle is:
 7. *(The page is rendered and displayed.)*
 8. *(The participant submits.)*
 9. **`validate`:** Check submitted data.
-10. **`before_form_save`:** Run before ordinary form fields are saved.
-11. **`stealth_fields` and `handle_stealth_fields`:** Handle manual fields.
+10. **`stealth_fields` and `handle_stealth_fields`:** Handle manual fields.
+11. **`before_form_save`:** Run before ordinary form fields are saved.
 12. **`may_proceed`:** Gate before advancing.
 13. **`after_once`:** Run once per player, on first successful submission only.
 14. **`after_always_once`:** Run once after this page position is submitted.
 
-The `timeout` method configures the deadline while the page is rendered. The browser submits when the deadline is reached. If the server receives a request after the deadline, `timeout_reached` handles that request before normal form processing, `may_proceed` is skipped, and the page advances. Valid form data is saved; invalid data is discarded without an error message. uproot counts a request up to `upd.TIMEOUT_TOLERANCE` seconds (default: 1) before the deadline as timed out, too, but only if `may_proceed` allows the page to advance. See [Timeouts and `may_proceed`](../advanced/timeouts.md#timeouts-and-may_proceed). A direct visit to the current page can omit `early`, because that hook runs when entering a new page position.
+The `timeout` method configures the deadline while the page is rendered. The browser submits when the deadline is reached. If the server receives a request after the deadline, `timeout_reached` handles that request before normal form processing, `may_proceed` is skipped, and the page advances. Valid form data is saved. Data that is invalid, or rejected by `validate` or `handle_stealth_fields`, is discarded without an error message. uproot counts a request up to `upd.TIMEOUT_TOLERANCE` seconds (default: 1) before the deadline as timed out, too, but only if `may_proceed` allows the page to advance. See [Timeouts and `may_proceed`](../advanced/timeouts.md#timeouts-and-may_proceed). A direct visit to the current page can omit `early`, because that hook runs when entering a new page position.
 
 ## `show`
 
@@ -203,8 +203,9 @@ def validate(page, player, data):
 
 ## `before_form_save`
 
-Runs after built-in and custom validation passes, immediately before ordinary
-form fields are saved to the player. The submitted `data` mapping is read-only;
+Runs after built-in and custom validation passes and after
+[`handle_stealth_fields`](#handle_stealth_fields) (if any) accepts the
+submission, immediately before ordinary form fields are saved to the player. The submitted `data` mapping is read-only;
 use this hook for checks or side effects that need the validated values before
 they are persisted.
 
@@ -300,7 +301,7 @@ def timeout(page, player):
 
 ## `timeout_reached`
 
-Called when the page timeout expires, before the page auto-advances.
+Called when the page timeout expires, before the page auto-advances. It runs before the submitted form data is processed, so valid submitted values overwrite values that `timeout_reached` sets for the same fields. See [Handling timeout expiration](../advanced/timeouts.md#handling-timeout-expiration).
 
 ```python
 @classmethod
@@ -341,7 +342,7 @@ def stealth_fields(page, player):
 
 ## `handle_stealth_fields`
 
-Processes stealth fields. Called after validation. Return error strings to reject the submission.
+Processes stealth fields and file uploads. Called after validation passes and before ordinary fields are saved. Return error strings to reject the submission: the participant stays on the page, and nothing from the submission is saved. Changes the handler makes to `player` itself are kept. See [Stealth fields](../building/forms.md#stealth-fields).
 
 ```python
 @classmethod
@@ -356,7 +357,7 @@ async def handle_stealth_fields(page, player, data):
 |-----------|-------------|
 | `page` | The page class |
 | `player` | The current player |
-| `data` | `dict` of stealth field values |
+| `data` | `dict` of all submitted field values, including stealth fields |
 | **Returns** | Error string or list of error strings, or nothing if valid |
 
 [:material-github: See the payment_data example](https://github.com/mrpg/uproot-examples/tree/main/payment_data) · [input_validation example](https://github.com/mrpg/uproot-examples/tree/main/input_validation)

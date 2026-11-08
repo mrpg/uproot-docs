@@ -1,5 +1,5 @@
 ---
-description: Define pages as Python classes, write Jinja2 or Markdown templates, pass variables, show pages conditionally, and use NoshowPage and lifecycle methods.
+description: Define pages as Python classes, write Jinja2 or Markdown templates, pass variables, show pages conditionally, place buttons, customize the end page, and use NoshowPage and lifecycle methods.
 ---
 
 # Pages and templates
@@ -117,7 +117,7 @@ The built-in templates also read a few optional Jinja variables. Set them near t
 
 | Variable | Default | Effect when set to `True` |
 |----------|---------|---------------------------|
-| `buttons` | `True` | Set to `False` to hide the default Back/Next buttons |
+| `buttons` | `True` | Set to `False` to hide the default Back/Next buttons (see [Placing the buttons yourself](#placing-the-buttons-yourself)) |
 | `disable_bootstrap` | `False` | Do not load uproot’s bundled Bootstrap CSS and JavaScript |
 | `disable_uproot_fonts` | `False` | Do not load uproot’s bundled web fonts |
 | `disable_tabular_numbers` | `False` | Do not load the tabular-number font stylesheet |
@@ -434,6 +434,66 @@ Set `keep_values = True` to pre-fill the form from values already stored on the 
     Going back re-displays the page but does not undo any data that was
     already saved. Submission hooks like `after_once` do not run again.
 
+## Placing the buttons yourself
+
+uproot puts a “Next” button (and a “Back” button, if [allowed](#allowing-back-navigation)) below your page content. To put them elsewhere, or to style or relabel them, call `button_next()` and `button_back()` in your template:
+
+```html+jinja
+{% extends "Base.html" %}
+
+{% block main %}
+<p>Please read the consent form below.</p>
+
+<div class="d-flex justify-content-center gap-3 my-5">
+    {{ button_back() }}
+    {{ button_next(label="I agree", class_="btn btn-success btn-lg") }}
+</div>
+{% endblock main %}
+```
+
+As soon as you place either button, uproot no longer adds the default buttons. Both helpers accept HTML attributes as keyword arguments. Write `class_` (with an underscore) for the `class` attribute, because `class` is a reserved word in Python. `label` replaces the button text. `button_back()` renders nothing on pages without `allow_back`.
+
+### Submitting from JavaScript
+
+Sometimes the page should only be submitted after your own JavaScript has run, for example after a confirmation dialog. Make the button an ordinary button with `type="button"`, so that clicking it does not submit the page, and call `uproot.submit()` when you are ready:
+
+```html+jinja
+{{ button_next(type="button", id="review", label="Submit") }}
+
+<script>
+document.getElementById("review").addEventListener("click", () => {
+    if (confirm("Submit your answers? You cannot change them later.")) {
+        uproot.submit();
+    }
+});
+</script>
+```
+
+`uproot.submit()` sends the page’s form fields like a click on “Next” would. Form inputs without a `name` attribute are never sent.
+
+### Pages without buttons
+
+To show no buttons at all, set `buttons` to `False` at the top of the template:
+
+```html+jinja
+{% extends "Base.html" %}
+{% set buttons = False %}
+```
+
+Participants then stay on this page until something else moves them on, such as a [timeout](../advanced/timeouts.md), [live method](live-methods.md), or the admin. If you put such a page last, participants never reach the [end page](#the-end-page). This can be what you want, but the admin’s session monitor then shows them on that page rather than on `End.html`.
+
+[:material-github: See the button_placement example](https://github.com/mrpg/uproot-examples/tree/main/button_placement)
+
+## The end page
+
+After the last page in the page order, participants see uproot’s end page: “You have reached the end of this study. You may now close this page.” To add your own content below this text, create a file named `EndInfo.html`:
+
+```html+jinja
+<p>Your completion code is <b>{{ player.completion_code }}</b>.</p>
+```
+
+`EndInfo.html` is included in the end page, so it must not extend `Base.html`. You can use `player` and the other [built-in template variables](#built-in-template-variables). uproot looks for the file in the app of the participant’s last page first, then in the project root.
+
 ## `NoshowPage` for logic-only pages
 
 Sometimes you need to run code without displaying anything to participants. Use `NoshowPage`:
@@ -511,6 +571,11 @@ const price = uproot.vars.initial_price;
 const maxTrades = uproot.vars.max_trades;
 </script>
 ```
+
+!!! warning "Do not paste template variables into scripts"
+    It is tempting to write `const nickname = "{{ player.nickname }}";` instead. This breaks as soon as a value contains a quotation mark, a backslash, or a line break: the participant’s browser then sees a different value, or the whole script fails. `jsvars` converts values to [JSON](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/JSON), which keeps strings, numbers, lists, and dictionaries intact.
+
+`jsvars` can only pass values that JSON knows: strings, numbers, Booleans, `None`, lists, tuples, and dictionaries. Money amounts are a common exception. `player.payoff` and values created with [`cu`](../reference/api.md#cu) are [`Decimal`](https://docs.python.org/3/library/decimal.html) numbers, and returning one from `jsvars` fails with `TypeError: Type is not JSON serializable: decimal.Decimal`. Convert it first: `str(player.payoff)` keeps the exact value, while `float(player.payoff)` gives a number you can calculate with in JavaScript.
 
 ## Complete example
 

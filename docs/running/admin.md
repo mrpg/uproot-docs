@@ -104,7 +104,7 @@ Select one or more players and use these actions:
 | **Redirect** | Send selected players to an external URL |
 | **Set fields** | Set arbitrary field values on selected players |
 | **Group/ungroup** | Manually create or dissolve groups |
-| **Run `new_player`** | Re-run the `new_player` callback for selected players |
+| **Run `new_player`** | Initialize selected players who have not started yet, running the [`new_player`](../building/data.md#new_player) callback of every app. Players who are already initialized are not affected |
 
 !!! note "Reverting stops at the start of rounds and apps"
     **Revert** cannot take players back into an earlier round of [`Rounds` or `Repeat`](../building/operators.md#rounds), into an earlier app, or out of the end of the experiment. uproot does not count `player.round` back down or switch `player.app` back, so anything players entered after such a revert would be saved under the wrong round or app. If any selected player would cross such a boundary, uproot shows “The action failed” and moves none of the selected players. The server log names the player and the boundary.

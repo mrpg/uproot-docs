@@ -1,5 +1,5 @@
 ---
-description: 'How uproot stores data in an append-only log: player, group, and session data, initialization callbacks, random numbers, mutable values, and accessing other players.'
+description: 'How uproot stores data in an append-only log: personal data, player, group, and session data, initialization callbacks, random numbers, mutable values, and accessing other players.'
 ---
 
 # Storing and accessing data
@@ -24,6 +24,15 @@ The append-only log provides:
 3. **Temporal analysis:** Study how responses evolved over time.
 4. **Data integrity:** No accidental overwrites or race conditions.
 
+### Personal data stays in the log
+
+Because uproot never deletes anything, every value a participant submits stays in your database for good. Overwriting or deleting the field later does not remove the earlier value. The only way to remove it is to delete the entire database with [`uproot reset`](../reference/cli.md).
+
+So decide before your study runs which personal data (names, email addresses, bank details, and so on) should reach the database at all:
+
+- To check or process a value without saving it, use [stealth fields](forms.md#stealth-fields).
+- To keep a value away from the server entirely, do not submit it. Form inputs without a `name` attribute are never sent. You can, for example, encrypt contact details in the participant’s browser and submit only the encrypted text. The [e2mupay](https://github.com/mrpg/e2mupay) apps do this with OpenPGP.
+
 See [Exporting data](../running/export.md) for more information about when this data is exported.
 
 ## Initialization callbacks
@@ -42,7 +51,7 @@ def new_session(session):
 
 ### new_player
 
-`new_player(player)` is called once per participant when they first join. Use it to set up per-player defaults:
+`new_player(player)` is called once per participant when they start the study. Use it to set up per-player defaults:
 
 ```python
 def new_player(player):
@@ -51,12 +60,45 @@ def new_player(player):
     chat.add_player(player.my_chat, player)
 ```
 
+### Every app at once
+
+When a participant starts, uproot calls `new_player` of **every app** in the configuration, in app order. It does not wait until the participant reaches each app. (Likewise, the first participant to start triggers `new_session` of every app.) So an app that comes last in the configuration can still prepare data at the very start, for example to record when the participant began:
+
+```python
+from datetime import datetime, timezone
+
+
+def new_player(player):
+    player.started_at = datetime.now(timezone.utc).isoformat()
+```
+
+The flip side is that `new_player` cannot use anything the participant does in earlier apps, because none of it has happened yet.
+
+!!! warning "Using data from an earlier app in `new_player`"
+    Suppose the app `survey` asks for `player.age`, and a later app `treatment` reads it in `new_player`:
+
+    ```python
+    def new_player(player):
+        player.high_dose = player.age >= 30  # Wrong: runs before the survey
+    ```
+
+    The participant cannot start the study. uproot reports `AttributeError: Player(*('nvfyk', 'ic9uj')) has no .age`, because `player.age` does not exist yet. Move such code to the first page of `treatment`, using [`before_once`](../reference/page-methods.md#before_once), which runs when the participant actually gets there:
+
+    ```python
+    class Instructions(Page):
+        @classmethod
+        def before_once(page, player):
+            player.high_dose = player.age >= 30
+    ```
+
 ### Lazy execution
 
-Both callbacks are **lazy**: they run when the first participant initializes, not when the session is created in the admin. `new_session` runs before `new_player` for the very first participant in a session.
+Both callbacks are **lazy**: they run when a participant opens their link for the first time, not when you create the session in the admin. `new_session` runs before `new_player` for the very first participant in a session.
 
-!!! note
-    Both `new_session` and `new_player` can be manually re-triggered from the admin session dashboard. This is useful for resetting state or re-running initialization after fixing a bug mid-experiment.
+Two [admin actions](../running/admin.md) initialize participants who have not started yet: **Run `new_player`** and **Mark as dropout**. For these participants, the callbacks run at the moment of the admin action. Keep this in mind if `new_player` records a time.
+
+!!! note "Each callback runs only once"
+    `new_session` runs at most once per session, and `new_player` at most once per participant. Running them again from the admin has no effect on sessions and participants that are already initialized. In particular, you cannot use these actions to reset data or to rerun corrected code mid-experiment. To correct existing data, set the fields directly, for example with **Set fields** in the admin.
 
 [:material-github: See new_player and new_session in the chat example](https://github.com/mrpg/uproot-examples/tree/main/chat) · [conjoint example](https://github.com/mrpg/uproot-examples/tree/main/conjoint)
 

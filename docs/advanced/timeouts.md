@@ -15,7 +15,7 @@ class TimedTask(Page):
     timeout = 60  # Auto-advance after 60 seconds
 ```
 
-When the timeout expires, the page submits automatically with whatever data has been entered.
+When the timeout expires, the participant moves on to the next page. uproot saves what they entered if it is valid; see [What happens to entered data](#what-happens-to-entered-data).
 
 ## Dynamic timeout
 
@@ -52,6 +52,35 @@ This callback runs before the page advances. Use it to:
 - Record that the participant timed out
 - Apply penalties or default values
 - Set flags for conditional logic later
+
+### What happens to entered data
+
+When time runs out, the browser submits the page with whatever the participant has entered so far. uproot then:
+
+1. runs `timeout_reached`,
+2. checks the submitted data as usual, with built-in validation, [`validate`](../building/forms.md#custom-validation), and [`handle_stealth_fields`](../building/forms.md#stealth-fields),
+3. saves the data only if it passes all checks,
+4. moves the participant to the next page in any case.
+
+So a timeout never shows error messages, and it never keeps a participant on the page. If the entered data are incomplete or invalid, **none** of the page’s fields are saved, not even the valid ones. If they are valid, they are saved and overwrite any values that `timeout_reached` set for the same fields.
+
+If the participant’s browser is closed when time runs out, nothing happens until they return. As soon as they load the page again, `timeout_reached` runs and the page advances.
+
+!!! warning "Fields can be missing after a timeout"
+    After a timeout, a page’s fields may not exist at all. Reading them later fails with an error such as `AttributeError: Player(*('nvfyk', 'ic9uj')) has no .answer`. Set a default in `timeout_reached`. Answers that were entered in time and are valid replace the default:
+
+    ```python
+    class Question(Page):
+        timeout = 30
+        fields = dict(answer=IntegerField(label="Your estimate"))
+
+        @classmethod
+        def timeout_reached(page, player):
+            player.timed_out = True
+            player.answer = None  # Replaced if a valid answer is submitted
+    ```
+
+    Note that `timed_out` is `True` even if the participant’s valid answer was saved at the last moment. To tell the two cases apart, check whether `player.answer` is `None`.
 
 ## Timeouts and `may_proceed`
 
@@ -166,20 +195,38 @@ The timeout still applies. Only the display is gone.
 
 ## Repositioning the countdown display
 
-uproot automatically shows a countdown timer in `#uproot-timeout`. To move it elsewhere on your page, relocate the `#uproot-time-remaining` element with JavaScript:
+By default, uproot shows the countdown above your page content. To show it somewhere else, empty the `timeoutbox` block and place the countdown yourself with one of two template helpers:
+
+- `timeout_box()` renders the complete box, including the text “Remaining time on this page:”, and hides it while no timeout is active.
+- `timeout()` renders only the remaining time, for example “1:05 minutes” or “42 seconds”, so you can put it inside your own text.
 
 ```html+jinja
-<p>Time remaining: <span id="time-here"></span></p>
+{% extends "Base.html" %}
 
-<script>
-document.getElementById("time-here").appendChild(
-    document.getElementById("uproot-time-remaining")
-);
-document.getElementById("uproot-timeout").remove();
-</script>
+{% block timeoutbox %}{% endblock timeoutbox %}
+
+{% block title %}
+Estimation task
+{% endblock title %}
+
+{% block main %}
+<p>Time left: {{ timeout(class_="fw-bold") }}</p>
+
+{{ fields() }}
+
+{{ timeout_box(class_="alert alert-info") }}
+{% endblock main %}
 ```
 
-This moves the countdown into your custom container and removes the default wrapper.
+Both helpers accept HTML attributes as keyword arguments. Write `class_` (with an underscore) for the `class` attribute, because `class` is a reserved word in Python. You can use the helpers several times on one page; all copies count down together.
+
+The default block also contains a hidden element that announces the remaining time to screen readers when time gets short. If you empty the block and want to keep this, add it to your template:
+
+```html
+<div id="uproot-timeout-announcer" class="visually-hidden" aria-live="assertive" aria-atomic="true"></div>
+```
+
+[:material-github: See the button_placement example](https://github.com/mrpg/uproot-examples/tree/main/button_placement)
 
 ## Checking timeout status in templates
 
@@ -200,16 +247,15 @@ countdown uses the monotonic `performance.now()` clock, not a Unix deadline.
 
 ### Reading timeout state
 
-The current state is available in the built-in Alpine store:
+`uproot.pageTimeoutRemainingMs()` returns the remaining time in milliseconds (`0` if no timeout is active). The [timeout events](#timeout-events) below also pass the full state as `event.detail`:
 
 ```javascript
-const timeout = Alpine.store("uproot").timeout;
 // { active, level, text, compact }
+// active:  whether a timeout is running
+// level:   "light", "warning", or "danger" (see below)
+// text:    for example "1 minute and 5 seconds"
+// compact: for example "1:05 minutes" or "42 seconds"
 ```
-
-For lower-level access, use `uproot.pageTimeoutRemainingMs()` while a timeout
-is active. The `pageTimeoutStartMs` and `pageTimeoutDurationMs` properties are
-also available, but the Alpine store is the more stable interface.
 
 ### Timeout events
 
@@ -218,25 +264,26 @@ Two custom events fire on `window`:
 ```javascript
 // Fires once when the timeout is set
 window.addEventListener("UprootInternalPageTimeoutSet", (event) => {
-    console.log("Timeout started:", event.detail);
+    console.log("Timeout started:", event.detail.text);
 });
 
 // Fires every second during countdown
 window.addEventListener("UprootInternalPageTimeout", (event) => {
-    updateCustomDisplay(event.detail);
+    console.log("Remaining:", event.detail.compact);
 });
 ```
 
 ### Visual feedback classes
 
-The default `#uproot-timeout` element automatically changes its timeout level
-class based on the remaining time:
+Every countdown box from `timeout_box()`, including the default one, gets a class for the current timeout level:
 
-| Remaining time | Class added |
-|----------------|-------------|
-| More than 60 seconds | `uproot-timeout-light` |
-| 15–60 seconds | `uproot-timeout-warning` |
-| Less than 15 seconds | `uproot-timeout-danger` |
+| Remaining time | Level | Class added |
+|----------------|-------|-------------|
+| More than 60 seconds | `light` | `uproot-timeout-light` |
+| 60 seconds or less | `warning` | `uproot-timeout-warning` |
+| 15 seconds or less | `danger` | `uproot-timeout-danger` |
+
+To change the thresholds, set `uproot.pageTimeoutWarningSeconds` and `uproot.pageTimeoutDangerSeconds` in your page’s JavaScript.
 
 ### Custom countdown display
 
@@ -246,12 +293,10 @@ Combine these APIs for a fully custom countdown:
 <div id="my-timer" class="display-4"></div>
 
 <script>
-window.addEventListener("UprootInternalPageTimeout", () => {
-    const secs = Math.max(0, Math.ceil(uproot.pageTimeoutRemainingMs() / 1000));
-    const mins = Math.floor(secs / 60);
-    const remainder = secs % 60;
-    document.getElementById("my-timer").innerText =
-        `${mins}:${remainder.toString().padStart(2, "0")}`;
+window.addEventListener("UprootInternalPageTimeout", (event) => {
+    const timer = document.getElementById("my-timer");
+    timer.innerText = event.detail.compact;
+    timer.classList.toggle("text-danger", event.detail.level === "danger");
 });
 </script>
 ```
@@ -267,6 +312,7 @@ To hide the default display, override the `timeoutbox` block as shown in [Hiding
 | `def timeout_reached(page, player)` | Callback when timeout expires |
 | Return `None` from timeout | Disable timeout for that player |
 | `{% block timeoutbox %}{% endblock timeoutbox %}` | Hide the countdown display |
-| `Alpine.store("uproot").timeout` | JavaScript: current timeout state |
+| `{{ timeout_box() }}` / `{{ timeout() }}` | Place the countdown box or the bare remaining time |
+| `uproot.pageTimeoutRemainingMs()` | JavaScript: remaining time in milliseconds |
 | `UprootInternalPageTimeoutSet` | JavaScript: event when timeout starts |
 | `UprootInternalPageTimeout` | JavaScript: event every second |
