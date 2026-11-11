@@ -62,6 +62,8 @@ When time runs out, the browser submits the page with whatever the participant h
 3. saves the data only if it passes all checks,
 4. moves the participant to the next page in any case.
 
+The same happens to any request that arrives after the deadline, also if the participant clicked “Back” at the last moment: they move on, not back.
+
 So a timeout never shows error messages, and it never keeps a participant on the page. If the entered data are incomplete or invalid, **none** of the page’s fields are saved, not even the valid ones. If they are valid, they are saved and overwrite any values that `timeout_reached` set for the same fields.
 
 If the participant’s browser is closed when time runs out, nothing happens until they return. As soon as they load the page again, `timeout_reached` runs and the page advances.

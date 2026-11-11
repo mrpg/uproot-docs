@@ -155,10 +155,11 @@ Defined in `fields` dict or async `fields()` method (all from `uproot.fields`):
 Common parameters: `label`, `optional`, `description`, `default`, `render_kw`, `class_wrapper`
 
 ### Page lifecycle (execution order)
-1. `show(page, player)` → skip page if False
-2. `early(page, player, request=)` → earliest hook, has access to HTTP request
-3. `before_always_once(page, player)` → runs once per page display
-4. `before_once(page, player)` → runs once per player (first visit only)
+Entering a page position (forward, Back, `move_to_page`, admin): `early`, then `before_always_once`, then `show` decides; a hidden page is skipped (`after_always_once`, then the next position), a shown one gets `before_once` and is displayed. The once-hooks run the first time their occasion arises at a position, always, but only once. Back goes to the nearest earlier shown page without crossing an app, round or `Repeat` iteration start, ignores `may_proceed`, and counts as a timed-out submission after the deadline. Specified and proven in uproot-proofs (`UprootProofs/Pages.lean`).
+1. `early(page, player, request=)` → earliest hook, has access to HTTP request; runs whenever navigation reaches the position (not on reload)
+2. `before_always_once(page, player)` → runs once when the position is reached, also if the page is not shown
+3. `show(page, player)` → skip page if False
+4. `before_once(page, player)` → runs once, before the page is first displayed
 5. `fields(page, player)` → dynamic form fields
 6. `templatevars(page, player)` / `jsvars(page, player)` → template/JS data
 7. *(page renders)*
@@ -166,8 +167,8 @@ Common parameters: `label`, `optional`, `description`, `default`, `render_kw`, `
 9. `stealth_fields` / `handle_stealth_fields(page, player, data)` → manual field handling; returning errors rejects the submission and saves nothing
 10. `before_form_save(page, player, data)` → runs after validation and stealth handling, before fields are saved
 11. `may_proceed(page, player)` → gate before advancing
-12. `after_once(page, player)` → after first submission only
-13. `after_always_once(page, player)` → after each submission
+12. `after_once(page, player)` → once, after the first submission that leaves the page
+13. `after_always_once(page, player)` → once, when the position is left forward (submitted or skipped)
 14. `timeout(page, player)` / `timeout_reached(page, player)` → page timeouts
 
 ### Mutable data in page methods

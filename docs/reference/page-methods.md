@@ -10,10 +10,10 @@ Page methods are `@classmethod`s that receive `page` (the page class) and usuall
 
 For a forward visit to a page, the lifecycle is:
 
-1. **`show`:** Decide whether the page is displayed.
-2. **`early`:** Run before rendering.
-3. **`before_always_once`:** Run once when this page position is reached.
-4. **`before_once`:** Run once per player, on first visit only.
+1. **`early`:** Run first, whenever navigation reaches this page position.
+2. **`before_always_once`:** Run once when this page position is reached.
+3. **`show`:** Decide whether the page is displayed.
+4. **`before_once`:** Run once, before the page is displayed for the first time.
 5. **`fields`:** Determine form fields.
 6. **`templatevars` and `jsvars`:** Prepare template and JS data.
 7. *(The page is rendered and displayed.)*
@@ -22,10 +22,18 @@ For a forward visit to a page, the lifecycle is:
 10. **`stealth_fields` and `handle_stealth_fields`:** Handle manual fields.
 11. **`before_form_save`:** Run before ordinary form fields are saved.
 12. **`may_proceed`:** Gate before advancing.
-13. **`after_once`:** Run once per player, on first successful submission only.
-14. **`after_always_once`:** Run once after this page position is submitted.
+13. **`after_once`:** Run once, after the first submission that leaves the page.
+14. **`after_always_once`:** Run once when this page position is left forward.
 
-The `timeout` method configures the deadline while the page is rendered. The browser submits when the deadline is reached. If the server receives a request after the deadline, `timeout_reached` handles that request before normal form processing, `may_proceed` is skipped, and the page advances. Valid form data is saved. Data that is invalid, or rejected by `validate` or `handle_stealth_fields`, is discarded without an error message. uproot counts a request up to `upd.TIMEOUT_TOLERANCE` seconds (default: 1) before the deadline as timed out, too, but only if `may_proceed` allows the page to advance. See [Timeouts and `may_proceed`](../advanced/timeouts.md#timeouts-and-may_proceed). A direct visit to the current page can omit `early`, because that hook runs when entering a new page position.
+A few rules explain all of this:
+
+- **Entering.** Whenever navigation reaches a page position, uproot *enters* it: `early`, then `before_always_once`. Then `show` decides. A page that is not shown is *skipped*: `after_always_once` runs, and uproot enters the next position. A shown page is *displayed*: `before_once` runs, then the participant sees the page. This holds however the participant gets there: forward, by [Back](../building/pages.md#allowing-back-navigation), when you move them with [`move_to_page`](api.md#move_to_page), or when an admin does.
+- **Once.** `before_always_once`, `before_once`, `after_once` and `after_always_once` run the first time their occasion arises at a page position, always, but only once. `early` runs whenever navigation reaches a position; reloading the page runs it only if it has never run there.
+- **Leaving.** A submission that passes all checks leaves the page if `may_proceed` allows it: `after_once`, `after_always_once`, then uproot enters the next position. Otherwise, the page is displayed again with the submitted values, and with error messages if the submission was rejected. Error messages never appear on another page.
+- **Moves.** If a page method moves the participant (with `move_to_page` or `move_to_end`), the method and the others of the same step (entering, `show`, skipping, displaying, leaving) finish, and then uproot enters the target.
+- **Other forms.** A request that does not carry the form of the participant’s current page is handled like reloading the page, and nothing in it is saved. This happens, for example, when a participant submits a page just after an admin advanced them, or clicks Next twice and the first click already took them to the next page.
+
+The `timeout` method configures the deadline while the page is rendered. The browser submits when the deadline is reached. If the server receives a request after the deadline, `timeout_reached` handles that request before normal form processing, `may_proceed` is skipped, and the page advances, even if the participant clicked Back. Valid form data is saved. Data that is invalid, or rejected by `validate` or `handle_stealth_fields`, is discarded without an error message. uproot counts a request up to `upd.TIMEOUT_TOLERANCE` seconds (default: 1) before the deadline as timed out, too, but only if `may_proceed` allows the page to advance. See [Timeouts and `may_proceed`](../advanced/timeouts.md#timeouts-and-may_proceed).
 
 ## `show`
 
@@ -45,7 +53,7 @@ def show(page, player):
 
 ## `early`
 
-The earliest hook in the page lifecycle. Runs before `before_always_once`. Receives the HTTP request as an additional keyword argument.
+The earliest hook in the page lifecycle. Runs whenever navigation reaches this page position, also if the page is not shown, before `before_always_once`. Reloading the page does not run it again. Receives the HTTP request as an additional keyword argument.
 
 ```python
 @classmethod
@@ -61,7 +69,7 @@ def early(page, player, request):
 
 ## `before_once`
 
-Runs **once per player**, the first time they see this page. Does not run again if the player navigates back and returns.
+Runs **once per player**, the first time they see this page, also if they reach it with Back. Does not run again if the player navigates back and returns.
 
 ```python
 @classmethod
@@ -76,7 +84,7 @@ def before_once(page, player):
 
 ## `before_always_once`
 
-Runs once when this page position is reached. Use this for setup that should also happen for internal or skipped pages.
+Runs once when this page position is reached, also if the page is not shown. Use this for setup that should also happen for internal or skipped pages.
 
 ```python
 @classmethod
@@ -223,7 +231,7 @@ def before_form_save(page, player, data):
 
 ## `may_proceed`
 
-Gate that controls whether the player can advance. Return `False` to keep the player on the page.
+Gate that controls whether the player can advance. Return `False` to keep the player on the page. It does not stop [Back](../building/pages.md#allowing-back-navigation).
 
 ```python
 @classmethod
@@ -243,7 +251,7 @@ def may_proceed(page, player):
 
 ## `after_once`
 
-Runs **once per player**, after the first forward submission. Does not run on back navigation or revisits.
+Runs **once per player**, after the first submission that leaves the page (or after its timeout). Does not run on back navigation or revisits.
 
 ```python
 @classmethod
@@ -258,7 +266,7 @@ def after_once(page, player):
 
 ## `after_always_once`
 
-Runs once after this page position is submitted in the forward direction.
+Runs once when the player leaves this page position forward: after a submission (or a timeout), or when the page is skipped because it is not shown.
 
 ```python
 @classmethod
