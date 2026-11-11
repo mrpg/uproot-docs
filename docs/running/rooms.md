@@ -85,14 +85,13 @@ A room acts as a finite-state machine with two main states:
 The room is in waiting state when any of the following are true:
 
 - `open` is `False`
-- No config is associated with the room
-- Both of the above
+- The room has neither an associated session nor a config loaded by the server
 
 Participants who visit a waiting room see a “Please wait” page. This page maintains a WebSocket connection to the server so it can advance automatically when the room opens. Participants do not need to refresh.
 
 **Accepting (open)**
 
-When `open` is `True` and a config is set, the room begins accepting participants. Two things happen:
+When `open` is `True` and the room has an associated session or a loaded config, it is ready to accept participants. Two things happen:
 
 1. If no session exists yet, one is automatically created from the room’s config when the first participant arrives.
 2. Participants are added to the session (subject to label and capacity checks).
@@ -107,7 +106,7 @@ From a room’s admin page, you can start a session in two ways:
 
 **Pre-create a session with players.** Use the “Create session” form on the room’s admin page. Specify a config and the number of players. The session is created with player slots, the room opens, and waiting participants are notified via WebSocket. Pre-created player slots are claimed on a first-come, first-served basis.
 
-When a session is started in a room (either way), the `r.start(roomname)` signal fires, which wakes all WebSocket connections on the waiting page. Participants’ browsers automatically submit the join form.
+When a room becomes ready, waiting browsers receive `RoomStarted` and automatically submit the join form. The server checks readiness again when that form arrives.
 
 ### Closing and reopening a room
 
@@ -237,3 +236,5 @@ When participants are on the waiting page, the browser opens a WebSocket connect
 2. **Presence tracking**: The server tracks which participants are online in the room’s waiting area. The admin can see this on the room’s admin page.
 
 The WebSocket connection uses a heartbeat mechanism to stay alive. If a participant closes the page, they are marked as offline.
+
+Deleting a room ends its waiting connections with a `RoomDeleted` event. The waiting page shows “This room is no longer available.” Creating another room with the same name starts fresh; participants waiting for the deleted room do not automatically join it.
