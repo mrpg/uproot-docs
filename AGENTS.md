@@ -242,7 +242,7 @@ Using a context manager is always safe, even when not strictly required.
 
 ### Database and deployment
 - SQLite by default (`uproot.sqlite3`), works well in production — PostgreSQL is available but never required
-- Environment vars: `UPROOT_DATABASE`, `UPROOT_SQLITE3`, `UPROOT_POSTGRESQL`, `UPROOT_ORIGIN`, `UPROOT_SUBDIRECTORY`, `UPROOT_API_KEY`
+- Environment vars: `UPROOT_DATABASE`, `UPROOT_SQLITE3`, `UPROOT_POSTGRESQL`, `UPROOT_ORIGIN`, `UPROOT_SUBDIRECTORY`, `UPROOT_API_KEY`; `H2CORN_*` (e.g., `H2CORN_FORWARDED_ALLOW_IPS=*` on Render) sets h2corn server options and overrides `upd.H2CORN_KWARGS`, except listener and process settings (`BIND`, `HOST`, `PORT`, `UDS_PERMISSIONS`, `WORKERS`, `LOOP_THREADS`, `CONFIG`), which stop `uproot run` with an error
 - `upd.ADMINS["admin"] = ...` (Ellipsis = auto-login on localhost)
 - `upd.LANGUAGE` — `"de"`, `"en"`, `"es"`, `"fr"`, `"ja"`
 - Rooms: `upd.DEFAULT_ROOMS.append(room(name, config=, labels=, capacity=, open=))`; `from_file("labels.txt")` loads labels (one per line, `#` comments); `labels=[]` accepts any non-empty code
