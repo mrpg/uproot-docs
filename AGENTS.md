@@ -206,6 +206,7 @@ Using a context manager is always safe, even when not strictly required.
 - `C` — constants class, available in templates; `C.__export__` copies named constants to `window.C`
 - `new_session(session)` — once per session init (lazy: runs when first player arrives)
 - `new_player(player)` — once per player init; runs for every app in the config when the player starts, not when they reach the app
+- `entry_data(room, request)` — synchronous; runs on every admission through a room link (`room` is a `RoomInfo`) or the sessionwide URL `/s/{sname}/{secret}/` (`room` is `None`), including labelled reentry; not for `/p/` URLs. Returns a dict that is merged key by key into `player.entry_data` (`{}` by default); apps run in config order, later apps win. Raising or returning unstorable data rejects the admission without using a slot. Typical use: keep URL parameters such as Prolific’s `SESSION_ID` (the submission ID, needed for bonus payments)
 - `restart()` — on server restart (can be async)
 - `digest(session)` — data for admin digest view (pair with `AdminDigest.html`, `main` block only)
 - `pipeline(session, data)` — admin-runnable job; return `list[dict]` for a downloadable table; `data` is the posted JSON or `None`
@@ -245,6 +246,7 @@ Using a context manager is always safe, even when not strictly required.
 - Environment vars: `UPROOT_DATABASE`, `UPROOT_SQLITE3`, `UPROOT_POSTGRESQL`, `UPROOT_ORIGIN`, `UPROOT_SUBDIRECTORY`, `UPROOT_API_KEY`; `H2CORN_*` (e.g., `H2CORN_FORWARDED_ALLOW_IPS=*` on Render) sets h2corn server options and overrides `upd.H2CORN_KWARGS`, except listener and process settings (`BIND`, `HOST`, `PORT`, `UDS_PERMISSIONS`, `WORKERS`, `LOOP_THREADS`, `CONFIG`), which stop `uproot run` with an error
 - `upd.ADMINS["admin"] = ...` (Ellipsis = auto-login on localhost)
 - `upd.LANGUAGE` — `"de"`, `"en"`, `"es"`, `"fr"`, `"ja"`
+- `get_room(name)` — read-only `RoomInfo` snapshot (`name`, `config`, `labels` as tuple or `None`, `capacity`, `open`, `sname`) or `None`; use `get_room(player.session.room)`
 - Rooms: `upd.DEFAULT_ROOMS.append(room(name, config=, labels=, capacity=, open=))`; `from_file("labels.txt")` loads labels (one per line, `#` comments); `labels=[]` accepts any non-empty code
 
 ### Data export

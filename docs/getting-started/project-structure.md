@@ -147,6 +147,7 @@ page_order = [Welcome, Decision, Results]
 |----------|-------------|
 | `new_session(session)`{ .text-nowrap } | Once when session initializes |
 | `new_player(player)`{ .text-nowrap } | Once per player when they join |
+| `entry_data(room, request)`{ .text-nowrap } | Each time a participant joins through a room link or the session’s shared link; the returned dict is saved as `player.entry_data` |
 | `restart()` | On server restart (can be async) |
 | `digest(session)` | Returns data for the admin digest view (pair with `AdminDigest.html`) |
 | `pipeline(session, data)` | Admin-runnable job; return a list of dicts for a downloadable table. `data` is the posted JSON or `None` |
@@ -154,7 +155,7 @@ page_order = [Welcome, Decision, Results]
 | `api(request, session)` | Authenticated HTTP endpoint at `/api/{app}/{sname}/` |
 | `api2(request, session, player=None)` | Participant HTTP endpoint at `/api2/{app}/{sname}/`; public by default, with optional participant authentication |
 
-See [Storing and accessing data](../building/data.md) for details on `new_session` and `new_player`. See [App HTTP APIs](../reference/api.md#app-http-apis) for the advanced `api2` authentication behavior.
+See [Storing and accessing data](../building/data.md) for details on `new_session` and `new_player`. See [Saving URL parameters](../running/rooms.md#saving-url-parameters-when-participants-join) for `entry_data`. See [App HTTP APIs](../reference/api.md#app-http-apis) for the advanced `api2` authentication behavior.
 
 ### Page classes
 

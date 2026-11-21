@@ -1,5 +1,5 @@
 ---
-description: 'Sessions and rooms: how participants join an experiment, room labels and capacity, and configuring default rooms.'
+description: 'Sessions and rooms: how participants join an experiment, room labels and capacity, configuring default rooms, and saving URL parameters such as study IDs.'
 ---
 
 # Sessions and rooms
@@ -238,3 +238,98 @@ When participants are on the waiting page, the browser opens a WebSocket connect
 The WebSocket connection uses a heartbeat mechanism to stay alive. If a participant closes the page, they are marked as offline.
 
 Deleting a room ends its waiting connections with a `RoomDeleted` event. The waiting page shows “This room is no longer available.” Creating another room with the same name starts fresh; participants waiting for the deleted room do not automatically join it.
+
+## Saving URL parameters when participants join
+
+Recruitment platforms often add information to the link they send participants to. A link might end in `?STUDY_ID=S42&SOURCE=newsletter`: these are *URL parameters*, name–value pairs after the `?`, separated by `&`. uproot stores `label` by itself (see [Eagerly accepted labels](#eagerly-accepted-labels)) and ignores all other URL parameters. To keep them, add a function named `entry_data` to your app’s `__init__.py`:
+
+```python
+def entry_data(room, request):
+    data = {}
+
+    for key in ["STUDY_ID", "SOURCE"]:
+        if key in request.query_params:
+            data[key] = request.query_params[key]
+
+    return data
+```
+
+`request.query_params` holds the URL parameters. The function copies the two parameters you care about, if they are there, into a dictionary and returns it. uproot saves that dictionary as `player.entry_data`. A participant who joins through
+
+```
+https://your-server.com/room/my_room/?STUDY_ID=S42&SOURCE=newsletter
+```
+
+therefore gets
+
+```python
+player.entry_data == {"STUDY_ID": "S42", "SOURCE": "newsletter"}
+```
+
+Read a value with `player.entry_data.get("SOURCE")`, which gives `None` if the parameter was missing. A participant whose link had neither parameter gets an empty dictionary, `{}`. So does every participant if no app defines `entry_data`.
+
+`entry_data` is saved like any other player field, so it is part of your [data export](export.md). In CSV files, the dictionary appears as JSON text in a single cell.
+
+### When `entry_data` runs
+
+`entry_data` runs when uproot lets a participant into the session through
+
+- a room link (`/room/…`), or
+- the session’s shared link, shown as “Sessionwide URL” under **Player URLs** on the session’s admin page.
+
+It does not run for individual player links (`/p/…`). It also does not run while a participant waits on the access code, “Please wait”, or “Room full” page. The URL parameters stay in the browser’s address bar on those pages, so `entry_data` still receives them once the participant gets in.
+
+[`new_player`](../building/data.md#new_player) runs later, when the participant’s first page loads, so it can already read `player.entry_data`. The one exception: if you initialized pre-created players in advance through the [admin API](../reference/admin-api.md), their `new_player` ran before they joined.
+
+### The two arguments
+
+- `room` is the room the participant joins, as a [`RoomInfo`](../reference/api.md#roominfo) (for example, `room.name`). It is `None` when the participant uses the session’s shared link.
+- `request` is the participant’s HTTP request, the message their browser sent to your server. It is a [Starlette `Request`](https://www.starlette.io/requests/). Besides the URL parameters in `request.query_params`, you can read the browser’s headers, for example `request.headers.get("Accept-Language")` for its preferred languages.
+
+### Returning participants
+
+A participant who [comes back with the same label](#labels-access-codes) does not get a new player, but `entry_data` runs again. uproot then updates `player.entry_data` key by key:
+
+- A key that `entry_data` returns gets the new value.
+- A key that `entry_data` does not return keeps its old value.
+
+With the example above, a participant who first joins with `?SOURCE=newsletter` and later returns with `?SOURCE=email` ends up with `"SOURCE": "email"`. If they return without any `SOURCE`, they keep `"SOURCE": "newsletter"`. Replaced values are not lost: uproot’s [append-only log](../building/data.md#the-append-only-log) keeps them, and the `ultralong` export lists every value.
+
+### Several apps
+
+If several apps in your config define `entry_data`, uproot calls each of them, in the order of the config, and combines the dictionaries. If two apps return the same key, the value from the later app is saved.
+
+!!! warning "Rules for `entry_data`"
+    - Name the arguments exactly `room` and `request`, even if you do not use them. uproot passes them by name.
+    - Write `def`, not `async def`. Otherwise, admission fails with `TypeError: myapp.entry_data() must be synchronous` (with your app’s name in place of `myapp`).
+    - Always return a dictionary, even an empty one. Otherwise, admission fails with `TypeError: myapp.entry_data() must return a dict`.
+    - Return only [values uproot can store](../building/data.md#supported-data-types). URL parameters are strings, which are always fine.
+    - Keep it quick. While it runs, the whole server waits, so do not download files or contact other websites from it.
+
+    If `entry_data` fails, the participant sees an error page and is not let in. No player slot is used up. Once you fix the function, the participant can open the same link again.
+
+!!! warning "Participants can change URL parameters"
+    Anyone can edit the address bar. Treat URL parameters like answers the participant typed in, not as proof of anything. Never let them decide payments or treatments that participants must not be able to choose.
+
+## Reading room settings from your app
+
+`player.session.room` is the name of the room that the session belongs to, or `None` if the session is not in a room. The name is often enough. For example, if you run the same config in a room called `lab` and in another room for online participants:
+
+```python
+def new_player(player):
+    player.in_lab = player.session.room == "lab"
+```
+
+To read the room’s settings, pass its name to `get_room`:
+
+```python
+def new_player(player):
+    room = get_room(player.session.room)
+
+    if room is not None:
+        player.room_capacity = room.capacity
+```
+
+`get_room` returns a [`RoomInfo`](../reference/api.md#roominfo) with the room’s `name`, `config`, `labels`, `capacity`, `open`, and `sname` (the name of the room’s session). It returns `None` if the name is `None` or no room has that name, for example because the room was deleted. Always check for `None`, as above.
+
+A `RoomInfo` is a snapshot. It shows the room as it was when you called `get_room` and does not change afterwards. Call `get_room` again for the current settings. You cannot change a room through it: use the admin interface or the [admin API](../reference/admin-api.md).

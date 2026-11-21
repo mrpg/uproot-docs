@@ -1,5 +1,5 @@
 ---
-description: 'Run an uproot study on Prolific: create a room, give Prolific the study URL, send completion codes, and handle bonuses and screen-outs.'
+description: 'Run an uproot study on Prolific: create a room, give Prolific the study URL, save submission IDs, send completion codes, and handle bonuses and screen-outs.'
 ---
 
 # Running on Prolific
@@ -94,7 +94,22 @@ In your Prolific study, enter the room URL as the study URL, and choose the opti
 https://your-server.com/room/my_study/?label={{%PROLIFIC_PID%}}&STUDY_ID={{%STUDY_ID%}}&SESSION_ID={{%SESSION_ID%}}
 ```
 
-Prolific replaces `{{%PROLIFIC_PID%}}` with each participant’s ID. uproot reads only `label`. The `STUDY_ID` and `SESSION_ID` parameters are harmless, but uproot does not store them, so you can also drop them.
+Prolific replaces `{{%PROLIFIC_PID%}}` with each participant’s ID, `{{%STUDY_ID%}}` with your study’s ID, and `{{%SESSION_ID%}}` with the participant’s *submission ID*. Despite its name, Prolific’s `SESSION_ID` has nothing to do with uproot sessions.
+
+uproot stores `label` by itself. To also keep the study and submission IDs, which you need for [bonus payments](#bonus-payments), add this function to your app’s `__init__.py`:
+
+```python
+def entry_data(room, request):
+    data = {}
+
+    for key in ["STUDY_ID", "SESSION_ID"]:
+        if key in request.query_params:
+            data[key] = request.query_params[key]
+
+    return data
+```
+
+uproot runs this function when a participant joins and saves the dictionary it returns as `player.entry_data`. A participant’s submission ID is then `player.entry_data.get("SESSION_ID")`. [Saving URL parameters when participants join](rooms.md#saving-url-parameters-when-participants-join) explains the details.
 
 Open the URL yourself with a made-up label, such as `?label=TEST1`, to check that everything works before you publish the study. Your test player appears in the session like any other player.
 
@@ -125,7 +140,7 @@ Note `.get('completion_code', 'NOCODE')`: if you forget to set the code, or test
 
 ## Working with the data
 
-Every player’s Prolific ID is stored as their `label`. When you [export your data](export.md), the `label` column lets you [match your experimental data to Prolific’s demographic data](https://researcher-help.prolific.com/en/articles/445210-matching-data-between-prolific-and-your-external-study-software).
+Every player’s Prolific ID is stored as their `label`. When you [export your data](export.md), the `label` column lets you [match your experimental data to Prolific’s demographic data](https://researcher-help.prolific.com/en/articles/445210-matching-data-between-prolific-and-your-external-study-software). With the `entry_data` function from [Step 3](#step-3-give-prolific-the-study-url), the `entry_data` column also holds each player’s study ID and submission ID.
 
 The label check works within one session only. If the same person could take part in two of your studies (for example, a pilot and the main study, each with its own room and session), use [Prolific’s filter that excludes participants of previous studies](https://researcher-help.prolific.com/en/articles/445164-how-can-i-prevent-specific-participants-from-accessing-my-study).
 
@@ -135,22 +150,25 @@ The two recipes below need a bit more code. They are good tasks for a coding age
 
 ### Bonus payments
 
-[Prolific’s bulk bonus form](https://researcher-help.prolific.com/en/articles/445233-how-do-i-send-bonus-payments) takes one line per participant: their Prolific ID and bonus amount, separated by a comma. uproot stores the Prolific ID as `player.label`, so you do not need anything from Prolific to build these lines. Suppose your app saves each participant’s bonus as `player.bonus`. A [pipeline](admin.md#pipeline) exports the participant IDs and amounts:
+[Prolific’s bulk bonus form](https://researcher-help.prolific.com/en/articles/445233-how-do-i-send-bonus-payments) takes one line per participant: their *submission ID* and bonus amount, separated by a comma. It must be the submission ID, not the Prolific ID: bonus payments made with Prolific IDs fail, so `player.label` does not work here. With the `entry_data` function from [Step 3](#step-3-give-prolific-the-study-url), uproot stores each participant’s submission ID as `player.entry_data["SESSION_ID"]`. Suppose your app saves each participant’s bonus as `player.bonus`. A [pipeline](admin.md#pipeline) exports the submission IDs and amounts:
 
 ```python
 def pipeline(session, data=None):
     rows = []
 
     for player in session.players:
+        submission_id = player.entry_data.get("SESSION_ID")
         bonus = player.within(app=__name__).get("bonus")
 
-        if player.label and bonus:
-            rows.append(dict(prolific_id=player.label, amount=f"{bonus:.2f}"))
+        if submission_id and bonus:
+            rows.append(dict(submission_id=submission_id, amount=f"{bonus:.2f}"))
 
     return rows
 ```
 
-Run the pipeline from the session page in the admin and download its table. In Prolific’s **Bulk actions** → **Bulk bonus payment**, paste one line per bonus as `<prolific_id>,<amount>`, without a header row. Amounts are in your study’s currency.
+Run the pipeline from the session page in the admin and download its table. In Prolific’s **Bulk actions** → **Bulk bonus payment**, paste one line per bonus as `<submission_id>,<amount>`, without a header row. Amounts are in your study’s currency.
+
+A participant whose study URL lacked `SESSION_ID` (for example, because they typed the link by hand) is missing from this table. You find their submission ID at the start of each row in Prolific’s demographic data download, next to their Prolific ID.
 
 ### Screen-outs
 

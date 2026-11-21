@@ -1,5 +1,5 @@
 ---
-description: 'Reference for uproot’s Python API: page types, SmoothOperators, PlayerContext, real-time, dropout, and group functions, live methods, utility functions, and StorageBunch.'
+description: 'Reference for uproot’s Python API: page types, SmoothOperators, PlayerContext, real-time, dropout, group, and room functions, live methods, utility functions, and StorageBunch.'
 ---
 
 # API reference
@@ -346,6 +346,34 @@ For an authenticated call, `request.state.uproot_player` refers to the same obje
 
 !!! warning "Use only the authenticated player"
     Do not identify a participant from a username in the query string or request body. Those values are controlled by the caller. Read and modify only the authenticated `player` supplied by uproot.
+
+## Room functions
+
+### `get_room`
+
+Return the current settings of a room as a [`RoomInfo`](#roominfo). Returns `None` if the name is `None` or no room has that name. Pass `player.session.room` to get the room of the player’s session:
+
+```python
+room = get_room(player.session.room)
+
+if room is not None:
+    player.room_capacity = room.capacity
+```
+
+The result is a snapshot: it does not change when the room changes. Call `get_room` again for current values. See [Reading room settings from your app](../running/rooms.md#reading-room-settings-from-your-app).
+
+### `RoomInfo`
+
+A read-only snapshot of a room’s settings. [`get_room`](#get_room) returns one, and [`entry_data`](../running/rooms.md#saving-url-parameters-when-participants-join) receives one as its `room` argument. You can read its attributes but not change them: assigning to one raises an error (`FrozenInstanceError`, a kind of `AttributeError`).
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `name` | `str` | Room name |
+| `config` | `str` or `None` | Config the room starts sessions with |
+| `labels` | `tuple[str, ...]` or `None` | Allowed labels. `None`: labels are not required. `()`: any non-empty label is accepted |
+| `capacity` | `int` or `None` | Explicit capacity (`None` if not set) |
+| `open` | `bool` | Whether the room accepts participants |
+| `sname` | `str` or `None` | Name of the session associated with the room |
 
 ## Utility functions
 
