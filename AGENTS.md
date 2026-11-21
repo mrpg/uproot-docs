@@ -209,7 +209,7 @@ Using a context manager is always safe, even when not strictly required.
 - `entry_data(room, request)` — synchronous; runs on every admission through a room link (`room` is a `RoomInfo`) or the sessionwide URL `/s/{sname}/{secret}/` (`room` is `None`), including labelled reentry; not for `/p/` URLs. Returns a dict that is merged key by key into `player.entry_data` (`{}` by default); apps run in config order, later apps win. Raising or returning unstorable data rejects the admission without using a slot. Typical use: keep URL parameters such as Prolific’s `SESSION_ID` (the submission ID, needed for bonus payments)
 - `restart()` — on server restart (can be async)
 - `digest(session)` — data for admin digest view (pair with `AdminDigest.html`, `main` block only)
-- `pipeline(session, data)` — admin-runnable job; return `list[dict]` for a downloadable table; `data` is the posted JSON or `None`
+- `pipeline(session, data)` — admin-runnable job; return `list[dict]` for a downloadable table (columns follow the order of the dict keys); `data` is the posted JSON or `None`
 - `rng()` — OS-seeded `random.Random`; storable on player; prefer over `random`
 - `language(player)` — per-player ISO 639 code; default `upd.LANGUAGE`
 - `page_order` — can be a list or a callable taking `player=` (nested lists are flattened, so SmoothOperators work inside sublists)
